@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ProjectStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum Locale {
+  cs
+  en
+}
+
+model Project {
+  id            String        @id @default(cuid())
+  slug          String        @unique
+  status        ProjectStatus @default(DRAFT)
+  featured      Boolean       @default(false)
+
+  coverImageUrl String?
+  liveUrl       String?
+  repoUrl       String?
+
+  techStack     String[]      @default([])
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  publishedAt   DateTime?
+
+  translations  ProjectTranslation[]
+}
+
+model ProjectTranslation {
+  id               String   @id @default(cuid())
+  projectId        String
+  project          Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  locale           Locale
+  title            String
+  tagline          String?
+  descriptionShort String?
+  descriptionLong  String?  // later: markdown
+
+  role             String?
+  highlights       String[] @default([])
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@unique([projectId, locale])
+  @@index([locale])
+}
+
+
