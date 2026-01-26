@@ -31,6 +31,7 @@ model Project {
   featured      Boolean       @default(false)
 
   coverImageUrl String?
+  galleryImageUrls String[] @default([])
   liveUrl       String?
   repoUrl       String?
 
@@ -63,5 +64,4 @@ model ProjectTranslation {
   @@unique([projectId, locale])
   @@index([locale])
 }
-
 

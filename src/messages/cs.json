@@ -1,0 +1,228 @@
+{
+  "nav": {
+    "brand": "Viktor Vitovec",
+    "home": "Domů",
+    "projects": "Projekty",
+    "contact": "Kontakt",
+    "admin": "Administrace",
+    "language": {
+      "label": "Jazyk",
+      "cs": "Čeština",
+      "en": "English"
+    }
+  },
+  "hero": {
+    "title": "Prémiové portfolio ve výstavbě",
+    "subtitle": "Brzy zde najdete výběr projektů a služeb."
+  },
+  "projects": {
+    "title": "Projekty",
+    "subtitle": "Sekce s projekty se připravuje."
+  },
+  "contact": {
+    "title": "Kontakt",
+    "subtitle": "Napište mi a probereme váš záměr.",
+    "form": {
+      "name": {
+        "label": "Jméno",
+        "placeholder": "Vaše jméno",
+        "errorRequired": "Zadejte své jméno.",
+        "errorMin": "Jméno musí mít alespoň 2 znaky.",
+        "errorMax": "Jméno je příliš dlouhé."
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "vas@email.cz",
+        "errorRequired": "Zadejte svůj email.",
+        "errorInvalid": "Zadejte platný email.",
+        "errorMax": "Email je příliš dlouhý."
+      },
+      "company": {
+        "label": "Firma (volitelně)",
+        "placeholder": "Název firmy",
+        "errorMax": "Název firmy je příliš dlouhý."
+      },
+      "message": {
+        "label": "Zpráva",
+        "placeholder": "Stručně popište, s čím potřebujete pomoci.",
+        "errorRequired": "Napište zprávu.",
+        "errorMin": "Zpráva musí mít alespoň 10 znaků.",
+        "errorMax": "Zpráva je příliš dlouhá."
+      },
+      "submit": "Odeslat",
+      "sending": "Odesílám...",
+      "successTitle": "Děkuji za zprávu!",
+      "successMessage": "Ozvu se vám co nejdříve s dalšími kroky.",
+      "successAction": "Odeslat další",
+      "errorMessage": "Odeslání se nepovedlo. Zkuste to prosím znovu.",
+      "errorRateLimit": "Zkuste to prosím za chvíli znovu.",
+      "honeypotLabel": "Nechte toto pole prázdné"
+    }
+  },
+  "footer": {
+    "title": "Navrhuji digitální produkty s prémiovým přístupem.",
+    "subtitle": "Dostupný pro nové spolupráce v roce 2026.",
+    "social": {
+      "label": "Sociální sítě",
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "dribbble": "Dribbble"
+    }
+  },
+  "admin": {
+    "label": "Administrace",
+    "note": "Administrace bude doplněna.",
+    "login": {
+      "title": "Přihlášení do administrace",
+      "subtitle": "Použijte GitHub účet s přístupem.",
+      "button": "Přihlásit se"
+    },
+    "dashboard": {
+      "title": "Admin dashboard",
+      "subtitle": "Základní přehled bude doplněn.",
+      "signOut": "Odhlásit se"
+    },
+    "forbidden": {
+      "title": "Přístup odepřen",
+      "subtitle": "Tento účet nemá oprávnění k administraci.",
+      "action": "Zpět na web"
+    },
+    "projects": {
+      "title": "Projekty",
+      "subtitle": "Spravujte portfolio a publikace.",
+      "new": "Nový projekt",
+      "back": "Zpět na seznam",
+      "createTitle": "Nový projekt",
+      "createSubtitle": "Vytvořte nový projekt a připravte ho k publikaci.",
+      "editTitle": "Upravit projekt",
+      "editSubtitle": "Aktualizujte obsah a publikaci projektu.",
+      "loading": "Načítám projekty...",
+      "empty": "Zatím zde nejsou žádné projekty.",
+      "notFound": "Projekt nebyl nalezen.",
+      "searchPlaceholder": "Hledat podle názvu nebo slug",
+      "columns": {
+        "title": "Název (CS)",
+        "status": "Status",
+        "featured": "Doporučené",
+        "updatedAt": "Aktualizováno",
+        "actions": "Akce"
+      },
+      "status": {
+        "draft": "Koncept",
+        "published": "Publikováno"
+      },
+      "featured": {
+        "yes": "Ano",
+        "no": "Ne"
+      },
+      "actions": {
+        "edit": "Upravit",
+        "publish": "Publikovat",
+        "unpublish": "Zneveřejnit",
+        "delete": "Smazat"
+      },
+      "confirmDelete": {
+        "title": "Smazat projekt?",
+        "description": "Tuto akci nelze vrátit zpět.",
+        "confirm": "Smazat",
+        "cancel": "Zrušit"
+      },
+      "toast": {
+        "created": "Projekt vytvořen.",
+        "updated": "Projekt uložen.",
+        "deleted": "Projekt smazán.",
+        "published": "Projekt publikován.",
+        "unpublished": "Projekt zneveřejněn.",
+        "error": "Něco se pokazilo."
+      },
+      "form": {
+        "baseTitle": "Základní údaje",
+        "save": "Uložit",
+        "saving": "Ukládám...",
+        "removeTag": "Odebrat",
+        "urlError": "Zadejte platnou URL.",
+        "slug": {
+          "label": "Slug",
+          "placeholder": "nazev-projektu",
+          "errorRequired": "Slug je povinný.",
+          "errorPattern": "Slug může obsahovat jen malá písmena, čísla a pomlčky.",
+          "errorMax": "Slug je příliš dlouhý."
+        },
+        "featured": {
+          "label": "Featured projekt"
+        },
+        "status": {
+          "label": "Status"
+        },
+        "coverImageUrl": {
+          "label": "Cover image URL",
+          "placeholder": "https://..."
+        },
+        "liveUrl": {
+          "label": "Live URL",
+          "placeholder": "https://..."
+        },
+        "repoUrl": {
+          "label": "Repo URL",
+          "placeholder": "https://..."
+        },
+        "techStack": {
+          "label": "Tech stack",
+          "placeholder": "Přidejte technologii a potvrďte Enterem",
+          "helper": "Maximálně 12 položek.",
+          "error": "Upravte seznam technologií."
+        },
+        "tabs": {
+          "cs": "CS",
+          "en": "EN"
+        },
+        "title": {
+          "label": "Název",
+          "placeholder": "Název projektu",
+          "errorRequired": "Název je povinný."
+        },
+        "tagline": {
+          "label": "Tagline",
+          "placeholder": "Krátké shrnutí"
+        },
+        "descriptionShort": {
+          "label": "Krátký popis",
+          "placeholder": "Krátký popis projektu"
+        },
+        "descriptionLong": {
+          "label": "Detailní popis",
+          "placeholder": "Detailní popis projektu"
+        },
+        "role": {
+          "label": "Role",
+          "placeholder": "Vaše role v projektu"
+        },
+        "highlights": {
+          "label": "Highlights",
+          "placeholder": "Přidejte highlight a potvrďte Enterem"
+        }
+      },
+      "media": {
+        "title": "Média",
+        "uploading": "Nahrávám {current}/{total} · {percent}%",
+        "cover": {
+          "title": "Cover obrázek",
+          "helper": "Doporučený široký poměr stran.",
+          "upload": "Nahrát cover",
+          "replace": "Nahradit",
+          "remove": "Odebrat",
+          "empty": "Zatím bez cover obrázku.",
+          "alt": "Náhled cover obrázku"
+        },
+        "gallery": {
+          "title": "Galerie",
+          "helper": "Přidejte doplňující vizuály.",
+          "upload": "Nahrát obrázky",
+          "remove": "Odebrat",
+          "empty": "Galerie je zatím prázdná.",
+          "alt": "Obrázek v galerii"
+        }
+      }
+    }
+  }
+}

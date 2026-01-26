@@ -9,7 +9,12 @@ npm run dev
 # or
 yarn dev
 # or
-pnpm dev
+    pnpm dev
+
+## Vercel Blob uploads (admin-only)
+
+- On Vercel, attach a Blob store to your project. The `BLOB_READ_WRITE_TOKEN` is injected automatically.
+- Locally, pull env vars with `vercel env pull` or add `BLOB_READ_WRITE_TOKEN` to your `.env`.
 # or
 bun dev
 ```

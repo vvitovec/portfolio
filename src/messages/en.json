@@ -1,0 +1,228 @@
+{
+  "nav": {
+    "brand": "Viktor Vitovec",
+    "home": "Home",
+    "projects": "Projects",
+    "contact": "Contact",
+    "admin": "Admin",
+    "language": {
+      "label": "Language",
+      "cs": "Czech",
+      "en": "English"
+    }
+  },
+  "hero": {
+    "title": "Premium portfolio in progress",
+    "subtitle": "Selected work and services will appear here soon."
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Projects section is being prepared."
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Say hello and let's discuss your next project.",
+    "form": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Your name",
+        "errorRequired": "Please enter your name.",
+        "errorMin": "Name must be at least 2 characters.",
+        "errorMax": "Name is too long."
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "you@email.com",
+        "errorRequired": "Please enter your email.",
+        "errorInvalid": "Please enter a valid email.",
+        "errorMax": "Email is too long."
+      },
+      "company": {
+        "label": "Company (optional)",
+        "placeholder": "Company name",
+        "errorMax": "Company name is too long."
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Briefly describe what you need help with.",
+        "errorRequired": "Please write a message.",
+        "errorMin": "Message must be at least 10 characters.",
+        "errorMax": "Message is too long."
+      },
+      "submit": "Send message",
+      "sending": "Sending...",
+      "successTitle": "Thanks for reaching out!",
+      "successMessage": "I will get back to you shortly with next steps.",
+      "successAction": "Send another",
+      "errorMessage": "Something went wrong. Please try again.",
+      "errorRateLimit": "Please wait a moment and try again.",
+      "honeypotLabel": "Leave this field empty"
+    }
+  },
+  "footer": {
+    "title": "Designing premium digital products.",
+    "subtitle": "Available for new collaborations in 2026.",
+    "social": {
+      "label": "Social",
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "dribbble": "Dribbble"
+    }
+  },
+  "admin": {
+    "label": "Admin",
+    "note": "Admin area will be added soon.",
+    "login": {
+      "title": "Admin sign-in",
+      "subtitle": "Use an approved GitHub account to continue.",
+      "button": "Sign in"
+    },
+    "dashboard": {
+      "title": "Admin dashboard",
+      "subtitle": "Core overview will be added soon.",
+      "signOut": "Sign out"
+    },
+    "forbidden": {
+      "title": "Access denied",
+      "subtitle": "This account does not have admin access.",
+      "action": "Back to site"
+    },
+    "projects": {
+      "title": "Projects",
+      "subtitle": "Manage your portfolio and publishing flow.",
+      "new": "New project",
+      "back": "Back to list",
+      "createTitle": "New project",
+      "createSubtitle": "Create a new project and prepare it for publishing.",
+      "editTitle": "Edit project",
+      "editSubtitle": "Update project content and publishing settings.",
+      "loading": "Loading projects...",
+      "empty": "No projects yet.",
+      "notFound": "Project not found.",
+      "searchPlaceholder": "Search by title or slug",
+      "columns": {
+        "title": "Title (CS)",
+        "status": "Status",
+        "featured": "Featured",
+        "updatedAt": "Updated",
+        "actions": "Actions"
+      },
+      "status": {
+        "draft": "Draft",
+        "published": "Published"
+      },
+      "featured": {
+        "yes": "Yes",
+        "no": "No"
+      },
+      "actions": {
+        "edit": "Edit",
+        "publish": "Publish",
+        "unpublish": "Unpublish",
+        "delete": "Delete"
+      },
+      "confirmDelete": {
+        "title": "Delete project?",
+        "description": "This action cannot be undone.",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      },
+      "toast": {
+        "created": "Project created.",
+        "updated": "Project saved.",
+        "deleted": "Project deleted.",
+        "published": "Project published.",
+        "unpublished": "Project unpublished.",
+        "error": "Something went wrong."
+      },
+      "form": {
+        "baseTitle": "Base details",
+        "save": "Save",
+        "saving": "Saving...",
+        "removeTag": "Remove",
+        "urlError": "Please enter a valid URL.",
+        "slug": {
+          "label": "Slug",
+          "placeholder": "project-slug",
+          "errorRequired": "Slug is required.",
+          "errorPattern": "Slug can only contain lowercase letters, numbers, and dashes.",
+          "errorMax": "Slug is too long."
+        },
+        "featured": {
+          "label": "Featured project"
+        },
+        "status": {
+          "label": "Status"
+        },
+        "coverImageUrl": {
+          "label": "Cover image URL",
+          "placeholder": "https://..."
+        },
+        "liveUrl": {
+          "label": "Live URL",
+          "placeholder": "https://..."
+        },
+        "repoUrl": {
+          "label": "Repo URL",
+          "placeholder": "https://..."
+        },
+        "techStack": {
+          "label": "Tech stack",
+          "placeholder": "Add tech and press Enter",
+          "helper": "Up to 12 items.",
+          "error": "Please adjust the tech stack list."
+        },
+        "tabs": {
+          "cs": "CS",
+          "en": "EN"
+        },
+        "title": {
+          "label": "Title",
+          "placeholder": "Project title",
+          "errorRequired": "Title is required."
+        },
+        "tagline": {
+          "label": "Tagline",
+          "placeholder": "Short summary"
+        },
+        "descriptionShort": {
+          "label": "Short description",
+          "placeholder": "Short project description"
+        },
+        "descriptionLong": {
+          "label": "Long description",
+          "placeholder": "Detailed project description"
+        },
+        "role": {
+          "label": "Role",
+          "placeholder": "Your role in the project"
+        },
+        "highlights": {
+          "label": "Highlights",
+          "placeholder": "Add highlight and press Enter"
+        }
+      },
+      "media": {
+        "title": "Media",
+        "uploading": "Uploading {current}/{total} · {percent}%",
+        "cover": {
+          "title": "Cover image",
+          "helper": "Recommended wide aspect ratio.",
+          "upload": "Upload cover",
+          "replace": "Replace",
+          "remove": "Remove",
+          "empty": "No cover image yet.",
+          "alt": "Cover preview"
+        },
+        "gallery": {
+          "title": "Gallery",
+          "helper": "Add supporting visuals.",
+          "upload": "Upload images",
+          "remove": "Remove",
+          "empty": "No gallery images yet.",
+          "alt": "Gallery image"
+        }
+      }
+    }
+  }
+}
