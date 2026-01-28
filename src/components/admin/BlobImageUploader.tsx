@@ -33,12 +33,13 @@ type ProgressState = {
 
 type BlobImageUploaderProps = {
   projectId: string;
-  kind: "cover" | "gallery";
+  kind: "cover" | "gallery" | "case-study";
   onUploaded: (urls: string[]) => void;
   buttonLabel: string;
   multiple?: boolean;
   disabled?: boolean;
   className?: string;
+  pathPrefix?: string;
 };
 
 function getSafeBaseName(filename: string) {
@@ -69,6 +70,7 @@ export default function BlobImageUploader({
   multiple = false,
   disabled,
   className,
+  pathPrefix,
 }: BlobImageUploaderProps) {
   const t = useTranslations("admin.projects");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -96,7 +98,11 @@ export default function BlobImageUploader({
 
         const baseName = getSafeBaseName(file.name);
         const extension = getExtension(file);
-        const pathname = `projects/${projectId}/${kind}/${baseName}.${extension}`;
+        const defaultPrefix = `projects/${projectId}/${kind}`;
+        const normalizedPrefix = pathPrefix
+          ? pathPrefix.replace(/\/+$/, "")
+          : defaultPrefix;
+        const pathname = `${normalizedPrefix}/${baseName}.${extension}`;
 
         setProgress({ current, total, percentage: 0 });
 

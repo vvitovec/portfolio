@@ -170,7 +170,7 @@ export default function ContactForm() {
         <button
           type="button"
           onClick={() => setStatus("idle")}
-          className="mt-6 inline-flex items-center rounded-full border border-border px-5 py-2 text-sm font-semibold text-foreground transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:bg-muted"
+          className="mt-6 inline-flex items-center rounded-full border border-border px-5 py-2 text-sm font-semibold text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:bg-muted"
         >
           {t("form.successAction")}
         </button>

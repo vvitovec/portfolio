@@ -1,8 +1,9 @@
 import { getTranslations } from "next-intl/server";
 
 import Container from "@/components/layout/Container";
-import { Link } from "@/i18n/navigation";
+import ProjectsExplorer from "@/components/projects/ProjectsExplorer";
 import { routing, type Locale } from "@/i18n/routing";
+import { getBlurDataURL } from "@/lib/image-placeholder";
 import { getPublishedProjects } from "@/server/queries/projects";
 
 export const revalidate = 300;
@@ -19,6 +20,7 @@ export default async function ProjectsPage({ params }: PageProps) {
   const t = await getTranslations({ locale, namespace: "projects" });
 
   const projects = await getPublishedProjects(locale);
+  const blurDataURL = getBlurDataURL(720, 450);
 
   return (
     <section className="py-20 sm:py-28">
@@ -31,24 +33,7 @@ export default async function ProjectsPage({ params }: PageProps) {
             {t("subtitle")}
           </p>
         </div>
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
-          {projects.map((project) => (
-            <Link
-              key={project.id}
-              href={`/projects/${project.slug}`}
-              className="rounded-2xl border border-border bg-card/80 p-6 transition hover:border-foreground/30"
-            >
-              <h2 className="font-display text-xl font-semibold text-foreground">
-                {project.title}
-              </h2>
-              {project.descriptionShort ? (
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {project.descriptionShort}
-                </p>
-              ) : null}
-            </Link>
-          ))}
-        </div>
+        <ProjectsExplorer projects={projects} blurDataURL={blurDataURL} />
       </Container>
     </section>
   );

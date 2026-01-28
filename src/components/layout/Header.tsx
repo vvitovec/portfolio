@@ -8,7 +8,7 @@ export default function Header() {
   const t = useTranslations("nav");
 
   return (
-    <header className="border-b border-border/70 bg-background/80 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70">
       <Container className="flex h-16 items-center justify-between gap-6">
         <Link
           href="/"

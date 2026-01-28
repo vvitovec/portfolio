@@ -29,6 +29,7 @@ model Project {
   slug          String        @unique
   status        ProjectStatus @default(DRAFT)
   featured      Boolean       @default(false)
+  year          Int?
 
   coverImageUrl String?
   galleryImageUrls String[] @default([])
@@ -54,6 +55,7 @@ model ProjectTranslation {
   tagline          String?
   descriptionShort String?
   descriptionLong  String?  // later: markdown
+  caseStudyBlocks  Json     @default("[]")
 
   role             String?
   highlights       String[] @default([])
@@ -64,4 +66,3 @@ model ProjectTranslation {
   @@unique([projectId, locale])
   @@index([locale])
 }
-

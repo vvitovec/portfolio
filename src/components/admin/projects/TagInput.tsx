@@ -64,7 +64,7 @@ export default function TagInput({
               <button
                 type="button"
                 onClick={() => removeTag(tag)}
-                className="rounded-full text-muted-foreground transition hover:text-foreground"
+                className="rounded-full text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 aria-label={
                   removeLabel ? `${removeLabel} ${tag}` : `Remove ${tag}`
                 }

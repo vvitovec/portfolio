@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useRouter } from "@/i18n/navigation";
 import { trpc } from "@/trpc/react";
 import type { AppRouter } from "@/server/trpc/routers/_app";
+import { CaseStudyBlocksSchema, createDefaultCaseStudyBlocks } from "@/types/case-study";
 
 type ProjectOutput = inferRouterOutputs<AppRouter>["admin"]["projects"]["getById"];
 
@@ -30,6 +31,7 @@ const emptyTranslation = {
   tagline: "",
   descriptionShort: "",
   descriptionLong: "",
+  caseStudyBlocks: [],
   role: "",
   highlights: [],
 };
@@ -40,11 +42,31 @@ function mapProjectToForm(project: ProjectOutput) {
 
   const cs = getTranslation("cs");
   const en = getTranslation("en");
+  const csBlocksResult = CaseStudyBlocksSchema.safeParse(
+    cs?.caseStudyBlocks ?? [],
+  );
+  const enBlocksResult = CaseStudyBlocksSchema.safeParse(
+    en?.caseStudyBlocks ?? [],
+  );
+  const csCaseStudyBlocks =
+    csBlocksResult.success && csBlocksResult.data.length > 0
+      ? csBlocksResult.data
+      : createDefaultCaseStudyBlocks("cs");
+  const enCaseStudyBlocks =
+    enBlocksResult.success && enBlocksResult.data.length > 0
+      ? enBlocksResult.data
+      : createDefaultCaseStudyBlocks("en");
+  const fallbackYear =
+    project.year ??
+    (project.publishedAt
+      ? new Date(project.publishedAt).getFullYear()
+      : new Date(project.createdAt).getFullYear());
 
   return {
     slug: project.slug,
     featured: project.featured,
     status: project.status,
+    year: fallbackYear,
     coverImageUrl: project.coverImageUrl ?? "",
     galleryImageUrls: project.galleryImageUrls ?? [],
     liveUrl: project.liveUrl ?? "",
@@ -57,6 +79,7 @@ function mapProjectToForm(project: ProjectOutput) {
         tagline: cs?.tagline ?? "",
         descriptionShort: cs?.descriptionShort ?? "",
         descriptionLong: cs?.descriptionLong ?? "",
+        caseStudyBlocks: csCaseStudyBlocks,
         role: cs?.role ?? "",
         highlights: cs?.highlights ?? [],
       },
@@ -66,6 +89,7 @@ function mapProjectToForm(project: ProjectOutput) {
         tagline: en?.tagline ?? "",
         descriptionShort: en?.descriptionShort ?? "",
         descriptionLong: en?.descriptionLong ?? "",
+        caseStudyBlocks: enCaseStudyBlocks,
         role: en?.role ?? "",
         highlights: en?.highlights ?? [],
       },

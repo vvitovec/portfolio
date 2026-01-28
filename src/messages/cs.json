@@ -12,16 +12,131 @@
     }
   },
   "hero": {
-    "title": "Prémiové portfolio ve výstavbě",
-    "subtitle": "Brzy zde najdete výběr projektů a služeb."
+    "title": "Navrhuji a stavím digitální produkty s prémiovým řemeslem.",
+    "subtitle": "Pomáhám týmům proměnit nápad v rychlý, krásný a spolehlivý web.",
+    "primaryCta": "Projekty",
+    "secondaryCta": "Kontakt"
+  },
+  "home": {
+    "featured": {
+      "title": "Vybrané projekty",
+      "subtitle": "Ukázky práce, kde rozhodují detail, tempo i kvalita."
+    },
+    "about": {
+      "kicker": "O mně",
+      "title": "Vytvářím digitální produkty, které fungují a profesionálně prezentují.",
+      "paragraphOne": "Jmenuji se Viktor Vítovec a od mala mě fascinují technologie. Baví mě vytvářet věci, které kombinují design a funkčnost – ať už jde o webové stránky, aplikace, grafiku nebo automatizaci procesů.",
+      "paragraphTwo": "Neustále se učím nové věci a posouvám své schopnosti dál, protože mě opravdu baví řešit problémy kreativně a efektivně. Rád propojuji technické dovednosti s vizuálními nápady, abych tvořil projekty, které mají smysl a kvalitu.",
+      "photoAlt": "Portrét Viktora Vitovce"
+    },
+    "services": {
+      "title": "Služby",
+      "subtitle": "Od prvního nápadu po finální launch. Jasný proces, precizní výstup.",
+      "items": {
+        "design": {
+          "title": "Design",
+          "description": "UX/UI návrh, prototypy a design systémy pro jasnou strukturu a konverze."
+        },
+        "webApps": {
+          "title": "Webové aplikace",
+          "description": "Výkonné aplikace na míru s důrazem na UX a stabilitu."
+        },
+        "landingPages": {
+          "title": "Landing pages",
+          "description": "Konverzní stránky a prezentace produktu s ostrým message."
+        },
+        "automation": {
+          "title": "Automatizace",
+          "description": "Zrychlení interních procesů, integrace a chytré workflow."
+        },
+        "dataMl": {
+          "title": "Data/ML",
+          "description": "Datové prototypy, dashboardy a experimenty s AI."
+        }
+      }
+    },
+    "cta": {
+      "title": "Pojďme postavit něco skvělého",
+      "subtitle": "Napište mi o projektu a společně navrhneme nejlepší řešení.",
+      "button": "Domluvit konzultaci"
+    },
+    "footerCta": {
+      "title": "Máte projekt?",
+      "subtitle": "Ozvěte se a probereme další krok.",
+      "button": "Kontaktovat"
+    }
   },
   "projects": {
     "title": "Projekty",
-    "subtitle": "Sekce s projekty se připravuje."
+    "subtitle": "Sekce s projekty se připravuje.",
+    "view": "Zobrazit projekt",
+    "coverAlt": "Cover obrázek pro {title}",
+    "caseStudyTitle": "Případová studie",
+    "caseStudySummary": "Strukturovaný přehled problému, řešení a výsledků.",
+    "caseStudyEmpty": "Case study zatím není vyplněná.",
+    "caseStudyEmptyCtaContact": "Kontaktovat",
+    "caseStudyEmptyCtaProjects": "Zpět na projekty",
+    "caseStudyImageAlt": "Obrázek případové studie",
+    "caseStudyBlocks": {
+      "problem": "Problém",
+      "solution": "Řešení",
+      "outcome": "Výsledek",
+      "image": "Vizual"
+    },
+    "filters": {
+      "searchLabel": "Vyhledávání",
+      "searchPlaceholder": "Hledat podle názvu nebo tagline",
+      "techLabel": "Tech stack",
+      "selectedLabel": "Vybráno",
+      "moreButton": "Více možností",
+      "moreTitle": "Všechny technologie",
+      "moreDescription": "Vyberte technologie pro zpřesnění výsledků.",
+      "moreClose": "Hotovo",
+      "clear": "Vymazat filtry",
+      "emptyTitle": "Žádné projekty nenalezeny",
+      "emptySubtitle": "Zkuste upravit vyhledávání nebo zrušit filtry.",
+      "emptyCta": "Kontaktovat"
+    },
+    "meta": {
+      "titleSuffix": "Portfolio",
+      "fallbackDescription": "Případová studie z portfolia."
+    },
+    "detail": {
+      "roleLabel": "Role",
+      "statusLabel": "Status",
+      "statusPublished": "Publikováno",
+      "techStackLabel": "Tech stack",
+      "linksLabel": "Odkazy",
+      "linkLive": "Live web",
+      "linkRepo": "Repozitář",
+      "highlightsTitle": "Highlights"
+    },
+    "gallery": {
+      "title": "Galerie",
+      "open": "Otevřít obrázek {index}",
+      "close": "Zavřít",
+      "next": "Další obrázek",
+      "prev": "Předchozí obrázek",
+      "alt": "Obrázek v galerii {index} pro {title}"
+    }
   },
   "contact": {
-    "title": "Kontakt",
-    "subtitle": "Napište mi a probereme váš záměr.",
+    "title": "Kontaktujte mně",
+    "subtitle": "Pokud máte zájem o spolupráci nebo jen chcete rychle probrat nápad, stačí poslat krátkou zprávu, nebo zavolat — co řešíte, pro koho je to určené, jaké jsou cíle a ideálně i termín. Ozvu se co nejdřív s návrhem dalšího postupu, nebo s možností řešení. Vše beru diskrétně a bez zbytečných formalit.",
+    "details": {
+      "kicker": "O mně",
+      "title": "Viktor Vitovec",
+      "subtitle": "Designér digitálních produktů zaměřený na UX/UI a prémiové webové zážitky.",
+      "emailLabel": "Email",
+      "emailValue": "vvitovec27@gmail.com",
+      "phoneLabel": "Telefon",
+      "phoneValue": "+420 774 943 304",
+      "addressLabel": "Adresa",
+      "addressValue": "Stradonická 17/2292, České Budějovice, Česká Republika",
+      "icoLabel": "IČ",
+      "icoValue": "23929553",
+      "photoAlt": "Portrét Viktora Vitovce"
+    },
     "form": {
       "name": {
         "label": "Jméno",
@@ -62,11 +177,15 @@
   "footer": {
     "title": "Navrhuji digitální produkty s prémiovým přístupem.",
     "subtitle": "Dostupný pro nové spolupráce v roce 2026.",
+    "contact": {
+      "label": "Kontakt",
+      "email": "Email",
+      "phone": "Telefon"
+    },
     "social": {
       "label": "Sociální sítě",
-      "linkedin": "LinkedIn",
       "github": "GitHub",
-      "dribbble": "Dribbble"
+      "instagram": "Instagram"
     }
   },
   "admin": {
@@ -154,6 +273,11 @@
         "status": {
           "label": "Status"
         },
+        "year": {
+          "label": "Rok",
+          "placeholder": "2024",
+          "error": "Zadejte platný rok."
+        },
         "coverImageUrl": {
           "label": "Cover image URL",
           "placeholder": "https://..."
@@ -189,10 +313,6 @@
           "label": "Krátký popis",
           "placeholder": "Krátký popis projektu"
         },
-        "descriptionLong": {
-          "label": "Detailní popis",
-          "placeholder": "Detailní popis projektu"
-        },
         "role": {
           "label": "Role",
           "placeholder": "Vaše role v projektu"
@@ -201,6 +321,58 @@
           "label": "Highlights",
           "placeholder": "Přidejte highlight a potvrďte Enterem"
         }
+      },
+      "caseStudy": {
+        "title": "Editor případové studie",
+        "subtitle": "Strukturované bloky problému, řešení a výsledků.",
+        "emptyState": "Zatím žádné bloky. Přidejte image sekci.",
+        "titleLabel": "Nadpis (volitelné)",
+        "titlePlaceholder": "Nadpis sekce",
+        "bodyLabel": "Text",
+        "bodyPlaceholder": "Napište obsah sekce",
+        "outcomeBodyLabel": "Shrnutí výsledku",
+        "bulletsLabel": "Výsledky",
+        "bulletsPlaceholder": "Přidejte výsledek a potvrďte Enterem",
+        "bulletsHelper": "Maximálně 10 bodů.",
+        "removeBullet": "Odebrat",
+        "moveUp": "Posunout nahoru",
+        "moveDown": "Posunout dolů",
+        "removeSection": "Odebrat sekci",
+        "addImage": "Přidat image sekci",
+        "previewShow": "Zobrazit náhled",
+        "previewHide": "Skrýt náhled",
+        "validationError": "Zkontrolujte povinná pole v case study.",
+        "imageLabel": "Obrázek",
+        "imageUpload": "Nahrát obrázek",
+        "imageReplace": "Nahradit obrázek",
+        "imageClear": "Odebrat obrázek",
+        "imageEmpty": "Zatím bez obrázku.",
+        "imageAlt": "Náhled obrázku",
+        "uploadUnavailable": "Upload je dostupný až po uložení projektu.",
+        "captionLabel": "Popisek",
+        "captionPlaceholder": "Krátký popisek",
+        "layoutLabel": "Layout",
+        "layoutFull": "Full width",
+        "layoutLeft": "Obrázek vlevo",
+        "layoutRight": "Obrázek vpravo"
+      },
+      "translationTools": {
+        "panelTitle": "Překladové nástroje",
+        "panelDescription": "Používá OpenAI API. Po vygenerování překlad zkontrolujte.",
+        "button": "Auto-překlad CS → EN",
+        "dialogTitle": "Auto-překlad CS → EN",
+        "dialogDescription": "Zvolte, jak se má anglický překlad aplikovat.",
+        "modeLabel": "Režim",
+        "modeOverwrite": "Přepsat angličtinu",
+        "modeOverwriteHelper": "Nahradí stávající anglický obsah.",
+        "modeFill": "Doplnit jen prázdná pole",
+        "modeFillHelper": "Doplní pouze chybějící anglická pole.",
+        "warning": "Tato akce spotřebuje API tokeny.",
+        "cancel": "Zrušit",
+        "confirm": "Vygenerovat překlad",
+        "loading": "Překládám…",
+        "toastSuccess": "Anglický překlad byl aktualizován.",
+        "toastError": "Auto-překlad selhal. Zkuste to prosím znovu."
       },
       "media": {
         "title": "Média",

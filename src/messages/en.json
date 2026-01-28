@@ -12,16 +12,131 @@
     }
   },
   "hero": {
-    "title": "Premium portfolio in progress",
-    "subtitle": "Selected work and services will appear here soon."
+    "title": "I design and build premium digital products.",
+    "subtitle": "Helping teams turn ideas into fast, beautiful, and reliable web experiences.",
+    "primaryCta": "Projects",
+    "secondaryCta": "Contact"
+  },
+  "home": {
+    "featured": {
+      "title": "Featured projects",
+      "subtitle": "Work samples where detail, speed, and quality matter."
+    },
+    "about": {
+      "kicker": "About",
+      "title": "I craft digital products that feel natural and perform well.",
+      "paragraphOne": "My name is Viktor Vítovec, and I’ve been passionate about technology since I was a child. I enjoy creating things that blend design and functionality – whether it’s websites, applications, graphics, or process automation.",
+      "paragraphTwo": "I’m constantly learning and pushing my skills further because I love solving problems creatively and efficiently. I like combining technical expertise with visual ideas to deliver projects that are meaningful and high-quality.",
+      "photoAlt": "Portrait of Viktor Vitovec"
+    },
+    "services": {
+      "title": "Services",
+      "subtitle": "From first idea to launch. Clear process, polished execution.",
+      "items": {
+        "design": {
+          "title": "Design",
+          "description": "UX/UI design, prototypes, and design systems for clear structure and conversion."
+        },
+        "webApps": {
+          "title": "Web apps",
+          "description": "Custom web applications focused on UX and stability."
+        },
+        "landingPages": {
+          "title": "Landing pages",
+          "description": "High-converting pages with crisp product messaging."
+        },
+        "automation": {
+          "title": "Automation",
+          "description": "Streamlined workflows, integrations, and internal tools."
+        },
+        "dataMl": {
+          "title": "Data/ML",
+          "description": "Dashboards, data prototypes, and AI experiments."
+        }
+      }
+    },
+    "cta": {
+      "title": "Let’s build something great",
+      "subtitle": "Tell me about your project and we’ll shape the best solution.",
+      "button": "Book a consult"
+    },
+    "footerCta": {
+      "title": "Have a project?",
+      "subtitle": "Let’s talk about the next step.",
+      "button": "Contact"
+    }
   },
   "projects": {
     "title": "Projects",
-    "subtitle": "Projects section is being prepared."
+    "subtitle": "Projects section is being prepared.",
+    "view": "View project",
+    "coverAlt": "Cover image for {title}",
+    "caseStudyTitle": "Case study",
+    "caseStudySummary": "Structured overview of the challenge, solution, and results.",
+    "caseStudyEmpty": "Case study isn't filled in yet.",
+    "caseStudyEmptyCtaContact": "Contact me",
+    "caseStudyEmptyCtaProjects": "Back to projects",
+    "caseStudyImageAlt": "Case study image",
+    "caseStudyBlocks": {
+      "problem": "Problem",
+      "solution": "Solution",
+      "outcome": "Outcome",
+      "image": "Visual"
+    },
+    "filters": {
+      "searchLabel": "Search",
+      "searchPlaceholder": "Search by title or tagline",
+      "techLabel": "Tech stack",
+      "selectedLabel": "Selected",
+      "moreButton": "More options",
+      "moreTitle": "All tech options",
+      "moreDescription": "Select technologies to refine the projects list.",
+      "moreClose": "Done",
+      "clear": "Clear filters",
+      "emptyTitle": "No projects found",
+      "emptySubtitle": "Try adjusting the search or clearing filters.",
+      "emptyCta": "Contact"
+    },
+    "meta": {
+      "titleSuffix": "Portfolio",
+      "fallbackDescription": "Project case study from the portfolio."
+    },
+    "detail": {
+      "roleLabel": "Role",
+      "statusLabel": "Status",
+      "statusPublished": "Published",
+      "techStackLabel": "Tech stack",
+      "linksLabel": "Links",
+      "linkLive": "Live site",
+      "linkRepo": "Repository",
+      "highlightsTitle": "Highlights"
+    },
+    "gallery": {
+      "title": "Gallery",
+      "open": "Open image {index}",
+      "close": "Close",
+      "next": "Next image",
+      "prev": "Previous image",
+      "alt": "Gallery image {index} for {title}"
+    }
   },
   "contact": {
-    "title": "Contact",
-    "subtitle": "Say hello and let's discuss your next project.",
+    "title": "Let’s move your digital product forward.",
+    "subtitle": "Share a few details and I’ll respond with a proposed approach, timeline, and budget range.",
+    "details": {
+      "kicker": "About",
+      "title": "Viktor Vitovec",
+      "subtitle": "Digital product designer focused on UX/UI and premium web experiences.",
+      "emailLabel": "Email",
+      "emailValue": "vvitovec27@gmail.com",
+      "phoneLabel": "Phone",
+      "phoneValue": "+420 774 943 304",
+      "addressLabel": "Address",
+      "addressValue": "Stradonická 17/2292, České Budějovice, Czechia",
+      "icoLabel": "Company ID",
+      "icoValue": "23929553",
+      "photoAlt": "Portrait of Viktor Vitovec"
+    },
     "form": {
       "name": {
         "label": "Name",
@@ -62,11 +177,15 @@
   "footer": {
     "title": "Designing premium digital products.",
     "subtitle": "Available for new collaborations in 2026.",
+    "contact": {
+      "label": "Contact",
+      "email": "Email",
+      "phone": "Phone"
+    },
     "social": {
       "label": "Social",
-      "linkedin": "LinkedIn",
       "github": "GitHub",
-      "dribbble": "Dribbble"
+      "instagram": "Instagram"
     }
   },
   "admin": {
@@ -154,6 +273,11 @@
         "status": {
           "label": "Status"
         },
+        "year": {
+          "label": "Year",
+          "placeholder": "2024",
+          "error": "Enter a valid year."
+        },
         "coverImageUrl": {
           "label": "Cover image URL",
           "placeholder": "https://..."
@@ -189,10 +313,6 @@
           "label": "Short description",
           "placeholder": "Short project description"
         },
-        "descriptionLong": {
-          "label": "Long description",
-          "placeholder": "Detailed project description"
-        },
         "role": {
           "label": "Role",
           "placeholder": "Your role in the project"
@@ -201,6 +321,58 @@
           "label": "Highlights",
           "placeholder": "Add highlight and press Enter"
         }
+      },
+      "caseStudy": {
+        "title": "Case study builder",
+        "subtitle": "Structured blocks for problem, solution, and results.",
+        "emptyState": "No blocks yet. Add an image section to start.",
+        "titleLabel": "Heading (optional)",
+        "titlePlaceholder": "Section heading",
+        "bodyLabel": "Text",
+        "bodyPlaceholder": "Write the section content",
+        "outcomeBodyLabel": "Outcome summary",
+        "bulletsLabel": "Results",
+        "bulletsPlaceholder": "Add a result and press Enter",
+        "bulletsHelper": "Up to 10 bullets.",
+        "removeBullet": "Remove",
+        "moveUp": "Move up",
+        "moveDown": "Move down",
+        "removeSection": "Remove section",
+        "addImage": "Add image section",
+        "previewShow": "Show preview",
+        "previewHide": "Hide preview",
+        "validationError": "Please fill in required case study fields.",
+        "imageLabel": "Image",
+        "imageUpload": "Upload image",
+        "imageReplace": "Replace image",
+        "imageClear": "Remove image",
+        "imageEmpty": "No image yet.",
+        "imageAlt": "Image preview",
+        "uploadUnavailable": "Upload is available after saving the project.",
+        "captionLabel": "Caption",
+        "captionPlaceholder": "Short caption",
+        "layoutLabel": "Layout",
+        "layoutFull": "Full width",
+        "layoutLeft": "Image left",
+        "layoutRight": "Image right"
+      },
+      "translationTools": {
+        "panelTitle": "Translation tools",
+        "panelDescription": "Uses OpenAI API. Review results after generating.",
+        "button": "Auto-translate CS → EN",
+        "dialogTitle": "Auto-translate CS → EN",
+        "dialogDescription": "Choose how the English translation should be applied.",
+        "modeLabel": "Mode",
+        "modeOverwrite": "Overwrite English",
+        "modeOverwriteHelper": "Replace the existing English content.",
+        "modeFill": "Fill only empty fields",
+        "modeFillHelper": "Only fill missing English fields.",
+        "warning": "This will consume API tokens.",
+        "cancel": "Cancel",
+        "confirm": "Generate translation",
+        "loading": "Translating...",
+        "toastSuccess": "English translation updated.",
+        "toastError": "Auto-translation failed. Please try again."
       },
       "media": {
         "title": "Media",

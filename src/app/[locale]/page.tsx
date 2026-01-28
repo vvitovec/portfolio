@@ -1,9 +1,21 @@
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
+import {
+  AppWindow,
+  Database,
+  LayoutTemplate,
+  PenTool,
+  Workflow,
+} from "lucide-react";
 
 import Container from "@/components/layout/Container";
+import SectionReveal from "@/components/sections/project/SectionReveal";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { getPublishedProjects } from "@/server/queries/projects";
+import { getBlurDataURL } from "@/lib/image-placeholder";
 
 export const revalidate = 300;
 
@@ -19,55 +31,223 @@ export default async function HomePage({ params }: PageProps) {
 
   const hero = await getTranslations({ locale, namespace: "hero" });
   const projectsT = await getTranslations({ locale, namespace: "projects" });
+  const home = await getTranslations({ locale, namespace: "home" });
   const projects = await getPublishedProjects(locale);
   const featured = projects.filter((project) => project.featured).slice(0, 3);
+  const blurDataURL = getBlurDataURL(1200, 675);
+  const services = [
+    {
+      key: "design",
+      icon: PenTool,
+    },
+    {
+      key: "webApps",
+      icon: AppWindow,
+    },
+    {
+      key: "landingPages",
+      icon: LayoutTemplate,
+    },
+    {
+      key: "automation",
+      icon: Workflow,
+    },
+    {
+      key: "dataMl",
+      icon: Database,
+    },
+  ] as const;
 
   return (
     <>
-      <section className="py-20 sm:py-28">
+      <section className="py-12 sm:py-16">
         <Container>
-          <div className="max-w-2xl">
-            <h1 className="font-display text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-              {hero("title")}
-            </h1>
-            <p className="mt-5 text-lg text-muted-foreground sm:text-xl">
-              {hero("subtitle")}
-            </p>
-          </div>
+          <SectionReveal className="grid gap-8 lg:grid-cols-[minmax(0,_1fr)_minmax(0,_0.6fr)] lg:items-center">
+            <div className="space-y-6">
+              <div className="max-w-2xl space-y-2">
+                <p className="text-xs uppercase tracking-widest text-muted-foreground">
+                  {home("about.kicker")}
+                </p>
+                <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
+                  {home("about.title")}
+                </h2>
+              </div>
+              <div className="max-w-3xl space-y-4 text-sm text-muted-foreground sm:text-base">
+                <p>{home("about.paragraphOne")}</p>
+                <p>{home("about.paragraphTwo")}</p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <Button
+                  asChild
+                  className="motion-safe:transition-transform motion-safe:hover:-translate-y-0.5"
+                >
+                  <Link href="/projects">{hero("primaryCta")}</Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="motion-safe:transition-transform motion-safe:hover:-translate-y-0.5"
+                >
+                  <Link href="/contact">{hero("secondaryCta")}</Link>
+                </Button>
+              </div>
+            </div>
+            <div className="flex justify-start lg:justify-end">
+              <div className="relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl border border-border/60 bg-muted shadow-sm">
+                <Image
+                  src="/images/ViktorVitovec.jpeg"
+                  alt={home("about.photoAlt")}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </SectionReveal>
         </Container>
       </section>
+
       {featured.length > 0 ? (
-        <section className="pb-20 sm:pb-28">
+        <section className="pb-12 sm:pb-16">
           <Container>
-            <div className="max-w-2xl">
-              <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-                {projectsT("title")}
-              </h2>
-              <p className="mt-3 text-sm text-muted-foreground sm:text-base">
-                {projectsT("subtitle")}
-              </p>
-            </div>
-            <div className="mt-8 grid gap-6 md:grid-cols-2">
-              {featured.map((project) => (
-                <Link
-                  key={project.id}
-                  href={`/projects/${project.slug}`}
-                  className="rounded-2xl border border-border bg-card/80 p-6 transition hover:border-foreground/30"
-                >
-                  <h3 className="font-display text-xl font-semibold text-foreground">
-                    {project.title}
-                  </h3>
-                  {project.descriptionShort ? (
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      {project.descriptionShort}
-                    </p>
-                  ) : null}
-                </Link>
-              ))}
-            </div>
+            <SectionReveal className="space-y-10">
+              <div className="max-w-2xl">
+                <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
+                  {home("featured.title")}
+                </h2>
+                <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+                  {home("featured.subtitle")}
+                </p>
+              </div>
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {featured.map((project) => {
+                  const summary = project.tagline ?? project.descriptionShort;
+                  const stack = project.techStack.slice(0, 4);
+                  const coverAlt = projectsT("coverAlt", {
+                    title: project.title,
+                  });
+
+                  return (
+                    <Link
+                      key={project.id}
+                      href={`/projects/${project.slug}`}
+                      className="group relative overflow-hidden rounded-3xl border border-border/60 bg-card/80 shadow-sm transition motion-safe:duration-300 motion-safe:transition-transform motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    >
+                      <div className="relative aspect-[16/9] overflow-hidden bg-muted">
+                        {project.coverImageUrl ? (
+                          <>
+                            <Image
+                              src={project.coverImageUrl}
+                              alt={coverAlt}
+                              fill
+                              placeholder="blur"
+                              blurDataURL={blurDataURL}
+                              sizes="(max-width: 1024px) 100vw, 33vw"
+                              className="object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.04]"
+                            />
+                            <div className="absolute inset-0 bg-black/20" />
+                          </>
+                        ) : (
+                          <div className="flex h-full items-center justify-center text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                            {projectsT("title")}
+                          </div>
+                        )}
+                      </div>
+                      <div className="space-y-4 p-6">
+                        <div className="space-y-2">
+                          <div className="flex items-baseline justify-between gap-3">
+                            <h3 className="min-w-0 font-display text-xl font-semibold text-foreground">
+                              {project.title}
+                            </h3>
+                            <span className="shrink-0 text-right text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                              {project.year}
+                            </span>
+                          </div>
+                          {summary ? (
+                            <p className="text-sm text-muted-foreground">
+                              {summary}
+                            </p>
+                          ) : null}
+                        </div>
+                        {stack.length > 0 ? (
+                          <div className="flex flex-wrap items-center gap-2">
+                            {stack.map((item) => (
+                              <Badge key={item}>{item}</Badge>
+                            ))}
+                          </div>
+                        ) : null}
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </SectionReveal>
           </Container>
         </section>
       ) : null}
+
+      <section className="py-12 sm:py-16">
+        <Container>
+          <SectionReveal className="space-y-10">
+            <div className="max-w-2xl">
+              <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
+                {home("services.title")}
+              </h2>
+              <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+                {home("services.subtitle")}
+              </p>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+              {services.map((service) => {
+                const Icon = service.icon;
+                return (
+                  <div
+                    key={service.key}
+                    className="rounded-2xl border border-border/60 bg-card/80 p-6 shadow-sm transition motion-safe:duration-300 motion-safe:transition-transform motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-lg"
+                  >
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-muted text-foreground">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="mt-4 font-display text-lg font-semibold text-foreground">
+                      {home(`services.items.${service.key}.title`)}
+                    </h3>
+                    <p className="mt-3 text-sm text-muted-foreground">
+                      {home(`services.items.${service.key}.description`)}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </SectionReveal>
+        </Container>
+      </section>
+
+      <section className="py-16 sm:py-20">
+        <Container>
+          <SectionReveal>
+            <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-card/80 p-8 shadow-sm md:p-10">
+              <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+                <div className="max-w-xl space-y-2">
+                  <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
+                    {home("cta.title")}
+                  </h2>
+                  <p className="text-sm text-muted-foreground sm:text-base">
+                    {home("cta.subtitle")}
+                  </p>
+                </div>
+                <Button
+                  asChild
+                  className="motion-safe:transition-transform motion-safe:hover:-translate-y-0.5"
+                >
+                  <Link href="/contact">{home("cta.button")}</Link>
+                </Button>
+              </div>
+            </div>
+          </SectionReveal>
+        </Container>
+      </section>
+
     </>
   );
 }

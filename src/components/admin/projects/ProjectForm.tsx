@@ -3,12 +3,23 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { Loader2 } from "lucide-react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
 import BlobImageUploader from "@/components/admin/BlobImageUploader";
+import CaseStudyBuilder from "@/components/admin/case-study-builder";
+import CaseStudyBlocks from "@/components/sections/project/CaseStudyBlocks";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -17,6 +28,7 @@ import { Textarea } from "@/components/ui/textarea";
 import TagInput from "@/components/admin/projects/TagInput";
 import { slugify } from "@/lib/slugify";
 import { trpc } from "@/trpc/react";
+import { CaseStudyBlocksSchema, createDefaultCaseStudyBlocks } from "@/types/case-study";
 
 const MAX_TECH_STACK = 12;
 const MAX_HIGHLIGHTS = 8;
@@ -42,6 +54,7 @@ const translationSchema = z.object({
   tagline: z.string().trim().max(200, "max").optional(),
   descriptionShort: z.string().trim().max(400, "max").optional(),
   descriptionLong: z.string().trim().max(5000, "max").optional(),
+  caseStudyBlocks: CaseStudyBlocksSchema,
   role: z.string().trim().max(200, "max").optional(),
   highlights: z.array(z.string().trim().min(1).max(200)).max(MAX_HIGHLIGHTS),
 });
@@ -55,6 +68,7 @@ const formSchema = z.object({
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "pattern"),
   featured: z.boolean(),
   status: z.enum(["DRAFT", "PUBLISHED"]),
+  year: z.number().int().min(1900).max(2100).optional(),
   coverImageUrl: optionalUrl,
   galleryImageUrls: z.array(urlSchema),
   liveUrl: optionalUrl,
@@ -89,6 +103,7 @@ const emptyTranslations = {
   tagline: "",
   descriptionShort: "",
   descriptionLong: "",
+  caseStudyBlocks: [],
   role: "",
   highlights: [],
 };
@@ -97,14 +112,21 @@ const defaultValues: ProjectFormValues = {
   slug: "",
   featured: false,
   status: "DRAFT",
+  year: new Date().getFullYear(),
   coverImageUrl: "",
   galleryImageUrls: [],
   liveUrl: "",
   repoUrl: "",
   techStack: [],
   translations: {
-    cs: { ...emptyTranslations },
-    en: { ...emptyTranslations },
+    cs: {
+      ...emptyTranslations,
+      caseStudyBlocks: createDefaultCaseStudyBlocks("cs"),
+    },
+    en: {
+      ...emptyTranslations,
+      caseStudyBlocks: createDefaultCaseStudyBlocks("en"),
+    },
   },
 };
 
@@ -120,11 +142,21 @@ export default function ProjectForm({
   onCreated,
 }: ProjectFormProps) {
   const t = useTranslations("admin.projects");
+  const tCaseStudy = useTranslations("admin.projects.caseStudy");
+  const tTranslate = useTranslations("admin.projects.translationTools");
+  const tProjects = useTranslations("projects");
   const utils = trpc.useUtils();
   const [slugTouched, setSlugTouched] = useState(
     Boolean(initialValues?.slug),
   );
   const mediaEnabled = mode === "edit" && Boolean(projectId);
+  const translationEnabled = mode === "edit" && Boolean(projectId);
+  const [showPreviewCs, setShowPreviewCs] = useState(false);
+  const [showPreviewEn, setShowPreviewEn] = useState(false);
+  const [translateOpen, setTranslateOpen] = useState(false);
+  const [translateMode, setTranslateMode] = useState<
+    "overwrite" | "fill_missing"
+  >("overwrite");
 
   const form = useForm<ProjectFormValues>({
     resolver: zodResolver(formSchema),
@@ -138,7 +170,18 @@ export default function ProjectForm({
     control,
     name: "translations.cs.title",
   });
+  const csCaseStudyBlocks = useWatch({
+    control,
+    name: "translations.cs.caseStudyBlocks",
+  });
+  const enCaseStudyBlocks = useWatch({
+    control,
+    name: "translations.en.caseStudyBlocks",
+  });
   const slugField = register("slug");
+  const yearField = register("year", {
+    setValueAs: (value) => (value === "" ? undefined : Number(value)),
+  });
 
   useEffect(() => {
     if (!slugTouched && csTitle) {
@@ -148,6 +191,11 @@ export default function ProjectForm({
       }
     }
   }, [csTitle, slugTouched, setValue]);
+
+  useEffect(() => {
+    register("translations.cs.descriptionLong");
+    register("translations.en.descriptionLong");
+  }, [register]);
 
   const createMutation = trpc.admin.projects.create.useMutation({
     onSuccess: async (data) => {
@@ -171,16 +219,58 @@ export default function ProjectForm({
 
   const isSaving = createMutation.isPending || updateMutation.isPending;
 
+  const translateMutation = trpc.admin.projects.autoTranslateToEn.useMutation({
+    onSuccess: async (translation) => {
+      toast.success(tTranslate("toastSuccess"));
+      setTranslateOpen(false);
+      if (projectId) {
+        await utils.admin.projects.getById.invalidate({ id: projectId });
+        await utils.admin.projects.list.invalidate();
+      }
+      const parsedBlocks = CaseStudyBlocksSchema.safeParse(
+        translation.caseStudyBlocks ?? [],
+      );
+      const nextBlocks = parsedBlocks.success ? parsedBlocks.data : [];
+      setValue("translations.en.title", translation.title ?? "");
+      setValue("translations.en.tagline", translation.tagline ?? "");
+      setValue(
+        "translations.en.descriptionShort",
+        translation.descriptionShort ?? "",
+      );
+      setValue("translations.en.role", translation.role ?? "");
+      setValue("translations.en.highlights", translation.highlights ?? []);
+      setValue("translations.en.caseStudyBlocks", nextBlocks);
+    },
+    onError: (error) => {
+      const message =
+        error?.message && error.message.trim().length > 0
+          ? error.message
+          : tTranslate("toastError");
+      toast.error(message);
+    },
+  });
+
   const submitLabel = useMemo(
     () => (isSaving ? t("form.saving") : t("form.save")),
     [isSaving, t],
   );
+  const caseStudyLabels = {
+    problem: tProjects("caseStudyBlocks.problem"),
+    solution: tProjects("caseStudyBlocks.solution"),
+    outcome: tProjects("caseStudyBlocks.outcome"),
+    image: tProjects("caseStudyBlocks.image"),
+  };
+  const caseStudyTitle = tProjects("caseStudyTitle");
+  const caseStudySummary = tProjects("caseStudySummary");
+  const caseStudyImageAlt = tProjects("caseStudyImageAlt");
+  const isTranslating = translateMutation.isPending;
 
   const onSubmit = (values: ProjectFormValues) => {
     const payload = {
       slug: values.slug,
       featured: values.featured,
       status: values.status,
+      year: values.year ?? null,
       coverImageUrl: normalizeOptionalString(values.coverImageUrl),
       galleryImageUrls: values.galleryImageUrls,
       liveUrl: normalizeOptionalString(values.liveUrl),
@@ -196,6 +286,7 @@ export default function ProjectForm({
           descriptionLong: normalizeOptionalString(
             values.translations.cs.descriptionLong ?? "",
           ),
+          caseStudyBlocks: values.translations.cs.caseStudyBlocks ?? [],
           role: normalizeOptionalString(values.translations.cs.role ?? ""),
         },
         en: {
@@ -207,6 +298,7 @@ export default function ProjectForm({
           descriptionLong: normalizeOptionalString(
             values.translations.en.descriptionLong ?? "",
           ),
+          caseStudyBlocks: values.translations.en.caseStudyBlocks ?? [],
           role: normalizeOptionalString(values.translations.en.role ?? ""),
         },
       },
@@ -223,6 +315,14 @@ export default function ProjectForm({
     }
 
     updateMutation.mutate({ id: projectId, ...payload });
+  };
+
+  const handleTranslate = () => {
+    if (!projectId) {
+      toast.error(tTranslate("toastError"));
+      return;
+    }
+    translateMutation.mutate({ projectId, mode: translateMode });
   };
 
   const coverField = (
@@ -337,7 +437,7 @@ export default function ProjectForm({
                       sizes="(max-width: 1024px) 100vw, 33vw"
                       className="object-cover"
                     />
-                    <div className="absolute inset-0 flex items-end justify-end bg-gradient-to-t from-black/60 to-transparent p-2 opacity-0 transition-opacity motion-safe:duration-200 motion-safe:transition-opacity motion-reduce:transition-none group-hover:opacity-100">
+                    <div className="absolute inset-0 flex items-end justify-end bg-black/60 p-2 opacity-0 transition-opacity motion-safe:duration-200 motion-safe:transition-opacity motion-reduce:transition-none group-hover:opacity-100">
                       <Button
                         type="button"
                         variant="ghost"
@@ -422,6 +522,23 @@ export default function ProjectForm({
             </select>
           </div>
           <div className="space-y-2">
+            <label className="text-sm font-medium" htmlFor="year">
+              {t("form.year.label")}
+            </label>
+            <Input
+              id="year"
+              type="number"
+              inputMode="numeric"
+              min={1900}
+              max={2100}
+              {...yearField}
+              placeholder={t("form.year.placeholder")}
+            />
+            {errors.year ? (
+              <p className="text-xs text-destructive">{t("form.year.error")}</p>
+            ) : null}
+          </div>
+          <div className="space-y-2">
             <label className="text-sm font-medium" htmlFor="liveUrl">
               {t("form.liveUrl.label")}
             </label>
@@ -473,6 +590,120 @@ export default function ProjectForm({
           ) : null}
         </div>
         <div className="rounded-2xl border border-border bg-card/80 p-6">
+          {translationEnabled ? (
+            <div className="mb-6 rounded-2xl border border-border/60 bg-muted/20 p-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-foreground">
+                    {tTranslate("panelTitle")}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {tTranslate("panelDescription")}
+                  </p>
+                </div>
+                <Dialog
+                  open={translateOpen}
+                  onOpenChange={(open) =>
+                    isTranslating ? null : setTranslateOpen(open)
+                  }
+                >
+                  <DialogTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      disabled={isTranslating}
+                    >
+                      {isTranslating ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          {tTranslate("loading")}
+                        </>
+                      ) : (
+                        tTranslate("button")
+                      )}
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{tTranslate("dialogTitle")}</DialogTitle>
+                      <DialogDescription>
+                        {tTranslate("dialogDescription")}
+                      </DialogDescription>
+                    </DialogHeader>
+                    <fieldset className="mt-4 space-y-3">
+                      <legend className="text-sm font-medium text-foreground">
+                        {tTranslate("modeLabel")}
+                      </legend>
+                      <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border/60 bg-background/80 p-3 text-sm">
+                        <input
+                          type="radio"
+                          name="translate-mode"
+                          value="overwrite"
+                          checked={translateMode === "overwrite"}
+                          onChange={() => setTranslateMode("overwrite")}
+                          className="mt-1"
+                        />
+                        <span>
+                          <span className="font-medium text-foreground">
+                            {tTranslate("modeOverwrite")}
+                          </span>
+                          <span className="block text-xs text-muted-foreground">
+                            {tTranslate("modeOverwriteHelper")}
+                          </span>
+                        </span>
+                      </label>
+                      <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border/60 bg-background/80 p-3 text-sm">
+                        <input
+                          type="radio"
+                          name="translate-mode"
+                          value="fill_missing"
+                          checked={translateMode === "fill_missing"}
+                          onChange={() => setTranslateMode("fill_missing")}
+                          className="mt-1"
+                        />
+                        <span>
+                          <span className="font-medium text-foreground">
+                            {tTranslate("modeFill")}
+                          </span>
+                          <span className="block text-xs text-muted-foreground">
+                            {tTranslate("modeFillHelper")}
+                          </span>
+                        </span>
+                      </label>
+                    </fieldset>
+                    <p className="mt-4 text-xs text-muted-foreground">
+                      {tTranslate("warning")}
+                    </p>
+                    <div className="mt-6 flex flex-wrap justify-end gap-2">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={() => setTranslateOpen(false)}
+                        disabled={isTranslating}
+                      >
+                        {tTranslate("cancel")}
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={handleTranslate}
+                        disabled={isTranslating}
+                      >
+                        {isTranslating ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            {tTranslate("loading")}
+                          </>
+                        ) : (
+                          tTranslate("confirm")
+                        )}
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </div>
+          ) : null}
           <Tabs defaultValue="cs">
             <TabsList>
               <TabsTrigger value="cs">{t("form.tabs.cs")}</TabsTrigger>
@@ -519,19 +750,56 @@ export default function ProjectForm({
                     rows={3}
                   />
                 </div>
-                <div className="space-y-2">
-                  <label
-                    className="text-sm font-medium"
-                    htmlFor="cs-descriptionLong"
-                  >
-                    {t("form.descriptionLong.label")}
-                  </label>
-                  <Textarea
-                    id="cs-descriptionLong"
-                    {...register("translations.cs.descriptionLong")}
-                    placeholder={t("form.descriptionLong.placeholder")}
-                    rows={6}
+                <div className="space-y-4 rounded-2xl border border-border bg-muted/20 p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-medium text-foreground">
+                        {tCaseStudy("title")}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {tCaseStudy("subtitle")}
+                      </p>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      aria-pressed={showPreviewCs}
+                      onClick={() => setShowPreviewCs((prev) => !prev)}
+                    >
+                      {showPreviewCs
+                        ? tCaseStudy("previewHide")
+                        : tCaseStudy("previewShow")}
+                    </Button>
+                  </div>
+                  <Controller
+                    control={control}
+                    name="translations.cs.caseStudyBlocks"
+                    render={({ field }) => (
+                      <CaseStudyBuilder
+                        value={field.value ?? []}
+                        onChange={field.onChange}
+                        locale="cs"
+                        projectId={projectId}
+                      />
+                    )}
                   />
+                  {errors.translations?.cs?.caseStudyBlocks ? (
+                    <p className="text-xs text-destructive">
+                      {tCaseStudy("validationError")}
+                    </p>
+                  ) : null}
+                  {showPreviewCs ? (
+                    <div className="rounded-2xl border border-border bg-background/60 p-4">
+                      <CaseStudyBlocks
+                        blocks={csCaseStudyBlocks ?? []}
+                        title={caseStudyTitle}
+                        summary={caseStudySummary}
+                        labels={caseStudyLabels}
+                        imageAltFallback={caseStudyImageAlt}
+                      />
+                    </div>
+                  ) : null}
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium" htmlFor="cs-role">
@@ -600,19 +868,56 @@ export default function ProjectForm({
                     rows={3}
                   />
                 </div>
-                <div className="space-y-2">
-                  <label
-                    className="text-sm font-medium"
-                    htmlFor="en-descriptionLong"
-                  >
-                    {t("form.descriptionLong.label")}
-                  </label>
-                  <Textarea
-                    id="en-descriptionLong"
-                    {...register("translations.en.descriptionLong")}
-                    placeholder={t("form.descriptionLong.placeholder")}
-                    rows={6}
+                <div className="space-y-4 rounded-2xl border border-border bg-muted/20 p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-medium text-foreground">
+                        {tCaseStudy("title")}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {tCaseStudy("subtitle")}
+                      </p>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      aria-pressed={showPreviewEn}
+                      onClick={() => setShowPreviewEn((prev) => !prev)}
+                    >
+                      {showPreviewEn
+                        ? tCaseStudy("previewHide")
+                        : tCaseStudy("previewShow")}
+                    </Button>
+                  </div>
+                  <Controller
+                    control={control}
+                    name="translations.en.caseStudyBlocks"
+                    render={({ field }) => (
+                      <CaseStudyBuilder
+                        value={field.value ?? []}
+                        onChange={field.onChange}
+                        locale="en"
+                        projectId={projectId}
+                      />
+                    )}
                   />
+                  {errors.translations?.en?.caseStudyBlocks ? (
+                    <p className="text-xs text-destructive">
+                      {tCaseStudy("validationError")}
+                    </p>
+                  ) : null}
+                  {showPreviewEn ? (
+                    <div className="rounded-2xl border border-border bg-background/60 p-4">
+                      <CaseStudyBlocks
+                        blocks={enCaseStudyBlocks ?? []}
+                        title={caseStudyTitle}
+                        summary={caseStudySummary}
+                        labels={caseStudyLabels}
+                        imageAltFallback={caseStudyImageAlt}
+                      />
+                    </div>
+                  ) : null}
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium" htmlFor="en-role">

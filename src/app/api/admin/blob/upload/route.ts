@@ -6,7 +6,7 @@ import { getServerAuthSession } from "@/server/auth";
 
 const payloadSchema = z.object({
   projectId: z.string().min(1),
-  kind: z.enum(["cover", "gallery"]),
+  kind: z.enum(["cover", "gallery", "case-study"]),
 });
 
 const sanitizePathname = (pathname: string) => {
