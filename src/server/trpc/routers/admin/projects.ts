@@ -8,6 +8,7 @@ import { slugify } from "@/lib/slugify";
 import { db } from "@/server/db";
 import { adminProcedure, router } from "@/server/trpc/trpc";
 import { revalidatePublicProjects } from "@/server/revalidate";
+import { VercelBlob } from "@/server/blob/vercelBlob";
 import {
   CaseStudyBlocksSchema,
   CaseStudyTranslationSchema,
@@ -58,6 +59,36 @@ const updateSchema = baseFieldsSchema.extend({
 const idSchema = z.object({
   id: z.string().min(1),
 });
+
+const blobUploadSchema = z.object({
+  projectId: z.string().trim().min(1),
+  kind: z.enum(["cover", "gallery", "screenshot", "case-study"]),
+  fileName: z.string().trim().min(1).max(240),
+  fileType: z.string().trim().min(1).max(120),
+  fileBuffer: z.custom<Uint8Array>((value) => value instanceof Uint8Array, {
+    message: "Invalid file buffer.",
+  }),
+  pathPrefix: z.string().trim().min(1).max(500).optional(),
+});
+
+const ALLOWED_BLOB_CONTENT_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/avif",
+]);
+
+const ALLOWED_BLOB_EXTENSIONS = new Set(["jpg", "jpeg", "png", "webp", "avif"]);
+
+const EXTENSION_BY_CONTENT_TYPE: Record<string, string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+  "image/avif": "avif",
+};
+
+const MAX_BLOB_UPLOAD_SIZE_BYTES = 15 * 1024 * 1024;
+const PROJECT_ID_PATTERN = /^[A-Za-z0-9_-]+$/;
 
 const normalizeOptionalString = (value?: string | null) => {
   if (value === undefined) return null;
@@ -255,6 +286,53 @@ const normalizeStructuredBlocks = (
     };
   });
 
+const toBlobKindSegment = (kind: z.infer<typeof blobUploadSchema>["kind"]) =>
+  kind === "screenshot" ? "gallery" : kind;
+
+const normalizeBlobPrefix = (value: string) =>
+  value.replace(/^\/+|\/+$/g, "").replace(/\/{2,}/g, "/");
+
+const resolveBlobUploadPrefix = ({
+  projectId,
+  kind,
+  pathPrefix,
+}: {
+  projectId: string;
+  kind: z.infer<typeof blobUploadSchema>["kind"];
+  pathPrefix?: string;
+}) => {
+  const defaultPrefix = `projects/${projectId}/${toBlobKindSegment(kind)}`;
+
+  if (!pathPrefix) {
+    return defaultPrefix;
+  }
+
+  const normalized = normalizeBlobPrefix(pathPrefix);
+  if (
+    normalized.includes("..") ||
+    normalized.includes("\\") ||
+    !normalized.startsWith(`projects/${projectId}/`)
+  ) {
+    throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid upload path." });
+  }
+
+  return normalized;
+};
+
+const toSafeBlobFileName = (fileName: string, fileType: string) => {
+  const rawBase = fileName.replace(/\.[^/.]+$/, "");
+  const safeBase = slugify(rawBase) || "image";
+  const extension = fileName.split(".").pop()?.toLowerCase();
+  const normalizedExtension =
+    extension && ALLOWED_BLOB_EXTENSIONS.has(extension)
+      ? extension === "jpeg"
+        ? "jpg"
+        : extension
+      : (EXTENSION_BY_CONTENT_TYPE[fileType] ?? "jpg");
+
+  return `${safeBase}.${normalizedExtension}`;
+};
+
 async function slugExists(slug: string, excludeId?: string) {
   const existing = await db.project.findFirst({
     where: {
@@ -312,6 +390,75 @@ export const adminProjectsRouter = router({
 
     return project;
   }),
+  blobUpload: adminProcedure
+    .input(blobUploadSchema)
+    .mutation(async ({ input }) => {
+      if (!PROJECT_ID_PATTERN.test(input.projectId)) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Invalid project identifier.",
+        });
+      }
+
+      if (!ALLOWED_BLOB_CONTENT_TYPES.has(input.fileType)) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Unsupported file type.",
+        });
+      }
+
+      if (input.fileBuffer.byteLength === 0) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "File is empty.",
+        });
+      }
+
+      if (input.fileBuffer.byteLength > MAX_BLOB_UPLOAD_SIZE_BYTES) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "File is too large.",
+        });
+      }
+
+      const token = process.env.BLOB_READ_WRITE_TOKEN;
+      if (!token) {
+        console.error("BLOB_READ_WRITE_TOKEN is missing.");
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Upload failed.",
+        });
+      }
+
+      const uploadPrefix = resolveBlobUploadPrefix({
+        projectId: input.projectId,
+        kind: input.kind,
+        pathPrefix: input.pathPrefix,
+      });
+      const fileName = toSafeBlobFileName(input.fileName, input.fileType);
+
+      try {
+        const blobClient = new VercelBlob({ token });
+        const blob = await blobClient.upload({
+          project: uploadPrefix,
+          name: fileName,
+          data: input.fileBuffer,
+          contentType: input.fileType,
+        });
+
+        return {
+          url: blob.url,
+          key: blob.key,
+          success: true as const,
+        };
+      } catch (error) {
+        console.error("Blob upload failed", error);
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Upload failed.",
+        });
+      }
+    }),
   create: adminProcedure.input(createSchema).mutation(async ({ input }) => {
     const csTranslation = normalizeTranslation(input.translations.cs);
     const enTranslation = normalizeTranslation(input.translations.en);

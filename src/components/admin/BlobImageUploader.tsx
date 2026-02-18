@@ -1,12 +1,10 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { upload } from "@vercel/blob/client";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { slugify } from "@/lib/slugify";
 import { cn } from "@/lib/utils";
 
 const ACCEPTED_TYPES = [
@@ -16,24 +14,25 @@ const ACCEPTED_TYPES = [
   "image/avif",
 ];
 
-const TYPE_EXTENSION_MAP: Record<string, string> = {
-  "image/jpeg": "jpg",
-  "image/png": "png",
-  "image/webp": "webp",
-  "image/avif": "avif",
-};
-
-const ALLOWED_EXTENSIONS = new Set(["jpg", "jpeg", "png", "webp", "avif"]);
-
 type ProgressState = {
   current: number;
   total: number;
   percentage: number;
 };
 
+type UploadResponse =
+  | {
+      url: string;
+      key: string;
+      success: true;
+    }
+  | {
+      error: string;
+    };
+
 type BlobImageUploaderProps = {
   projectId: string;
-  kind: "cover" | "gallery" | "case-study";
+  kind: "cover" | "gallery" | "screenshot" | "case-study";
   onUploaded: (urls: string[]) => void;
   buttonLabel: string;
   multiple?: boolean;
@@ -41,26 +40,6 @@ type BlobImageUploaderProps = {
   className?: string;
   pathPrefix?: string;
 };
-
-function getSafeBaseName(filename: string) {
-  const name = filename.replace(/\.[^/.]+$/, "");
-  const slug = slugify(name);
-  return slug.length > 0 ? slug : "image";
-}
-
-function getExtension(file: File) {
-  const byType = TYPE_EXTENSION_MAP[file.type];
-  if (byType) {
-    return byType;
-  }
-
-  const raw = file.name.split(".").pop()?.toLowerCase();
-  if (raw && ALLOWED_EXTENSIONS.has(raw)) {
-    return raw === "jpeg" ? "jpg" : raw;
-  }
-
-  return "jpg";
-}
 
 export default function BlobImageUploader({
   projectId,
@@ -96,31 +75,31 @@ export default function BlobImageUploader({
         const current = index + 1;
         const total = fileList.length;
 
-        const baseName = getSafeBaseName(file.name);
-        const extension = getExtension(file);
-        const defaultPrefix = `projects/${projectId}/${kind}`;
-        const normalizedPrefix = pathPrefix
-          ? pathPrefix.replace(/\/+$/, "")
-          : defaultPrefix;
-        const pathname = `${normalizedPrefix}/${baseName}.${extension}`;
-
         setProgress({ current, total, percentage: 0 });
 
-        const result = await upload(pathname, file, {
-          access: "public",
-          handleUploadUrl: "/api/admin/blob/upload",
-          clientPayload: JSON.stringify({ projectId, kind }),
-          contentType: file.type || undefined,
-          onUploadProgress: ({ percentage }) => {
-            setProgress({
-              current,
-              total,
-              percentage: Math.round(percentage),
-            });
-          },
-        });
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("projectId", projectId);
+        formData.append("kind", kind);
+        if (pathPrefix) {
+          formData.append("pathPrefix", pathPrefix);
+        }
 
-        uploaded.push(result.url);
+        const response = await fetch("/api/admin/blob/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const payload = (await response.json()) as UploadResponse;
+
+        if (!response.ok || !("success" in payload) || !payload.success) {
+          throw new Error(
+            "error" in payload ? payload.error : "Upload failed",
+          );
+        }
+
+        setProgress({ current, total, percentage: 100 });
+
+        uploaded.push(payload.url);
       }
 
       if (uploaded.length > 0) {

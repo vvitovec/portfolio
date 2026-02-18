@@ -1,80 +1,81 @@
+import { TRPCError } from "@trpc/server";
 import { NextResponse } from "next/server";
-import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { z } from "zod";
 
 import { getServerAuthSession } from "@/server/auth";
+import { appRouter } from "@/server/trpc/routers/_app";
+import { createCallerFactory } from "@/server/trpc/trpc";
 
-const payloadSchema = z.object({
-  projectId: z.string().min(1),
-  kind: z.enum(["cover", "gallery", "case-study"]),
-});
+export const runtime = "nodejs";
 
-const sanitizePathname = (pathname: string) => {
-  if (pathname.includes("..") || pathname.includes("\\")) {
-    return false;
+const kindSchema = z.enum(["cover", "gallery", "screenshot", "case-study"]);
+const createCaller = createCallerFactory(appRouter);
+
+async function parseUploadFormData(request: Request) {
+  const formData = await request.formData();
+  const projectId = formData.get("projectId");
+  const kind = formData.get("kind");
+  const file = formData.get("file");
+  const pathPrefix = formData.get("pathPrefix");
+
+  if (typeof projectId !== "string") {
+    return null;
   }
-  return true;
-};
+
+  const parsedKind = kindSchema.safeParse(kind);
+  if (!parsedKind.success || !(file instanceof File)) {
+    return null;
+  }
+
+  return {
+    projectId,
+    kind: parsedKind.data,
+    fileName: file.name || "image",
+    fileType: file.type || "application/octet-stream",
+    fileBuffer: new Uint8Array(await file.arrayBuffer()),
+    pathPrefix:
+      typeof pathPrefix === "string" && pathPrefix.trim().length > 0
+        ? pathPrefix
+        : undefined,
+  };
+}
 
 export async function POST(request: Request) {
-  const session = await getServerAuthSession();
-  if (!session) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-  }
-  if (!session.user?.isAdmin) {
-    return NextResponse.json({ error: "forbidden" }, { status: 403 });
-  }
-
-  const body = (await request.json()) as HandleUploadBody;
-
   try {
-    const jsonResponse = await handleUpload({
-      body,
-      request,
-      onBeforeGenerateToken: async (pathname, clientPayload) => {
-        const parsed = payloadSchema.safeParse(
-          JSON.parse(clientPayload ?? "{}"),
-        );
-        if (!parsed.success) {
-          throw new Error("Invalid client payload");
-        }
+    const session = await getServerAuthSession();
+    if (!session?.user?.isAdmin) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    }
 
-        const { projectId } = parsed.data;
+    const parsedInput = await parseUploadFormData(request);
+    if (!parsedInput) {
+      return NextResponse.json({ error: "Upload failed" }, { status: 500 });
+    }
 
-        if (!sanitizePathname(pathname)) {
-          throw new Error("Invalid pathname");
-        }
-        if (!pathname.startsWith(`projects/${projectId}/`)) {
-          throw new Error("Invalid pathname");
-        }
-
-        return {
-          allowedContentTypes: [
-            "image/jpeg",
-            "image/png",
-            "image/webp",
-            "image/avif",
-          ],
-          maximumSizeInBytes: 15 * 1024 * 1024,
-          addRandomSuffix: true,
-          allowOverwrite: false,
-          tokenPayload: clientPayload,
-        };
-      },
-      onUploadCompleted: async ({ tokenPayload }) => {
-        try {
-          if (!tokenPayload) return;
-          payloadSchema.parse(JSON.parse(tokenPayload));
-        } catch {
-          if (process.env.NODE_ENV === "development") {
-            console.error("Invalid token payload");
-          }
-        }
-      },
+    const caller = createCaller({
+      req: request,
+      resHeaders: new Headers(),
+      session,
     });
+    const blob = await caller.admin.projects.blobUpload(parsedInput);
 
-    return NextResponse.json(jsonResponse);
-  } catch {
-    return NextResponse.json({ error: "upload_not_allowed" }, { status: 400 });
+    return NextResponse.json(
+      {
+        url: blob.url,
+        key: blob.key,
+        success: true,
+      },
+      { status: 200 },
+    );
+  } catch (error) {
+    if (
+      error instanceof TRPCError &&
+      (error.code === "UNAUTHORIZED" || error.code === "FORBIDDEN")
+    ) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    }
+
+    console.error("Blob upload API failed", error);
+    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
 }
