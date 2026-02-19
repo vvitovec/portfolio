@@ -11,7 +11,6 @@ const ACCEPTED_TYPES = [
   "image/jpeg",
   "image/png",
   "image/webp",
-  "image/avif",
 ];
 
 type ProgressState = {
@@ -20,19 +19,55 @@ type ProgressState = {
   percentage: number;
 };
 
-type UploadResponse =
-  | {
-      url: string;
-      key: string;
-      success: true;
-    }
-  | {
-      error: string;
-    };
+type UploadSuccessResponse = {
+  success: true;
+  reqId: string;
+  url: string;
+  pathname: string;
+  contentType: string;
+  size: number;
+};
+
+type UploadErrorResponse = {
+  success: false;
+  error: string;
+  reqId: string;
+};
+
+type UploadResponse = UploadSuccessResponse | UploadErrorResponse;
+
+const isObjectRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null;
+
+const isUploadSuccessResponse = (value: unknown): value is UploadSuccessResponse =>
+  isObjectRecord(value) &&
+  value.success === true &&
+  typeof value.url === "string" &&
+  typeof value.reqId === "string";
+
+const parseUploadError = (value: unknown) => {
+  if (!isObjectRecord(value)) {
+    return { error: "Upload failed", reqId: undefined };
+  }
+
+  const error =
+    typeof value.error === "string" && value.error.trim().length > 0
+      ? value.error
+      : "Upload failed";
+  const reqId =
+    typeof value.reqId === "string" && value.reqId.trim().length > 0
+      ? value.reqId
+      : undefined;
+
+  return { error, reqId };
+};
+
+const formatUploadErrorToast = (error: string, reqId?: string) =>
+  `${error} (reqId: ${reqId ?? "unknown"})`;
 
 type BlobImageUploaderProps = {
   projectId: string;
-  kind: "cover" | "gallery" | "screenshot" | "case-study";
+  kind: "cover" | "gallery" | "case-study";
   onUploaded: (urls: string[]) => void;
   buttonLabel: string;
   multiple?: boolean;
@@ -89,12 +124,46 @@ export default function BlobImageUploader({
           method: "POST",
           body: formData,
         });
-        const payload = (await response.json()) as UploadResponse;
+        const reqIdFromHeader = response.headers.get("x-request-id") ?? undefined;
+        let payload: unknown = null;
+        let parsedAsJson = false;
+        try {
+          payload = (await response.json()) as UploadResponse;
+          parsedAsJson = true;
+        } catch {
+          payload = null;
+        }
 
-        if (!response.ok || !("success" in payload) || !payload.success) {
+        if (!response.ok) {
+          if (process.env.NODE_ENV !== "production") {
+            console.error("[blob-upload] API error", {
+              status: response.status,
+              body: payload,
+              reqIdFromHeader,
+              parsedAsJson,
+            });
+          }
+
+          if (!parsedAsJson) {
+            const fallbackError = `Upload failed with status ${response.status}`;
+            throw new Error(formatUploadErrorToast(fallbackError, reqIdFromHeader));
+          }
+
+          const parsedError = parseUploadError(payload);
           throw new Error(
-            "error" in payload ? payload.error : "Upload failed",
+            formatUploadErrorToast(parsedError.error, parsedError.reqId),
           );
+        }
+
+        if (!isUploadSuccessResponse(payload)) {
+          if (process.env.NODE_ENV !== "production") {
+            console.error("[blob-upload] Unexpected response body", {
+              status: response.status,
+              body: payload,
+              reqIdFromHeader,
+            });
+          }
+          throw new Error(formatUploadErrorToast("Upload failed", reqIdFromHeader));
         }
 
         setProgress({ current, total, percentage: 100 });
@@ -105,8 +174,12 @@ export default function BlobImageUploader({
       if (uploaded.length > 0) {
         onUploaded(uploaded);
       }
-    } catch {
-      toast.error(t("toast.error"));
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error && error.message
+          ? error.message
+          : t("toast.error");
+      toast.error(errorMessage);
     } finally {
       setIsUploading(false);
       setProgress(null);
