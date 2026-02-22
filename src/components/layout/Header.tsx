@@ -16,7 +16,10 @@ export default function Header() {
         >
           {t("brand")}
         </Link>
-        <nav className="hidden items-center gap-6 text-sm text-muted-foreground sm:flex">
+        <nav
+          aria-label="Primary navigation"
+          className="hidden items-center gap-6 text-sm text-muted-foreground sm:flex"
+        >
           <Link
             href="/"
             className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
@@ -41,26 +44,28 @@ export default function Header() {
         </div>
       </Container>
       <div className="border-t border-border/60 sm:hidden">
-        <Container className="flex items-center gap-6 py-3 text-xs text-muted-foreground">
-          <Link
-            href="/"
-            className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
-          >
-            {t("home")}
-          </Link>
-          <Link
-            href="/projects"
-            className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
-          >
-            {t("projects")}
-          </Link>
-          <Link
-            href="/contact"
-            className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
-          >
-            {t("contact")}
-          </Link>
-        </Container>
+        <nav aria-label="Mobile navigation">
+          <Container className="flex items-center gap-6 py-3 text-xs text-muted-foreground">
+            <Link
+              href="/"
+              className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
+            >
+              {t("home")}
+            </Link>
+            <Link
+              href="/projects"
+              className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
+            >
+              {t("projects")}
+            </Link>
+            <Link
+              href="/contact"
+              className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
+            >
+              {t("contact")}
+            </Link>
+          </Container>
+        </nav>
       </div>
     </header>
   );

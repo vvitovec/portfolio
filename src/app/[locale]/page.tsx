@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import {
@@ -14,14 +15,53 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
+import JsonLd from "@/components/seo/JsonLd";
 import { getPublishedProjects } from "@/server/queries/projects";
 import { getBlurDataURL } from "@/lib/image-placeholder";
+import { buildPageMetadata } from "@/lib/seo";
+import {
+  createPersonSchema,
+  createWebPageSchema,
+  createWebsiteSchema,
+} from "@/lib/structured-data";
 
 export const revalidate = 300;
 
 type PageProps = {
   params: Promise<{ locale: string }>;
 };
+
+const homeMetadataByLocale: Record<Locale, { title: string; description: string }> = {
+  cs: {
+    title: "Viktor Vítovec | IT a Web Developer",
+    description:
+      "Portfolio vývoje webů a digitálních produktů. Viktor Vítovec navrhuje rychlé, kvalitní a škálovatelné webové řešení.",
+  },
+  en: {
+    title: "Viktor Vítovec | IT and Web Developer",
+    description:
+      "Web development and digital product portfolio by Viktor Vítovec. Fast, reliable, and conversion-focused websites.",
+  },
+};
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const locale = routing.locales.includes(rawLocale as Locale)
+    ? (rawLocale as Locale)
+    : routing.defaultLocale;
+  const meta = homeMetadataByLocale[locale];
+
+  return buildPageMetadata({
+    locale,
+    pathname: "/",
+    title: meta.title,
+    description: meta.description,
+    type: "website",
+    images: ["/images/ViktorVitovec.jpeg"],
+  });
+}
 
 export default async function HomePage({ params }: PageProps) {
   const { locale: rawLocale } = await params;
@@ -35,6 +75,7 @@ export default async function HomePage({ params }: PageProps) {
   const projects = await getPublishedProjects(locale);
   const featured = projects.filter((project) => project.featured).slice(0, 3);
   const blurDataURL = getBlurDataURL(1200, 675);
+  const meta = homeMetadataByLocale[locale];
   const services = [
     {
       key: "design",
@@ -60,11 +101,36 @@ export default async function HomePage({ params }: PageProps) {
 
   return (
     <>
+      <JsonLd
+        id={`homepage-structured-data-${locale}`}
+        data={[
+          createPersonSchema(),
+          createWebsiteSchema(locale),
+          createWebPageSchema({
+            locale,
+            pathname: "/",
+            title: meta.title,
+            description: meta.description,
+            includePerson: true,
+          }),
+        ]}
+      />
       <section className="py-12 sm:py-16">
         <Container>
           <SectionReveal className="grid gap-8 lg:grid-cols-[minmax(0,_1fr)_minmax(0,_0.6fr)] lg:items-center">
             <div className="space-y-6">
-              <div className="max-w-2xl space-y-2">
+              <div className="max-w-3xl space-y-3">
+                <p className="text-xs uppercase tracking-widest text-muted-foreground">
+                  {home("identity.kicker")}
+                </p>
+                <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+                  {home("identity.title")}
+                </h1>
+                <p className="text-sm text-muted-foreground sm:text-base">
+                  {home("identity.subtitle")}
+                </p>
+              </div>
+              <div className="max-w-2xl space-y-2 pt-2">
                 <p className="text-xs uppercase tracking-widest text-muted-foreground">
                   {home("about.kicker")}
                 </p>

@@ -39,3 +39,19 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## SEO checklist
+
+1. Build a lint:
+   ```bash
+   pnpm lint && pnpm build
+   ```
+2. Ověř crawler soubory:
+   - `https://vitovec.com/robots.txt`
+   - `https://vitovec.com/sitemap.xml`
+3. Ověř metadata:
+   - otevři `view-source:https://vitovec.com/cs` a zkontroluj `title`, `meta description`, canonical, OpenGraph, Twitter.
+4. Ověř structured data:
+   - spusť [Google Rich Results Test](https://search.google.com/test/rich-results) pro homepage, projects list a detail projektu.
+5. Ověř výkon:
+   - spusť Lighthouse na `https://vitovec.com/cs` a zaměř se na LCP/CLS/INP.

@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 
 import Container from "@/components/layout/Container";
+import { Link } from "@/i18n/navigation";
 
 export default function Footer() {
   const nav = useTranslations("nav");
@@ -10,7 +11,12 @@ export default function Footer() {
     <footer className="border-t border-border/70 bg-background/80">
       <Container className="grid gap-8 py-10 text-sm text-muted-foreground sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
         <div className="space-y-2">
-          <p className="font-medium text-foreground">{nav("brand")}</p>
+          <Link
+            href="/"
+            className="inline-block font-medium text-foreground transition-colors hover:text-foreground/80"
+          >
+            {nav("brand")}
+          </Link>
           <p className="text-foreground/80">{footer("title")}</p>
           <p>{footer("subtitle")}</p>
         </div>
@@ -47,7 +53,7 @@ export default function Footer() {
             <a
               href="https://github.com/vvitovec"
               target="_blank"
-              rel="noreferrer"
+              rel="me noreferrer"
               className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
             >
               {footer("social.github")}
@@ -55,7 +61,7 @@ export default function Footer() {
             <a
               href="https://www.instagram.com/vitonovate"
               target="_blank"
-              rel="noreferrer"
+              rel="me noreferrer"
               className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
             >
               {footer("social.instagram")}

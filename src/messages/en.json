@@ -1,6 +1,6 @@
 {
   "nav": {
-    "brand": "Viktor Vitovec",
+    "brand": "Viktor Vítovec",
     "home": "Home",
     "projects": "Projects",
     "contact": "Contact",
@@ -18,6 +18,11 @@
     "secondaryCta": "Contact"
   },
   "home": {
+    "identity": {
+      "kicker": "Portfolio",
+      "title": "Viktor Vítovec - IT and Web Developer",
+      "subtitle": "I build fast, reliable websites that help brands grow."
+    },
     "featured": {
       "title": "Featured projects",
       "subtitle": "Work samples where detail, speed, and quality matter."
@@ -25,7 +30,7 @@
     "about": {
       "kicker": "About",
       "title": "I craft digital products that feel natural and perform well.",
-      "paragraphOne": "My name is Viktor Vítovec, and I’ve been passionate about technology since I was a child. I enjoy creating things that blend design and functionality – whether it’s websites, applications, graphics, or process automation.",
+      "paragraphOne": "My name is Viktor Vítovec (also written as Viktor Vitovec), and I’ve been passionate about technology since childhood. I enjoy creating things that blend design and functionality, from websites and apps to graphics and process automation.",
       "paragraphTwo": "I’m constantly learning and pushing my skills further because I love solving problems creatively and efficiently. I like combining technical expertise with visual ideas to deliver projects that are meaningful and high-quality.",
       "photoAlt": "Portrait of Viktor Vitovec"
     },
@@ -125,7 +130,7 @@
     "subtitle": "Share a few details and I’ll respond with a proposed approach, timeline, and budget range.",
     "details": {
       "kicker": "About",
-      "title": "Viktor Vitovec",
+      "title": "Viktor Vítovec",
       "subtitle": "Digital product designer focused on UX/UI and premium web experiences.",
       "emailLabel": "Email",
       "emailValue": "vvitovec27@gmail.com",
@@ -173,6 +178,12 @@
       "errorRateLimit": "Please wait a moment and try again.",
       "honeypotLabel": "Leave this field empty"
     }
+  },
+  "notFound": {
+    "title": "This page does not exist",
+    "description": "Try going back to the homepage or continue to the projects section.",
+    "primaryAction": "Back to homepage",
+    "secondaryAction": "View projects"
   },
   "footer": {
     "title": "Designing premium digital products.",

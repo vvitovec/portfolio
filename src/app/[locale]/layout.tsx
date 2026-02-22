@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import { routing, type Locale } from "@/i18n/routing";
 import Providers from "@/app/[locale]/providers";
+import { OG_LOCALES, SITE_NAME } from "@/lib/seo";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -21,21 +22,42 @@ export async function generateMetadata({
     ? (rawLocale as Locale)
     : routing.defaultLocale;
 
-  const hero = await getTranslations({
-    locale,
-    namespace: "hero",
-  });
-  const nav = await getTranslations({
-    locale,
-    namespace: "nav",
-  });
+  const defaultsByLocale: Record<Locale, { title: string; description: string }> = {
+    cs: {
+      title: `${SITE_NAME} | IT & Web Developer`,
+      description:
+        "Navrhuji a vyvíjím rychlé weby a digitální produkty. Portfolio, služby a kontakt.",
+    },
+    en: {
+      title: `${SITE_NAME} | IT & Web Developer`,
+      description:
+        "I design and build fast websites and digital products. Portfolio, services, and contact.",
+    },
+  };
+  const localeDefaults = defaultsByLocale[locale];
 
   return {
     title: {
-      default: hero("title"),
-      template: `%s | ${nav("brand")}`,
+      default: localeDefaults.title,
+      template: `%s | ${SITE_NAME}`,
     },
-    description: hero("subtitle"),
+    description: localeDefaults.description,
+    openGraph: {
+      type: "website",
+      siteName: SITE_NAME,
+      locale: OG_LOCALES[locale],
+      images: [
+        {
+          url: "/images/ViktorVitovec.jpeg",
+          width: 1200,
+          height: 630,
+          alt: SITE_NAME,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+    },
   };
 }
 

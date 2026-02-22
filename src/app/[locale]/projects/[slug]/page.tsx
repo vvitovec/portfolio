@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 
 import Container from "@/components/layout/Container";
+import JsonLd from "@/components/seo/JsonLd";
 import CaseStudyBlocks from "@/components/sections/project/CaseStudyBlocks";
 import ProjectCaseStudySection from "@/components/sections/project/ProjectCaseStudySection";
 import ProjectGallerySection from "@/components/sections/project/ProjectGallerySection";
@@ -16,6 +16,11 @@ import { getPublishedProjectBySlug } from "@/server/queries/projects";
 import { routing, type Locale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { getBlurDataURL } from "@/lib/image-placeholder";
+import { buildPageMetadata } from "@/lib/seo";
+import {
+  createBreadcrumbSchema,
+  createWebPageSchema,
+} from "@/lib/structured-data";
 import type { CaseStudyBlock } from "@/types/case-study";
 
 export const revalidate = 300;
@@ -40,6 +45,14 @@ const hasStructuredCaseStudyContent = (blocks: CaseStudyBlock[]) =>
     return false;
   });
 
+const getProjectMetaTitle = (locale: Locale, projectTitle: string): string => {
+  if (locale === "cs") {
+    return `${projectTitle} | Projekt od Viktora Vítovce`;
+  }
+
+  return `${projectTitle} | Project by Viktor Vítovec`;
+};
+
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
@@ -57,44 +70,17 @@ export async function generateMetadata({
 
   const description =
     project.descriptionShort ?? project.tagline ?? t("meta.fallbackDescription");
-  const headersList = await headers();
-  const host =
-    headersList.get("x-forwarded-host") ?? headersList.get("host");
-  const proto = headersList.get("x-forwarded-proto") ?? "https";
-  const metadataBase = host ? new URL(`${proto}://${host}`) : undefined;
+  const title = getProjectMetaTitle(locale, project.title);
   const ogImageUrl = `/${locale}/api/og/project/${slug}`;
 
-  return {
-    metadataBase,
-    title: `${project.title} — ${t("meta.titleSuffix")}`,
+  return buildPageMetadata({
+    locale,
+    pathname: `/projects/${slug}`,
+    title,
     description,
-    alternates: {
-      canonical: `/${locale}/projects/${slug}`,
-      languages: {
-        cs: `/cs/projects/${slug}`,
-        en: `/en/projects/${slug}`,
-      },
-    },
-    openGraph: {
-      title: project.title,
-      description,
-      type: "article",
-      images: [
-        {
-          url: ogImageUrl,
-          width: 1200,
-          height: 630,
-          alt: project.title,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: project.title,
-      description,
-      images: [ogImageUrl],
-    },
-  };
+    type: "article",
+    images: [ogImageUrl],
+  });
 }
 
 export default async function ProjectDetailPage({ params }: PageProps) {
@@ -105,10 +91,20 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
   const project = await getPublishedProjectBySlug(slug, locale);
   const t = await getTranslations({ locale, namespace: "projects" });
+  const nav = await getTranslations({ locale, namespace: "nav" });
 
   if (!project) {
     notFound();
   }
+
+  const description =
+    project.descriptionShort ?? project.tagline ?? t("meta.fallbackDescription");
+  const metaTitle = getProjectMetaTitle(locale, project.title);
+  const breadcrumb = createBreadcrumbSchema(locale, [
+    { name: nav("home"), pathname: "/" },
+    { name: nav("projects"), pathname: "/projects" },
+    { name: project.title, pathname: `/projects/${slug}` },
+  ]);
 
   const blurDataURL = getBlurDataURL(1200, 675);
   const coverAlt = t("coverAlt", { title: project.title });
@@ -158,57 +154,71 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   const hasLegacyCaseStudy = hasText(project.descriptionLong);
 
   return (
-    <section className="py-20 sm:py-28">
-      <Container>
-        <div className="space-y-16">
-          <ProjectHeroSection
-            title={project.title}
-            tagline={project.tagline}
-            role={project.role}
-            descriptionShort={project.descriptionShort}
-            coverImageUrl={project.coverImageUrl}
-            coverAlt={coverAlt}
-            blurDataURL={blurDataURL}
-            techStack={project.techStack}
-            liveUrl={project.liveUrl}
-            repoUrl={project.repoUrl}
-            labels={heroLabels}
-          />
-          <ProjectHighlightsSection
-            title={t("detail.highlightsTitle")}
-            highlights={project.highlights}
-          />
-          {hasCaseStudyBlocks ? (
-            hasStructuredCaseStudy ? (
-              <CaseStudyBlocks
-                blocks={caseStudyBlocks}
-                title={t("caseStudyTitle")}
-                summary={t("caseStudySummary")}
-                labels={caseStudyLabels}
-                imageAltFallback={t("caseStudyImageAlt")}
-              />
+    <>
+      <JsonLd
+        id={`project-structured-data-${locale}-${slug}`}
+        data={[
+          createWebPageSchema({
+            locale,
+            pathname: `/projects/${slug}`,
+            title: metaTitle,
+            description,
+          }),
+          breadcrumb,
+        ]}
+      />
+      <section className="py-20 sm:py-28">
+        <Container>
+          <div className="space-y-16">
+            <ProjectHeroSection
+              title={project.title}
+              tagline={project.tagline}
+              role={project.role}
+              descriptionShort={project.descriptionShort}
+              coverImageUrl={project.coverImageUrl}
+              coverAlt={coverAlt}
+              blurDataURL={blurDataURL}
+              techStack={project.techStack}
+              liveUrl={project.liveUrl}
+              repoUrl={project.repoUrl}
+              labels={heroLabels}
+            />
+            <ProjectHighlightsSection
+              title={t("detail.highlightsTitle")}
+              highlights={project.highlights}
+            />
+            {hasCaseStudyBlocks ? (
+              hasStructuredCaseStudy ? (
+                <CaseStudyBlocks
+                  blocks={caseStudyBlocks}
+                  title={t("caseStudyTitle")}
+                  summary={t("caseStudySummary")}
+                  labels={caseStudyLabels}
+                  imageAltFallback={t("caseStudyImageAlt")}
+                />
+              ) : (
+                emptyCaseStudy
+              )
+            ) : hasLegacyCaseStudy ? (
+              <>
+                {/* TODO: After migration, drop descriptionLong (Prisma + migrations) and markdown pipeline. */}
+                <ProjectCaseStudySection
+                  title={t("caseStudyTitle")}
+                  summary={t("caseStudySummary")}
+                  content={project.descriptionLong}
+                />
+              </>
             ) : (
               emptyCaseStudy
-            )
-          ) : hasLegacyCaseStudy ? (
-            <>
-              {/* TODO: After migration, drop descriptionLong (Prisma + migrations) and markdown pipeline. */}
-              <ProjectCaseStudySection
-                title={t("caseStudyTitle")}
-                summary={t("caseStudySummary")}
-                content={project.descriptionLong}
-              />
-            </>
-          ) : (
-            emptyCaseStudy
-          )}
-          <ProjectGallerySection
-            title={project.title}
-            images={project.galleryImageUrls}
-            blurDataURL={blurDataURL}
-          />
-        </div>
-      </Container>
-    </section>
+            )}
+            <ProjectGallerySection
+              title={project.title}
+              images={project.galleryImageUrls}
+              blurDataURL={blurDataURL}
+            />
+          </div>
+        </Container>
+      </section>
+    </>
   );
 }
