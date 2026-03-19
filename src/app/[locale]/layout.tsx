@@ -6,7 +6,7 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import { routing, type Locale } from "@/i18n/routing";
 import Providers from "@/app/[locale]/providers";
-import { OG_LOCALES, SITE_NAME } from "@/lib/seo";
+import { OG_LOCALES, PROFILE_IMAGE_PATH, SITE_NAME } from "@/lib/seo";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -48,7 +48,7 @@ export async function generateMetadata({
       locale: OG_LOCALES[locale],
       images: [
         {
-          url: "/images/ViktorVitovec.jpeg",
+          url: PROFILE_IMAGE_PATH,
           width: 1200,
           height: 630,
           alt: SITE_NAME,

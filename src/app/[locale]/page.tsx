@@ -18,7 +18,7 @@ import { routing, type Locale } from "@/i18n/routing";
 import JsonLd from "@/components/seo/JsonLd";
 import { getPublishedProjects } from "@/server/queries/projects";
 import { getBlurDataURL } from "@/lib/image-placeholder";
-import { buildPageMetadata } from "@/lib/seo";
+import { buildPageMetadata, PROFILE_IMAGE_PATH } from "@/lib/seo";
 import {
   createPersonSchema,
   createWebPageSchema,
@@ -59,7 +59,7 @@ export async function generateMetadata({
     title: meta.title,
     description: meta.description,
     type: "website",
-    images: ["/images/ViktorVitovec.jpeg"],
+    images: [PROFILE_IMAGE_PATH],
   });
 }
 
@@ -161,7 +161,7 @@ export default async function HomePage({ params }: PageProps) {
             <div className="flex justify-start lg:justify-end">
               <div className="relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl border border-border/60 bg-muted shadow-sm">
                 <Image
-                  src="/images/ViktorVitovec.jpeg"
+                  src={PROFILE_IMAGE_PATH}
                   alt={home("about.photoAlt")}
                   fill
                   priority

@@ -1,6 +1,7 @@
 import type { Locale } from "@/i18n/routing";
 import {
   LANGUAGE_TAGS,
+  PROFILE_IMAGE_PATH,
   SITE_ALTERNATE_NAME,
   SITE_NAME,
   SITE_URL,
@@ -25,7 +26,7 @@ export const createPersonSchema = () => ({
   name: SITE_NAME,
   alternateName: SITE_ALTERNATE_NAME,
   url: SITE_URL,
-  image: toAbsoluteUrl("/images/ViktorVitovec.jpeg"),
+  image: toAbsoluteUrl(PROFILE_IMAGE_PATH),
   jobTitle: "IT / Web developer",
   sameAs: SOCIAL_PROFILES,
 });

@@ -4,7 +4,7 @@ import "./globals.css";
 
 import { routing, type Locale } from "@/i18n/routing";
 import { fontDisplay, fontSans } from "@/lib/fonts";
-import { SITE_NAME, SITE_URL } from "@/lib/seo";
+import { PROFILE_IMAGE_PATH, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     images: [
       {
-        url: "/images/ViktorVitovec.jpeg",
+        url: PROFILE_IMAGE_PATH,
         width: 1200,
         height: 630,
         alt: SITE_NAME,

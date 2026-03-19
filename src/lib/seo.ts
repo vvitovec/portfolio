@@ -5,7 +5,8 @@ import type { Locale } from "@/i18n/routing";
 export const SITE_URL = "https://vitovec.com";
 export const SITE_NAME = "Viktor Vítovec";
 export const SITE_ALTERNATE_NAME = "Viktor Vitovec";
-export const DEFAULT_OG_IMAGE_PATH = "/images/ViktorVitovec.jpeg";
+export const PROFILE_IMAGE_PATH = "/images/profile/viktor-vitovec.jpg?v=20260319";
+export const DEFAULT_OG_IMAGE_PATH = PROFILE_IMAGE_PATH;
 
 export const LANGUAGE_TAGS: Record<Locale, string> = {
   cs: "cs-CZ",

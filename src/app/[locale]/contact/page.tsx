@@ -6,7 +6,7 @@ import Container from "@/components/layout/Container";
 import ContactForm from "@/components/contact/ContactForm";
 import JsonLd from "@/components/seo/JsonLd";
 import { routing, type Locale } from "@/i18n/routing";
-import { buildPageMetadata } from "@/lib/seo";
+import { buildPageMetadata, PROFILE_IMAGE_PATH } from "@/lib/seo";
 import {
   createBreadcrumbSchema,
   createPersonSchema,
@@ -92,7 +92,7 @@ export default async function ContactPage({ params }: PageProps) {
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
                   <div className="relative h-24 w-24 overflow-hidden rounded-2xl border border-border/60 bg-muted shadow-sm sm:h-28 sm:w-28">
                     <Image
-                      src="/images/ViktorVitovec.jpeg"
+                      src={PROFILE_IMAGE_PATH}
                       alt={t("details.photoAlt")}
                       fill
                       sizes="112px"
