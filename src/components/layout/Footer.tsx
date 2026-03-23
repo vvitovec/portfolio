@@ -66,6 +66,14 @@ export default function Footer() {
             >
               {footer("social.instagram")}
             </a>
+            <a
+              href="https://www.linkedin.com/in/viktor-v%C3%ADtovec-15079a378/"
+              target="_blank"
+              rel="me noreferrer"
+              className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
+            >
+              {footer("social.linkedin")}
+            </a>
           </div>
         </div>
       </Container>
