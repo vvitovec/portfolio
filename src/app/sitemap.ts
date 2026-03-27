@@ -5,7 +5,7 @@ import { routing } from "@/i18n/routing";
 import { buildLocalePath, toAbsoluteUrl } from "@/lib/seo";
 import { db } from "@/server/db";
 
-const STATIC_PATHS = ["/", "/projects", "/contact"];
+const STATIC_PATHS = ["/", "/websites", "/projects", "/contact"];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();

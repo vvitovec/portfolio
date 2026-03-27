@@ -2,7 +2,8 @@
   "nav": {
     "brand": "Viktor Vítovec",
     "home": "Domů",
-    "projects": "Projekty",
+    "projects": "Case Studies",
+    "websites": "Weby",
     "contact": "Kontakt",
     "admin": "Administrace",
     "language": {
@@ -71,8 +72,16 @@
       "button": "Kontaktovat"
     }
   },
+  "websites": {
+    "title": "Weby",
+    "subtitle": "Interaktivní náhledy webových stránek, na kterých jsem pracoval.",
+    "openSite": "Otevřít web",
+    "explore": "Prozkoumat web ↗",
+    "close": "✕ Zavřít",
+    "all": "Vše"
+  },
   "projects": {
-    "title": "Projekty",
+    "title": "Case Studies",
     "subtitle": "Sekce s projekty se připravuje.",
     "view": "Zobrazit projekt",
     "coverAlt": "Cover obrázek pro {title}",

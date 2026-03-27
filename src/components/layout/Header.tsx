@@ -27,6 +27,12 @@ export default function Header() {
             {t("home")}
           </Link>
           <Link
+            href="/websites"
+            className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
+          >
+            {t("websites")}
+          </Link>
+          <Link
             href="/projects"
             className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
           >
@@ -51,6 +57,12 @@ export default function Header() {
               className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
             >
               {t("home")}
+            </Link>
+            <Link
+              href="/websites"
+              className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
+            >
+              {t("websites")}
             </Link>
             <Link
               href="/projects"

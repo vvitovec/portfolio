@@ -2,7 +2,8 @@
   "nav": {
     "brand": "Viktor Vítovec",
     "home": "Home",
-    "projects": "Projects",
+    "projects": "Case Studies",
+    "websites": "Websites",
     "contact": "Contact",
     "admin": "Admin",
     "language": {
@@ -71,8 +72,16 @@
       "button": "Contact"
     }
   },
+  "websites": {
+    "title": "Websites",
+    "subtitle": "Interactive previews of websites I've built for clients.",
+    "openSite": "Open site",
+    "explore": "Explore site ↗",
+    "close": "✕ Close",
+    "all": "All"
+  },
   "projects": {
-    "title": "Projects",
+    "title": "Case Studies",
     "subtitle": "Projects section is being prepared.",
     "view": "View project",
     "coverAlt": "Cover image for {title}",
