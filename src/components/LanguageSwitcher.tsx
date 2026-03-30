@@ -13,7 +13,7 @@ export default function LanguageSwitcher() {
   return (
     <nav
       aria-label={t("language.label")}
-      className="flex items-center gap-1 rounded-full border border-border bg-card/80 p-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground"
+      className="flex items-center gap-0.5 rounded-full border border-border/60 bg-card/60 p-0.5 text-[11px] font-semibold uppercase tracking-[0.2em] backdrop-blur-sm"
     >
       {routing.locales.map((item) => {
         const isActive = item === locale;
@@ -24,9 +24,9 @@ export default function LanguageSwitcher() {
             href={pathname}
             locale={item}
             aria-current={isActive ? "page" : undefined}
-            className={`rounded-full px-3 py-1 transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none ${
+            className={`rounded-full px-3 py-1 transition-all duration-300 ${
               isActive
-                ? "bg-foreground text-background"
+                ? "bg-foreground text-background shadow-sm"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >

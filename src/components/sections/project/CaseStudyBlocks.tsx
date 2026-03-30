@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Check } from "lucide-react";
 
 import SectionReveal from "@/components/sections/project/SectionReveal";
-import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import type { CaseStudyBlock, CaseStudyImageBlock } from "@/types/case-study";
 
@@ -21,19 +20,19 @@ type CaseStudyBlocksProps = {
 
 const blockStyles = {
   problem: {
-    badgeVariant: "warning",
-    surface: "bg-amber-50/40",
-    accent: "border-amber-200/70",
+    accent: "border-l-amber-400/60 dark:border-l-amber-500/40",
+    icon: "bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400",
+    label: "text-amber-600 dark:text-amber-400",
   },
   solution: {
-    badgeVariant: "success",
-    surface: "bg-emerald-50/40",
-    accent: "border-emerald-200/70",
+    accent: "border-l-emerald-400/60 dark:border-l-emerald-500/40",
+    icon: "bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400",
+    label: "text-emerald-600 dark:text-emerald-400",
   },
   outcome: {
-    badgeVariant: "default",
-    surface: "bg-slate-50/60",
-    accent: "border-slate-200/70",
+    accent: "border-l-accent-gold/60",
+    icon: "bg-accent-gold/10 text-accent-gold",
+    label: "text-accent-gold",
   },
 } as const;
 
@@ -77,56 +76,54 @@ const ImageBlock = ({
     const isRight = layout === "right";
 
     return (
-      <Card className="rounded-2xl border border-border/60 bg-card/80 shadow-sm">
-        <CardContent className="p-6 md:p-8">
-          <div
-            className={cn(
-              "grid gap-6 md:grid-cols-[minmax(0,_1.1fr)_minmax(0,_0.9fr)]",
-              isRight && "md:grid-cols-[minmax(0,_0.9fr)_minmax(0,_1.1fr)]",
-            )}
-          >
-            <div className={cn("space-y-3", isRight && "md:order-2")}>
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border bg-muted shadow-sm">
-                <Image
-                  src={block.imageUrl}
-                  alt={imageAlt}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover"
-                />
-              </div>
-              {caption ? (
-                <p className="text-sm text-muted-foreground">{caption}</p>
-              ) : null}
+      <div className="rounded-2xl border border-border/40 bg-card/60 p-6 shadow-sm backdrop-blur-sm md:p-8">
+        <div
+          className={cn(
+            "grid gap-6 md:grid-cols-[minmax(0,_1.1fr)_minmax(0,_0.9fr)]",
+            isRight && "md:grid-cols-[minmax(0,_0.9fr)_minmax(0,_1.1fr)]",
+          )}
+        >
+          <div className={cn("space-y-3", isRight && "md:order-2")}>
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border/40 bg-muted shadow-sm">
+              <Image
+                src={block.imageUrl}
+                alt={imageAlt}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
             </div>
-            <div className="space-y-4 pt-2 md:pt-4">
-              <div className="space-y-2">
-                <p className="text-xs uppercase tracking-widest text-muted-foreground">
-                  {label}
-                </p>
-                {title ? (
-                  <h3 className="font-display text-xl font-semibold text-foreground md:text-2xl">
-                    {title}
-                  </h3>
-                ) : null}
-              </div>
-              {body ? (
-                <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
-                  {body}
-                </p>
-              ) : null}
-            </div>
+            {caption ? (
+              <p className="text-sm text-muted-foreground">{caption}</p>
+            ) : null}
           </div>
-        </CardContent>
-      </Card>
+          <div className="space-y-4 pt-2 md:pt-4">
+            <div className="space-y-2">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent-gold">
+                {label}
+              </p>
+              {title ? (
+                <h3 className="font-display text-xl font-semibold text-foreground md:text-2xl">
+                  {title}
+                </h3>
+              ) : null}
+            </div>
+            {body ? (
+              <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
+                {body}
+              </p>
+            ) : null}
+          </div>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Card className="rounded-2xl border border-border/60 bg-card/80 shadow-sm">
-      <CardContent className="space-y-6 p-6 md:p-8">
+    <div className="rounded-2xl border border-border/40 bg-card/60 p-6 shadow-sm backdrop-blur-sm md:p-8">
+      <div className="space-y-6">
         <div className="space-y-3">
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-border bg-muted shadow-sm">
+          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-border/40 bg-muted shadow-sm">
             <Image
               src={block.imageUrl}
               alt={imageAlt}
@@ -140,7 +137,7 @@ const ImageBlock = ({
           ) : null}
         </div>
         <div className="space-y-2">
-          <p className="text-xs uppercase tracking-widest text-muted-foreground">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent-gold">
             {label}
           </p>
           {title ? (
@@ -154,8 +151,8 @@ const ImageBlock = ({
             {body}
           </p>
         ) : null}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 
@@ -174,8 +171,8 @@ export default function CaseStudyBlocks({
 
   return (
     <SectionReveal className="space-y-8">
-      <div className="space-y-2">
-        <h2 className="font-display text-2xl font-semibold text-foreground">
+      <div className="space-y-3">
+        <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
           {title}
         </h2>
         {summary ? (
@@ -202,18 +199,17 @@ export default function CaseStudyBlocks({
           const style = blockStyles[block.type];
 
           return (
-            <Card
+            <div
               key={block.id}
               className={cn(
-                "rounded-2xl border border-border/60 shadow-sm",
-                style.surface,
+                "rounded-2xl border border-border/40 border-l-4 bg-card/60 p-6 shadow-sm backdrop-blur-sm md:p-8",
                 style.accent,
               )}
             >
-              <CardContent className="space-y-5 p-6 md:p-8">
+              <div className="space-y-5">
                 <div className="space-y-2">
                   {title ? (
-                    <p className="text-xs uppercase tracking-widest text-muted-foreground">
+                    <p className={cn("text-[11px] font-semibold uppercase tracking-[0.2em]", style.label)}>
                       {labels[block.type]}
                     </p>
                   ) : null}
@@ -231,9 +227,9 @@ export default function CaseStudyBlocks({
                     {bullets.map((item, index) => (
                       <li
                         key={`${block.id}-bullet-${index}`}
-                        className="flex items-start gap-3 rounded-xl border border-border/60 bg-background/70 p-4 text-sm text-muted-foreground shadow-sm"
+                        className="flex items-start gap-3 rounded-xl border border-border/30 bg-background/50 p-4 text-sm text-muted-foreground shadow-sm"
                       >
-                        <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-border bg-muted text-foreground">
+                        <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent-gold/10 text-accent-gold">
                           <Check className="h-3.5 w-3.5" />
                         </span>
                         <span className="leading-relaxed">{item}</span>
@@ -241,8 +237,8 @@ export default function CaseStudyBlocks({
                     ))}
                   </ul>
                 ) : null}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           );
         })}
       </div>

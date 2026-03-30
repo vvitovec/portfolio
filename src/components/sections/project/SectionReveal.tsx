@@ -7,17 +7,18 @@ import { cn } from "@/lib/utils";
 type SectionRevealProps = {
   children: React.ReactNode;
   className?: string;
+  delay?: number;
 };
 
-export default function SectionReveal({ children, className }: SectionRevealProps) {
+export default function SectionReveal({ children, className, delay = 0 }: SectionRevealProps) {
   const reduceMotion = useReducedMotion();
 
   return (
     <motion.section
-      initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
       whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
       className={cn("space-y-6", className)}
     >
       {children}

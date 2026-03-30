@@ -56,8 +56,8 @@ export default function ProjectGallery({
   const activeImage = galleryImages[activeIndex];
 
   return (
-    <div className="space-y-4">
-      <h2 className="font-display text-2xl font-semibold text-foreground">
+    <div className="space-y-6">
+      <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
         {t("gallery.title")}
       </h2>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -66,7 +66,7 @@ export default function ProjectGallery({
             key={image}
             type="button"
             onClick={() => openAt(index)}
-            className="group relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-muted text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="group relative aspect-[4/3] overflow-hidden rounded-2xl border border-border/40 bg-muted text-left shadow-sm transition-all duration-500 hover:-translate-y-0.5 hover:border-accent-gold/20 hover:shadow-lg hover:shadow-accent-gold/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             aria-label={t("gallery.open", { index: index + 1 })}
           >
             <Image
@@ -76,9 +76,9 @@ export default function ProjectGallery({
               placeholder={blurDataURL ? "blur" : "empty"}
               blurDataURL={blurDataURL}
               sizes={gridSizes}
-              className="object-cover transition-transform motion-safe:duration-500 motion-safe:transition-transform motion-reduce:transition-none group-hover:scale-[1.03]"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-black/40 opacity-0 transition-opacity motion-safe:duration-300 motion-safe:transition-opacity motion-reduce:transition-none group-hover:opacity-100" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
           </button>
         ))}
       </div>
@@ -117,7 +117,7 @@ export default function ProjectGallery({
                 onClick={prev}
                 aria-label={t("gallery.prev")}
               >
-                <ChevronLeft className="mr-2 h-4 w-4" />
+                <ChevronLeft className="h-4 w-4" />
                 {t("gallery.prev")}
               </Button>
               <Button
@@ -128,7 +128,7 @@ export default function ProjectGallery({
                 aria-label={t("gallery.next")}
               >
                 {t("gallery.next")}
-                <ChevronRight className="ml-2 h-4 w-4" />
+                <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
           ) : null}

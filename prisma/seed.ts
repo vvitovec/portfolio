@@ -1,4 +1,8 @@
-import { Locale, ProjectStatus } from "../src/generated/prisma";
+import {
+  Locale,
+  ProjectStatus,
+  WebsiteStatus,
+} from "../src/generated/prisma";
 import { db } from "../src/server/db.script";
 
 const projects = [
@@ -152,11 +156,118 @@ const projects = [
   },
 ];
 
+const websites = [
+  {
+    name: "XinChao",
+    url: "https://xinchao.vvitovec27.workers.dev/",
+    category: "Restaurace",
+    description: "Vietnamská restaurace v Českých Budějovicích",
+    sortOrder: 10,
+    status: WebsiteStatus.PUBLISHED,
+    publishedAt: new Date("2025-01-05T10:00:00Z"),
+  },
+  {
+    name: "Kavárna U Vás",
+    url: "https://u-vas.vvitovec27.workers.dev/",
+    category: "Kavárna & Čajovna",
+    description: "Kavárna a čajovna v centru Českých Budějovic",
+    sortOrder: 20,
+    status: WebsiteStatus.PUBLISHED,
+    publishedAt: new Date("2025-01-06T10:00:00Z"),
+  },
+  {
+    name: "Restaurace U Podkovy",
+    url: "https://u-podkovy.vvitovec27.workers.dev/",
+    category: "Restaurace",
+    description: "Česká restaurace se steaky v Českých Budějovicích",
+    sortOrder: 30,
+    status: WebsiteStatus.PUBLISHED,
+    publishedAt: new Date("2025-01-07T10:00:00Z"),
+  },
+  {
+    name: "ATIRA",
+    url: "https://atira-web.vercel.app/",
+    category: "Projekce & Development",
+    description: "Projekce, inženýring a development",
+    sortOrder: 40,
+    status: WebsiteStatus.PUBLISHED,
+    publishedAt: new Date("2025-01-08T10:00:00Z"),
+  },
+  {
+    name: "Martina Jiříčková",
+    url: "https://martina-vyjednavaci-web.vercel.app/",
+    category: "Vyjednávání",
+    description: "Profesionální vyjednávací služby",
+    sortOrder: 50,
+    status: WebsiteStatus.PUBLISHED,
+    publishedAt: new Date("2025-01-09T10:00:00Z"),
+  },
+  {
+    name: "TISOX",
+    url: "https://www.tisox.cz/cs",
+    category: "Stavební firma",
+    description: "Projektování a realizace staveb",
+    sortOrder: 60,
+    status: WebsiteStatus.PUBLISHED,
+    publishedAt: new Date("2025-01-10T10:00:00Z"),
+  },
+  {
+    name: "EasyFlex",
+    url: "https://easyflex.onrender.com/",
+    category: "Aplikace",
+    description: "Webová aplikace EasyFlex",
+    sortOrder: 70,
+    status: WebsiteStatus.PUBLISHED,
+    publishedAt: new Date("2025-01-11T10:00:00Z"),
+  },
+  {
+    name: "Landing Gen",
+    url: "https://landing.vvitovec.com/",
+    category: "Aplikace",
+    description: "Nástroj pro rychlou tvorbu landing pages",
+    sortOrder: 80,
+    status: WebsiteStatus.PUBLISHED,
+    publishedAt: new Date("2025-01-12T10:00:00Z"),
+  },
+  {
+    name: "Natvian",
+    url: "https://natvian.com/",
+    category: "E-shop",
+    description: "Přírodní veganská kosmetika z Evropy",
+    sortOrder: 90,
+    status: WebsiteStatus.PUBLISHED,
+    publishedAt: new Date("2025-01-13T10:00:00Z"),
+  },
+  {
+    name: "Kavárna Pokoj",
+    url: "https://pokoj.vvitovec27.workers.dev/",
+    category: "Kavárna & Čajovna",
+    description: "Kavárna, která se cítí jako obývák",
+    sortOrder: 100,
+    status: WebsiteStatus.PUBLISHED,
+    publishedAt: new Date("2025-01-14T10:00:00Z"),
+  },
+  {
+    name: "Bistro Na lžíci",
+    url: "https://na-lzici.vvitovec27.workers.dev/",
+    category: "Restaurace",
+    description: "Útulné bistro v srdci Českých Budějovic",
+    sortOrder: 110,
+    status: WebsiteStatus.PUBLISHED,
+    publishedAt: new Date("2025-01-15T10:00:00Z"),
+  },
+];
+
 async function main() {
+  await db.website.deleteMany();
   await db.project.deleteMany();
 
   for (const project of projects) {
     await db.project.create({ data: project });
+  }
+
+  for (const website of websites) {
+    await db.website.create({ data: website });
   }
 }
 

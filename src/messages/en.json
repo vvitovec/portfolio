@@ -78,7 +78,8 @@
     "openSite": "Open site",
     "explore": "Explore site ↗",
     "close": "✕ Close",
-    "all": "All"
+    "all": "All",
+    "empty": "There are no published websites yet."
   },
   "projects": {
     "title": "Case Studies",
@@ -219,8 +220,18 @@
     },
     "dashboard": {
       "title": "Admin dashboard",
-      "subtitle": "Core overview will be added soon.",
-      "signOut": "Sign out"
+      "subtitle": "Choose the section you want to manage.",
+      "signOut": "Sign out",
+      "sections": {
+        "projects": {
+          "title": "Projects management",
+          "description": "Case studies, publishing, galleries, and translations."
+        },
+        "websites": {
+          "title": "Websites management",
+          "description": "Create, edit, and publish websites shown on /websites."
+        }
+      }
     },
     "forbidden": {
       "title": "Access denied",
@@ -414,6 +425,89 @@
           "remove": "Remove",
           "empty": "No gallery images yet.",
           "alt": "Gallery image"
+        }
+      }
+    },
+    "websites": {
+      "title": "Websites",
+      "subtitle": "Manage the websites shown on the public /websites page.",
+      "new": "New website",
+      "back": "Back to list",
+      "createTitle": "New website",
+      "createSubtitle": "Add a new website to the showcase.",
+      "editTitle": "Edit website",
+      "editSubtitle": "Update website content and publishing settings.",
+      "loading": "Loading websites...",
+      "empty": "No websites yet.",
+      "notFound": "Website not found.",
+      "searchPlaceholder": "Search by name, category, or URL",
+      "columns": {
+        "name": "Website",
+        "category": "Category",
+        "status": "Status",
+        "updatedAt": "Updated",
+        "actions": "Actions"
+      },
+      "status": {
+        "draft": "Draft",
+        "published": "Published"
+      },
+      "actions": {
+        "edit": "Edit",
+        "publish": "Publish",
+        "unpublish": "Unpublish",
+        "delete": "Delete"
+      },
+      "confirmDelete": {
+        "title": "Delete website?",
+        "description": "This action cannot be undone.",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      },
+      "toast": {
+        "created": "Website created.",
+        "updated": "Website saved.",
+        "deleted": "Website deleted.",
+        "published": "Website published.",
+        "unpublished": "Website unpublished.",
+        "error": "Something went wrong."
+      },
+      "form": {
+        "baseTitle": "Base details",
+        "baseSubtitle": "Fill in the information shown in the public showcase.",
+        "save": "Save",
+        "saving": "Saving...",
+        "name": {
+          "label": "Name",
+          "placeholder": "e.g. XinChao",
+          "errorRequired": "Name is required.",
+          "errorMax": "Name is too long."
+        },
+        "category": {
+          "label": "Category",
+          "placeholder": "e.g. Restaurant",
+          "errorRequired": "Category is required.",
+          "errorMax": "Category is too long."
+        },
+        "url": {
+          "label": "Website URL",
+          "placeholder": "https://...",
+          "errorRequired": "URL is required.",
+          "errorUrl": "Please enter a valid URL.",
+          "errorMax": "URL is too long."
+        },
+        "description": {
+          "label": "Description",
+          "placeholder": "Short website description",
+          "errorMax": "Description is too long."
+        },
+        "sortOrder": {
+          "label": "Order",
+          "placeholder": "0",
+          "error": "Enter a valid order between 0 and 9999."
+        },
+        "status": {
+          "label": "Status"
         }
       }
     }

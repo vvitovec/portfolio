@@ -151,6 +151,19 @@ exports.Prisma.ProjectTranslationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.WebsiteScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  url: 'url',
+  category: 'category',
+  description: 'description',
+  sortOrder: 'sortOrder',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  publishedAt: 'publishedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -185,9 +198,15 @@ exports.Locale = exports.$Enums.Locale = {
   en: 'en'
 };
 
+exports.WebsiteStatus = exports.$Enums.WebsiteStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED'
+};
+
 exports.Prisma.ModelName = {
   Project: 'Project',
-  ProjectTranslation: 'ProjectTranslation'
+  ProjectTranslation: 'ProjectTranslation',
+  Website: 'Website'
 };
 
 /**

@@ -1,9 +1,9 @@
 import ProjectCoverHero from "@/components/projects/ProjectCoverHero";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import SectionReveal from "@/components/sections/project/SectionReveal";
+import { ExternalLink, Github } from "lucide-react";
 
 type ProjectHeroSectionProps = {
   title: string;
@@ -69,8 +69,9 @@ export default function ProjectHeroSection({
       content: (
         <div className="flex flex-wrap items-center gap-2">
           {liveUrl ? (
-            <Button asChild variant="outline" size="sm">
+            <Button asChild variant="gold" size="sm">
               <a href={liveUrl} target="_blank" rel="noreferrer noopener">
+                <ExternalLink className="h-3.5 w-3.5" />
                 {labels.liveLabel}
               </a>
             </Button>
@@ -78,6 +79,7 @@ export default function ProjectHeroSection({
           {repoUrl ? (
             <Button asChild variant="outline" size="sm">
               <a href={repoUrl} target="_blank" rel="noreferrer noopener">
+                <Github className="h-3.5 w-3.5" />
                 {labels.repoLabel}
               </a>
             </Button>
@@ -88,16 +90,19 @@ export default function ProjectHeroSection({
   }
 
   return (
-    <SectionReveal className="space-y-8">
-      <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-        <div className="space-y-4">
+    <SectionReveal className="space-y-10">
+      <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+        <div className="space-y-5">
           {tagline ? (
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              {tagline}
-            </p>
+            <div className="flex items-center gap-3">
+              <span className="h-px w-8 bg-accent-gold" />
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent-gold">
+                {tagline}
+              </p>
+            </div>
           ) : null}
-          <div className="space-y-3">
-            <h1 className="font-display text-4xl font-semibold text-foreground sm:text-5xl">
+          <div className="space-y-4">
+            <h1 className="font-display text-4xl font-semibold text-foreground sm:text-5xl lg:text-6xl">
               {title}
             </h1>
             {role ? (
@@ -109,7 +114,7 @@ export default function ProjectHeroSection({
               </p>
             ) : null}
             {descriptionShort ? (
-              <p className="text-lg text-muted-foreground">
+              <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">
                 {descriptionShort}
               </p>
             ) : null}
@@ -126,23 +131,23 @@ export default function ProjectHeroSection({
       </div>
 
       {quickFacts.length > 0 ? (
-        <Card>
-          <CardContent className="space-y-6 p-6 md:p-8">
+        <div className="rounded-2xl border border-border/40 bg-card/60 p-6 shadow-sm backdrop-blur-sm md:p-8">
+          <div className="space-y-6">
             {quickFacts.map((fact, index) => (
               <div key={fact.id} className="space-y-6">
                 <div>
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent-gold">
                     {fact.label}
                   </p>
                   <div className="mt-3">{fact.content}</div>
                 </div>
                 {index < quickFacts.length - 1 ? (
-                  <Separator className="my-6" />
+                  <Separator className="bg-border/30" />
                 ) : null}
               </div>
             ))}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       ) : null}
     </SectionReveal>
   );

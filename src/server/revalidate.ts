@@ -28,3 +28,13 @@ export const revalidatePublicProjects = ({ slug }: RevalidateProjectsInput) => {
     revalidatePath(`/en/projects/${slug}`);
   }
 };
+
+export const revalidatePublicWebsites = () => {
+  const config = { expire: 0 };
+  revalidateTag("websites", config);
+  revalidateTag("websites:cs", config);
+  revalidateTag("websites:en", config);
+
+  revalidatePath("/cs/websites");
+  revalidatePath("/en/websites");
+};

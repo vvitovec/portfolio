@@ -78,7 +78,8 @@
     "openSite": "Otevřít web",
     "explore": "Prozkoumat web ↗",
     "close": "✕ Zavřít",
-    "all": "Vše"
+    "all": "Vše",
+    "empty": "Zatím zde nejsou žádné publikované weby."
   },
   "projects": {
     "title": "Case Studies",
@@ -219,8 +220,18 @@
     },
     "dashboard": {
       "title": "Admin dashboard",
-      "subtitle": "Základní přehled bude doplněn.",
-      "signOut": "Odhlásit se"
+      "subtitle": "Vyberte sekci, kterou chcete spravovat.",
+      "signOut": "Odhlásit se",
+      "sections": {
+        "projects": {
+          "title": "Správa projektů",
+          "description": "Case studies, publikace, galerie a překlady."
+        },
+        "websites": {
+          "title": "Správa webů",
+          "description": "Přidávání, úpravy a publikace webů na stránce /websites."
+        }
+      }
     },
     "forbidden": {
       "title": "Přístup odepřen",
@@ -414,6 +425,89 @@
           "remove": "Odebrat",
           "empty": "Galerie je zatím prázdná.",
           "alt": "Obrázek v galerii"
+        }
+      }
+    },
+    "websites": {
+      "title": "Weby",
+      "subtitle": "Spravujte weby zobrazené na veřejné stránce /websites.",
+      "new": "Nový web",
+      "back": "Zpět na seznam",
+      "createTitle": "Nový web",
+      "createSubtitle": "Přidejte nový web do přehledu.",
+      "editTitle": "Upravit web",
+      "editSubtitle": "Aktualizujte obsah a publikaci webu.",
+      "loading": "Načítám weby...",
+      "empty": "Zatím zde nejsou žádné weby.",
+      "notFound": "Web nebyl nalezen.",
+      "searchPlaceholder": "Hledat podle názvu, kategorie nebo URL",
+      "columns": {
+        "name": "Web",
+        "category": "Kategorie",
+        "status": "Status",
+        "updatedAt": "Aktualizováno",
+        "actions": "Akce"
+      },
+      "status": {
+        "draft": "Koncept",
+        "published": "Publikováno"
+      },
+      "actions": {
+        "edit": "Upravit",
+        "publish": "Publikovat",
+        "unpublish": "Zneveřejnit",
+        "delete": "Smazat"
+      },
+      "confirmDelete": {
+        "title": "Smazat web?",
+        "description": "Tuto akci nelze vrátit zpět.",
+        "confirm": "Smazat",
+        "cancel": "Zrušit"
+      },
+      "toast": {
+        "created": "Web vytvořen.",
+        "updated": "Web uložen.",
+        "deleted": "Web smazán.",
+        "published": "Web publikován.",
+        "unpublished": "Web zneveřejněn.",
+        "error": "Něco se pokazilo."
+      },
+      "form": {
+        "baseTitle": "Základní údaje",
+        "baseSubtitle": "Vyplňte informace, které se zobrazí ve veřejném přehledu.",
+        "save": "Uložit",
+        "saving": "Ukládám...",
+        "name": {
+          "label": "Název",
+          "placeholder": "Např. XinChao",
+          "errorRequired": "Název je povinný.",
+          "errorMax": "Název je příliš dlouhý."
+        },
+        "category": {
+          "label": "Kategorie",
+          "placeholder": "Např. Restaurace",
+          "errorRequired": "Kategorie je povinná.",
+          "errorMax": "Kategorie je příliš dlouhá."
+        },
+        "url": {
+          "label": "URL webu",
+          "placeholder": "https://...",
+          "errorRequired": "URL je povinná.",
+          "errorUrl": "Zadejte platnou URL.",
+          "errorMax": "URL je příliš dlouhá."
+        },
+        "description": {
+          "label": "Popis",
+          "placeholder": "Krátký popis webu",
+          "errorMax": "Popis je příliš dlouhý."
+        },
+        "sortOrder": {
+          "label": "Pořadí",
+          "placeholder": "0",
+          "error": "Zadejte platné pořadí od 0 do 9999."
+        },
+        "status": {
+          "label": "Status"
         }
       }
     }
