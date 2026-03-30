@@ -3,7 +3,6 @@ import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import {
   AppWindow,
-  ArrowRight,
   Database,
   LayoutTemplate,
   PenTool,
@@ -116,64 +115,51 @@ export default async function HomePage({ params }: PageProps) {
           }),
         ]}
       />
-
-      {/* ─── HERO ─── */}
-      <section className="relative overflow-hidden py-20 sm:py-28 lg:py-36">
-        {/* Atmospheric background */}
-        <div className="pointer-events-none absolute inset-0 bg-mesh-warm" />
-
+      <section className="py-12 sm:py-16">
         <Container>
-          <SectionReveal className="grid gap-12 lg:grid-cols-[minmax(0,_1.1fr)_minmax(0,_0.6fr)] lg:items-center">
-            <div className="space-y-8">
-              {/* Kicker */}
-              <div className="flex items-center gap-3">
-                <span className="h-px w-8 bg-accent-gold" />
-                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent-gold">
+          <SectionReveal className="grid gap-8 lg:grid-cols-[minmax(0,_1fr)_minmax(0,_0.6fr)] lg:items-center">
+            <div className="space-y-6">
+              <div className="max-w-3xl space-y-3">
+                <p className="text-xs uppercase tracking-widest text-muted-foreground">
                   {home("identity.kicker")}
                 </p>
-              </div>
-
-              {/* Title */}
-              <div className="space-y-5">
-                <h1 className="font-display text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+                <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
                   {home("identity.title")}
                 </h1>
-                <p className="max-w-xl text-base text-muted-foreground sm:text-lg">
+                <p className="text-sm text-muted-foreground sm:text-base">
                   {home("identity.subtitle")}
                 </p>
               </div>
-
-              {/* About */}
-              <div className="space-y-4 border-l-2 border-accent-gold/30 pl-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent-gold">
+              <div className="max-w-2xl space-y-2 pt-2">
+                <p className="text-xs uppercase tracking-widest text-muted-foreground">
                   {home("about.kicker")}
                 </p>
                 <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
                   {home("about.title")}
                 </h2>
               </div>
-              <div className="max-w-2xl space-y-4 text-sm text-muted-foreground sm:text-base">
+              <div className="max-w-3xl space-y-4 text-sm text-muted-foreground sm:text-base">
                 <p>{home("about.paragraphOne")}</p>
                 <p>{home("about.paragraphTwo")}</p>
               </div>
-
-              {/* CTAs */}
-              <div className="flex flex-wrap gap-4 pt-2">
-                <Button asChild variant="gold" size="lg">
-                  <Link href="/projects">
-                    {hero("primaryCta")}
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
+              <div className="flex flex-wrap gap-3">
+                <Button
+                  asChild
+                  className="motion-safe:transition-transform motion-safe:hover:-translate-y-0.5"
+                >
+                  <Link href="/projects">{hero("primaryCta")}</Link>
                 </Button>
-                <Button asChild variant="outline" size="lg">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="motion-safe:transition-transform motion-safe:hover:-translate-y-0.5"
+                >
                   <Link href="/contact">{hero("secondaryCta")}</Link>
                 </Button>
               </div>
             </div>
-
-            {/* Profile image */}
             <div className="flex justify-start lg:justify-end">
-              <div className="relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl border border-border/40 shadow-2xl shadow-black/5 dark:shadow-black/20">
+              <div className="relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl border border-border/60 bg-muted shadow-sm">
                 <Image
                   src={PROFILE_IMAGE_PATH}
                   alt={home("about.photoAlt")}
@@ -182,37 +168,25 @@ export default async function HomePage({ params }: PageProps) {
                   sizes="(max-width: 1024px) 100vw, 40vw"
                   className="object-cover"
                 />
-                {/* Subtle gold gradient overlay at bottom */}
-                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/20 to-transparent" />
               </div>
             </div>
           </SectionReveal>
         </Container>
       </section>
 
-      {/* ─── FEATURED PROJECTS ─── */}
       {featured.length > 0 ? (
-        <section className="py-16 sm:py-24">
+        <section className="pb-12 sm:pb-16">
           <Container>
-            <SectionReveal className="space-y-12">
-              <div className="flex items-end justify-between gap-6">
-                <div className="max-w-xl">
-                  <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent-gold">
-                    {home("featured.title")}
-                  </p>
-                  <h2 className="mt-3 font-display text-3xl font-semibold text-foreground sm:text-4xl">
-                    {home("featured.subtitle")}
-                  </h2>
-                </div>
-                <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
-                  <Link href="/projects">
-                    {hero("primaryCta")}
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </Button>
+            <SectionReveal className="space-y-10">
+              <div className="max-w-2xl">
+                <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
+                  {home("featured.title")}
+                </h2>
+                <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+                  {home("featured.subtitle")}
+                </p>
               </div>
-
-              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {featured.map((project) => {
                   const summary = project.tagline ?? project.descriptionShort;
                   const stack = project.techStack.slice(0, 4);
@@ -224,9 +198,8 @@ export default async function HomePage({ params }: PageProps) {
                     <Link
                       key={project.id}
                       href={`/projects/${project.slug}`}
-                      className="group relative flex flex-col overflow-hidden rounded-2xl border border-border/40 bg-card/60 shadow-sm backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-accent-gold/20 hover:shadow-xl hover:shadow-accent-gold/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="group relative overflow-hidden rounded-3xl border border-border/60 bg-card/80 shadow-sm transition motion-safe:duration-300 motion-safe:transition-transform motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
-                      {/* Cover image */}
                       <div className="relative aspect-[16/9] overflow-hidden bg-muted">
                         {project.coverImageUrl ? (
                           <>
@@ -237,35 +210,34 @@ export default async function HomePage({ params }: PageProps) {
                               placeholder="blur"
                               blurDataURL={blurDataURL}
                               sizes="(max-width: 1024px) 100vw, 33vw"
-                              className="object-cover transition-transform duration-700 group-hover:scale-105"
+                              className="object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.04]"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+                            <div className="absolute inset-0 bg-black/20" />
                           </>
                         ) : (
                           <div className="flex h-full items-center justify-center text-xs uppercase tracking-[0.2em] text-muted-foreground">
                             {projectsT("title")}
                           </div>
                         )}
-                        {/* Year overlay */}
-                        <span className="absolute right-4 top-4 rounded-full bg-black/40 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white/90 backdrop-blur-sm">
-                          {project.year}
-                        </span>
                       </div>
-
-                      {/* Content */}
-                      <div className="flex flex-1 flex-col gap-4 p-6">
+                      <div className="space-y-4 p-6">
                         <div className="space-y-2">
-                          <h3 className="font-display text-xl font-semibold text-foreground transition-colors duration-300 group-hover:text-accent-gold">
-                            {project.title}
-                          </h3>
+                          <div className="flex items-baseline justify-between gap-3">
+                            <h3 className="min-w-0 font-display text-xl font-semibold text-foreground">
+                              {project.title}
+                            </h3>
+                            <span className="shrink-0 text-right text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                              {project.year}
+                            </span>
+                          </div>
                           {summary ? (
-                            <p className="line-clamp-2 text-sm text-muted-foreground">
+                            <p className="text-sm text-muted-foreground">
                               {summary}
                             </p>
                           ) : null}
                         </div>
                         {stack.length > 0 ? (
-                          <div className="mt-auto flex flex-wrap items-center gap-1.5">
+                          <div className="flex flex-wrap items-center gap-2">
                             {stack.map((item) => (
                               <Badge key={item}>{item}</Badge>
                             ))}
@@ -281,18 +253,16 @@ export default async function HomePage({ params }: PageProps) {
         </section>
       ) : null}
 
-      {/* ─── SERVICES ─── */}
-      <section className="relative py-16 sm:py-24">
-        <div className="pointer-events-none absolute inset-0 bg-mesh-warm opacity-60" />
-        <Container className="relative">
-          <SectionReveal className="space-y-12">
-            <div className="max-w-xl">
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent-gold">
+      <section className="py-12 sm:py-16">
+        <Container>
+          <SectionReveal className="space-y-10">
+            <div className="max-w-2xl">
+              <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
                 {home("services.title")}
-              </p>
-              <h2 className="mt-3 font-display text-3xl font-semibold text-foreground sm:text-4xl">
-                {home("services.subtitle")}
               </h2>
+              <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+                {home("services.subtitle")}
+              </p>
             </div>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
               {services.map((service) => {
@@ -300,15 +270,15 @@ export default async function HomePage({ params }: PageProps) {
                 return (
                   <div
                     key={service.key}
-                    className="group rounded-2xl border border-border/40 bg-card/60 p-6 shadow-sm backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-accent-gold/20 hover:shadow-lg hover:shadow-accent-gold/5"
+                    className="rounded-2xl border border-border/60 bg-card/80 p-6 shadow-sm transition motion-safe:duration-300 motion-safe:transition-transform motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-lg"
                   >
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-border/60 bg-muted/80 text-foreground transition-all duration-300 group-hover:border-accent-gold/30 group-hover:text-accent-gold">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-muted text-foreground">
                       <Icon className="h-5 w-5" />
                     </div>
-                    <h3 className="mt-5 font-display text-lg font-semibold text-foreground">
+                    <h3 className="mt-4 font-display text-lg font-semibold text-foreground">
                       {home(`services.items.${service.key}.title`)}
                     </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    <p className="mt-3 text-sm text-muted-foreground">
                       {home(`services.items.${service.key}.description`)}
                     </p>
                   </div>
@@ -319,35 +289,31 @@ export default async function HomePage({ params }: PageProps) {
         </Container>
       </section>
 
-      {/* ─── CTA ─── */}
-      <section className="py-16 sm:py-24">
+      <section className="py-16 sm:py-20">
         <Container>
           <SectionReveal>
-            <div className="relative overflow-hidden rounded-3xl border border-accent-gold/20 bg-gradient-to-br from-card via-card to-accent-gold/5 p-10 shadow-lg shadow-accent-gold/5 md:p-14">
-              {/* Decorative element */}
-              <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-accent-gold/5 blur-3xl" />
-              <div className="pointer-events-none absolute -bottom-20 -left-20 h-48 w-48 rounded-full bg-accent-gold/5 blur-3xl" />
-
-              <div className="relative flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-                <div className="max-w-lg space-y-3">
-                  <h2 className="font-display text-3xl font-semibold text-foreground sm:text-4xl">
+            <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-card/80 p-8 shadow-sm md:p-10">
+              <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+                <div className="max-w-xl space-y-2">
+                  <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
                     {home("cta.title")}
                   </h2>
-                  <p className="text-base text-muted-foreground">
+                  <p className="text-sm text-muted-foreground sm:text-base">
                     {home("cta.subtitle")}
                   </p>
                 </div>
-                <Button asChild variant="gold" size="lg">
-                  <Link href="/contact">
-                    {home("cta.button")}
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
+                <Button
+                  asChild
+                  className="motion-safe:transition-transform motion-safe:hover:-translate-y-0.5"
+                >
+                  <Link href="/contact">{home("cta.button")}</Link>
                 </Button>
               </div>
             </div>
           </SectionReveal>
         </Container>
       </section>
+
     </>
   );
 }

@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { z } from "zod";
 
 import { type ContactFormValues, contactSchema } from "@/lib/validation/contact";
@@ -84,9 +83,6 @@ function mapIssuesToErrors(
   return errors;
 }
 
-const inputClass =
-  "h-12 w-full rounded-xl border border-border/60 bg-background/80 px-4 text-sm shadow-sm outline-none transition-all duration-300 placeholder:text-muted-foreground/50 focus:border-accent-gold/40 focus:ring-2 focus:ring-accent-gold/20";
-
 export default function ContactForm() {
   const t = useTranslations("contact");
   const [values, setValues] = useState<ContactFormValues>(initialValues);
@@ -164,20 +160,17 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="flex flex-col items-center gap-4 py-8 text-center" role="status">
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent-gold/10 text-accent-gold">
-          <CheckCircle2 className="h-7 w-7" />
-        </div>
-        <h2 className="font-display text-2xl font-semibold text-foreground">
+      <div className="space-y-4 text-foreground" role="status">
+        <h2 className="font-display text-2xl font-semibold">
           {t("form.successTitle")}
         </h2>
-        <p className="max-w-sm text-sm text-muted-foreground">
+        <p className="mt-3 text-muted-foreground">
           {t("form.successMessage")}
         </p>
         <button
           type="button"
           onClick={() => setStatus("idle")}
-          className="mt-4 inline-flex items-center gap-2 rounded-full border border-border/60 px-6 py-2.5 text-sm font-semibold text-foreground transition-all duration-300 hover:border-accent-gold/30 hover:text-accent-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="mt-6 inline-flex items-center rounded-full border border-border px-5 py-2 text-sm font-semibold text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:bg-muted"
         >
           {t("form.successAction")}
         </button>
@@ -194,7 +187,7 @@ export default function ContactForm() {
     >
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground" htmlFor="name">
+          <label className="text-sm font-medium" htmlFor="name">
             {t("form.name.label")}
           </label>
           <input
@@ -207,7 +200,7 @@ export default function ContactForm() {
             aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? "name-error" : undefined}
             autoComplete="name"
-            className={inputClass}
+            className="h-12 w-full rounded-xl border border-input bg-background px-4 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring motion-safe:duration-200 motion-safe:transition motion-reduce:transition-none"
           />
           {errors.name ? (
             <p
@@ -219,7 +212,7 @@ export default function ContactForm() {
           ) : null}
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground" htmlFor="email">
+          <label className="text-sm font-medium" htmlFor="email">
             {t("form.email.label")}
           </label>
           <input
@@ -232,7 +225,7 @@ export default function ContactForm() {
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? "email-error" : undefined}
             autoComplete="email"
-            className={inputClass}
+            className="h-12 w-full rounded-xl border border-input bg-background px-4 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring motion-safe:duration-200 motion-safe:transition motion-reduce:transition-none"
           />
           {errors.email ? (
             <p
@@ -245,7 +238,7 @@ export default function ContactForm() {
         </div>
       </div>
       <div className="space-y-2">
-        <label className="text-sm font-medium text-foreground" htmlFor="company">
+        <label className="text-sm font-medium" htmlFor="company">
           {t("form.company.label")}
         </label>
         <input
@@ -258,7 +251,7 @@ export default function ContactForm() {
           aria-invalid={Boolean(errors.company)}
           aria-describedby={errors.company ? "company-error" : undefined}
           autoComplete="organization"
-          className={inputClass}
+          className="h-12 w-full rounded-xl border border-input bg-background px-4 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring motion-safe:duration-200 motion-safe:transition motion-reduce:transition-none"
         />
         {errors.company ? (
           <p
@@ -270,7 +263,7 @@ export default function ContactForm() {
         ) : null}
       </div>
       <div className="space-y-2">
-        <label className="text-sm font-medium text-foreground" htmlFor="message">
+        <label className="text-sm font-medium" htmlFor="message">
           {t("form.message.label")}
         </label>
         <textarea
@@ -282,7 +275,7 @@ export default function ContactForm() {
           aria-invalid={Boolean(errors.message)}
           aria-describedby={errors.message ? "message-error" : undefined}
           rows={6}
-          className="w-full rounded-2xl border border-border/60 bg-background/80 px-4 py-3 text-sm shadow-sm outline-none transition-all duration-300 placeholder:text-muted-foreground/50 focus:border-accent-gold/40 focus:ring-2 focus:ring-accent-gold/20"
+          className="w-full rounded-2xl border border-input bg-background px-4 py-3 text-sm shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring motion-safe:duration-200 motion-safe:transition motion-reduce:transition-none"
         />
         {errors.message ? (
           <p
@@ -321,10 +314,9 @@ export default function ContactForm() {
         type="submit"
         disabled={isSubmitting}
         aria-busy={isSubmitting}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent-gold px-7 py-3.5 text-sm font-semibold tracking-wide text-accent-gold-foreground shadow-sm transition-all duration-300 hover:shadow-[0_4px_20px_oklch(0.78_0.155_75/0.25)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+        className="inline-flex w-full items-center justify-center rounded-full bg-foreground px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-background transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-safe:duration-200 motion-safe:transition motion-reduce:transition-none disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
       >
         {submitLabel}
-        {!isSubmitting && <ArrowRight className="h-4 w-4" />}
       </button>
     </form>
   );

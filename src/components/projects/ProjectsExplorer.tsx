@@ -4,7 +4,6 @@ import { useCallback, useMemo } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { ArrowRight, Search, X } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,6 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
@@ -157,6 +157,9 @@ export default function ProjectsExplorer({
 
   const hasFilters = query.trim().length > 0 || selectedTech.length > 0;
 
+  const actionButtonClass =
+    "w-full min-w-[12rem] justify-center shadow-sm transition-shadow motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-md";
+
   const renderTechButton = (tech: string) => {
     const isSelected = selectedTech.includes(tech);
     return (
@@ -165,52 +168,46 @@ export default function ProjectsExplorer({
         type="button"
         onClick={() => toggleTech(tech)}
         className={cn(
-          "rounded-full border px-3 py-1 text-[11px] font-semibold tracking-wide transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          "rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           isSelected
-            ? "border-accent-gold/40 bg-accent-gold/15 text-accent-gold"
-            : "border-border/60 bg-background/60 text-muted-foreground hover:border-accent-gold/30 hover:text-foreground",
+            ? "border-foreground bg-foreground text-background"
+            : "border-border bg-background text-muted-foreground hover:text-foreground",
         )}
         aria-pressed={isSelected}
       >
-        {isSelected && <span className="mr-1">&#x2715;</span>}
         {tech}
       </button>
     );
   };
 
   return (
-    <div className="mt-12 space-y-8">
-      {/* Filter bar */}
-      <div className="rounded-2xl border border-border/40 bg-card/60 p-6 shadow-sm backdrop-blur-sm md:p-8">
+    <div className="mt-10 space-y-8">
+      <div className="rounded-2xl border border-border/60 bg-card/80 p-6 shadow-sm md:p-8">
         <div className="grid gap-6 md:grid-cols-[minmax(0,_1.4fr)_minmax(0,_1fr)_auto] md:items-start">
           <div className="space-y-2">
             <label
               htmlFor="project-search"
-              className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground"
+              className="text-xs uppercase tracking-widest text-muted-foreground"
             >
               {t("filters.searchLabel")}
             </label>
-            <div className="relative">
-              <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/50" />
-              <input
-                id="project-search"
-                type="search"
-                value={query}
-                onChange={(event) =>
-                  updateUrl(event.target.value, selectedTech)
-                }
-                placeholder={t("filters.searchPlaceholder")}
-                className="h-11 w-full rounded-xl border border-border/60 bg-background/80 pl-10 pr-4 text-sm shadow-sm outline-none transition-all duration-300 placeholder:text-muted-foreground/50 focus:border-accent-gold/40 focus:ring-2 focus:ring-accent-gold/20"
-              />
-            </div>
+            <Input
+              id="project-search"
+              type="search"
+              value={query}
+              onChange={(event) =>
+                updateUrl(event.target.value, selectedTech)
+              }
+              placeholder={t("filters.searchPlaceholder")}
+            />
           </div>
           <div className="space-y-3">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            <p className="text-xs uppercase tracking-widest text-muted-foreground">
               {t("filters.techLabel")}
             </p>
             {selectedTechOrdered.length > 0 ? (
               <div className="space-y-2">
-                <p className="text-[10px] uppercase tracking-widest text-accent-gold">
+                <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
                   {t("filters.selectedLabel")}
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -229,9 +226,8 @@ export default function ProjectsExplorer({
               size="sm"
               disabled={!hasFilters}
               onClick={clearFilters}
-              className="w-full min-w-[10rem] justify-center"
+              className={actionButtonClass}
             >
-              <X className="h-3.5 w-3.5" />
               {t("filters.clear")}
             </Button>
             {hasMoreTech ? (
@@ -241,7 +237,7 @@ export default function ProjectsExplorer({
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="w-full min-w-[10rem] justify-center"
+                    className={actionButtonClass}
                   >
                     {t("filters.moreButton")}
                   </Button>
@@ -272,30 +268,29 @@ export default function ProjectsExplorer({
         </div>
       </div>
 
-      {/* Results */}
       {filteredProjects.length === 0 ? (
-        <div className="rounded-2xl border border-border/40 bg-card/60 p-12 text-center shadow-sm backdrop-blur-sm">
+        <div className="rounded-2xl border border-border/60 bg-card/80 p-8 text-center shadow-sm">
           <h2 className="font-display text-2xl font-semibold text-foreground">
             {t("filters.emptyTitle")}
           </h2>
           <p className="mt-3 text-sm text-muted-foreground">
             {t("filters.emptySubtitle")}
           </p>
-          <Button asChild variant="gold" className="mt-6">
+          <Button asChild className="mt-6">
             <Link href="/contact">{t("filters.emptyCta")}</Link>
           </Button>
         </div>
       ) : (
-        <div className="grid gap-8 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2">
           {filteredProjects.map((project) => {
             const summary = project.tagline ?? project.descriptionShort;
             return (
               <Link
                 key={project.id}
                 href={`/projects/${project.slug}`}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-border/40 bg-card/60 shadow-sm backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-accent-gold/20 hover:shadow-xl hover:shadow-accent-gold/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="group rounded-2xl border border-border bg-card/80 p-6 transition hover:border-foreground/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
-                <div className="relative aspect-[16/10] overflow-hidden bg-muted">
+                <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-border bg-muted">
                   {project.coverImageUrl ? (
                     <>
                       <Image
@@ -305,38 +300,35 @@ export default function ProjectsExplorer({
                         sizes="(max-width: 768px) 100vw, 50vw"
                         placeholder="blur"
                         blurDataURL={blurDataURL}
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="object-cover transition-transform motion-safe:duration-500 motion-safe:transition-transform motion-reduce:transition-none group-hover:scale-[1.03]"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                      <div className="absolute inset-0 bg-black/45 opacity-0 transition-opacity motion-safe:duration-300 motion-safe:transition-opacity motion-reduce:transition-none group-hover:opacity-100" />
                     </>
                   ) : (
                     <div className="absolute inset-0 bg-muted/70" />
                   )}
-                  {/* View label on hover */}
-                  <div className="absolute inset-0 flex items-end p-5">
-                    <span className="flex items-center gap-2 text-sm font-semibold text-white/90 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 translate-y-2">
+                  <div className="absolute inset-0 flex items-end justify-between p-4">
+                    <span className="text-xs font-semibold uppercase tracking-[0.2em] text-white/90 opacity-0 transition-opacity motion-safe:duration-300 motion-safe:transition-opacity motion-reduce:transition-none group-hover:opacity-100">
                       {t("view")}
-                      <ArrowRight className="h-4 w-4" />
                     </span>
                   </div>
-                  {/* Year pill */}
-                  <span className="absolute right-4 top-4 rounded-full bg-black/40 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white/90 backdrop-blur-sm">
-                    {project.year}
-                  </span>
                 </div>
-                <div className="flex flex-1 flex-col gap-3 p-6">
-                  <div className="space-y-1.5">
-                    <h2 className="font-display text-xl font-semibold text-foreground transition-colors duration-300 group-hover:text-accent-gold">
+                <div className="mt-4 space-y-2">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <h2 className="min-w-0 font-display text-xl font-semibold text-foreground">
                       {project.title}
                     </h2>
-                    {summary ? (
-                      <p className="line-clamp-2 text-sm text-muted-foreground">
-                        {summary}
-                      </p>
-                    ) : null}
+                    <span className="shrink-0 text-right text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      {project.year}
+                    </span>
                   </div>
+                  {summary ? (
+                    <p className="text-sm text-muted-foreground">
+                      {summary}
+                    </p>
+                  ) : null}
                   {project.techStack.length > 0 ? (
-                    <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       {project.techStack.slice(0, 5).map((tech) => (
                         <Badge key={tech}>{tech}</Badge>
                       ))}

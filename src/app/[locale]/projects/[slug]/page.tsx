@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { ArrowRight } from "lucide-react";
 
 import Container from "@/components/layout/Container";
 import JsonLd from "@/components/seo/JsonLd";
@@ -11,6 +10,7 @@ import ProjectGallerySection from "@/components/sections/project/ProjectGalleryS
 import ProjectHeroSection from "@/components/sections/project/ProjectHeroSection";
 import ProjectHighlightsSection from "@/components/sections/project/ProjectHighlightsSection";
 import SectionReveal from "@/components/sections/project/SectionReveal";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getPublishedProjectBySlug } from "@/server/queries/projects";
 import { routing, type Locale } from "@/i18n/routing";
@@ -125,30 +125,27 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   };
   const emptyCaseStudy = (
     <SectionReveal className="space-y-6">
-      <div className="space-y-3">
-        <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
+      <div className="space-y-2">
+        <h2 className="font-display text-2xl font-semibold text-foreground">
           {t("caseStudyTitle")}
         </h2>
         <p className="text-sm text-muted-foreground">
           {t("caseStudySummary")}
         </p>
       </div>
-      <div className="rounded-2xl border border-border/40 bg-card/60 p-6 shadow-sm backdrop-blur-sm md:p-8">
-        <div className="space-y-4">
+      <Card>
+        <CardContent className="space-y-4 p-6 md:p-8">
           <p className="text-sm text-muted-foreground">{t("caseStudyEmpty")}</p>
           <div className="flex flex-wrap items-center gap-3">
-            <Button asChild size="sm" variant="gold">
-              <Link href="/contact">
-                {t("caseStudyEmptyCtaContact")}
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
+            <Button asChild size="sm">
+              <Link href="/contact">{t("caseStudyEmptyCtaContact")}</Link>
             </Button>
             <Button asChild size="sm" variant="outline">
               <Link href="/projects">{t("caseStudyEmptyCtaProjects")}</Link>
             </Button>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </SectionReveal>
   );
   const caseStudyBlocks = project.caseStudyBlocks ?? [];
@@ -170,9 +167,8 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           breadcrumb,
         ]}
       />
-      <section className="relative overflow-hidden py-20 sm:py-28">
-        <div className="pointer-events-none absolute inset-0 bg-mesh-warm" />
-        <Container className="relative">
+      <section className="py-20 sm:py-28">
+        <Container>
           <div className="space-y-16">
             <ProjectHeroSection
               title={project.title}

@@ -20,10 +20,10 @@ export default function ProjectCoverHero({
 
   return (
     <motion.div
-      initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 12 }}
       animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-border/40 bg-muted shadow-2xl shadow-black/5 dark:shadow-black/20"
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="relative aspect-[16/9] overflow-hidden rounded-3xl border border-border bg-muted"
     >
       <Image
         src={src}
@@ -35,7 +35,7 @@ export default function ProjectCoverHero({
         sizes="(max-width: 1024px) 100vw, 80vw"
         className="object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+      <div className="absolute inset-0 bg-black/20" />
     </motion.div>
   );
 }
