@@ -61,6 +61,11 @@
         }
       }
     },
+    "websitesSection": {
+      "title": "Websites I’ve built",
+      "subtitle": "Fast, clean, and conversion-focused websites for clients across industries.",
+      "cta": "View all websites"
+    },
     "cta": {
       "title": "Let’s build something great",
       "subtitle": "Tell me about your project and we’ll shape the best solution.",

@@ -12,39 +12,69 @@ interface Website {
 
 const WEBSITES: Website[] = [
   {
+    name: "ATIRA",
+    url: "https://atira-web.vercel.app/",
+    category: "Stavebnictví & reality",
+    description: "Projekce, inženýring a development",
+  },
+  {
+    name: "Natvian",
+    url: "https://natvian.com/",
+    category: "E-shop",
+    description: "Přírodní veganská kosmetika z Evropy",
+  },
+  {
     name: "XinChao",
     url: "https://xinchao.vvitovec27.workers.dev/",
-    category: "Restaurace",
+    category: "Gastro",
     description: "Vietnamská restaurace v Českých Budějovicích",
   },
   {
-    name: "Kavárna U Vás",
-    url: "https://u-vas.vvitovec27.workers.dev/",
-    category: "Kavárna & Čajovna",
-    description: "Kavárna a čajovna v centru Českých Budějovic",
-  },
-  {
-    name: "Restaurace U Podkovy",
-    url: "https://u-podkovy.vvitovec27.workers.dev/",
-    category: "Restaurace",
-    description: "Česká restaurace se steaky v Českých Budějovicích",
-  },
-  {
-    name: "ATIRA",
-    url: "https://atira-web.vercel.app/",
-    category: "Projekce & Development",
-    description: "Projekce, inženýring a development",
+    name: "Reality Brož",
+    url: "https://www.realitybroz.cz/",
+    category: "Stavebnictví & reality",
+    description: "Pavel Brož, realitní makléř pro Jižní Čechy",
   },
   {
     name: "Martina Jiříčková",
     url: "https://martina-vyjednavaci-web.vercel.app/",
-    category: "Vyjednávání",
+    category: "Poradenství",
     description: "Profesionální vyjednávací služby",
+  },
+  {
+    name: "ALBAC",
+    url: "https://albac-web.vercel.app/",
+    category: "Poradenství",
+    description: "Daňové a účetní služby s jistotou",
+  },
+  {
+    name: "Laďka Kordíková",
+    url: "https://ladka-web.vercel.app/",
+    category: "Poradenství",
+    description: "Výživa a zdravý životní styl s osobní podporou",
+  },
+  {
+    name: "Restaurace U Podkovy",
+    url: "https://u-podkovy.vvitovec27.workers.dev/",
+    category: "Gastro",
+    description: "Česká restaurace se steaky v Českých Budějovicích",
+  },
+  {
+    name: "Landing Gen",
+    url: "https://landing.vvitovec.com/",
+    category: "Aplikace",
+    description: "Nástroj pro rychlou tvorbu landing pages",
+  },
+  {
+    name: "Kavárna U Vás",
+    url: "https://u-vas.vvitovec27.workers.dev/",
+    category: "Gastro",
+    description: "Kavárna a čajovna v centru Českých Budějovic",
   },
   {
     name: "TISOX",
     url: "https://www.tisox.cz/cs",
-    category: "Stavební firma",
+    category: "Stavebnictví & reality",
     description: "Projektování a realizace staveb",
   },
   {
@@ -54,28 +84,16 @@ const WEBSITES: Website[] = [
     description: "Webová aplikace EasyFlex",
   },
   {
-    name: "Landing Gen",
-    url: "https://landing.vvitovec.com/",
-    category: "Aplikace",
-    description: "Nástroj pro rychlou tvorbu landing pages",
-  },
-  {
-    name: "Natvian",
-    url: "https://natvian.com/",
-    category: "E-shop",
-    description: "Přírodní veganská kosmetika z Evropy",
+    name: "Bistro Na lžíci",
+    url: "https://na-lzici.vvitovec27.workers.dev/",
+    category: "Gastro",
+    description: "Útulné bistro v srdci Českých Budějovic",
   },
   {
     name: "Kavárna Pokoj",
     url: "https://pokoj.vvitovec27.workers.dev/",
-    category: "Kavárna & Čajovna",
+    category: "Gastro",
     description: "Kavárna, která se cítí jako obývák",
-  },
-  {
-    name: "Bistro Na lžíci",
-    url: "https://na-lzici.vvitovec27.workers.dev/",
-    category: "Restaurace",
-    description: "Útulné bistro v srdci Českých Budějovic",
   },
 ];
 
@@ -155,8 +173,8 @@ export default function WebsitesShowcase() {
             className={[
               "rounded-full border px-4 py-1.5 text-sm font-medium transition-colors",
               activeCategory === cat
-                ? "border-indigo-500/50 bg-indigo-500/20 text-indigo-200"
-                : "border-white/10 bg-white/5 text-muted-foreground hover:border-indigo-500/30 hover:bg-indigo-500/10 hover:text-indigo-200",
+                ? "border-indigo-400 bg-indigo-100 text-indigo-950 shadow-[0_2px_10px_rgba(99,102,241,0.18)]"
+                : "border-white/10 bg-white/5 text-muted-foreground hover:border-indigo-400/40 hover:bg-indigo-100/60 hover:text-indigo-900",
             ].join(" ")}
           >
             {categoryLabel(cat)}

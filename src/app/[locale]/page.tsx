@@ -17,6 +17,7 @@ import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import JsonLd from "@/components/seo/JsonLd";
 import { getPublishedProjects } from "@/server/queries/projects";
+import { getPublishedWebsites } from "@/server/queries/websites";
 import { getBlurDataURL } from "@/lib/image-placeholder";
 import { buildPageMetadata, PROFILE_IMAGE_PATH } from "@/lib/seo";
 import {
@@ -73,6 +74,8 @@ export default async function HomePage({ params }: PageProps) {
   const projectsT = await getTranslations({ locale, namespace: "projects" });
   const home = await getTranslations({ locale, namespace: "home" });
   const projects = await getPublishedProjects(locale);
+  const websites = await getPublishedWebsites(locale);
+  const featuredWebsites = websites.slice(0, 3);
   const featured = projects.filter((project) => project.featured).slice(0, 3);
   const blurDataURL = getBlurDataURL(1200, 675);
   const meta = homeMetadataByLocale[locale];
@@ -247,6 +250,60 @@ export default async function HomePage({ params }: PageProps) {
                     </Link>
                   );
                 })}
+              </div>
+            </SectionReveal>
+          </Container>
+        </section>
+      ) : null}
+
+      {featuredWebsites.length > 0 ? (
+        <section className="pb-12 sm:pb-16">
+          <Container>
+            <SectionReveal className="space-y-10">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div className="max-w-2xl">
+                  <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
+                    {home("websitesSection.title")}
+                  </h2>
+                  <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+                    {home("websitesSection.subtitle")}
+                  </p>
+                </div>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="shrink-0 motion-safe:transition-transform motion-safe:hover:-translate-y-0.5"
+                >
+                  <Link href="/websites">{home("websitesSection.cta")}</Link>
+                </Button>
+              </div>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {featuredWebsites.map((site) => (
+                  <a
+                    key={site.id}
+                    href={site.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative overflow-hidden rounded-3xl border border-border/60 bg-card/80 p-6 shadow-sm transition motion-safe:duration-300 motion-safe:transition-transform motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <h3 className="font-display text-lg font-semibold text-foreground">
+                        {site.name}
+                      </h3>
+                      <Badge variant="secondary" className="shrink-0">
+                        {site.category}
+                      </Badge>
+                    </div>
+                    {site.description ? (
+                      <p className="mt-3 text-sm text-muted-foreground">
+                        {site.description}
+                      </p>
+                    ) : null}
+                    <p className="mt-4 truncate text-xs text-muted-foreground/60">
+                      {site.url.replace(/^https?:\/\//, "")}
+                    </p>
+                  </a>
+                ))}
               </div>
             </SectionReveal>
           </Container>

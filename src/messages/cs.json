@@ -61,6 +61,11 @@
         }
       }
     },
+    "websitesSection": {
+      "title": "Weby, které jsem postavil",
+      "subtitle": "Rychlé, přehledné a konverzní weby pro klienty z různých oborů.",
+      "cta": "Zobrazit všechny weby"
+    },
     "cta": {
       "title": "Máte projekt na mysli?",
       "subtitle": "Napište mi a společně navrhneme nejlepší řešení.",
