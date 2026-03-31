@@ -2,134 +2,68 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-
-interface Website {
-  name: string;
-  url: string;
-  category: string;
-  description: string;
-}
-
-const WEBSITES: Website[] = [
-  {
-    name: "ATIRA",
-    url: "https://atira-web.vercel.app/",
-    category: "Stavebnictví & reality",
-    description: "Projekce, inženýring a development",
-  },
-  {
-    name: "Natvian",
-    url: "https://natvian.com/",
-    category: "E-shop",
-    description: "Přírodní veganská kosmetika z Evropy",
-  },
-  {
-    name: "XinChao",
-    url: "https://xinchao.vvitovec27.workers.dev/",
-    category: "Gastro",
-    description: "Vietnamská restaurace v Českých Budějovicích",
-  },
-  {
-    name: "Reality Brož",
-    url: "https://www.realitybroz.cz/",
-    category: "Stavebnictví & reality",
-    description: "Pavel Brož, realitní makléř pro Jižní Čechy",
-  },
-  {
-    name: "Martina Jiříčková",
-    url: "https://martina-vyjednavaci-web.vercel.app/",
-    category: "Poradenství",
-    description: "Profesionální vyjednávací služby",
-  },
-  {
-    name: "ALBAC",
-    url: "https://albac-web.vercel.app/",
-    category: "Poradenství",
-    description: "Daňové a účetní služby s jistotou",
-  },
-  {
-    name: "Laďka Kordíková",
-    url: "https://ladka-web.vercel.app/",
-    category: "Poradenství",
-    description: "Výživa a zdravý životní styl s osobní podporou",
-  },
-  {
-    name: "Restaurace U Podkovy",
-    url: "https://u-podkovy.vvitovec27.workers.dev/",
-    category: "Gastro",
-    description: "Česká restaurace se steaky v Českých Budějovicích",
-  },
-  {
-    name: "Landing Gen",
-    url: "https://landing.vvitovec.com/",
-    category: "Aplikace",
-    description: "Nástroj pro rychlou tvorbu landing pages",
-  },
-  {
-    name: "Kavárna U Vás",
-    url: "https://u-vas.vvitovec27.workers.dev/",
-    category: "Gastro",
-    description: "Kavárna a čajovna v centru Českých Budějovic",
-  },
-  {
-    name: "TISOX",
-    url: "https://www.tisox.cz/cs",
-    category: "Stavebnictví & reality",
-    description: "Projektování a realizace staveb",
-  },
-  {
-    name: "EasyFlex",
-    url: "https://easyflex.onrender.com/",
-    category: "Aplikace",
-    description: "Webová aplikace EasyFlex",
-  },
-  {
-    name: "Bistro Na lžíci",
-    url: "https://na-lzici.vvitovec27.workers.dev/",
-    category: "Gastro",
-    description: "Útulné bistro v srdci Českých Budějovic",
-  },
-  {
-    name: "Kavárna Pokoj",
-    url: "https://pokoj.vvitovec27.workers.dev/",
-    category: "Gastro",
-    description: "Kavárna, která se cítí jako obývák",
-  },
-];
+import type { WebsiteView } from "@/server/queries/websites";
 
 interface ModalState {
   open: boolean;
-  site: Website | null;
+  site: WebsiteView | null;
   loaded: boolean;
 }
 
 interface WebsitesShowcaseProps {
+  websites: WebsiteView[];
   limit?: number;
 }
 
-export default function WebsitesShowcase({ limit }: WebsitesShowcaseProps = {}) {
+const CATEGORY_LABEL_KEYS: Record<string, string> = {
+  "Stavebnictví & reality": "constructionRealEstate",
+  "E-shop": "eshop",
+  Gastro: "gastro",
+  Poradenství: "consulting",
+  Aplikace: "apps",
+};
+
+export default function WebsitesShowcase({
+  websites,
+  limit,
+}: WebsitesShowcaseProps) {
   const t = useTranslations("websites");
   const [activeCategory, setActiveCategory] = useState("all");
   const [modal, setModal] = useState<ModalState>({ open: false, site: null, loaded: false });
   const gridRef = useRef<HTMLDivElement>(null);
 
-  const categories = ["all", ...Array.from(new Set(WEBSITES.map((w) => w.category)))];
+  const categories = ["all", ...Array.from(new Set(websites.map((website) => website.category)))];
 
   const filtered = limit
-    ? WEBSITES.slice(0, limit)
+    ? websites.slice(0, limit)
     : activeCategory === "all"
-      ? WEBSITES
-      : WEBSITES.filter((w) => w.category === activeCategory);
+      ? websites
+      : websites.filter((website) => website.category === activeCategory);
 
-  function openModal(site: Website) {
+  function scaleIframe(card: HTMLElement) {
+    const preview = card.querySelector<HTMLElement>(".ws-preview");
+    const iframe = card.querySelector<HTMLIFrameElement>("iframe");
+    if (!preview || !iframe) return;
+    const scale = preview.offsetWidth / 1440;
+    iframe.style.transform = `scale(${scale})`;
+    preview.style.height = `${900 * scale}px`;
+  }
+
+  function openModal(site: WebsiteView) {
     setModal({ open: true, site, loaded: false });
-    document.body.style.overflow = "hidden";
   }
 
   function closeModal() {
     setModal((prev) => ({ ...prev, open: false }));
-    document.body.style.overflow = "";
   }
+
+  useEffect(() => {
+    document.body.style.overflow = modal.open ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [modal.open]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -147,15 +81,6 @@ export default function WebsitesShowcase({ limit }: WebsitesShowcaseProps = {}) 
     });
   }, [filtered]);
 
-  function scaleIframe(card: HTMLElement) {
-    const preview = card.querySelector<HTMLElement>(".ws-preview");
-    const iframe = card.querySelector<HTMLIFrameElement>("iframe");
-    if (!preview || !iframe) return;
-    const scale = preview.offsetWidth / 1440;
-    iframe.style.transform = `scale(${scale})`;
-    preview.style.height = `${900 * scale}px`;
-  }
-
   useEffect(() => {
     function handleResize() {
       if (!gridRef.current) return;
@@ -165,7 +90,12 @@ export default function WebsitesShowcase({ limit }: WebsitesShowcaseProps = {}) 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const categoryLabel = (cat: string) => (cat === "all" ? t("all") : cat);
+  const categoryLabel = (cat: string) => {
+    if (cat === "all") return t("all");
+
+    const key = CATEGORY_LABEL_KEYS[cat];
+    return key ? t(`categories.${key}`) : cat;
+  };
 
   return (
     <>
@@ -230,7 +160,7 @@ export default function WebsitesShowcase({ limit }: WebsitesShowcaseProps = {}) 
                 {site.name}
               </span>
               <span className="shrink-0 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-wide text-indigo-300">
-                {site.category}
+                {categoryLabel(site.category)}
               </span>
             </div>
 

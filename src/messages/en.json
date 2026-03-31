@@ -26,7 +26,8 @@
     },
     "featured": {
       "title": "Featured projects",
-      "subtitle": "Work samples where detail, speed, and quality matter."
+      "subtitle": "Work samples where detail, speed, and quality matter.",
+      "cta": "View all projects"
     },
     "about": {
       "kicker": "About",
@@ -84,6 +85,13 @@
     "explore": "Explore site ↗",
     "close": "✕ Close",
     "all": "All",
+    "categories": {
+      "constructionRealEstate": "Construction & real estate",
+      "eshop": "E-shop",
+      "gastro": "Gastro",
+      "consulting": "Consulting",
+      "apps": "Apps"
+    },
     "empty": "There are no published websites yet."
   },
   "projects": {

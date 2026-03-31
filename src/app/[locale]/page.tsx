@@ -17,6 +17,7 @@ import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import JsonLd from "@/components/seo/JsonLd";
 import { getPublishedProjects } from "@/server/queries/projects";
+import { getPublishedWebsites } from "@/server/queries/websites";
 import WebsitesShowcase from "@/components/websites/WebsitesShowcase";
 import { getBlurDataURL } from "@/lib/image-placeholder";
 import { buildPageMetadata, PROFILE_IMAGE_PATH } from "@/lib/seo";
@@ -74,6 +75,7 @@ export default async function HomePage({ params }: PageProps) {
   const projectsT = await getTranslations({ locale, namespace: "projects" });
   const home = await getTranslations({ locale, namespace: "home" });
   const projects = await getPublishedProjects(locale);
+  const websites = await getPublishedWebsites(locale);
   const featured = projects.filter((project) => project.featured).slice(0, 3);
   const blurDataURL = getBlurDataURL(1200, 675);
   const meta = homeMetadataByLocale[locale];
@@ -179,13 +181,22 @@ export default async function HomePage({ params }: PageProps) {
         <section className="pb-12 sm:pb-16">
           <Container>
             <SectionReveal className="space-y-10">
-              <div className="max-w-2xl">
-                <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-                  {home("featured.title")}
-                </h2>
-                <p className="mt-3 text-sm text-muted-foreground sm:text-base">
-                  {home("featured.subtitle")}
-                </p>
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div className="max-w-2xl">
+                  <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
+                    {home("featured.title")}
+                  </h2>
+                  <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+                    {home("featured.subtitle")}
+                  </p>
+                </div>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="shrink-0 motion-safe:transition-transform motion-safe:hover:-translate-y-0.5"
+                >
+                  <Link href="/projects">{home("featured.cta")}</Link>
+                </Button>
               </div>
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {featured.map((project) => {
@@ -274,7 +285,7 @@ export default async function HomePage({ params }: PageProps) {
                 <Link href="/websites">{home("websitesSection.cta")}</Link>
               </Button>
             </div>
-            <WebsitesShowcase limit={3} />
+            <WebsitesShowcase websites={websites} limit={3} />
           </SectionReveal>
         </Container>
       </section>

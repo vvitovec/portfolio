@@ -35,6 +35,8 @@ export const revalidatePublicWebsites = () => {
   revalidateTag("websites:cs", config);
   revalidateTag("websites:en", config);
 
+  revalidatePath("/cs");
+  revalidatePath("/en");
   revalidatePath("/cs/websites");
   revalidatePath("/en/websites");
 };

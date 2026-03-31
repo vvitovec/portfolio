@@ -26,7 +26,8 @@
     },
     "featured": {
       "title": "Vybrané projekty",
-      "subtitle": "Ukázky práce, kde rozhodují detail, tempo i kvalita."
+      "subtitle": "Ukázky práce, kde rozhodují detail, tempo i kvalita.",
+      "cta": "Zobrazit všechny projekty"
     },
     "about": {
       "kicker": "O mně",
@@ -84,6 +85,13 @@
     "explore": "Prozkoumat web ↗",
     "close": "✕ Zavřít",
     "all": "Vše",
+    "categories": {
+      "constructionRealEstate": "Stavebnictví & reality",
+      "eshop": "E-shop",
+      "gastro": "Gastro",
+      "consulting": "Poradenství",
+      "apps": "Aplikace"
+    },
     "empty": "Zatím zde nejsou žádné publikované weby."
   },
   "projects": {

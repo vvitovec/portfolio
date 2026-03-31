@@ -5,6 +5,7 @@ import Container from "@/components/layout/Container";
 import WebsitesShowcase from "@/components/websites/WebsitesShowcase";
 import { routing, type Locale } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/seo";
+import { getPublishedWebsites } from "@/server/queries/websites";
 
 type PageProps = {
   params: Promise<{ locale: string }>;
@@ -45,6 +46,7 @@ export default async function WebsitesPage({ params }: PageProps) {
     : routing.defaultLocale;
 
   const t = await getTranslations({ locale, namespace: "websites" });
+  const websites = await getPublishedWebsites(locale);
 
   return (
     <section className="py-20 sm:py-28">
@@ -57,7 +59,7 @@ export default async function WebsitesPage({ params }: PageProps) {
             {t("subtitle")}
           </p>
         </div>
-        <WebsitesShowcase />
+        <WebsitesShowcase websites={websites} />
       </Container>
     </section>
   );
