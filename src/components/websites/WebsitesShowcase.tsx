@@ -103,7 +103,11 @@ interface ModalState {
   loaded: boolean;
 }
 
-export default function WebsitesShowcase() {
+interface WebsitesShowcaseProps {
+  limit?: number;
+}
+
+export default function WebsitesShowcase({ limit }: WebsitesShowcaseProps = {}) {
   const t = useTranslations("websites");
   const [activeCategory, setActiveCategory] = useState("all");
   const [modal, setModal] = useState<ModalState>({ open: false, site: null, loaded: false });
@@ -111,8 +115,9 @@ export default function WebsitesShowcase() {
 
   const categories = ["all", ...Array.from(new Set(WEBSITES.map((w) => w.category)))];
 
-  const filtered =
-    activeCategory === "all"
+  const filtered = limit
+    ? WEBSITES.slice(0, limit)
+    : activeCategory === "all"
       ? WEBSITES
       : WEBSITES.filter((w) => w.category === activeCategory);
 
@@ -164,23 +169,25 @@ export default function WebsitesShowcase() {
 
   return (
     <>
-      {/* Filter chips */}
-      <div className="mt-10 flex flex-wrap gap-2">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
-            className={[
-              "rounded-full border px-4 py-1.5 text-sm font-medium transition-colors",
-              activeCategory === cat
-                ? "border-indigo-400 bg-indigo-100 text-indigo-950 shadow-[0_2px_10px_rgba(99,102,241,0.18)]"
-                : "border-white/10 bg-white/5 text-muted-foreground hover:border-indigo-400/40 hover:bg-indigo-100/60 hover:text-indigo-900",
-            ].join(" ")}
-          >
-            {categoryLabel(cat)}
-          </button>
-        ))}
-      </div>
+      {/* Filter chips — hidden when limit is set */}
+      {!limit && (
+        <div className="mt-10 flex flex-wrap gap-2">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={[
+                "rounded-full border px-4 py-1.5 text-sm font-medium transition-colors",
+                activeCategory === cat
+                  ? "border-indigo-400 bg-indigo-100 text-indigo-950 shadow-[0_2px_10px_rgba(99,102,241,0.18)]"
+                  : "border-white/10 bg-white/5 text-muted-foreground hover:border-indigo-400/40 hover:bg-indigo-100/60 hover:text-indigo-900",
+              ].join(" ")}
+            >
+              {categoryLabel(cat)}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Grid */}
       <div
