@@ -21,8 +21,8 @@
   "home": {
     "identity": {
       "kicker": "Portfolio",
-      "title": "Viktor Vítovec - IT and Web Developer",
-      "subtitle": "I build fast, reliable websites that help brands grow."
+      "title": "Viktor Vítovec - Software & Data Engineer",
+      "subtitle": "I build web apps, data pipelines, and AI-powered tools that solve real problems."
     },
     "featured": {
       "title": "Featured projects",
@@ -32,7 +32,7 @@
     "about": {
       "kicker": "About",
       "title": "I craft digital products that feel natural and perform well.",
-      "paragraphOne": "My name is Viktor Vítovec (also written as Viktor Vitovec), and I’ve been passionate about technology since childhood. I enjoy creating things that blend design and functionality, from websites and apps to graphics and process automation.",
+      "paragraphOne": "My name is Viktor Vítovec, and I’ve been passionate about technology since childhood. I enjoy creating things that blend design and functionality, from websites and apps to graphics and process automation.",
       "paragraphTwo": "I’m constantly learning and pushing my skills further because I love solving problems creatively and efficiently. I like combining technical expertise with visual ideas to deliver projects that are meaningful and high-quality.",
       "photoAlt": "Portrait of Viktor Vitovec"
     },

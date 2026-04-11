@@ -21,8 +21,8 @@
   "home": {
     "identity": {
       "kicker": "Portfolio",
-      "title": "Viktor Vítovec - IT a web developer",
-      "subtitle": "Tvořím rychlé, spolehlivé a kvalitní weby, které pomáhají značkám růst."
+      "title": "Viktor Vítovec - Software & datový inženýr",
+      "subtitle": "Stavím webové aplikace, datové projekty a AI nástroje, které řeší reálné problémy."
     },
     "featured": {
       "title": "Vybrané projekty",
@@ -32,7 +32,7 @@
     "about": {
       "kicker": "O mně",
       "title": "Vytvářím digitální produkty, které fungují a profesionálně prezentují.",
-      "paragraphOne": "Jmenuji se Viktor Vítovec (Viktor Vitovec) a od mala mě fascinují technologie. Baví mě vytvářet věci, které kombinují design a funkčnost - ať už jde o webové stránky, aplikace, grafiku nebo automatizaci procesů.",
+      "paragraphOne": "Jmenuji se Viktor Vítovec a od mala mě fascinují technologie. Baví mě vytvářet věci, které kombinují design a funkčnost - ať už jde o webové stránky, aplikace, grafiku nebo automatizaci procesů.",
       "paragraphTwo": "Neustále se učím nové věci a posouvám své schopnosti dál, protože mě opravdu baví řešit problémy kreativně a efektivně. Rád propojuji technické dovednosti s vizuálními nápady, abych tvořil projekty, které mají smysl a kvalitu.",
       "photoAlt": "Portrét Viktora Vítovce"
     },

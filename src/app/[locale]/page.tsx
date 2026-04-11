@@ -81,6 +81,14 @@ export default async function HomePage({ params }: PageProps) {
   const meta = homeMetadataByLocale[locale];
   const services = [
     {
+      key: "automation",
+      icon: Workflow,
+    },
+    {
+      key: "dataMl",
+      icon: Database,
+    },
+    {
       key: "design",
       icon: PenTool,
     },
@@ -91,14 +99,6 @@ export default async function HomePage({ params }: PageProps) {
     {
       key: "landingPages",
       icon: LayoutTemplate,
-    },
-    {
-      key: "automation",
-      icon: Workflow,
-    },
-    {
-      key: "dataMl",
-      icon: Database,
     },
   ] as const;
 
