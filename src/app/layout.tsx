@@ -6,6 +6,8 @@ import { routing, type Locale } from "@/i18n/routing";
 import { fontDisplay, fontSans } from "@/lib/fonts";
 import { PROFILE_IMAGE_PATH, SITE_NAME, SITE_URL } from "@/lib/seo";
 
+const FAVICON_VERSION = "20260415";
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   applicationName: SITE_NAME,
@@ -18,14 +20,15 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/images/Logo.png",
+        url: `/icon.png?v=${FAVICON_VERSION}`,
         type: "image/png",
-        sizes: "64x64",
+        sizes: "512x512",
       },
     ],
+    shortcut: [`/favicon.ico?v=${FAVICON_VERSION}`],
     apple: [
       {
-        url: "/images/Logo.png",
+        url: `/apple-icon.png?v=${FAVICON_VERSION}`,
         type: "image/png",
         sizes: "180x180",
       },
