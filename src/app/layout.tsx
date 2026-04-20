@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { headers } from "next/headers";
 import "./globals.css";
 
-import { routing, type Locale } from "@/i18n/routing";
+import { routing } from "@/i18n/routing";
 import { fontDisplay, fontSans } from "@/lib/fonts";
 import { PROFILE_IMAGE_PATH, SITE_NAME, SITE_URL } from "@/lib/seo";
 
@@ -64,15 +63,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = await headers();
-  const localeHeader = headersList.get("X-NEXT-INTL-LOCALE");
-  const locale =
-    localeHeader && routing.locales.includes(localeHeader as Locale)
-      ? (localeHeader as Locale)
-      : routing.defaultLocale;
-
   return (
-    <html lang={locale}>
+    <html lang={routing.defaultLocale}>
       <body
         className={`${fontSans.variable} ${fontDisplay.variable} min-h-screen bg-background text-foreground antialiased`}
       >

@@ -4,6 +4,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
+import LocaleHtmlAttrs from "@/components/layout/LocaleHtmlAttrs";
 import { routing, type Locale } from "@/i18n/routing";
 import Providers from "@/app/[locale]/providers";
 import { OG_LOCALES, PROFILE_IMAGE_PATH, SITE_NAME } from "@/lib/seo";
@@ -80,6 +81,7 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <Providers>
+        <LocaleHtmlAttrs locale={locale} />
         <div className="flex min-h-screen flex-col">
           <Header />
           <main className="flex-1">{children}</main>

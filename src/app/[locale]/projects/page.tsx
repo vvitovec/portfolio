@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 
 import Container from "@/components/layout/Container";
@@ -66,6 +67,15 @@ export default async function ProjectsPage({ params }: PageProps) {
     { name: nav("home"), pathname: "/" },
     { name: t("title"), pathname: "/projects" },
   ]);
+  const projectsExplorerFallback = (
+    <div className="mt-10 rounded-2xl border border-border/60 bg-card/80 p-6 shadow-sm md:p-8">
+      <div className="grid gap-4 md:grid-cols-3">
+        <div className="h-10 rounded-xl bg-muted/70" />
+        <div className="h-10 rounded-xl bg-muted/70" />
+        <div className="h-10 rounded-xl bg-muted/70" />
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -91,7 +101,9 @@ export default async function ProjectsPage({ params }: PageProps) {
               {t("subtitle")}
             </p>
           </div>
-          <ProjectsExplorer projects={projects} blurDataURL={blurDataURL} />
+          <Suspense fallback={projectsExplorerFallback}>
+            <ProjectsExplorer projects={projects} blurDataURL={blurDataURL} />
+          </Suspense>
         </Container>
       </section>
     </>
