@@ -14,8 +14,11 @@ export const runtime = "nodejs";
 const TINY_PNG_BASE64 =
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aK9sAAAAASUVORK5CYII=";
 
-const toArrayBuffer = (value: Uint8Array) =>
-  value.buffer.slice(value.byteOffset, value.byteOffset + value.byteLength);
+const toArrayBuffer = (value: Uint8Array): ArrayBuffer => {
+  const buffer = new ArrayBuffer(value.byteLength);
+  new Uint8Array(buffer).set(value);
+  return buffer;
+};
 
 export async function GET(request: Request) {
   const expectedKey = process.env.PREVIEW_CHECK_KEY;
