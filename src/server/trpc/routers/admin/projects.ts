@@ -1,10 +1,10 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { zodTextFormat } from "openai/helpers/zod";
-import { del } from "@vercel/blob";
 
 import { Locale, ProjectStatus } from "@/generated/prisma";
 import { slugify } from "@/lib/slugify";
+import { deleteManagedStorageUrls } from "@/server/blob/getBlobRwToken";
 import { db } from "@/server/db";
 import { adminProcedure, router } from "@/server/trpc/trpc";
 import { revalidatePublicProjects } from "@/server/revalidate";
@@ -75,29 +75,6 @@ const normalizeStringArray = (values?: string[]) => {
 const normalizeOptionalStringArray = (values?: string[] | null) => {
   if (!values) return [];
   return values.map((value) => value.trim()).filter((value) => value.length > 0);
-};
-
-const isBlobUrl = (value: string) => {
-  try {
-    const url = new URL(value);
-    return url.hostname.endsWith("public.blob.vercel-storage.com");
-  } catch {
-    return false;
-  }
-};
-
-const deleteBlobUrls = async (urls: string[]) => {
-  const uniqueUrls = Array.from(new Set(urls)).filter(isBlobUrl);
-  if (uniqueUrls.length === 0) {
-    return;
-  }
-  try {
-    await del(uniqueUrls);
-  } catch (error) {
-    if (process.env.NODE_ENV !== "production") {
-      console.error("Failed to delete blob files", error);
-    }
-  }
 };
 
 const AUTO_TRANSLATE_COOLDOWN_MS = 10_000;
@@ -470,7 +447,7 @@ export const adminProjectsRouter = router({
     ) as string[];
     const newUrlSet = new Set(newUrls);
     const toDelete = oldUrls.filter((url) => !newUrlSet.has(url));
-    await deleteBlobUrls(toDelete);
+    await deleteManagedStorageUrls(toDelete);
 
     if (existing.slug && existing.slug !== updated.slug) {
       revalidatePublicProjects({ slug: existing.slug });
@@ -492,7 +469,7 @@ export const adminProjectsRouter = router({
       project.coverImageUrl,
       ...(project.galleryImageUrls ?? []),
     ].filter(Boolean) as string[];
-    await deleteBlobUrls(urls);
+    await deleteManagedStorageUrls(urls);
     await db.project.delete({ where: { id: input.id } });
     revalidatePublicProjects({ slug: project.slug });
     return { success: true };
