@@ -3,7 +3,7 @@ import crypto from "node:crypto";
 import { NextResponse } from "next/server";
 
 import {
-  deleteSelfHostedStorageUrls,
+  deleteManagedStorageUrls,
   hasSelfHostedStorageConfig,
   uploadSelfHostedObject,
 } from "@/server/blob/getBlobRwToken";
@@ -42,6 +42,8 @@ export async function GET(request: Request) {
   const projectCount = await db.project.count();
   const objectPath = `preview-check/${crypto.randomUUID()}.png`;
   const pngBytes = Uint8Array.from(Buffer.from(TINY_PNG_BASE64, "base64"));
+  const ignoredBlobUrl =
+    "https://example.public.blob.vercel-storage.com/preview-check/ignored.png";
 
   const uploaded = await uploadSelfHostedObject({
     pathname: objectPath,
@@ -50,7 +52,7 @@ export async function GET(request: Request) {
   });
 
   const fetched = await fetch(uploaded.url, { cache: "no-store" });
-  await deleteSelfHostedStorageUrls([uploaded.url]);
+  const cleanup = await deleteManagedStorageUrls([uploaded.url, ignoredBlobUrl]);
   const afterDelete = await fetch(uploaded.url, { cache: "no-store" });
 
   return NextResponse.json({
@@ -59,5 +61,8 @@ export async function GET(request: Request) {
     uploadedUrl: uploaded.url,
     publicFetchStatus: fetched.status,
     postDeleteStatus: afterDelete.status,
+    cleanupMode: cleanup.mode,
+    cleanupDeletedUrlCount: cleanup.deletedUrlCount,
+    cleanupSkippedUrlCount: cleanup.skippedUrlCount,
   });
 }
