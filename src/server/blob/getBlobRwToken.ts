@@ -1,5 +1,7 @@
 import "server-only";
 
+import { del } from "@vercel/blob";
+
 export const MISSING_BLOB_RW_TOKEN_ERROR =
   "Missing BLOB_READ_WRITE_TOKEN in runtime env (Production?)";
 export const MISSING_SELF_HOSTED_STORAGE_CONFIG_ERROR =
@@ -132,6 +134,15 @@ export function isSelfHostedStorageUrl(value: string) {
   return getObjectPathFromUrl(value, getSelfHostedStorageConfig()) !== null;
 }
 
+export function isBlobUrl(value: string) {
+  try {
+    const url = new URL(value);
+    return url.hostname.endsWith("public.blob.vercel-storage.com");
+  } catch {
+    return false;
+  }
+}
+
 export async function deleteSelfHostedStorageUrls(urls: string[]) {
   if (!hasSelfHostedStorageConfig()) {
     return;
@@ -169,4 +180,41 @@ export async function deleteSelfHostedStorageUrls(urls: string[]) {
       });
     }
   }
+}
+
+export async function deleteManagedStorageUrls(urls: string[]) {
+  const uniqueUrls = Array.from(new Set(urls));
+
+  if (hasSelfHostedStorageConfig()) {
+    const selfHostedUrls = uniqueUrls.filter(isSelfHostedStorageUrl);
+    await deleteSelfHostedStorageUrls(selfHostedUrls);
+    return {
+      mode: "self-hosted" as const,
+      deletedUrlCount: selfHostedUrls.length,
+      skippedUrlCount: uniqueUrls.length - selfHostedUrls.length,
+    };
+  }
+
+  const blobUrls = uniqueUrls.filter(isBlobUrl);
+  if (blobUrls.length === 0) {
+    return {
+      mode: "none" as const,
+      deletedUrlCount: 0,
+      skippedUrlCount: uniqueUrls.length,
+    };
+  }
+
+  try {
+    await del(blobUrls);
+  } catch (error) {
+    if (process.env.NODE_ENV !== "production") {
+      console.error("Failed to delete blob files", error);
+    }
+  }
+
+  return {
+    mode: "blob" as const,
+    deletedUrlCount: blobUrls.length,
+    skippedUrlCount: uniqueUrls.length - blobUrls.length,
+  };
 }
