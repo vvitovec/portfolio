@@ -77,7 +77,7 @@ export async function uploadSelfHostedObject({
   contentType,
 }: {
   pathname: string;
-  body: Buffer;
+  body: ArrayBuffer;
   contentType: string;
 }) {
   const config = getSelfHostedStorageConfig();
