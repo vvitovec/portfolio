@@ -175,10 +175,9 @@ async function parseUploadFormData(request: Request) {
   const pathname = `${uploadPrefix}/${safeFileName}`;
 
   const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
 
   return {
-    buffer,
+    arrayBuffer,
     file,
     pathname,
   };
@@ -198,12 +197,12 @@ export async function POST(request: Request) {
     const uploaded = hasSelfHostedStorageConfig()
       ? await uploadSelfHostedObject({
           pathname: parsedInput.pathname,
-          body: parsedInput.buffer,
+          body: parsedInput.arrayBuffer,
           contentType: parsedInput.file.type,
         })
       : await (async () => {
           const token = getBlobRwToken();
-          const blob = await put(parsedInput.pathname, parsedInput.buffer, {
+          const blob = await put(parsedInput.pathname, parsedInput.arrayBuffer, {
             access: "public",
             token,
             addRandomSuffix: false,
