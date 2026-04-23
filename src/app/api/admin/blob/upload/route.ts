@@ -8,7 +8,10 @@ import { slugify } from "@/lib/slugify";
 import { getServerAuthSession } from "@/server/auth";
 import {
   MISSING_BLOB_RW_TOKEN_ERROR,
+  MISSING_SELF_HOSTED_STORAGE_CONFIG_ERROR,
   getBlobRwToken,
+  hasSelfHostedStorageConfig,
+  uploadSelfHostedObject,
 } from "@/server/blob/getBlobRwToken";
 
 export const runtime = "nodejs";
@@ -102,8 +105,9 @@ const toSafeBlobFileName = (fileName: string, fileType: string) => {
         ? "jpg"
         : extension
       : (EXTENSION_BY_CONTENT_TYPE[fileType] ?? "jpg");
+  const uniqueSuffix = crypto.randomBytes(6).toString("hex");
 
-  return `${safeBase}.${normalizedExtension}`;
+  return `${safeBase}-${uniqueSuffix}.${normalizedExtension}`;
 };
 
 const toJson = (
@@ -190,15 +194,27 @@ export async function POST(request: Request) {
     }
 
     const parsedInput = await parseUploadFormData(request);
-    const token = getBlobRwToken();
 
-    const uploaded = await put(parsedInput.pathname, parsedInput.buffer, {
-      access: "public",
-      token,
-      addRandomSuffix: true,
-      allowOverwrite: false,
-      contentType: parsedInput.file.type,
-    });
+    const uploaded = hasSelfHostedStorageConfig()
+      ? await uploadSelfHostedObject({
+          pathname: parsedInput.pathname,
+          body: parsedInput.buffer,
+          contentType: parsedInput.file.type,
+        })
+      : await (async () => {
+          const token = getBlobRwToken();
+          const blob = await put(parsedInput.pathname, parsedInput.buffer, {
+            access: "public",
+            token,
+            addRandomSuffix: false,
+            allowOverwrite: false,
+            contentType: parsedInput.file.type,
+          });
+          return {
+            url: blob.url,
+            pathname: blob.pathname,
+          };
+        })();
 
     return toJson(
       {
@@ -230,6 +246,17 @@ export async function POST(request: Request) {
         {
           success: false,
           error: "Missing BLOB_READ_WRITE_TOKEN in runtime env (Production?)",
+          reqId,
+        },
+        500,
+      );
+    }
+
+    if (rawMessage === MISSING_SELF_HOSTED_STORAGE_CONFIG_ERROR) {
+      return toJson(
+        {
+          success: false,
+          error: "Missing self-hosted storage configuration in runtime env.",
           reqId,
         },
         500,
