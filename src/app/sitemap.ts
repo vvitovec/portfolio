@@ -7,6 +7,8 @@ import { db } from "@/server/db";
 
 const STATIC_PATHS = ["/", "/websites", "/projects", "/contact"];
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const staticEntries: MetadataRoute.Sitemap = routing.locales.flatMap((locale) =>

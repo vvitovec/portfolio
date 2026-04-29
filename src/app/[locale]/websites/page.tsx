@@ -7,6 +7,8 @@ import { routing, type Locale } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/seo";
 import { getPublishedWebsites } from "@/server/queries/websites";
 
+export const dynamic = "force-dynamic";
+
 type PageProps = {
   params: Promise<{ locale: string }>;
 };

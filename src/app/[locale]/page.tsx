@@ -27,7 +27,7 @@ import {
   createWebsiteSchema,
 } from "@/lib/structured-data";
 
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 
 type PageProps = {
   params: Promise<{ locale: string }>;

@@ -23,7 +23,7 @@ import {
 } from "@/lib/structured-data";
 import type { CaseStudyBlock } from "@/types/case-study";
 
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 
 type PageProps = {
   params: Promise<{ locale: string; slug: string }>;
