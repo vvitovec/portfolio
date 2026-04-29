@@ -5,6 +5,9 @@ const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
   trailingSlash: false,
+  turbopack: {
+    root: process.cwd(),
+  },
   images: {
     localPatterns: [
       {

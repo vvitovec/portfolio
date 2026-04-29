@@ -201,7 +201,6 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               )
             ) : hasLegacyCaseStudy ? (
               <>
-                {/* TODO: After migration, drop descriptionLong (Prisma + migrations) and markdown pipeline. */}
                 <ProjectCaseStudySection
                   title={t("caseStudyTitle")}
                   summary={t("caseStudySummary")}

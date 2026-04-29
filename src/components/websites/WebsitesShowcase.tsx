@@ -99,7 +99,6 @@ export default function WebsitesShowcase({
 
   return (
     <>
-      {/* Filter chips — hidden when limit is set */}
       {!limit && (
         <div className="mt-10 flex flex-wrap gap-2">
           {categories.map((cat) => (
@@ -119,7 +118,6 @@ export default function WebsitesShowcase({
         </div>
       )}
 
-      {/* Grid */}
       <div
         ref={gridRef}
         className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
@@ -131,9 +129,7 @@ export default function WebsitesShowcase({
             style={{ animationDelay: `${i * 0.08}s` }}
             onClick={() => openModal(site)}
           >
-            {/* Iframe preview */}
             <div className="ws-preview relative w-full overflow-hidden bg-[#111827]">
-              {/* Transparent overlay blocks pointer events on the iframe */}
               <div className="absolute inset-0 z-10" />
               <iframe
                 src={site.url}
@@ -148,13 +144,11 @@ export default function WebsitesShowcase({
                   loader?.classList.add("opacity-0", "pointer-events-none");
                 }}
               />
-              {/* Loader */}
               <div className="ws-loader absolute inset-0 z-20 flex items-center justify-center bg-[#111827] transition-opacity duration-500">
                 <span className="h-8 w-8 animate-spin rounded-full border-[3px] border-indigo-500/20 border-t-indigo-400" />
               </div>
             </div>
 
-            {/* Info bar */}
             <div className="flex items-center justify-between gap-3 px-5 py-4">
               <span className="truncate text-sm font-semibold text-foreground">
                 {site.name}
@@ -164,7 +158,6 @@ export default function WebsitesShowcase({
               </span>
             </div>
 
-            {/* Hover overlay */}
             <div className="absolute inset-0 z-30 flex items-center justify-center bg-[rgba(10,14,26,0.6)] opacity-0 backdrop-blur-[4px] transition-opacity duration-300 group-hover:opacity-100">
               <span className="translate-y-2 rounded-xl bg-indigo-500/90 px-6 py-3 text-sm font-semibold text-white shadow-[0_4px_24px_rgba(99,102,241,0.4)] transition-transform duration-300 group-hover:translate-y-0">
                 {t("explore")}
@@ -174,7 +167,6 @@ export default function WebsitesShowcase({
         ))}
       </div>
 
-      {/* Fullscreen modal */}
       {modal.open && modal.site && (
         <div
           className="fixed inset-0 z-[1000] flex flex-col bg-black/85 backdrop-blur-xl"
@@ -182,7 +174,6 @@ export default function WebsitesShowcase({
             if (e.target === e.currentTarget) closeModal();
           }}
         >
-          {/* Modal header */}
           <div className="flex shrink-0 items-center justify-between border-b border-white/10 bg-[rgba(15,23,42,0.95)] px-6 py-3">
             <div className="flex min-w-0 flex-1 items-center gap-4">
               <span className="text-sm font-semibold text-foreground">
@@ -210,7 +201,6 @@ export default function WebsitesShowcase({
             </div>
           </div>
 
-          {/* Modal iframe */}
           <div className="relative flex-1">
             {!modal.loaded && (
               <div className="absolute inset-0 flex items-center justify-center bg-[#0f172a]">
