@@ -1,6 +1,6 @@
 # Portfolio Web
 
-Personal portfolio and project admin for [vitovec.com](https://vitovec.com), built with Next.js App Router, TypeScript, Prisma, PostgreSQL, next-intl, tRPC, NextAuth, and Vercel Blob.
+Personal portfolio and project admin for [vvitovec.com](https://www.vvitovec.com), built with Next.js App Router, TypeScript, Prisma, PostgreSQL, next-intl, tRPC, NextAuth, and Vercel Blob.
 
 ## Stack
 

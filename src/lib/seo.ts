@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import type { Locale } from "@/i18n/routing";
 
-export const SITE_URL = "https://vitovec.com";
+export const SITE_URL = "https://www.vvitovec.com";
 export const SITE_NAME = "Viktor Vítovec";
 export const SITE_ALTERNATE_NAME = "Viktor Vitovec";
 export const PROFILE_IMAGE_PATH = "/images/profile/viktor-vitovec.jpg?v=20260319";

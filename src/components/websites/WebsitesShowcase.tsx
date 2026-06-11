@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import type { WebsiteView } from "@/server/queries/websites";
 
@@ -23,10 +24,7 @@ const CATEGORY_LABEL_KEYS: Record<string, string> = {
   Aplikace: "apps",
 };
 
-export default function WebsitesShowcase({
-  websites,
-  limit,
-}: WebsitesShowcaseProps) {
+export default function WebsitesShowcase({ websites, limit }: WebsitesShowcaseProps) {
   const t = useTranslations("websites");
   const [activeCategory, setActiveCategory] = useState("all");
   const [modal, setModal] = useState<ModalState>({ open: false, site: null, loaded: false });
@@ -109,7 +107,7 @@ export default function WebsitesShowcase({
                 "rounded-full border px-4 py-1.5 text-sm font-medium transition-colors",
                 activeCategory === cat
                   ? "border-indigo-400 bg-indigo-100 text-indigo-950 shadow-[0_2px_10px_rgba(99,102,241,0.18)]"
-                  : "border-white/10 bg-white/5 text-muted-foreground hover:border-indigo-400/40 hover:bg-indigo-100/60 hover:text-indigo-900",
+                  : "text-muted-foreground border-white/10 bg-white/5 hover:border-indigo-400/40 hover:bg-indigo-100/60 hover:text-indigo-900",
               ].join(" ")}
             >
               {categoryLabel(cat)}
@@ -118,53 +116,66 @@ export default function WebsitesShowcase({
         </div>
       )}
 
-      <div
-        ref={gridRef}
-        className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-      >
-        {filtered.map((site, i) => (
-          <div
-            key={site.url}
-            className="ws-card group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-500/25 hover:shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
-            style={{ animationDelay: `${i * 0.08}s` }}
-            onClick={() => openModal(site)}
-          >
-            <div className="ws-preview relative w-full overflow-hidden bg-[#111827]">
-              <div className="absolute inset-0 z-10" />
-              <iframe
-                src={site.url}
-                loading="lazy"
-                sandbox="allow-scripts allow-same-origin allow-popups"
-                title={site.name}
-                className="absolute left-0 top-0 h-[900px] w-[1440px] origin-top-left border-none"
-                onLoad={(e) => {
-                  const card = (e.target as HTMLIFrameElement).closest<HTMLElement>(".ws-card");
-                  if (card) scaleIframe(card);
-                  const loader = card?.querySelector(".ws-loader");
-                  loader?.classList.add("opacity-0", "pointer-events-none");
-                }}
-              />
-              <div className="ws-loader absolute inset-0 z-20 flex items-center justify-center bg-[#111827] transition-opacity duration-500">
-                <span className="h-8 w-8 animate-spin rounded-full border-[3px] border-indigo-500/20 border-t-indigo-400" />
+      <div ref={gridRef} className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {filtered.map((site, i) => {
+          const previewAlt = `${site.name} website preview`;
+
+          return (
+            <div
+              key={site.url}
+              className="ws-card group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-500/25 hover:shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
+              style={{ animationDelay: `${i * 0.08}s` }}
+              onClick={() => openModal(site)}
+            >
+              <div className="ws-preview relative aspect-[16/10] w-full overflow-hidden bg-[#111827]">
+                {site.previewImageUrl ? (
+                  <Image
+                    src={site.previewImageUrl}
+                    alt={previewAlt}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover object-top transition-transform duration-500 motion-safe:group-hover:scale-[1.03]"
+                  />
+                ) : (
+                  <>
+                    <div className="absolute inset-0 z-10" />
+                    <iframe
+                      src={site.url}
+                      loading="lazy"
+                      sandbox="allow-scripts allow-same-origin allow-popups"
+                      title={site.name}
+                      className="absolute top-0 left-0 h-[900px] w-[1440px] origin-top-left border-none"
+                      onLoad={(e) => {
+                        const card = (e.target as HTMLIFrameElement).closest<HTMLElement>(
+                          ".ws-card",
+                        );
+                        if (card) scaleIframe(card);
+                        const loader = card?.querySelector(".ws-loader");
+                        loader?.classList.add("opacity-0", "pointer-events-none");
+                      }}
+                    />
+                    <div className="ws-loader absolute inset-0 z-20 flex items-center justify-center bg-[#111827] transition-opacity duration-500">
+                      <span className="h-8 w-8 animate-spin rounded-full border-[3px] border-indigo-500/20 border-t-indigo-400" />
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <div className="flex items-center justify-between gap-3 px-5 py-4">
+                <span className="text-foreground truncate text-sm font-semibold">{site.name}</span>
+                <span className="shrink-0 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3 py-1 text-[0.65rem] font-semibold tracking-wide text-indigo-300 uppercase">
+                  {categoryLabel(site.category)}
+                </span>
+              </div>
+
+              <div className="absolute inset-0 z-30 flex items-center justify-center bg-[rgba(10,14,26,0.6)] opacity-0 backdrop-blur-[4px] transition-opacity duration-300 group-hover:opacity-100">
+                <span className="translate-y-2 rounded-xl bg-indigo-500/90 px-6 py-3 text-sm font-semibold text-white shadow-[0_4px_24px_rgba(99,102,241,0.4)] transition-transform duration-300 group-hover:translate-y-0">
+                  {t("explore")}
+                </span>
               </div>
             </div>
-
-            <div className="flex items-center justify-between gap-3 px-5 py-4">
-              <span className="truncate text-sm font-semibold text-foreground">
-                {site.name}
-              </span>
-              <span className="shrink-0 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-wide text-indigo-300">
-                {categoryLabel(site.category)}
-              </span>
-            </div>
-
-            <div className="absolute inset-0 z-30 flex items-center justify-center bg-[rgba(10,14,26,0.6)] opacity-0 backdrop-blur-[4px] transition-opacity duration-300 group-hover:opacity-100">
-              <span className="translate-y-2 rounded-xl bg-indigo-500/90 px-6 py-3 text-sm font-semibold text-white shadow-[0_4px_24px_rgba(99,102,241,0.4)] transition-transform duration-300 group-hover:translate-y-0">
-                {t("explore")}
-              </span>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {modal.open && modal.site && (
@@ -176,19 +187,15 @@ export default function WebsitesShowcase({
         >
           <div className="flex shrink-0 items-center justify-between border-b border-white/10 bg-[rgba(15,23,42,0.95)] px-6 py-3">
             <div className="flex min-w-0 flex-1 items-center gap-4">
-              <span className="text-sm font-semibold text-foreground">
-                {modal.site.name}
-              </span>
-              <span className="truncate text-xs text-muted-foreground">
-                {modal.site.url}
-              </span>
+              <span className="text-foreground text-sm font-semibold">{modal.site.name}</span>
+              <span className="text-muted-foreground truncate text-xs">{modal.site.url}</span>
             </div>
             <div className="ml-4 flex shrink-0 items-center gap-2">
               <a
                 href={modal.site.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-lg border border-white/12 bg-white/6 px-4 py-2 text-xs font-medium text-foreground transition-colors hover:bg-white/10"
+                className="text-foreground inline-flex items-center gap-1.5 rounded-lg border border-white/12 bg-white/6 px-4 py-2 text-xs font-medium transition-colors hover:bg-white/10"
               >
                 ↗ {t("openSite")}
               </a>
@@ -202,16 +209,31 @@ export default function WebsitesShowcase({
           </div>
 
           <div className="relative flex-1">
-            {!modal.loaded && (
-              <div className="absolute inset-0 flex items-center justify-center bg-[#0f172a]">
-                <span className="h-8 w-8 animate-spin rounded-full border-[3px] border-indigo-500/20 border-t-indigo-400" />
+            {modal.site.previewImageUrl ? (
+              <div className="relative h-full w-full overflow-auto bg-white">
+                <Image
+                  src={modal.site.previewImageUrl}
+                  alt={`${modal.site.name} website preview`}
+                  width={2878}
+                  height={1678}
+                  className="mx-auto h-auto w-full"
+                  priority
+                />
               </div>
+            ) : (
+              <>
+                {!modal.loaded && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-[#0f172a]">
+                    <span className="h-8 w-8 animate-spin rounded-full border-[3px] border-indigo-500/20 border-t-indigo-400" />
+                  </div>
+                )}
+                <iframe
+                  src={modal.site.url}
+                  className="h-full w-full border-none bg-white"
+                  onLoad={() => setModal((prev) => ({ ...prev, loaded: true }))}
+                />
+              </>
             )}
-            <iframe
-              src={modal.site.url}
-              className="h-full w-full border-none bg-white"
-              onLoad={() => setModal((prev) => ({ ...prev, loaded: true }))}
-            />
           </div>
         </div>
       )}

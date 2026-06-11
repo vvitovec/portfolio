@@ -9,7 +9,8 @@ const intlMiddleware = createMiddleware(routing);
 const adminRoutePattern = /^\/(cs|en)\/admin(\/|$)/;
 const adminLoginPattern = /^\/(cs|en)\/admin\/login(\/|$)/;
 const localhostPattern = /^(localhost|127\.0\.0\.1)$/i;
-const CANONICAL_HOST = process.env.NEXT_PUBLIC_CANONICAL_HOST ?? "vitovec.com";
+const CANONICAL_HOST =
+  process.env.NEXT_PUBLIC_CANONICAL_HOST ?? "www.vvitovec.com";
 
 function getCanonicalRedirect(request: NextRequest): NextResponse | null {
   const currentHostHeader =

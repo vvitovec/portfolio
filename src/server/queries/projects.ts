@@ -4,6 +4,10 @@ import { unstable_cache, unstable_noStore } from "next/cache";
 
 import { type Locale, ProjectStatus } from "@/generated/prisma";
 import { db } from "@/server/db";
+import {
+  isDatabaseUnavailableError,
+  logPublicQueryFallback,
+} from "@/server/queries/public-query-error";
 import { CaseStudyBlocksSchema, type CaseStudyBlock } from "@/types/case-study";
 
 export type ProjectView = {
@@ -122,43 +126,52 @@ const getPublishedProjectsFetcher = async (
 ): Promise<ProjectView[]> => {
   const locales = getLocaleFallbacks(locale);
 
-  const projects = await db.project.findMany({
-    where: { status: ProjectStatus.PUBLISHED },
-    orderBy: [
-      { featured: "desc" },
-      { year: "desc" },
-      { publishedAt: "desc" },
-      { createdAt: "desc" },
-    ],
-    select: {
-      id: true,
-      slug: true,
-      featured: true,
-      year: true,
-      coverImageUrl: true,
-      galleryImageUrls: true,
-      liveUrl: true,
-      repoUrl: true,
-      techStack: true,
-      createdAt: true,
-      publishedAt: true,
-      translations: {
-        where: { locale: { in: locales } },
-        select: {
-          locale: true,
-          title: true,
-          tagline: true,
-          descriptionShort: true,
-          descriptionLong: true,
-          caseStudyBlocks: true,
-          role: true,
-          highlights: true,
+  try {
+    const projects = await db.project.findMany({
+      where: { status: ProjectStatus.PUBLISHED },
+      orderBy: [
+        { featured: "desc" },
+        { year: "desc" },
+        { publishedAt: "desc" },
+        { createdAt: "desc" },
+      ],
+      select: {
+        id: true,
+        slug: true,
+        featured: true,
+        year: true,
+        coverImageUrl: true,
+        galleryImageUrls: true,
+        liveUrl: true,
+        repoUrl: true,
+        techStack: true,
+        createdAt: true,
+        publishedAt: true,
+        translations: {
+          where: { locale: { in: locales } },
+          select: {
+            locale: true,
+            title: true,
+            tagline: true,
+            descriptionShort: true,
+            descriptionLong: true,
+            caseStudyBlocks: true,
+            role: true,
+            highlights: true,
+          },
         },
       },
-    },
-  });
+    });
 
-  return projects.map((project) => normalizeProject(project, locales));
+    return projects.map((project) => normalizeProject(project, locales));
+  } catch (error) {
+    if (!isDatabaseUnavailableError(error)) {
+      throw error;
+    }
+
+    logPublicQueryFallback("Failed to load published projects", error);
+    return [];
+  }
 };
 
 const getPublishedProjectBySlugFetcher = async (
@@ -167,41 +180,50 @@ const getPublishedProjectBySlugFetcher = async (
 ): Promise<ProjectView | null> => {
   const locales = getLocaleFallbacks(locale);
 
-  const project = await db.project.findFirst({
-    where: { slug, status: ProjectStatus.PUBLISHED },
-    select: {
-      id: true,
-      slug: true,
-      featured: true,
-      year: true,
-      coverImageUrl: true,
-      galleryImageUrls: true,
-      liveUrl: true,
-      repoUrl: true,
-      techStack: true,
-      createdAt: true,
-      publishedAt: true,
-      translations: {
-        where: { locale: { in: locales } },
-        select: {
-          locale: true,
-          title: true,
-          tagline: true,
-          descriptionShort: true,
-          descriptionLong: true,
-          caseStudyBlocks: true,
-          role: true,
-          highlights: true,
+  try {
+    const project = await db.project.findFirst({
+      where: { slug, status: ProjectStatus.PUBLISHED },
+      select: {
+        id: true,
+        slug: true,
+        featured: true,
+        year: true,
+        coverImageUrl: true,
+        galleryImageUrls: true,
+        liveUrl: true,
+        repoUrl: true,
+        techStack: true,
+        createdAt: true,
+        publishedAt: true,
+        translations: {
+          where: { locale: { in: locales } },
+          select: {
+            locale: true,
+            title: true,
+            tagline: true,
+            descriptionShort: true,
+            descriptionLong: true,
+            caseStudyBlocks: true,
+            role: true,
+            highlights: true,
+          },
         },
       },
-    },
-  });
+    });
 
-  if (!project) {
+    if (!project) {
+      return null;
+    }
+
+    return normalizeProject(project, locales);
+  } catch (error) {
+    if (!isDatabaseUnavailableError(error)) {
+      throw error;
+    }
+
+    logPublicQueryFallback(`Failed to load published project "${slug}"`, error);
     return null;
   }
-
-  return normalizeProject(project, locales);
 };
 
 export async function getPublishedProjects(locale: Locale): Promise<ProjectView[]> {
