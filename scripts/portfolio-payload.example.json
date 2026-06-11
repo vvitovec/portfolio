@@ -1,0 +1,107 @@
+{
+  "website": {
+    "name": "Example Site",
+    "url": "https://example.com/",
+    "category": "Web",
+    "description": "Short listing text for the websites page.",
+    "sortOrder": 30,
+    "status": "PUBLISHED"
+  },
+  "project": {
+    "slug": "example-site",
+    "status": "PUBLISHED",
+    "featured": false,
+    "year": 2026,
+    "coverImagePath": "./images/cover.webp",
+    "galleryImagePaths": ["./images/homepage.webp", "./images/admin.webp"],
+    "liveUrl": "https://example.com/",
+    "repoUrl": null,
+    "techStack": ["Next.js", "PostgreSQL", "SEO"]
+  },
+  "translations": {
+    "cs": {
+      "title": "Example Site",
+      "tagline": "Kratky cesky claim projektu.",
+      "descriptionShort": "Jednovetna ceska anotace pro vypisy a nahledy.",
+      "descriptionLong": "Delší cesky popis projektu pro detail.",
+      "role": "Design, vyvoj a publikace",
+      "highlights": [
+        "Co bylo na projektu dulezite",
+        "Technicky nebo obchodni vysledek",
+        "Proc stoji za ukazku"
+      ],
+      "caseStudyBlocks": [
+        {
+          "id": "example-problem",
+          "type": "problem",
+          "title": "Problem",
+          "body": "Konkretni vychozi situace, omezeni nebo bolest."
+        },
+        {
+          "id": "example-solution",
+          "type": "solution",
+          "title": "Reseni",
+          "body": "Co vzniklo, proc takhle a jak to zapadlo do realneho provozu."
+        },
+        {
+          "id": "example-outcome",
+          "type": "outcome",
+          "title": "Vysledek",
+          "body": "Prakticky dopad projektu.",
+          "bullets": ["Meritelny nebo pozorovatelny vysledek"]
+        },
+        {
+          "id": "example-detail",
+          "type": "image",
+          "title": "Zajimavy detail",
+          "body": "Behind-the-scenes detail, ktery neni jen genericky screenshot.",
+          "imagePath": "./images/detail.webp",
+          "caption": "Popisek obrazku.",
+          "layout": "right"
+        }
+      ]
+    },
+    "en": {
+      "title": "Example Site",
+      "tagline": "Short English project tagline.",
+      "descriptionShort": "One-sentence English summary for listings.",
+      "descriptionLong": "Longer English project description for the detail page.",
+      "role": "Design, development, and publishing",
+      "highlights": [
+        "What mattered on the project",
+        "Technical or business result",
+        "Why it is worth showing"
+      ],
+      "caseStudyBlocks": [
+        {
+          "id": "example-problem",
+          "type": "problem",
+          "title": "Problem",
+          "body": "Concrete starting point, constraint, or pain."
+        },
+        {
+          "id": "example-solution",
+          "type": "solution",
+          "title": "Solution",
+          "body": "What was built, why this approach made sense, and how it fit real operations."
+        },
+        {
+          "id": "example-outcome",
+          "type": "outcome",
+          "title": "Outcome",
+          "body": "Practical project impact.",
+          "bullets": ["Measurable or observable result"]
+        },
+        {
+          "id": "example-detail",
+          "type": "image",
+          "title": "Interesting detail",
+          "body": "A behind-the-scenes detail that is not just a generic screenshot.",
+          "imagePath": "./images/detail.webp",
+          "caption": "Image caption.",
+          "layout": "right"
+        }
+      ]
+    }
+  }
+}
