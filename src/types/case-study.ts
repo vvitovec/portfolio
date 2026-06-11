@@ -1,17 +1,17 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-import type { Locale } from "@/i18n/routing";
+import type { Locale } from '@/i18n/routing';
 
 export type CaseStudyProblemBlock = {
   id: string;
-  type: "problem" | "solution";
+  type: 'problem' | 'solution';
   title?: string;
   body: string;
 };
 
 export type CaseStudyOutcomeBlock = {
   id: string;
-  type: "outcome";
+  type: 'outcome';
   title?: string;
   body?: string;
   bullets?: string[];
@@ -19,18 +19,15 @@ export type CaseStudyOutcomeBlock = {
 
 export type CaseStudyImageBlock = {
   id: string;
-  type: "image";
+  type: 'image';
   title?: string;
   body?: string;
   imageUrl: string;
   caption?: string;
-  layout?: "left" | "right" | "full";
+  layout?: 'left' | 'right' | 'full';
 };
 
-export type CaseStudyBlock =
-  | CaseStudyProblemBlock
-  | CaseStudyOutcomeBlock
-  | CaseStudyImageBlock;
+export type CaseStudyBlock = CaseStudyProblemBlock | CaseStudyOutcomeBlock | CaseStudyImageBlock;
 
 const MAX_BLOCKS = 20;
 const MAX_BODY_LENGTH = 4000;
@@ -45,92 +42,90 @@ const MAX_SHORT_DESCRIPTION_LENGTH = 400;
 const MAX_ROLE_LENGTH = 200;
 
 const optionalNullableString = (maxLength: number) =>
-  z.preprocess(
-    (value) => {
-      if (typeof value !== "string") return value;
-      const trimmed = value.trim();
-      return trimmed.length === 0 ? null : trimmed;
-    },
-    z.string().max(maxLength).optional().nullable(),
-  );
+  z.preprocess((value) => {
+    if (typeof value !== 'string') return value;
+    const trimmed = value.trim();
+    return trimmed.length === 0 ? null : trimmed;
+  }, z.string().max(maxLength).optional().nullable());
 
 const blockBaseSchema = z.object({
   id: z.string().min(1).max(MAX_ID_LENGTH),
   title: z.string().trim().max(MAX_TITLE_LENGTH).optional(),
 });
 
+const imageUrlSchema = z
+  .string()
+  .trim()
+  .min(1)
+  .max(500)
+  .refine((value) => {
+    if (value.startsWith('/')) {
+      return true;
+    }
+
+    try {
+      new URL(value);
+      return true;
+    } catch {
+      return false;
+    }
+  }, 'url');
+
 const problemSolutionSchema = blockBaseSchema.extend({
-  type: z.enum(["problem", "solution"]),
+  type: z.enum(['problem', 'solution']),
   body: z.string().trim().max(MAX_BODY_LENGTH),
 });
 
 const outcomeSchema = blockBaseSchema.extend({
-  type: z.literal("outcome"),
+  type: z.literal('outcome'),
   body: z.string().trim().max(MAX_BODY_LENGTH).optional(),
-  bullets: z
-    .array(z.string().trim().min(1).max(MAX_BULLET_LENGTH))
-    .max(MAX_BULLETS)
-    .optional(),
+  bullets: z.array(z.string().trim().min(1).max(MAX_BULLET_LENGTH)).max(MAX_BULLETS).optional(),
 });
 
 const imageSchema = blockBaseSchema.extend({
-  type: z.literal("image"),
+  type: z.literal('image'),
   body: z.string().trim().max(MAX_BODY_LENGTH).optional(),
-  imageUrl: z.string().trim().url().max(500),
+  imageUrl: imageUrlSchema,
   caption: z.string().trim().max(MAX_CAPTION_LENGTH).optional(),
-  layout: z.enum(["left", "right", "full"]).optional(),
+  layout: z.enum(['left', 'right', 'full']).optional(),
 });
 
 export const CaseStudyBlocksSchema = z
-  .array(z.discriminatedUnion("type", [problemSolutionSchema, outcomeSchema, imageSchema]))
+  .array(z.discriminatedUnion('type', [problemSolutionSchema, outcomeSchema, imageSchema]))
   .max(MAX_BLOCKS);
 
 export const CaseStudyBlockStructuredSchema = z.object({
   id: z.string().min(1).max(MAX_ID_LENGTH),
-  type: z.enum(["problem", "solution", "outcome", "image"]),
+  type: z.enum(['problem', 'solution', 'outcome', 'image']),
   title: z.string().max(MAX_TITLE_LENGTH).optional().nullable(),
   body: z.string().max(MAX_BODY_LENGTH).optional().nullable(),
-  bullets: z
-    .array(z.string().min(1).max(MAX_BULLET_LENGTH))
-    .max(MAX_BULLETS)
-    .optional()
-    .nullable(),
+  bullets: z.array(z.string().min(1).max(MAX_BULLET_LENGTH)).max(MAX_BULLETS).optional().nullable(),
   imageUrl: z.string().max(500).optional().nullable(),
   caption: z.string().max(MAX_CAPTION_LENGTH).optional().nullable(),
-  layout: z.enum(["left", "right", "full"]).optional().nullable(),
+  layout: z.enum(['left', 'right', 'full']).optional().nullable(),
 });
 
-export const CaseStudyBlocksStructuredSchema = z
-  .array(CaseStudyBlockStructuredSchema)
-  .max(30);
+export const CaseStudyBlocksStructuredSchema = z.array(CaseStudyBlockStructuredSchema).max(30);
 
 export const CaseStudyTranslationSchema = z.object({
   title: z.string().trim().min(1).max(160),
   tagline: optionalNullableString(MAX_TAGLINE_LENGTH),
   descriptionShort: optionalNullableString(MAX_SHORT_DESCRIPTION_LENGTH),
   role: optionalNullableString(MAX_ROLE_LENGTH),
-  highlights: z
-    .array(z.string().trim().min(1).max(200))
-    .max(MAX_HIGHLIGHTS),
+  highlights: z.array(z.string().trim().min(1).max(200)).max(MAX_HIGHLIGHTS),
   caseStudyBlocks: CaseStudyBlocksSchema,
 });
 
 export const ProjectTranslationStructuredSchema = z.object({
   title: z.string().min(1).max(160),
   tagline: z.string().max(MAX_TAGLINE_LENGTH).optional().nullable(),
-  descriptionShort: z
-    .string()
-    .max(MAX_SHORT_DESCRIPTION_LENGTH)
-    .optional()
-    .nullable(),
+  descriptionShort: z.string().max(MAX_SHORT_DESCRIPTION_LENGTH).optional().nullable(),
   role: z.string().max(MAX_ROLE_LENGTH).optional().nullable(),
   highlights: z.array(z.string().min(1).max(200)).max(MAX_HIGHLIGHTS),
   caseStudyBlocks: CaseStudyBlocksStructuredSchema,
 });
 
-export type CaseStudyTranslationPayload = z.infer<
-  typeof CaseStudyTranslationSchema
->;
+export type CaseStudyTranslationPayload = z.infer<typeof CaseStudyTranslationSchema>;
 
 export type ProjectTranslationStructuredPayload = z.infer<
   typeof ProjectTranslationStructuredSchema
@@ -138,45 +133,45 @@ export type ProjectTranslationStructuredPayload = z.infer<
 
 const defaultTitles = {
   cs: {
-    problem: "Problém",
-    solution: "Řešení",
-    outcome: "Výsledek",
+    problem: 'Problém',
+    solution: 'Řešení',
+    outcome: 'Výsledek',
   },
   en: {
-    problem: "Problem",
-    solution: "Solution",
-    outcome: "Outcome",
+    problem: 'Problem',
+    solution: 'Solution',
+    outcome: 'Outcome',
   },
 } as const;
 
 const createBlockId = () => {
-  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
     return crypto.randomUUID();
   }
   return `block_${Math.random().toString(36).slice(2, 10)}`;
 };
 
 export const createDefaultCaseStudyBlocks = (locale: Locale): CaseStudyBlock[] => {
-  const titles = locale === "en" ? defaultTitles.en : defaultTitles.cs;
+  const titles = locale === 'en' ? defaultTitles.en : defaultTitles.cs;
 
   return [
     {
       id: createBlockId(),
-      type: "problem",
+      type: 'problem',
       title: titles.problem,
-      body: "",
+      body: '',
     },
     {
       id: createBlockId(),
-      type: "solution",
+      type: 'solution',
       title: titles.solution,
-      body: "",
+      body: '',
     },
     {
       id: createBlockId(),
-      type: "outcome",
+      type: 'outcome',
       title: titles.outcome,
-      body: "",
+      body: '',
     },
   ];
 };

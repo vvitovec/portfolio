@@ -1,5 +1,5 @@
-import type { NextConfig } from "next";
-import createNextIntlPlugin from "next-intl/plugin";
+import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin();
 
@@ -11,20 +11,23 @@ const nextConfig: NextConfig = {
   images: {
     localPatterns: [
       {
-        pathname: "/images/profile/**",
-        search: "?v=20260319",
+        pathname: '/images/profile/**',
+        search: '?v=20260319',
+      },
+      {
+        pathname: '/images/projects/**',
       },
     ],
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "**.public.blob.vercel-storage.com",
-        pathname: "/**",
+        protocol: 'https',
+        hostname: '**.public.blob.vercel-storage.com',
+        pathname: '/**',
       },
       {
-        protocol: "https",
-        hostname: "storage.vvitovec.com",
-        pathname: "/_projects/**",
+        protocol: 'https',
+        hostname: 'storage.vvitovec.com',
+        pathname: '/_projects/**',
       },
     ],
   },
