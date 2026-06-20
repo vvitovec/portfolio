@@ -40,3 +40,30 @@ export const revalidatePublicWebsites = () => {
   revalidatePath("/cs/websites");
   revalidatePath("/en/websites");
 };
+
+type RevalidateBlogInput = {
+  slug?: string;
+};
+
+export const revalidatePublicBlog = ({ slug }: RevalidateBlogInput = {}) => {
+  const config = { expire: 0 };
+  revalidateTag("blog-posts", config);
+  revalidateTag("blog-posts:cs", config);
+  revalidateTag("blog-posts:en", config);
+
+  if (slug) {
+    revalidateTag(`blog-post:${slug}`, config);
+    revalidateTag(`blog-post:${slug}:cs`, config);
+    revalidateTag(`blog-post:${slug}:en`, config);
+  }
+
+  revalidatePath("/cs");
+  revalidatePath("/en");
+  revalidatePath("/cs/blog");
+  revalidatePath("/en/blog");
+
+  if (slug) {
+    revalidatePath(`/cs/blog/${slug}`);
+    revalidatePath(`/en/blog/${slug}`);
+  }
+};

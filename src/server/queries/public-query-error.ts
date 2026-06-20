@@ -9,9 +9,17 @@ const databaseUnavailableMessages = [
   "ETIMEDOUT",
   "ECONNRESET",
   "ECONNREFUSED",
+  "does not exist in the current database",
 ];
 
-const databaseUnavailableCodes = new Set(["P1001", "P1002", "P1008", "P1017"]);
+const databaseUnavailableCodes = new Set([
+  "P1001",
+  "P1002",
+  "P1008",
+  "P1017",
+  "P2021",
+  "P2022",
+]);
 
 function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);

@@ -1,0 +1,32 @@
+{
+  "post": {
+    "id": "blog-example-post",
+    "slug": "example-ai-note",
+    "status": "DRAFT",
+    "featured": false,
+    "tags": ["AI", "Automation"],
+    "coverImagePath": "./images/cover.webp",
+    "coverImageCredit": "Generated image",
+    "coverImageCreditUrl": null
+  },
+  "translations": {
+    "cs": {
+      "title": "Ukázková poznámka o AI",
+      "excerpt": "Krátký perex, který vysvětlí pointu článku bez zbytečného papírování.",
+      "contentMarkdown": "Text článku v Markdownu. Měl by mít jasnou pointu, osobní tón a přirozený odkaz třeba na [projekty](/cs/projects) nebo externí zdroj jako [OpenAI](https://openai.com/).",
+      "seoTitle": null,
+      "seoDescription": null,
+      "coverImageAlt": "Abstraktní pracovní plocha s AI nástroji",
+      "coverImageCaption": "Ilustrační vizuál k článku."
+    },
+    "en": {
+      "title": "Example note about AI",
+      "excerpt": "A short intro that explains the point without turning it into a formal paper.",
+      "contentMarkdown": "Article text in Markdown. It should have a clear point, a personal tone, and a natural link to [projects](/en/projects) or an external source like [OpenAI](https://openai.com/).",
+      "seoTitle": null,
+      "seoDescription": null,
+      "coverImageAlt": "Abstract workspace with AI tools",
+      "coverImageCaption": "Illustrative visual for the article."
+    }
+  }
+}

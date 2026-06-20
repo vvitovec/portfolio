@@ -16,7 +16,7 @@ import {
 
 export const runtime = "nodejs";
 
-const kindSchema = z.enum(["cover", "gallery", "case-study"]);
+const kindSchema = z.enum(["cover", "gallery", "case-study", "blog-cover"]);
 const projectIdSchema = z
   .string()
   .trim()
@@ -79,7 +79,10 @@ const resolveBlobUploadPrefix = ({
   kind: z.infer<typeof kindSchema>;
   pathPrefix?: string;
 }) => {
-  const defaultPrefix = `projects/${projectId}/${kind}`;
+  const defaultPrefix =
+    kind === "blog-cover"
+      ? `blog/${projectId}/cover`
+      : `projects/${projectId}/${kind}`;
   if (!pathPrefix) {
     return defaultPrefix;
   }

@@ -4,6 +4,7 @@
     "home": "Home",
     "projects": "Case Studies",
     "websites": "Websites",
+    "blog": "Blog",
     "contact": "Contact",
     "admin": "Admin",
     "language": {
@@ -67,6 +68,11 @@
       "subtitle": "Fast, clean, and conversion-focused websites for clients across industries.",
       "cta": "View all websites"
     },
+    "blogSection": {
+      "title": "Latest notes",
+      "subtitle": "Short thoughts about AI, automation, building things, and making work less wasteful.",
+      "cta": "Read the blog"
+    },
     "cta": {
       "title": "Let’s build something great",
       "subtitle": "Tell me about your project and we’ll shape the best solution.",
@@ -93,6 +99,20 @@
       "apps": "Apps"
     },
     "empty": "There are no published websites yet."
+  },
+  "blog": {
+    "label": "Blog",
+    "title": "Notes from building",
+    "subtitle": "Casual, useful writing about AI, automation, development, teams, and the small decisions that make work faster.",
+    "empty": "No posts are published yet.",
+    "back": "Back to blog",
+    "coverAlt": "Illustration for {title}",
+    "imageCredit": "Image source",
+    "morePosts": "More posts",
+    "talkCta": "Talk to me",
+    "meta": {
+      "fallbackDescription": "Personal blog post by Viktor Vítovec."
+    }
   },
   "projects": {
     "title": "Case Studies",
@@ -243,6 +263,10 @@
         "websites": {
           "title": "Websites management",
           "description": "Create, edit, and publish websites shown on /websites."
+        },
+        "blog": {
+          "title": "Blog management",
+          "description": "Draft, edit, and publish bilingual personal articles."
         }
       }
     },
@@ -438,6 +462,130 @@
           "remove": "Remove",
           "empty": "No gallery images yet.",
           "alt": "Gallery image"
+        }
+      }
+    },
+    "blog": {
+      "title": "Blog",
+      "subtitle": "Manage bilingual notes, illustrations, links, and publishing.",
+      "new": "New post",
+      "back": "Back to list",
+      "createTitle": "New blog post",
+      "createSubtitle": "Draft a personal article in Czech and English.",
+      "editTitle": "Edit blog post",
+      "editSubtitle": "Update article content and publishing settings.",
+      "loading": "Loading blog posts...",
+      "empty": "No blog posts yet.",
+      "notFound": "Blog post not found.",
+      "searchPlaceholder": "Search by title, slug, or tag",
+      "columns": {
+        "title": "Title (CS)",
+        "status": "Status",
+        "featured": "Featured",
+        "updatedAt": "Updated",
+        "actions": "Actions"
+      },
+      "status": {
+        "draft": "Draft",
+        "published": "Published"
+      },
+      "featured": {
+        "yes": "Yes",
+        "no": "No"
+      },
+      "actions": {
+        "edit": "Edit",
+        "publish": "Publish",
+        "unpublish": "Unpublish",
+        "delete": "Delete"
+      },
+      "confirmDelete": {
+        "title": "Delete blog post?",
+        "description": "This action cannot be undone.",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      },
+      "toast": {
+        "created": "Blog post created.",
+        "updated": "Blog post saved.",
+        "deleted": "Blog post deleted.",
+        "published": "Blog post published.",
+        "unpublished": "Blog post unpublished.",
+        "error": "Something went wrong."
+      },
+      "form": {
+        "baseTitle": "Base details",
+        "baseSubtitle": "Keep this practical: one clear idea, one strong image, useful links.",
+        "save": "Save",
+        "saving": "Saving...",
+        "removeTag": "Remove",
+        "slug": {
+          "label": "Slug",
+          "placeholder": "why-i-use-codex",
+          "errorPattern": "Slug can only contain lowercase letters, numbers, and dashes.",
+          "errorMax": "Slug is too long."
+        },
+        "featured": {
+          "label": "Featured post"
+        },
+        "status": {
+          "label": "Status"
+        },
+        "tags": {
+          "label": "Tags",
+          "placeholder": "Add tag and press Enter",
+          "helper": "Use a few clear tags, not a taxonomy."
+        },
+        "coverImageUrl": {
+          "label": "Cover image URL",
+          "placeholder": "https://...",
+          "upload": "Upload cover",
+          "replace": "Replace cover",
+          "uploadUnavailable": "Upload is available after saving the post."
+        },
+        "coverImageCredit": {
+          "label": "Image credit",
+          "placeholder": "Screenshot, generated image, or source name"
+        },
+        "coverImageCreditUrl": {
+          "label": "Image credit URL",
+          "placeholder": "https://..."
+        },
+        "tabs": {
+          "cs": "CS",
+          "en": "EN"
+        },
+        "title": {
+          "label": "Title",
+          "placeholder": "Article title",
+          "errorRequired": "Title is required."
+        },
+        "excerpt": {
+          "label": "Excerpt",
+          "placeholder": "Short summary for cards and SEO.",
+          "errorMax": "Excerpt is too long."
+        },
+        "contentMarkdown": {
+          "label": "Markdown article",
+          "placeholder": "Write the article in Markdown. Use internal and external links naturally.",
+          "errorRequired": "Article text is required.",
+          "errorMax": "Article is too long."
+        },
+        "coverImageAlt": {
+          "label": "Cover alt text",
+          "placeholder": "Describe the image"
+        },
+        "coverImageCaption": {
+          "label": "Cover caption",
+          "placeholder": "Short caption"
+        },
+        "seoTitle": {
+          "label": "SEO title",
+          "placeholder": "Optional custom title"
+        },
+        "seoDescription": {
+          "label": "SEO description",
+          "placeholder": "Optional custom description"
         }
       }
     },

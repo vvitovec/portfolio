@@ -1,11 +1,11 @@
 import type { MetadataRoute } from "next";
 
-import { ProjectStatus } from "@/generated/prisma";
+import { BlogPostStatus, ProjectStatus } from "@/generated/prisma";
 import { routing } from "@/i18n/routing";
 import { buildLocalePath, toAbsoluteUrl } from "@/lib/seo";
 import { db } from "@/server/db";
 
-const STATIC_PATHS = ["/", "/websites", "/projects", "/contact"];
+const STATIC_PATHS = ["/", "/websites", "/projects", "/blog", "/contact"];
 
 export const dynamic = "force-dynamic";
 
@@ -21,17 +21,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   try {
-    const projects = await db.project.findMany({
-      where: { status: ProjectStatus.PUBLISHED },
-      select: {
-        slug: true,
-        updatedAt: true,
-        publishedAt: true,
-      },
-      orderBy: {
-        updatedAt: "desc",
-      },
-    });
+    const [projects, blogPosts] = await Promise.all([
+      db.project.findMany({
+        where: { status: ProjectStatus.PUBLISHED },
+        select: {
+          slug: true,
+          updatedAt: true,
+          publishedAt: true,
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
+      }),
+      db.blogPost.findMany({
+        where: { status: BlogPostStatus.PUBLISHED },
+        select: {
+          slug: true,
+          updatedAt: true,
+          publishedAt: true,
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
+      }),
+    ]);
 
     const projectEntries: MetadataRoute.Sitemap = projects.flatMap((project) =>
       routing.locales.map((locale) => ({
@@ -42,9 +55,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       })),
     );
 
-    return [...staticEntries, ...projectEntries];
+    const blogEntries: MetadataRoute.Sitemap = blogPosts.flatMap((post) =>
+      routing.locales.map((locale) => ({
+        url: toAbsoluteUrl(buildLocalePath(locale, `/blog/${post.slug}`)),
+        lastModified: post.updatedAt ?? post.publishedAt ?? now,
+        changeFrequency: "weekly",
+        priority: 0.6,
+      })),
+    );
+
+    return [...staticEntries, ...projectEntries, ...blogEntries];
   } catch (error) {
-    console.error("Failed to include dynamic project URLs in sitemap", error);
+    console.error("Failed to include dynamic URLs in sitemap", error);
     return staticEntries;
   }
 }

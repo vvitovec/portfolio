@@ -136,6 +136,35 @@ exports.Prisma.WebsiteScalarFieldEnum = {
   publishedAt: 'publishedAt'
 };
 
+exports.Prisma.BlogPostScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  status: 'status',
+  featured: 'featured',
+  tags: 'tags',
+  coverImageUrl: 'coverImageUrl',
+  coverImageCredit: 'coverImageCredit',
+  coverImageCreditUrl: 'coverImageCreditUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  publishedAt: 'publishedAt'
+};
+
+exports.Prisma.BlogPostTranslationScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  locale: 'locale',
+  title: 'title',
+  excerpt: 'excerpt',
+  contentMarkdown: 'contentMarkdown',
+  seoTitle: 'seoTitle',
+  seoDescription: 'seoDescription',
+  coverImageAlt: 'coverImageAlt',
+  coverImageCaption: 'coverImageCaption',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -170,6 +199,11 @@ exports.WebsiteStatus = exports.$Enums.WebsiteStatus = {
   PUBLISHED: 'PUBLISHED'
 };
 
+exports.BlogPostStatus = exports.$Enums.BlogPostStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED'
+};
+
 exports.Locale = exports.$Enums.Locale = {
   cs: 'cs',
   en: 'en'
@@ -178,7 +212,9 @@ exports.Locale = exports.$Enums.Locale = {
 exports.Prisma.ModelName = {
   Project: 'Project',
   ProjectTranslation: 'ProjectTranslation',
-  Website: 'Website'
+  Website: 'Website',
+  BlogPost: 'BlogPost',
+  BlogPostTranslation: 'BlogPostTranslation'
 };
 /**
  * Create the Client
@@ -188,10 +224,10 @@ const config = {
   "clientVersion": "7.3.0",
   "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum ProjectStatus {\n  DRAFT\n  PUBLISHED\n}\n\nenum WebsiteStatus {\n  DRAFT\n  PUBLISHED\n}\n\nenum Locale {\n  cs\n  en\n}\n\nmodel Project {\n  id       String        @id @default(cuid())\n  slug     String        @unique\n  status   ProjectStatus @default(DRAFT)\n  featured Boolean       @default(false)\n  year     Int?\n\n  coverImageUrl    String?\n  galleryImageUrls String[] @default([])\n  liveUrl          String?\n  repoUrl          String?\n\n  techStack String[] @default([])\n\n  createdAt   DateTime  @default(now())\n  updatedAt   DateTime  @updatedAt\n  publishedAt DateTime?\n\n  translations ProjectTranslation[]\n}\n\nmodel ProjectTranslation {\n  id        String  @id @default(cuid())\n  projectId String\n  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)\n\n  locale           Locale\n  title            String\n  tagline          String?\n  descriptionShort String?\n  descriptionLong  String?\n  caseStudyBlocks  Json    @default(\"[]\")\n\n  role       String?\n  highlights String[] @default([])\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@unique([projectId, locale])\n  @@index([locale])\n}\n\nmodel Website {\n  id          String        @id @default(cuid())\n  name        String\n  url         String\n  category    String\n  description String?\n  sortOrder   Int           @default(0)\n  status      WebsiteStatus @default(DRAFT)\n  createdAt   DateTime      @default(now())\n  updatedAt   DateTime      @updatedAt\n  publishedAt DateTime?\n}\n"
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum ProjectStatus {\n  DRAFT\n  PUBLISHED\n}\n\nenum WebsiteStatus {\n  DRAFT\n  PUBLISHED\n}\n\nenum BlogPostStatus {\n  DRAFT\n  PUBLISHED\n}\n\nenum Locale {\n  cs\n  en\n}\n\nmodel Project {\n  id       String        @id @default(cuid())\n  slug     String        @unique\n  status   ProjectStatus @default(DRAFT)\n  featured Boolean       @default(false)\n  year     Int?\n\n  coverImageUrl    String?\n  galleryImageUrls String[] @default([])\n  liveUrl          String?\n  repoUrl          String?\n\n  techStack String[] @default([])\n\n  createdAt   DateTime  @default(now())\n  updatedAt   DateTime  @updatedAt\n  publishedAt DateTime?\n\n  translations ProjectTranslation[]\n}\n\nmodel ProjectTranslation {\n  id        String  @id @default(cuid())\n  projectId String\n  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)\n\n  locale           Locale\n  title            String\n  tagline          String?\n  descriptionShort String?\n  descriptionLong  String?\n  caseStudyBlocks  Json    @default(\"[]\")\n\n  role       String?\n  highlights String[] @default([])\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@unique([projectId, locale])\n  @@index([locale])\n}\n\nmodel Website {\n  id          String        @id @default(cuid())\n  name        String\n  url         String\n  category    String\n  description String?\n  sortOrder   Int           @default(0)\n  status      WebsiteStatus @default(DRAFT)\n  createdAt   DateTime      @default(now())\n  updatedAt   DateTime      @updatedAt\n  publishedAt DateTime?\n}\n\nmodel BlogPost {\n  id       String         @id @default(cuid())\n  slug     String         @unique\n  status   BlogPostStatus @default(DRAFT)\n  featured Boolean        @default(false)\n  tags     String[]       @default([])\n\n  coverImageUrl       String?\n  coverImageCredit    String?\n  coverImageCreditUrl String?\n\n  createdAt   DateTime  @default(now())\n  updatedAt   DateTime  @updatedAt\n  publishedAt DateTime?\n\n  translations BlogPostTranslation[]\n}\n\nmodel BlogPostTranslation {\n  id     String   @id @default(cuid())\n  postId String\n  post   BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)\n\n  locale            Locale\n  title             String\n  excerpt           String?\n  contentMarkdown   String\n  seoTitle          String?\n  seoDescription    String?\n  coverImageAlt     String?\n  coverImageCaption String?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@unique([postId, locale])\n  @@index([locale])\n}\n"
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Project\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"ProjectStatus\"},{\"name\":\"featured\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"year\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"coverImageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"galleryImageUrls\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"liveUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"repoUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"techStack\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"publishedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"translations\",\"kind\":\"object\",\"type\":\"ProjectTranslation\",\"relationName\":\"ProjectToProjectTranslation\"}],\"dbName\":null},\"ProjectTranslation\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"projectId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"project\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"ProjectToProjectTranslation\"},{\"name\":\"locale\",\"kind\":\"enum\",\"type\":\"Locale\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tagline\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"descriptionShort\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"descriptionLong\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"caseStudyBlocks\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"role\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"highlights\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Website\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"WebsiteStatus\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"publishedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Project\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"ProjectStatus\"},{\"name\":\"featured\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"year\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"coverImageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"galleryImageUrls\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"liveUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"repoUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"techStack\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"publishedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"translations\",\"kind\":\"object\",\"type\":\"ProjectTranslation\",\"relationName\":\"ProjectToProjectTranslation\"}],\"dbName\":null},\"ProjectTranslation\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"projectId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"project\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"ProjectToProjectTranslation\"},{\"name\":\"locale\",\"kind\":\"enum\",\"type\":\"Locale\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tagline\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"descriptionShort\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"descriptionLong\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"caseStudyBlocks\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"role\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"highlights\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Website\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"WebsiteStatus\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"publishedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"BlogPost\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"BlogPostStatus\"},{\"name\":\"featured\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"tags\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"coverImageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"coverImageCredit\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"coverImageCreditUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"publishedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"translations\",\"kind\":\"object\",\"type\":\"BlogPostTranslation\",\"relationName\":\"BlogPostToBlogPostTranslation\"}],\"dbName\":null},\"BlogPostTranslation\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"postId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"post\",\"kind\":\"object\",\"type\":\"BlogPost\",\"relationName\":\"BlogPostToBlogPostTranslation\"},{\"name\":\"locale\",\"kind\":\"enum\",\"type\":\"Locale\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"excerpt\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contentMarkdown\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"seoTitle\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"seoDescription\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"coverImageAlt\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"coverImageCaption\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.compilerWasm = {
   getRuntime: async () => require('./query_compiler_fast_bg.js'),

@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "db:seed": "prisma db seed",
+    "blog:publish": "tsx scripts/blog-publish.ts",
     "portfolio:publish": "tsx scripts/portfolio-publish.ts"
   },
   "prisma": {

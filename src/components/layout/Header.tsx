@@ -39,6 +39,12 @@ export default function Header() {
             {t("projects")}
           </Link>
           <Link
+            href="/blog"
+            className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
+          >
+            {t("blog")}
+          </Link>
+          <Link
             href="/contact"
             className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
           >
@@ -69,6 +75,12 @@ export default function Header() {
               className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
             >
               {t("projects")}
+            </Link>
+            <Link
+              href="/blog"
+              className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
+            >
+              {t("blog")}
             </Link>
             <Link
               href="/contact"

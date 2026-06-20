@@ -14,6 +14,50 @@ type BreadcrumbItem = {
   pathname: string;
 };
 
+type BlogPostingSchemaInput = {
+  locale: Locale;
+  pathname: string;
+  title: string;
+  description: string;
+  image?: string | null;
+  datePublished?: Date | null;
+  dateModified?: Date | null;
+};
+
+export const createBlogPostingSchema = ({
+  locale,
+  pathname,
+  title,
+  description,
+  image,
+  datePublished,
+  dateModified,
+}: BlogPostingSchemaInput) => {
+  const url = toAbsoluteUrl(buildLocalePath(locale, pathname));
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `${url}#blog-posting`,
+    url,
+    headline: title,
+    description,
+    inLanguage: LANGUAGE_TAGS[locale],
+    image: image ? toAbsoluteUrl(image) : toAbsoluteUrl(PROFILE_IMAGE_PATH),
+    datePublished: (datePublished ?? dateModified)?.toISOString(),
+    dateModified: (dateModified ?? datePublished)?.toISOString(),
+    author: {
+      "@id": `${SITE_URL}#person`,
+    },
+    publisher: {
+      "@id": `${SITE_URL}#person`,
+    },
+    isPartOf: {
+      "@id": `${SITE_URL}#website`,
+    },
+  };
+};
+
 const SOCIAL_PROFILES = [
   "https://github.com/vvitovec",
   "https://www.instagram.com/vitonovate",

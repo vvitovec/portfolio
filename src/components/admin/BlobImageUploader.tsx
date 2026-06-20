@@ -67,7 +67,7 @@ const formatUploadErrorToast = (error: string, reqId?: string) =>
 
 type BlobImageUploaderProps = {
   projectId: string;
-  kind: "cover" | "gallery" | "case-study";
+  kind: "cover" | "gallery" | "case-study" | "blog-cover";
   onUploaded: (urls: string[]) => void;
   buttonLabel: string;
   multiple?: boolean;

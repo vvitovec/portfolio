@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import {
+  revalidatePublicBlog,
   revalidatePublicProjects,
   revalidatePublicWebsites,
 } from "@/server/revalidate";
@@ -12,6 +13,7 @@ const requestSchema = z.object({
   slug: z.string().trim().min(1).max(120).optional(),
   projects: z.boolean().optional(),
   websites: z.boolean().optional(),
+  blog: z.boolean().optional(),
 });
 
 const getBearerToken = (request: Request) => {
@@ -47,6 +49,7 @@ export async function POST(request: Request) {
 
   const shouldRevalidateProjects = body.data.projects ?? Boolean(body.data.slug);
   const shouldRevalidateWebsites = body.data.websites ?? false;
+  const shouldRevalidateBlog = body.data.blog ?? false;
 
   if (shouldRevalidateProjects) {
     revalidatePublicProjects({ slug: body.data.slug });
@@ -56,10 +59,15 @@ export async function POST(request: Request) {
     revalidatePublicWebsites();
   }
 
+  if (shouldRevalidateBlog) {
+    revalidatePublicBlog({ slug: body.data.slug });
+  }
+
   return NextResponse.json({
     success: true,
     projects: shouldRevalidateProjects,
     websites: shouldRevalidateWebsites,
+    blog: shouldRevalidateBlog,
     slug: body.data.slug ?? null,
   });
 }

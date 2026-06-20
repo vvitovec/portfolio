@@ -17,6 +17,11 @@ enum WebsiteStatus {
   PUBLISHED
 }
 
+enum BlogPostStatus {
+  DRAFT
+  PUBLISHED
+}
+
 enum Locale {
   cs
   en
@@ -76,4 +81,43 @@ model Website {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   publishedAt DateTime?
+}
+
+model BlogPost {
+  id       String         @id @default(cuid())
+  slug     String         @unique
+  status   BlogPostStatus @default(DRAFT)
+  featured Boolean        @default(false)
+  tags     String[]       @default([])
+
+  coverImageUrl       String?
+  coverImageCredit    String?
+  coverImageCreditUrl String?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  publishedAt DateTime?
+
+  translations BlogPostTranslation[]
+}
+
+model BlogPostTranslation {
+  id     String   @id @default(cuid())
+  postId String
+  post   BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  locale            Locale
+  title             String
+  excerpt           String?
+  contentMarkdown   String
+  seoTitle          String?
+  seoDescription    String?
+  coverImageAlt     String?
+  coverImageCaption String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([postId, locale])
+  @@index([locale])
 }

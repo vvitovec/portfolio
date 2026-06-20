@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { FolderKanban, Globe } from "lucide-react";
+import { FolderKanban, Globe, NotebookText } from "lucide-react";
 
 import { SignOutButton } from "@/components/admin/AdminAuthButtons";
 import { Link } from "@/i18n/navigation";
@@ -43,7 +43,7 @@ export default async function AdminPage({ params }: PageProps) {
             </h1>
             <p className="text-muted-foreground">{t("dashboard.subtitle")}</p>
           </div>
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-3">
             <Link
               href="/admin/projects"
               className="rounded-2xl border border-border/60 bg-background/70 p-6 transition-colors hover:border-foreground/20 hover:bg-muted/30"
@@ -70,6 +70,20 @@ export default async function AdminPage({ params }: PageProps) {
               </h2>
               <p className="mt-2 text-sm text-muted-foreground">
                 {t("dashboard.sections.websites.description")}
+              </p>
+            </Link>
+            <Link
+              href="/admin/blog"
+              className="rounded-2xl border border-border/60 bg-background/70 p-6 transition-colors hover:border-foreground/20 hover:bg-muted/30"
+            >
+              <div className="mb-4 inline-flex rounded-full border border-border/60 p-3 text-foreground">
+                <NotebookText className="h-5 w-5" />
+              </div>
+              <h2 className="font-display text-2xl font-semibold text-foreground">
+                {t("dashboard.sections.blog.title")}
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {t("dashboard.sections.blog.description")}
               </p>
             </Link>
           </div>

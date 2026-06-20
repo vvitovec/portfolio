@@ -164,6 +164,35 @@ exports.Prisma.WebsiteScalarFieldEnum = {
   publishedAt: 'publishedAt'
 };
 
+exports.Prisma.BlogPostScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  status: 'status',
+  featured: 'featured',
+  tags: 'tags',
+  coverImageUrl: 'coverImageUrl',
+  coverImageCredit: 'coverImageCredit',
+  coverImageCreditUrl: 'coverImageCreditUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  publishedAt: 'publishedAt'
+};
+
+exports.Prisma.BlogPostTranslationScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  locale: 'locale',
+  title: 'title',
+  excerpt: 'excerpt',
+  contentMarkdown: 'contentMarkdown',
+  seoTitle: 'seoTitle',
+  seoDescription: 'seoDescription',
+  coverImageAlt: 'coverImageAlt',
+  coverImageCaption: 'coverImageCaption',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -203,10 +232,17 @@ exports.WebsiteStatus = exports.$Enums.WebsiteStatus = {
   PUBLISHED: 'PUBLISHED'
 };
 
+exports.BlogPostStatus = exports.$Enums.BlogPostStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED'
+};
+
 exports.Prisma.ModelName = {
   Project: 'Project',
   ProjectTranslation: 'ProjectTranslation',
-  Website: 'Website'
+  Website: 'Website',
+  BlogPost: 'BlogPost',
+  BlogPostTranslation: 'BlogPostTranslation'
 };
 
 /**

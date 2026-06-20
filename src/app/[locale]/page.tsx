@@ -9,6 +9,7 @@ import {
   Workflow,
 } from "lucide-react";
 
+import BlogPostCard from "@/components/blog/BlogPostCard";
 import Container from "@/components/layout/Container";
 import SectionReveal from "@/components/sections/project/SectionReveal";
 import { Badge } from "@/components/ui/badge";
@@ -16,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import JsonLd from "@/components/seo/JsonLd";
+import { getPublishedBlogPosts } from "@/server/queries/blog";
 import { getPublishedProjects } from "@/server/queries/projects";
 import { getPublishedWebsites } from "@/server/queries/websites";
 import WebsitesShowcase from "@/components/websites/WebsitesShowcase";
@@ -76,7 +78,9 @@ export default async function HomePage({ params }: PageProps) {
   const home = await getTranslations({ locale, namespace: "home" });
   const projects = await getPublishedProjects(locale);
   const websites = await getPublishedWebsites(locale);
+  const blogPosts = await getPublishedBlogPosts(locale);
   const featured = projects.filter((project) => project.featured).slice(0, 3);
+  const latestBlogPosts = blogPosts.slice(0, 3);
   const blurDataURL = getBlurDataURL(1200, 675);
   const meta = homeMetadataByLocale[locale];
   const services = [
@@ -289,6 +293,42 @@ export default async function HomePage({ params }: PageProps) {
           </SectionReveal>
         </Container>
       </section>
+
+      {latestBlogPosts.length > 0 ? (
+        <section className="py-12 sm:py-16">
+          <Container>
+            <SectionReveal className="space-y-10">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div className="max-w-2xl">
+                  <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
+                    {home("blogSection.title")}
+                  </h2>
+                  <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+                    {home("blogSection.subtitle")}
+                  </p>
+                </div>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="shrink-0 motion-safe:transition-transform motion-safe:hover:-translate-y-0.5"
+                >
+                  <Link href="/blog">{home("blogSection.cta")}</Link>
+                </Button>
+              </div>
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {latestBlogPosts.map((post, index) => (
+                  <BlogPostCard
+                    key={post.id}
+                    post={post}
+                    locale={locale}
+                    priority={index === 0}
+                  />
+                ))}
+              </div>
+            </SectionReveal>
+          </Container>
+        </section>
+      ) : null}
 
       <section className="py-12 sm:py-16">
         <Container>

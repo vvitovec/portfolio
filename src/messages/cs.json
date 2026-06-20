@@ -4,6 +4,7 @@
     "home": "Domů",
     "projects": "Case Studies",
     "websites": "Weby",
+    "blog": "Blog",
     "contact": "Kontakt",
     "admin": "Administrace",
     "language": {
@@ -67,6 +68,11 @@
       "subtitle": "Rychlé, přehledné a konverzní weby pro klienty z různých oborů.",
       "cta": "Zobrazit všechny weby"
     },
+    "blogSection": {
+      "title": "Poslední poznámky",
+      "subtitle": "Krátké texty o AI, automatizaci, vývoji a tom, jak dělat práci méně zbytečně složitou.",
+      "cta": "Číst blog"
+    },
     "cta": {
       "title": "Máte projekt na mysli?",
       "subtitle": "Napište mi a společně navrhneme nejlepší řešení.",
@@ -93,6 +99,20 @@
       "apps": "Aplikace"
     },
     "empty": "Zatím zde nejsou žádné publikované weby."
+  },
+  "blog": {
+    "label": "Blog",
+    "title": "Poznámky z vývoje",
+    "subtitle": "Osobní a praktické texty o AI, automatizaci, vývoji, týmech a malých rozhodnutích, která šetří čas.",
+    "empty": "Zatím není publikovaný žádný článek.",
+    "back": "Zpět na blog",
+    "coverAlt": "Ilustrace pro {title}",
+    "imageCredit": "Zdroj obrázku",
+    "morePosts": "Další články",
+    "talkCta": "Napsat mi",
+    "meta": {
+      "fallbackDescription": "Osobní blogový článek od Viktora Vítovce."
+    }
   },
   "projects": {
     "title": "Case Studies",
@@ -243,6 +263,10 @@
         "websites": {
           "title": "Správa webů",
           "description": "Přidávání, úpravy a publikace webů na stránce /websites."
+        },
+        "blog": {
+          "title": "Správa blogu",
+          "description": "Koncepty, úpravy a publikace osobních článků ve dvou jazycích."
         }
       }
     },
@@ -438,6 +462,130 @@
           "remove": "Odebrat",
           "empty": "Galerie je zatím prázdná.",
           "alt": "Obrázek v galerii"
+        }
+      }
+    },
+    "blog": {
+      "title": "Blog",
+      "subtitle": "Spravujte dvojjazyčné poznámky, ilustrace, odkazy a publikaci.",
+      "new": "Nový článek",
+      "back": "Zpět na seznam",
+      "createTitle": "Nový článek",
+      "createSubtitle": "Připravte osobní text v češtině i angličtině.",
+      "editTitle": "Upravit článek",
+      "editSubtitle": "Upravte obsah článku a nastavení publikace.",
+      "loading": "Načítám články...",
+      "empty": "Zatím zde nejsou žádné články.",
+      "notFound": "Článek nebyl nalezen.",
+      "searchPlaceholder": "Hledat podle názvu, slugu nebo tagu",
+      "columns": {
+        "title": "Název (CS)",
+        "status": "Status",
+        "featured": "Doporučené",
+        "updatedAt": "Aktualizováno",
+        "actions": "Akce"
+      },
+      "status": {
+        "draft": "Koncept",
+        "published": "Publikováno"
+      },
+      "featured": {
+        "yes": "Ano",
+        "no": "Ne"
+      },
+      "actions": {
+        "edit": "Upravit",
+        "publish": "Publikovat",
+        "unpublish": "Zneveřejnit",
+        "delete": "Smazat"
+      },
+      "confirmDelete": {
+        "title": "Smazat článek?",
+        "description": "Tuto akci nelze vrátit zpět.",
+        "confirm": "Smazat",
+        "cancel": "Zrušit"
+      },
+      "toast": {
+        "created": "Článek vytvořen.",
+        "updated": "Článek uložen.",
+        "deleted": "Článek smazán.",
+        "published": "Článek publikován.",
+        "unpublished": "Článek zneveřejněn.",
+        "error": "Něco se pokazilo."
+      },
+      "form": {
+        "baseTitle": "Základní údaje",
+        "baseSubtitle": "Držte text praktický: jedna jasná myšlenka, jeden silný vizuál, užitečné odkazy.",
+        "save": "Uložit",
+        "saving": "Ukládám...",
+        "removeTag": "Odebrat",
+        "slug": {
+          "label": "Slug",
+          "placeholder": "proc-pouzivam-codex",
+          "errorPattern": "Slug může obsahovat jen malá písmena, čísla a pomlčky.",
+          "errorMax": "Slug je příliš dlouhý."
+        },
+        "featured": {
+          "label": "Doporučený článek"
+        },
+        "status": {
+          "label": "Status"
+        },
+        "tags": {
+          "label": "Tagy",
+          "placeholder": "Přidejte tag a potvrďte Enterem",
+          "helper": "Stačí pár jasných tagů, ne taxonomie."
+        },
+        "coverImageUrl": {
+          "label": "Cover image URL",
+          "placeholder": "https://...",
+          "upload": "Nahrát cover",
+          "replace": "Nahradit cover",
+          "uploadUnavailable": "Upload je dostupný až po uložení článku."
+        },
+        "coverImageCredit": {
+          "label": "Credit obrázku",
+          "placeholder": "Screenshot, generovaný obrázek nebo zdroj"
+        },
+        "coverImageCreditUrl": {
+          "label": "URL zdroje obrázku",
+          "placeholder": "https://..."
+        },
+        "tabs": {
+          "cs": "CS",
+          "en": "EN"
+        },
+        "title": {
+          "label": "Název",
+          "placeholder": "Název článku",
+          "errorRequired": "Název je povinný."
+        },
+        "excerpt": {
+          "label": "Perex",
+          "placeholder": "Krátké shrnutí pro karty a SEO.",
+          "errorMax": "Perex je příliš dlouhý."
+        },
+        "contentMarkdown": {
+          "label": "Markdown článek",
+          "placeholder": "Napište článek v Markdownu. Vkládejte interní i externí odkazy přirozeně.",
+          "errorRequired": "Text článku je povinný.",
+          "errorMax": "Článek je příliš dlouhý."
+        },
+        "coverImageAlt": {
+          "label": "Alt text coveru",
+          "placeholder": "Popište obrázek"
+        },
+        "coverImageCaption": {
+          "label": "Popisek coveru",
+          "placeholder": "Krátký popisek"
+        },
+        "seoTitle": {
+          "label": "SEO title",
+          "placeholder": "Volitelný vlastní title"
+        },
+        "seoDescription": {
+          "label": "SEO description",
+          "placeholder": "Volitelný vlastní popis"
         }
       }
     },
