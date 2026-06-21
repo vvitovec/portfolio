@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 
@@ -7,7 +8,6 @@ import Container from "@/components/layout/Container";
 import NewsletterSignupForm from "@/components/newsletter/NewsletterSignupForm";
 import JsonLd from "@/components/seo/JsonLd";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/seo";
@@ -16,7 +16,11 @@ import {
   createBreadcrumbSchema,
   createWebPageSchema,
 } from "@/lib/structured-data";
-import { getPublishedBlogPostBySlug } from "@/server/queries/blog";
+import {
+  type BlogPostView,
+  getPublishedBlogPostBySlug,
+  getPublishedBlogPostNeighbors,
+} from "@/server/queries/blog";
 
 export const dynamic = "force-dynamic";
 
@@ -40,6 +44,83 @@ const coerceDate = (value: Date | string | null | undefined): Date | null => {
   const date = value instanceof Date ? value : new Date(value);
   return Number.isNaN(date.getTime()) ? null : date;
 };
+
+type ArticlePointerProps = {
+  direction: "previous" | "next";
+  post: Pick<BlogPostView, "slug" | "title" | "coverImageUrl" | "coverImageAlt"> | null;
+  title: string;
+  placeholderTitle: string;
+  placeholderDescription: string;
+  placeholderImageLabel: string;
+};
+
+function ArticlePointer({
+  direction,
+  post,
+  title,
+  placeholderTitle,
+  placeholderDescription,
+  placeholderImageLabel,
+}: ArticlePointerProps) {
+  const isPrevious = direction === "previous";
+  const content = (
+    <>
+      <div className="flex items-center justify-between gap-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+        <span>{title}</span>
+        {isPrevious ? (
+          <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+        ) : (
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        )}
+      </div>
+      <div className="grid gap-4 sm:grid-cols-[8rem_1fr] sm:items-center">
+        <div className="aspect-[16/10] overflow-hidden rounded-xl bg-muted">
+          {post?.coverImageUrl ? (
+            <img
+              src={post.coverImageUrl}
+              alt={post.coverImageAlt ?? post.title}
+              className="h-full w-full object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.04]"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-secondary text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              {placeholderImageLabel}
+            </div>
+          )}
+        </div>
+        <div className="min-w-0">
+          <h2 className="line-clamp-2 font-display text-xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-primary">
+            {post ? post.title : placeholderTitle}
+          </h2>
+          {post ? null : (
+            <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">
+              {placeholderDescription}
+            </p>
+          )}
+        </div>
+      </div>
+    </>
+  );
+
+  const className =
+    "group flex min-h-48 flex-col justify-between gap-5 rounded-2xl border border-border/60 bg-card/80 p-5 shadow-sm transition motion-safe:duration-300";
+
+  if (!post) {
+    return (
+      <div className={`${className} text-muted-foreground`} aria-disabled="true">
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      href={`/blog/${post.slug}`}
+      className={`${className} motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`}
+    >
+      {content}
+    </Link>
+  );
+}
 
 export async function generateMetadata({
   params,
@@ -73,7 +154,10 @@ export default async function BlogPostPage({ params }: PageProps) {
   const locale = routing.locales.includes(rawLocale as Locale)
     ? (rawLocale as Locale)
     : routing.defaultLocale;
-  const post = await getPublishedBlogPostBySlug(slug, locale);
+  const [post, neighbors] = await Promise.all([
+    getPublishedBlogPostBySlug(slug, locale),
+    getPublishedBlogPostNeighbors(slug, locale),
+  ]);
   const t = await getTranslations({ locale, namespace: "blog" });
   const nav = await getTranslations({ locale, namespace: "nav" });
 
@@ -169,6 +253,27 @@ export default async function BlogPostPage({ params }: PageProps) {
             </div>
 
             <div className="mt-12 space-y-6 border-t border-border/70 pt-8">
+              <nav
+                className="grid gap-4 lg:grid-cols-2"
+                aria-label={t("articleNavigation.label")}
+              >
+                <ArticlePointer
+                  direction="previous"
+                  post={neighbors.previous}
+                  title={t("articleNavigation.previous")}
+                  placeholderTitle={t("articleNavigation.firstTitle")}
+                  placeholderDescription={t("articleNavigation.firstDescription")}
+                  placeholderImageLabel={t("articleNavigation.firstImageLabel")}
+                />
+                <ArticlePointer
+                  direction="next"
+                  post={neighbors.next}
+                  title={t("articleNavigation.next")}
+                  placeholderTitle={t("articleNavigation.comingSoonTitle")}
+                  placeholderDescription={t("articleNavigation.comingSoonDescription")}
+                  placeholderImageLabel={t("articleNavigation.comingSoonImageLabel")}
+                />
+              </nav>
               <div className="rounded-2xl border border-border/60 bg-card/80 p-6 shadow-sm sm:p-7">
                 <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
                   <div>
@@ -185,9 +290,6 @@ export default async function BlogPostPage({ params }: PageProps) {
                   <NewsletterSignupForm source="blog-post" variant="inline" />
                 </div>
               </div>
-              <Button asChild variant="outline">
-                <Link href="/blog">{t("morePosts")}</Link>
-              </Button>
             </div>
           </div>
         </Container>

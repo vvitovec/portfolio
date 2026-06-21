@@ -110,6 +110,17 @@
     "imageCredit": "Zdroj obrázku",
     "morePosts": "Další články",
     "talkCta": "Napsat mi",
+    "articleNavigation": {
+      "label": "Navigace mezi články",
+      "previous": "Předchozí článek",
+      "next": "Další článek",
+      "firstTitle": "Tohle je první článek",
+      "firstDescription": "Před tímhle už nic staršího není. Archiv začíná tady.",
+      "firstImageLabel": "Start",
+      "comingSoonTitle": "Brzy vyjde další",
+      "comingSoonDescription": "Novější článek zatím není. Další se objeví tady.",
+      "comingSoonImageLabel": "Brzy"
+    },
     "newsletter": {
       "email": {
         "label": "Dostávat nové články emailem",

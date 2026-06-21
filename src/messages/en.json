@@ -110,6 +110,17 @@
     "imageCredit": "Image source",
     "morePosts": "More posts",
     "talkCta": "Talk to me",
+    "articleNavigation": {
+      "label": "Article navigation",
+      "previous": "Previous article",
+      "next": "Next article",
+      "firstTitle": "This is the first one",
+      "firstDescription": "No older post before this. The archive starts here.",
+      "firstImageLabel": "Start",
+      "comingSoonTitle": "Coming soon",
+      "comingSoonDescription": "No newer article yet. The next one will land here.",
+      "comingSoonImageLabel": "Soon"
+    },
     "newsletter": {
       "email": {
         "label": "Get new posts by email",

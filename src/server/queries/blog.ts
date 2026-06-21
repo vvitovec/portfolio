@@ -213,6 +213,67 @@ const getPublishedBlogPostBySlugFetcher = async (
   }
 };
 
+const getPublishedBlogPostNeighborsFetcher = async (
+  slug: string,
+  locale: Locale,
+): Promise<{ previous: BlogPostView | null; next: BlogPostView | null }> => {
+  const locales = getLocaleFallbacks(locale);
+
+  try {
+    const posts = await db.blogPost.findMany({
+      where: { status: BlogPostStatus.PUBLISHED },
+      orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
+      select: {
+        id: true,
+        slug: true,
+        featured: true,
+        tags: true,
+        coverImageUrl: true,
+        coverImageCredit: true,
+        coverImageCreditUrl: true,
+        createdAt: true,
+        updatedAt: true,
+        publishedAt: true,
+        translations: {
+          where: { locale: { in: locales } },
+          select: {
+            locale: true,
+            title: true,
+            excerpt: true,
+            contentMarkdown: true,
+            seoTitle: true,
+            seoDescription: true,
+            coverImageAlt: true,
+            coverImageCaption: true,
+          },
+        },
+      },
+    });
+
+    const normalizedPosts = posts.map((post) => normalizeBlogPost(post, locales));
+    const index = normalizedPosts.findIndex((post) => post.slug === slug);
+
+    if (index === -1) {
+      return { previous: null, next: null };
+    }
+
+    return {
+      previous: normalizedPosts[index + 1] ?? null,
+      next: normalizedPosts[index - 1] ?? null,
+    };
+  } catch (error) {
+    if (!isDatabaseUnavailableError(error)) {
+      throw error;
+    }
+
+    logPublicQueryFallback(
+      `Failed to load published blog post neighbors for "${slug}"`,
+      error,
+    );
+    return { previous: null, next: null };
+  }
+};
+
 export async function getPublishedBlogPosts(
   locale: Locale,
 ): Promise<BlogPostView[]> {
@@ -245,6 +306,27 @@ export async function getPublishedBlogPostBySlug(
   const cached = unstable_cache(
     getPublishedBlogPostBySlugFetcher,
     ["blog-post", slug, locale],
+    {
+      revalidate: REVALIDATE_SECONDS,
+      tags: ["blog-posts", `blog-post:${slug}`, `blog-post:${slug}:${locale}`],
+    },
+  );
+
+  return cached(slug, locale);
+}
+
+export async function getPublishedBlogPostNeighbors(
+  slug: string,
+  locale: Locale,
+): Promise<{ previous: BlogPostView | null; next: BlogPostView | null }> {
+  if (process.env.NODE_ENV === "development") {
+    unstable_noStore();
+    return getPublishedBlogPostNeighborsFetcher(slug, locale);
+  }
+
+  const cached = unstable_cache(
+    getPublishedBlogPostNeighborsFetcher,
+    ["blog-post-neighbors", slug, locale],
     {
       revalidate: REVALIDATE_SECONDS,
       tags: ["blog-posts", `blog-post:${slug}`, `blog-post:${slug}:${locale}`],
