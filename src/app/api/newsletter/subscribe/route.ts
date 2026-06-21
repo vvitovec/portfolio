@@ -16,6 +16,8 @@ import {
 } from "@/server/newsletter/tokens";
 import { getClientIp } from "@/server/request-ip";
 
+export const dynamic = "force-dynamic";
+
 const genericSuccess = () => NextResponse.json({ ok: true });
 
 function getUserAgent(request: Request) {

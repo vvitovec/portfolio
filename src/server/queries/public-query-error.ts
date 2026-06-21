@@ -10,6 +10,7 @@ const databaseUnavailableMessages = [
   "ECONNRESET",
   "ECONNREFUSED",
   "ENOTFOUND",
+  "DATABASE_URL is not set",
   "tenant/user",
   "does not exist in the current database",
 ];

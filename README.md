@@ -43,7 +43,13 @@ pnpm dev       # start the local dev server
 pnpm lint      # run ESLint
 pnpm build     # create a production build
 pnpm db:seed   # seed the database
+pnpm blog:publish      # publish a bilingual blog post from Markdown
+pnpm portfolio:publish # publish a portfolio case study from Markdown
 ```
+
+## Deployment
+
+Production runs on Vercel as the `portfolio` project and is aliased to [www.vvitovec.com](https://www.vvitovec.com). Database-backed changes may also need the production PostgreSQL/BaseV notes in `AGENTS.md`.
 
 ## Project Structure
 

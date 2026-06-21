@@ -9,6 +9,7 @@ import {
 } from "@/server/blob/getBlobRwToken";
 import { db } from "@/server/db";
 
+export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const TINY_PNG_BASE64 =

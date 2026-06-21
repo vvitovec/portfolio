@@ -6,6 +6,8 @@ type RouteContext = {
   params: Promise<{ token: string }>;
 };
 
+export const dynamic = "force-dynamic";
+
 export async function GET(_request: Request, { params }: RouteContext) {
   const { token } = await params;
   const subscriber = await db.newsletterSubscriber.findUnique({
