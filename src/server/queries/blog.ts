@@ -43,6 +43,15 @@ type BlogPostTranslationView = {
 const fallbackOrder: Locale[] = ["cs", "en"];
 const REVALIDATE_SECONDS = 300;
 
+function coerceDate(value: Date | string | null | undefined): Date | null {
+  if (!value) {
+    return null;
+  }
+
+  const date = value instanceof Date ? value : new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
 function getLocaleFallbacks(locale: Locale): Locale[] {
   return Array.from(new Set<Locale>([locale, ...fallbackOrder]));
 }
@@ -70,14 +79,16 @@ function normalizeBlogPost(
     coverImageUrl: string | null;
     coverImageCredit: string | null;
     coverImageCreditUrl: string | null;
-    createdAt: Date;
-    updatedAt: Date;
-    publishedAt: Date | null;
+    createdAt: Date | string;
+    updatedAt: Date | string;
+    publishedAt: Date | string | null;
     translations: BlogPostTranslationView[];
   },
   locales: Locale[],
 ): BlogPostView {
   const translation = selectTranslation(post.translations, locales);
+  const createdAt = coerceDate(post.createdAt) ?? new Date();
+  const updatedAt = coerceDate(post.updatedAt) ?? createdAt;
 
   return {
     id: post.id,
@@ -87,9 +98,9 @@ function normalizeBlogPost(
     coverImageUrl: post.coverImageUrl,
     coverImageCredit: post.coverImageCredit,
     coverImageCreditUrl: post.coverImageCreditUrl,
-    createdAt: post.createdAt,
-    updatedAt: post.updatedAt,
-    publishedAt: post.publishedAt,
+    createdAt,
+    updatedAt,
+    publishedAt: coerceDate(post.publishedAt),
     title: translation?.title ?? post.slug,
     excerpt: translation?.excerpt ?? null,
     contentMarkdown: translation?.contentMarkdown ?? "",
