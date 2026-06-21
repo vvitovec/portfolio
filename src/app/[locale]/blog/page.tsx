@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 
 import BlogPostCard from "@/components/blog/BlogPostCard";
 import Container from "@/components/layout/Container";
-import NewsletterSignupForm from "@/components/newsletter/NewsletterSignupForm";
+import BlogNewsletterPopup from "@/components/newsletter/BlogNewsletterPopup";
 import JsonLd from "@/components/seo/JsonLd";
 import { routing, type Locale } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/seo";
@@ -106,7 +106,7 @@ export default async function BlogPage({ params, searchParams }: PageProps) {
               {t(`newsletter.status.${newsletterStatus}`)}
             </div>
           ) : null}
-          <NewsletterSignupForm />
+          {newsletterStatus ? null : <BlogNewsletterPopup />}
           {posts.length > 0 ? (
             <div className="mt-10 flex max-w-5xl flex-col gap-5">
               {posts.map((post, index) => (

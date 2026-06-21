@@ -1,17 +1,26 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 import {
   newsletterSubscribeSchema,
   type NewsletterSubscribeValues,
 } from "@/lib/validation/newsletter";
 
 type FormStatus = "idle" | "submitting" | "success";
+type NewsletterSignupVariant = "card" | "inline" | "modal";
+
+type NewsletterSignupFormProps = {
+  className?: string;
+  onSuccess?: () => void;
+  source?: string;
+  variant?: NewsletterSignupVariant;
+};
 
 const initialValues: NewsletterSubscribeValues = {
   email: "",
@@ -37,12 +46,19 @@ function mapEmailError(issues: z.ZodIssue[], t: (key: string) => string) {
   return t("email.errorInvalid");
 }
 
-export default function NewsletterSignupForm() {
+export default function NewsletterSignupForm({
+  className,
+  onSuccess,
+  source = "blog",
+  variant = "card",
+}: NewsletterSignupFormProps) {
   const locale = useLocale();
   const t = useTranslations("blog.newsletter");
+  const formId = useId();
   const [values, setValues] = useState<NewsletterSubscribeValues>({
     ...initialValues,
     locale: locale === "cs" ? "cs" : "en",
+    source,
   });
   const [status, setStatus] = useState<FormStatus>("idle");
   const [emailError, setEmailError] = useState<string | null>(null);
@@ -62,7 +78,7 @@ export default function NewsletterSignupForm() {
     const parsed = newsletterSubscribeSchema.safeParse({
       ...values,
       locale: locale === "cs" ? "cs" : "en",
-      source: "blog",
+      source,
     });
 
     if (!parsed.success) {
@@ -81,7 +97,12 @@ export default function NewsletterSignupForm() {
 
       if (response.ok) {
         setStatus("success");
-        setValues({ ...initialValues, locale: locale === "cs" ? "cs" : "en" });
+        setValues({
+          ...initialValues,
+          locale: locale === "cs" ? "cs" : "en",
+          source,
+        });
+        onSuccess?.();
         return;
       }
 
@@ -111,10 +132,15 @@ export default function NewsletterSignupForm() {
   if (status === "success") {
     return (
       <div
-        className="mt-10 max-w-3xl rounded-2xl border border-border/60 bg-card/80 p-6"
+        className={cn(
+          "rounded-2xl border border-border/60 bg-card/80 p-6",
+          variant === "inline" && "border-0 bg-transparent p-0",
+          variant === "modal" && "border-0 bg-transparent p-0",
+          className,
+        )}
         role="status"
       >
-        <h2 className="font-display text-2xl font-semibold text-foreground">
+        <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground">
           {t("successTitle")}
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">
@@ -128,16 +154,34 @@ export default function NewsletterSignupForm() {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="mt-10 max-w-3xl rounded-2xl border border-border/60 bg-card/80 p-6"
-      aria-describedby={formError ? "newsletter-error" : undefined}
+      className={cn(
+        variant === "card" &&
+          "mt-10 max-w-3xl rounded-2xl border border-border/60 bg-card/80 p-6",
+        variant === "inline" && "space-y-3",
+        variant === "modal" && "space-y-4",
+        className,
+      )}
+      aria-describedby={formError ? `${formId}-newsletter-error` : undefined}
     >
-      <div className="grid gap-5 md:grid-cols-[1fr_auto] md:items-end">
+      <div
+        className={cn(
+          "grid gap-4",
+          variant === "card" && "md:grid-cols-[1fr_auto] md:items-end",
+          variant === "inline" && "sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start",
+        )}
+      >
         <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground" htmlFor="newsletter-email">
+          <label
+            className={cn(
+              "text-sm font-medium text-foreground",
+              variant === "modal" && "sr-only",
+            )}
+            htmlFor={`${formId}-newsletter-email`}
+          >
             {t("email.label")}
           </label>
           <Input
-            id="newsletter-email"
+            id={`${formId}-newsletter-email`}
             name="email"
             type="email"
             value={values.email}
@@ -149,27 +193,40 @@ export default function NewsletterSignupForm() {
             }
             placeholder={t("email.placeholder")}
             aria-invalid={Boolean(emailError)}
-            aria-describedby={emailError ? "newsletter-email-error" : undefined}
+            aria-describedby={
+              emailError ? `${formId}-newsletter-email-error` : undefined
+            }
             autoComplete="email"
             disabled={isSubmitting}
+            className={cn(variant === "modal" && "h-12")}
           />
           {emailError ? (
-            <p id="newsletter-email-error" className="text-xs font-medium text-destructive">
+            <p
+              id={`${formId}-newsletter-email-error`}
+              className="text-xs font-medium text-destructive"
+            >
               {emailError}
             </p>
           ) : (
             <p className="text-xs text-muted-foreground">{t("helper")}</p>
           )}
         </div>
-        <Button type="submit" disabled={isSubmitting}>
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className={cn(
+            variant === "modal" && "w-full",
+            variant === "inline" && "mt-0 sm:mt-7",
+          )}
+        >
           {submitLabel}
         </Button>
       </div>
-      <label className="sr-only" htmlFor="newsletter-website">
+      <label className="sr-only" htmlFor={`${formId}-newsletter-website`}>
         {t("honeypotLabel")}
       </label>
       <input
-        id="newsletter-website"
+        id={`${formId}-newsletter-website`}
         name="website"
         type="text"
         tabIndex={-1}
@@ -184,7 +241,10 @@ export default function NewsletterSignupForm() {
         className="hidden"
       />
       {formError ? (
-        <p id="newsletter-error" className="mt-4 text-sm font-medium text-destructive">
+        <p
+          id={`${formId}-newsletter-error`}
+          className="mt-4 text-sm font-medium text-destructive"
+        >
           {formError}
         </p>
       ) : null}

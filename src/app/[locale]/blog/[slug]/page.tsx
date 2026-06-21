@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 
 import Markdown from "@/components/content/Markdown";
 import Container from "@/components/layout/Container";
+import NewsletterSignupForm from "@/components/newsletter/NewsletterSignupForm";
 import JsonLd from "@/components/seo/JsonLd";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -167,12 +168,25 @@ export default async function BlogPostPage({ params }: PageProps) {
               <Markdown content={post.contentMarkdown} />
             </div>
 
-            <div className="mt-12 flex flex-wrap gap-3 border-t border-border/70 pt-8">
+            <div className="mt-12 space-y-6 border-t border-border/70 pt-8">
+              <div className="rounded-2xl border border-border/60 bg-card/80 p-6 shadow-sm sm:p-7">
+                <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                      {t("newsletter.articleLabel")}
+                    </p>
+                    <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                      {t("newsletter.articleTitle")}
+                    </h2>
+                    <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                      {t("newsletter.articleSubtitle")}
+                    </p>
+                  </div>
+                  <NewsletterSignupForm source="blog-post" variant="inline" />
+                </div>
+              </div>
               <Button asChild variant="outline">
                 <Link href="/blog">{t("morePosts")}</Link>
-              </Button>
-              <Button asChild>
-                <Link href="/contact">{t("talkCta")}</Link>
               </Button>
             </div>
           </div>
