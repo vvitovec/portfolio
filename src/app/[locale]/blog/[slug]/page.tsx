@@ -141,27 +141,6 @@ export default async function BlogPostPage({ params }: PageProps) {
                     alt={post.coverImageAlt ?? t("coverAlt", { title: post.title })}
                     className="aspect-[16/9] w-full object-cover"
                   />
-                  {post.coverImageCaption ||
-                  post.coverImageCredit ||
-                  post.coverImageCreditUrl ? (
-                    <figcaption className="border-t border-border/60 px-4 py-3 text-xs text-muted-foreground">
-                      {post.coverImageCaption ? (
-                        <span>{post.coverImageCaption}</span>
-                      ) : null}
-                      {post.coverImageCreditUrl ? (
-                        <a
-                          href={post.coverImageCreditUrl}
-                          target="_blank"
-                          rel="noreferrer noopener"
-                          className="ml-2 underline underline-offset-4"
-                        >
-                          {post.coverImageCredit ?? t("imageCredit")}
-                        </a>
-                      ) : post.coverImageCredit ? (
-                        <span className="ml-2">{post.coverImageCredit}</span>
-                      ) : null}
-                    </figcaption>
-                  ) : null}
                 </figure>
               ) : null}
 
