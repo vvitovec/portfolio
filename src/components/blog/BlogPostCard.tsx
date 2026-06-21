@@ -22,13 +22,22 @@ type BlogPostCardProps = {
   priority?: boolean;
 };
 
+const coerceDate = (value: Date | string | null | undefined): Date | null => {
+  if (!value) {
+    return null;
+  }
+
+  const date = value instanceof Date ? value : new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+};
+
 export default function BlogPostCard({
   post,
   locale,
   priority = false,
 }: BlogPostCardProps) {
   const t = useTranslations("blog");
-  const date = post.publishedAt ?? post.createdAt;
+  const date = coerceDate(post.publishedAt) ?? coerceDate(post.createdAt) ?? new Date();
   const formattedDate = new Intl.DateTimeFormat(locale, {
     dateStyle: "medium",
   }).format(date);

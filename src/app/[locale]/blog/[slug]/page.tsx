@@ -31,6 +31,15 @@ const getBlogPostMetaTitle = (locale: Locale, postTitle: string): string => {
   return `${postTitle} | Blog by Viktor Vítovec`;
 };
 
+const coerceDate = (value: Date | string | null | undefined): Date | null => {
+  if (!value) {
+    return null;
+  }
+
+  const date = value instanceof Date ? value : new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+};
+
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
@@ -71,7 +80,8 @@ export default async function BlogPostPage({ params }: PageProps) {
     notFound();
   }
 
-  const date = post.publishedAt ?? post.createdAt;
+  const date = coerceDate(post.publishedAt) ?? coerceDate(post.createdAt) ?? new Date();
+  const updatedAt = coerceDate(post.updatedAt) ?? date;
   const formattedDate = new Intl.DateTimeFormat(locale, {
     dateStyle: "long",
   }).format(date);
@@ -101,8 +111,8 @@ export default async function BlogPostPage({ params }: PageProps) {
             title: post.title,
             description,
             image: post.coverImageUrl,
-            datePublished: post.publishedAt,
-            dateModified: post.updatedAt,
+            datePublished: date,
+            dateModified: updatedAt,
           }),
           breadcrumb,
         ]}

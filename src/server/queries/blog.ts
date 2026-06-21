@@ -17,9 +17,9 @@ export type BlogPostView = {
   coverImageUrl: string | null;
   coverImageCredit: string | null;
   coverImageCreditUrl: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-  publishedAt: Date | null;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  publishedAt: Date | string | null;
   title: string;
   excerpt: string | null;
   contentMarkdown: string;
