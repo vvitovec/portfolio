@@ -20,9 +20,10 @@ import {
   type BlogPostView,
   getPublishedBlogPostBySlug,
   getPublishedBlogPostNeighbors,
+  getPublishedBlogPosts,
 } from "@/server/queries/blog";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 type PageProps = {
   params: Promise<{ locale: string; slug: string }>;
@@ -44,6 +45,20 @@ const coerceDate = (value: Date | string | null | undefined): Date | null => {
   const date = value instanceof Date ? value : new Date(value);
   return Number.isNaN(date.getTime()) ? null : date;
 };
+
+export async function generateStaticParams() {
+  const params = await Promise.all(
+    routing.locales.map(async (locale) => {
+      const posts = await getPublishedBlogPosts(locale);
+      return posts.map((post) => ({
+        locale,
+        slug: post.slug,
+      }));
+    }),
+  );
+
+  return params.flat();
+}
 
 type ArticlePointerProps = {
   direction: "previous" | "next";

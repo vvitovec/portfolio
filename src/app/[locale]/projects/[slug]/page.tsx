@@ -12,7 +12,10 @@ import ProjectHighlightsSection from "@/components/sections/project/ProjectHighl
 import SectionReveal from "@/components/sections/project/SectionReveal";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getPublishedProjectBySlug } from "@/server/queries/projects";
+import {
+  getPublishedProjectBySlug,
+  getPublishedProjects,
+} from "@/server/queries/projects";
 import { routing, type Locale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { getBlurDataURL } from "@/lib/image-placeholder";
@@ -23,7 +26,7 @@ import {
 } from "@/lib/structured-data";
 import type { CaseStudyBlock } from "@/types/case-study";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 type PageProps = {
   params: Promise<{ locale: string; slug: string }>;
@@ -52,6 +55,20 @@ const getProjectMetaTitle = (locale: Locale, projectTitle: string): string => {
 
   return `${projectTitle} | Project by Viktor Vítovec`;
 };
+
+export async function generateStaticParams() {
+  const params = await Promise.all(
+    routing.locales.map(async (locale) => {
+      const projects = await getPublishedProjects(locale);
+      return projects.map((project) => ({
+        locale,
+        slug: project.slug,
+      }));
+    }),
+  );
+
+  return params.flat();
+}
 
 export async function generateMetadata({
   params,

@@ -34,10 +34,10 @@ type ProjectTranslationView = {
   title: string;
   tagline: string | null;
   descriptionShort: string | null;
-  descriptionLong: string | null;
-  caseStudyBlocks: unknown;
-  role: string | null;
-  highlights: string[];
+  descriptionLong?: string | null;
+  caseStudyBlocks?: unknown;
+  role?: string | null;
+  highlights?: string[];
 };
 
 const fallbackOrder: Locale[] = ["cs", "en"];
@@ -72,9 +72,9 @@ function normalizeProject(
     featured: boolean;
     year: number | null;
     coverImageUrl: string | null;
-    galleryImageUrls: string[];
-    liveUrl: string | null;
-    repoUrl: string | null;
+    galleryImageUrls?: string[] | null;
+    liveUrl?: string | null;
+    repoUrl?: string | null;
     techStack: string[];
     createdAt: Date;
     publishedAt: Date | null;
@@ -106,8 +106,8 @@ function normalizeProject(
     year: resolveProjectYear(project.year, project.publishedAt, project.createdAt),
     coverImageUrl: project.coverImageUrl,
     galleryImageUrls: project.galleryImageUrls ?? [],
-    liveUrl: project.liveUrl,
-    repoUrl: project.repoUrl,
+    liveUrl: project.liveUrl ?? null,
+    repoUrl: project.repoUrl ?? null,
     techStack: project.techStack,
     title: translation?.title ?? project.slug,
     tagline: translation?.tagline ?? null,
@@ -141,9 +141,6 @@ const getPublishedProjectsFetcher = async (
         featured: true,
         year: true,
         coverImageUrl: true,
-        galleryImageUrls: true,
-        liveUrl: true,
-        repoUrl: true,
         techStack: true,
         createdAt: true,
         publishedAt: true,
@@ -154,10 +151,6 @@ const getPublishedProjectsFetcher = async (
             title: true,
             tagline: true,
             descriptionShort: true,
-            descriptionLong: true,
-            caseStudyBlocks: true,
-            role: true,
-            highlights: true,
           },
         },
       },

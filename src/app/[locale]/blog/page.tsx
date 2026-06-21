@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 
 import BlogPostCard from "@/components/blog/BlogPostCard";
 import Container from "@/components/layout/Container";
-import BlogNewsletterPopup from "@/components/newsletter/BlogNewsletterPopup";
+import BlogNewsletterClientState from "@/components/newsletter/BlogNewsletterClientState";
 import JsonLd from "@/components/seo/JsonLd";
 import { routing, type Locale } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/seo";
@@ -13,14 +14,11 @@ import {
 } from "@/lib/structured-data";
 import { getPublishedBlogPosts } from "@/server/queries/blog";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 type PageProps = {
   params: Promise<{ locale: string }>;
-  searchParams?: Promise<{ newsletter?: string }>;
 };
-
-const newsletterStatuses = new Set(["confirmed", "unsubscribed", "invalid"]);
 
 const blogMetadataByLocale: Record<Locale, { title: string; description: string }> =
   {
@@ -54,9 +52,8 @@ export async function generateMetadata({
   });
 }
 
-export default async function BlogPage({ params, searchParams }: PageProps) {
+export default async function BlogPage({ params }: PageProps) {
   const { locale: rawLocale } = await params;
-  const resolvedSearchParams = await searchParams;
   const locale = routing.locales.includes(rawLocale as Locale)
     ? (rawLocale as Locale)
     : routing.defaultLocale;
@@ -64,11 +61,6 @@ export default async function BlogPage({ params, searchParams }: PageProps) {
   const nav = await getTranslations({ locale, namespace: "nav" });
   const posts = await getPublishedBlogPosts(locale);
   const meta = blogMetadataByLocale[locale];
-  const newsletterStatus = newsletterStatuses.has(
-    resolvedSearchParams?.newsletter ?? "",
-  )
-    ? resolvedSearchParams?.newsletter
-    : null;
   const breadcrumb = createBreadcrumbSchema(locale, [
     { name: nav("home"), pathname: "/" },
     { name: nav("blog"), pathname: "/blog" },
@@ -98,12 +90,9 @@ export default async function BlogPage({ params, searchParams }: PageProps) {
               {t("subtitle")}
             </p>
           </div>
-          {newsletterStatus ? (
-            <div className="mt-8 max-w-3xl rounded-2xl border border-border/60 bg-card/80 p-5 text-sm text-muted-foreground">
-              {t(`newsletter.status.${newsletterStatus}`)}
-            </div>
-          ) : null}
-          {newsletterStatus ? null : <BlogNewsletterPopup />}
+          <Suspense fallback={null}>
+            <BlogNewsletterClientState />
+          </Suspense>
           {posts.length > 0 ? (
             <div className="mt-10 flex max-w-5xl flex-col gap-5">
               {posts.map((post, index) => (

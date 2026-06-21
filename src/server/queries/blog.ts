@@ -33,7 +33,7 @@ type BlogPostTranslationView = {
   locale: Locale;
   title: string;
   excerpt: string | null;
-  contentMarkdown: string;
+  contentMarkdown?: string;
   seoTitle: string | null;
   seoDescription: string | null;
   coverImageAlt: string | null;
@@ -141,7 +141,6 @@ const getPublishedBlogPostsFetcher = async (
             locale: true,
             title: true,
             excerpt: true,
-            contentMarkdown: true,
             seoTitle: true,
             seoDescription: true,
             coverImageAlt: true,
@@ -240,7 +239,6 @@ const getPublishedBlogPostNeighborsFetcher = async (
             locale: true,
             title: true,
             excerpt: true,
-            contentMarkdown: true,
             seoTitle: true,
             seoDescription: true,
             coverImageAlt: true,

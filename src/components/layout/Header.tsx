@@ -3,12 +3,14 @@ import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Link } from "@/i18n/navigation";
 import Container from "@/components/layout/Container";
+import PublicRoutePrefetcher from "@/components/layout/PublicRoutePrefetcher";
 
 export default function Header() {
   const t = useTranslations("nav");
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70">
+      <PublicRoutePrefetcher />
       <Container className="flex h-16 items-center justify-between gap-6">
         <Link
           href="/"

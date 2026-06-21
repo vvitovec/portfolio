@@ -14,7 +14,7 @@ import {
 } from "@/lib/structured-data";
 import { getPublishedProjects } from "@/server/queries/projects";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 type PageProps = {
   params: Promise<{ locale: string }>;
