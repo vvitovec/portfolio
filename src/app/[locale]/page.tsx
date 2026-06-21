@@ -321,6 +321,7 @@ export default async function HomePage({ params }: PageProps) {
                     key={post.id}
                     post={post}
                     locale={locale}
+                    variant="compact"
                     priority={index === 0}
                   />
                 ))}

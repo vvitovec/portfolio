@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
+import { cn } from "@/lib/utils";
 import type { BlogPostView } from "@/server/queries/blog";
 
 type BlogPostCardProps = {
@@ -19,6 +20,7 @@ type BlogPostCardProps = {
     | "createdAt"
   >;
   locale: Locale;
+  variant?: "list" | "compact";
   priority?: boolean;
 };
 
@@ -34,6 +36,7 @@ const coerceDate = (value: Date | string | null | undefined): Date | null => {
 export default function BlogPostCard({
   post,
   locale,
+  variant = "list",
   priority = false,
 }: BlogPostCardProps) {
   const t = useTranslations("blog");
@@ -45,9 +48,17 @@ export default function BlogPostCard({
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group grid overflow-hidden rounded-2xl border border-border/60 bg-card/80 shadow-sm transition motion-safe:duration-300 motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:grid-cols-[minmax(13rem,18rem)_1fr]"
+      className={cn(
+        "group grid overflow-hidden rounded-2xl border border-border/60 bg-card/80 shadow-sm transition motion-safe:duration-300 motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        variant === "list" && "sm:grid-cols-[minmax(13rem,18rem)_1fr]",
+      )}
     >
-      <div className="relative aspect-[16/10] overflow-hidden bg-muted sm:aspect-auto sm:min-h-56">
+      <div
+        className={cn(
+          "relative aspect-[16/10] overflow-hidden bg-muted",
+          variant === "list" && "sm:aspect-auto sm:min-h-56",
+        )}
+      >
         {post.coverImageUrl ? (
           <img
             src={post.coverImageUrl}
@@ -61,7 +72,12 @@ export default function BlogPostCard({
           </div>
         )}
       </div>
-      <div className="flex flex-col justify-between gap-6 p-6 sm:p-7">
+      <div
+        className={cn(
+          "flex flex-col justify-between p-6",
+          variant === "list" ? "gap-6 sm:p-7" : "min-h-80 gap-5 sm:p-6",
+        )}
+      >
         <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
           <span className="inline-flex items-center gap-2">
             <CalendarDays className="h-3.5 w-3.5" />
@@ -70,11 +86,23 @@ export default function BlogPostCard({
         </div>
 
         <div className="space-y-3">
-          <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-primary sm:text-3xl">
+          <h2
+            className={cn(
+              "font-display font-semibold tracking-tight text-foreground transition-colors group-hover:text-primary",
+              variant === "list"
+                ? "text-2xl sm:text-3xl"
+                : "text-2xl leading-tight",
+            )}
+          >
             {post.title}
           </h2>
           {post.excerpt ? (
-            <p className="line-clamp-3 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
+            <p
+              className={cn(
+                "line-clamp-3 max-w-2xl text-sm leading-6 text-muted-foreground",
+                variant === "list" && "sm:text-base sm:leading-7",
+              )}
+            >
               {post.excerpt}
             </p>
           ) : null}
