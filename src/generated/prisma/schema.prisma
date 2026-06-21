@@ -27,6 +27,28 @@ enum Locale {
   en
 }
 
+enum NewsletterSubscriberStatus {
+  PENDING
+  CONFIRMED
+  UNSUBSCRIBED
+}
+
+enum NewsletterEmailType {
+  CONFIRMATION
+  BLOG_POST
+}
+
+enum NewsletterEmailStatus {
+  SENT
+  FAILED
+}
+
+enum NewsletterPostSendStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
 model Project {
   id       String        @id @default(cuid())
   slug     String        @unique
@@ -98,7 +120,9 @@ model BlogPost {
   updatedAt   DateTime  @updatedAt
   publishedAt DateTime?
 
-  translations BlogPostTranslation[]
+  translations          BlogPostTranslation[]
+  newsletterSends       NewsletterPostSend[]
+  newsletterEmailEvents NewsletterEmailEvent[]
 }
 
 model BlogPostTranslation {
@@ -120,4 +144,81 @@ model BlogPostTranslation {
 
   @@unique([postId, locale])
   @@index([locale])
+}
+
+model NewsletterSubscriber {
+  id     String                     @id @default(cuid())
+  email  String                     @unique
+  locale Locale                     @default(en)
+  status NewsletterSubscriberStatus @default(PENDING)
+  source String?
+
+  confirmationTokenHash String? @unique
+  unsubscribeToken      String  @unique
+
+  ipHash    String?
+  userAgent String?
+
+  consentAt      DateTime  @default(now())
+  confirmedAt    DateTime?
+  unsubscribedAt DateTime?
+  lastSentAt     DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  emailEvents NewsletterEmailEvent[]
+
+  @@index([status])
+  @@index([locale])
+  @@index([createdAt])
+}
+
+model NewsletterPostSend {
+  id     String                   @id @default(cuid())
+  postId String
+  post   BlogPost                 @relation(fields: [postId], references: [id], onDelete: Cascade)
+  status NewsletterPostSendStatus
+
+  recipientCount Int     @default(0)
+  sentCount      Int     @default(0)
+  failedCount    Int     @default(0)
+  errorMessage   String?
+
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+
+  emailEvents NewsletterEmailEvent[]
+
+  @@index([postId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model NewsletterEmailEvent {
+  id           String                @id @default(cuid())
+  subscriberId String?
+  subscriber   NewsletterSubscriber? @relation(fields: [subscriberId], references: [id], onDelete: SetNull)
+  postId       String?
+  post         BlogPost?             @relation(fields: [postId], references: [id], onDelete: SetNull)
+  postSendId   String?
+  postSend     NewsletterPostSend?   @relation(fields: [postSendId], references: [id], onDelete: SetNull)
+
+  type   NewsletterEmailType
+  status NewsletterEmailStatus
+
+  toEmail       String
+  subject       String
+  resendEmailId String?
+  errorMessage  String?
+
+  createdAt DateTime @default(now())
+
+  @@index([subscriberId])
+  @@index([postId])
+  @@index([postSendId])
+  @@index([type])
+  @@index([status])
+  @@index([createdAt])
 }

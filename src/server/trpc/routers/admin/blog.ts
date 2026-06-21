@@ -122,7 +122,14 @@ export const adminBlogRouter = router({
         { publishedAt: "desc" },
         { updatedAt: "desc" },
       ],
-      include: { translations: true },
+      include: {
+        translations: true,
+        newsletterSends: {
+          where: { status: "COMPLETED" },
+          select: { id: true, createdAt: true },
+          take: 1,
+        },
+      },
     }),
   ),
   getById: adminProcedure.input(idSchema).query(async ({ input }) => {

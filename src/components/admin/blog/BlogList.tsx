@@ -71,6 +71,17 @@ export default function BlogList() {
     onError: () => toast.error(t("toast.error")),
   });
 
+  const sendNewsletterMutation = trpc.admin.newsletter.sendPost.useMutation({
+    onSuccess: async () => {
+      toast.success(t("toast.newsletterSent"));
+      await utils.admin.blog.list.invalidate();
+      await utils.admin.newsletter.summary.invalidate();
+      await utils.admin.newsletter.sends.invalidate();
+      await utils.admin.newsletter.events.invalidate();
+    },
+    onError: (error) => toast.error(error.message || t("toast.error")),
+  });
+
   const rows = useMemo(() => {
     if (!data) return [];
 
@@ -131,8 +142,12 @@ export default function BlogList() {
                   onPublish={() => publishMutation.mutate({ id: post.id })}
                   onUnpublish={() => unpublishMutation.mutate({ id: post.id })}
                   onDelete={() => deleteMutation.mutate({ id: post.id })}
+                  onSendNewsletter={() =>
+                    sendNewsletterMutation.mutate({ postId: post.id })
+                  }
                   isPublishing={publishMutation.isPending}
                   isUnpublishing={unpublishMutation.isPending}
+                  isSendingNewsletter={sendNewsletterMutation.isPending}
                 />
               ))}
             </TableBody>
@@ -150,8 +165,10 @@ function BlogRow({
   onPublish,
   onUnpublish,
   onDelete,
+  onSendNewsletter,
   isPublishing,
   isUnpublishing,
+  isSendingNewsletter,
 }: {
   locale: string;
   t: (key: string) => string;
@@ -159,13 +176,16 @@ function BlogRow({
   onPublish: () => void;
   onUnpublish: () => void;
   onDelete: () => void;
+  onSendNewsletter: () => void;
   isPublishing: boolean;
   isUnpublishing: boolean;
+  isSendingNewsletter: boolean;
 }) {
   const formattedDate = new Intl.DateTimeFormat(locale, {
     dateStyle: "medium",
   }).format(new Date(post.updatedAt));
   const isPublished = post.status === "PUBLISHED";
+  const wasSentToNewsletter = post.newsletterSends.length > 0;
 
   return (
     <TableRow>
@@ -211,6 +231,43 @@ function BlogRow({
               {t("actions.publish")}
             </Button>
           )}
+          {isPublished ? (
+            wasSentToNewsletter ? (
+              <Button variant="ghost" size="sm" disabled>
+                {t("actions.newsletterSent")}
+              </Button>
+            ) : (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={isSendingNewsletter}
+                  >
+                    {t("actions.sendNewsletter")}
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      {t("confirmNewsletter.title")}
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      {t("confirmNewsletter.description")}
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>
+                      {t("confirmNewsletter.cancel")}
+                    </AlertDialogCancel>
+                    <AlertDialogAction onClick={onSendNewsletter}>
+                      {t("confirmNewsletter.confirm")}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )
+          ) : null}
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="ghost" size="sm">

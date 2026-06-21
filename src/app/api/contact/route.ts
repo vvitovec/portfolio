@@ -94,7 +94,7 @@ export async function POST(request: Request) {
   }
 
   const fromEmail =
-    process.env.CONTACT_FROM_EMAIL ?? "Portfolio Contact <onboarding@resend.dev>";
+    process.env.CONTACT_FROM_EMAIL ?? "Portfolio Contact <blog@vvitovec.com>";
 
   const emailBody = [
     `Name: ${name}`,

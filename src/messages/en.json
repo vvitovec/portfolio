@@ -110,6 +110,28 @@
     "imageCredit": "Image source",
     "morePosts": "More posts",
     "talkCta": "Talk to me",
+    "newsletter": {
+      "email": {
+        "label": "Get new posts by email",
+        "placeholder": "you@email.com",
+        "errorRequired": "Please enter your email.",
+        "errorInvalid": "Please enter a valid email.",
+        "errorMax": "Email is too long."
+      },
+      "helper": "One practical blog post on Mondays. No spam, unsubscribe anytime.",
+      "submit": "Subscribe",
+      "submitting": "Subscribing...",
+      "successTitle": "Almost done.",
+      "successMessage": "Check your inbox and confirm the subscription.",
+      "errorMessage": "Subscription failed. Please try again.",
+      "errorRateLimit": "Please wait a moment and try again.",
+      "honeypotLabel": "Leave this field empty",
+      "status": {
+        "confirmed": "Subscription confirmed. New posts will arrive by email.",
+        "unsubscribed": "You have been unsubscribed from blog emails.",
+        "invalid": "This newsletter link is invalid or expired."
+      }
+    },
     "meta": {
       "fallbackDescription": "Personal blog post by Viktor Vítovec."
     }
@@ -176,7 +198,7 @@
       "title": "Viktor Vítovec",
       "subtitle": "Digital product designer focused on UX/UI and premium web experiences.",
       "emailLabel": "Email",
-      "emailValue": "vvitovec27@gmail.com",
+      "emailValue": "viktor@vvitovec.com",
       "phoneLabel": "Phone",
       "phoneValue": "+420 774 943 304",
       "addressLabel": "Address",
@@ -267,6 +289,10 @@
         "blog": {
           "title": "Blog management",
           "description": "Draft, edit, and publish bilingual personal articles."
+        },
+        "newsletter": {
+          "title": "Newsletter",
+          "description": "Subscribers, delivery history, and weekly blog sends."
         }
       }
     },
@@ -497,7 +523,15 @@
         "edit": "Edit",
         "publish": "Publish",
         "unpublish": "Unpublish",
+        "sendNewsletter": "Send newsletter",
+        "newsletterSent": "Newsletter sent",
         "delete": "Delete"
+      },
+      "confirmNewsletter": {
+        "title": "Send this post to subscribers?",
+        "description": "This will email every confirmed newsletter subscriber. It cannot be quietly undone.",
+        "confirm": "Send newsletter",
+        "cancel": "Cancel"
       },
       "confirmDelete": {
         "title": "Delete blog post?",
@@ -511,6 +545,7 @@
         "deleted": "Blog post deleted.",
         "published": "Blog post published.",
         "unpublished": "Blog post unpublished.",
+        "newsletterSent": "Newsletter sent.",
         "error": "Something went wrong."
       },
       "form": {
@@ -670,6 +705,40 @@
         "status": {
           "label": "Status"
         }
+      }
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "subtitle": "Subscribers, confirmation state, and email delivery history.",
+      "loading": "Loading newsletter data...",
+      "summary": {
+        "confirmed": "Confirmed",
+        "pending": "Pending",
+        "unsubscribed": "Unsubscribed",
+        "sent": "Sent",
+        "failed": "Failed"
+      },
+      "subscribers": {
+        "title": "Subscribers",
+        "subtitle": "People who signed up through the public blog form.",
+        "searchPlaceholder": "Search by email, status, or locale",
+        "empty": "No subscribers yet.",
+        "columns": {
+          "email": "Email",
+          "status": "Status",
+          "locale": "Locale",
+          "confirmedAt": "Confirmed",
+          "lastSentAt": "Last sent"
+        }
+      },
+      "sends": {
+        "title": "Blog sends",
+        "empty": "No newsletter sends yet.",
+        "sentLabel": "sent"
+      },
+      "events": {
+        "title": "Recent emails",
+        "empty": "No email events yet."
       }
     }
   }

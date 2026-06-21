@@ -9,6 +9,8 @@ const databaseUnavailableMessages = [
   "ETIMEDOUT",
   "ECONNRESET",
   "ECONNREFUSED",
+  "ENOTFOUND",
+  "tenant/user",
   "does not exist in the current database",
 ];
 

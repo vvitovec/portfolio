@@ -110,6 +110,28 @@
     "imageCredit": "Zdroj obrázku",
     "morePosts": "Další články",
     "talkCta": "Napsat mi",
+    "newsletter": {
+      "email": {
+        "label": "Dostávat nové články emailem",
+        "placeholder": "vas@email.cz",
+        "errorRequired": "Zadejte svůj email.",
+        "errorInvalid": "Zadejte platný email.",
+        "errorMax": "Email je příliš dlouhý."
+      },
+      "helper": "Jeden praktický článek v pondělí. Bez spamu, odhlášení kdykoliv.",
+      "submit": "Odebírat",
+      "submitting": "Přihlašuji...",
+      "successTitle": "Skoro hotovo.",
+      "successMessage": "Zkontrolujte inbox a potvrďte odběr.",
+      "errorMessage": "Přihlášení se nepovedlo. Zkuste to prosím znovu.",
+      "errorRateLimit": "Zkuste to prosím za chvíli znovu.",
+      "honeypotLabel": "Nechte toto pole prázdné",
+      "status": {
+        "confirmed": "Odběr potvrzen. Nové články budou chodit emailem.",
+        "unsubscribed": "Odběr blogových emailů byl odhlášen.",
+        "invalid": "Tento newsletter odkaz je neplatný nebo expirovaný."
+      }
+    },
     "meta": {
       "fallbackDescription": "Osobní blogový článek od Viktora Vítovce."
     }
@@ -176,7 +198,7 @@
       "title": "Viktor Vítovec",
       "subtitle": "Designér digitálních produktů zaměřený na UX/UI a prémiové webové zážitky.",
       "emailLabel": "Email",
-      "emailValue": "vvitovec27@gmail.com",
+      "emailValue": "viktor@vvitovec.com",
       "phoneLabel": "Telefon",
       "phoneValue": "+420 774 943 304",
       "addressLabel": "Adresa",
@@ -267,6 +289,10 @@
         "blog": {
           "title": "Správa blogu",
           "description": "Koncepty, úpravy a publikace osobních článků ve dvou jazycích."
+        },
+        "newsletter": {
+          "title": "Newsletter",
+          "description": "Odběratelé, historie doručení a týdenní rozesílky blogu."
         }
       }
     },
@@ -497,7 +523,15 @@
         "edit": "Upravit",
         "publish": "Publikovat",
         "unpublish": "Zneveřejnit",
+        "sendNewsletter": "Poslat newsletter",
+        "newsletterSent": "Newsletter odeslán",
         "delete": "Smazat"
+      },
+      "confirmNewsletter": {
+        "title": "Poslat článek odběratelům?",
+        "description": "Email odejde všem potvrzeným odběratelům newsletteru. Tuto akci nejde potichu vrátit.",
+        "confirm": "Poslat newsletter",
+        "cancel": "Zrušit"
       },
       "confirmDelete": {
         "title": "Smazat článek?",
@@ -511,6 +545,7 @@
         "deleted": "Článek smazán.",
         "published": "Článek publikován.",
         "unpublished": "Článek zneveřejněn.",
+        "newsletterSent": "Newsletter odeslán.",
         "error": "Něco se pokazilo."
       },
       "form": {
@@ -670,6 +705,40 @@
         "status": {
           "label": "Status"
         }
+      }
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "subtitle": "Odběratelé, stav potvrzení a historie odeslaných emailů.",
+      "loading": "Načítám newsletter...",
+      "summary": {
+        "confirmed": "Potvrzení",
+        "pending": "Čekající",
+        "unsubscribed": "Odhlášení",
+        "sent": "Odesláno",
+        "failed": "Selhalo"
+      },
+      "subscribers": {
+        "title": "Odběratelé",
+        "subtitle": "Lidé přihlášení přes veřejný formulář na blogu.",
+        "searchPlaceholder": "Hledat podle emailu, statusu nebo jazyka",
+        "empty": "Zatím žádní odběratelé.",
+        "columns": {
+          "email": "Email",
+          "status": "Status",
+          "locale": "Jazyk",
+          "confirmedAt": "Potvrzeno",
+          "lastSentAt": "Naposledy odesláno"
+        }
+      },
+      "sends": {
+        "title": "Rozesílky článků",
+        "empty": "Zatím žádné rozesílky.",
+        "sentLabel": "odesláno"
+      },
+      "events": {
+        "title": "Poslední emaily",
+        "empty": "Zatím žádné emailové události."
       }
     }
   }

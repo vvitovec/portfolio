@@ -26,12 +26,12 @@ export default function Footer() {
           </span>
           <div className="flex flex-col gap-2">
             <a
-              href="mailto:vvitovec27@gmail.com"
+              href="mailto:viktor@vvitovec.com"
               className="font-medium text-foreground/80 transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
             >
               {footer("contact.email")}
               <span className="ml-2 text-foreground/60">
-                vvitovec27@gmail.com
+                viktor@vvitovec.com
               </span>
             </a>
             <a

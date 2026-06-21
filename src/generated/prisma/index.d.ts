@@ -38,6 +38,21 @@ export type BlogPost = $Result.DefaultSelection<Prisma.$BlogPostPayload>
  * 
  */
 export type BlogPostTranslation = $Result.DefaultSelection<Prisma.$BlogPostTranslationPayload>
+/**
+ * Model NewsletterSubscriber
+ * 
+ */
+export type NewsletterSubscriber = $Result.DefaultSelection<Prisma.$NewsletterSubscriberPayload>
+/**
+ * Model NewsletterPostSend
+ * 
+ */
+export type NewsletterPostSend = $Result.DefaultSelection<Prisma.$NewsletterPostSendPayload>
+/**
+ * Model NewsletterEmailEvent
+ * 
+ */
+export type NewsletterEmailEvent = $Result.DefaultSelection<Prisma.$NewsletterEmailEventPayload>
 
 /**
  * Enums
@@ -74,6 +89,40 @@ export const Locale: {
 
 export type Locale = (typeof Locale)[keyof typeof Locale]
 
+
+export const NewsletterSubscriberStatus: {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  UNSUBSCRIBED: 'UNSUBSCRIBED'
+};
+
+export type NewsletterSubscriberStatus = (typeof NewsletterSubscriberStatus)[keyof typeof NewsletterSubscriberStatus]
+
+
+export const NewsletterEmailType: {
+  CONFIRMATION: 'CONFIRMATION',
+  BLOG_POST: 'BLOG_POST'
+};
+
+export type NewsletterEmailType = (typeof NewsletterEmailType)[keyof typeof NewsletterEmailType]
+
+
+export const NewsletterEmailStatus: {
+  SENT: 'SENT',
+  FAILED: 'FAILED'
+};
+
+export type NewsletterEmailStatus = (typeof NewsletterEmailStatus)[keyof typeof NewsletterEmailStatus]
+
+
+export const NewsletterPostSendStatus: {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
+export type NewsletterPostSendStatus = (typeof NewsletterPostSendStatus)[keyof typeof NewsletterPostSendStatus]
+
 }
 
 export type ProjectStatus = $Enums.ProjectStatus
@@ -91,6 +140,22 @@ export const BlogPostStatus: typeof $Enums.BlogPostStatus
 export type Locale = $Enums.Locale
 
 export const Locale: typeof $Enums.Locale
+
+export type NewsletterSubscriberStatus = $Enums.NewsletterSubscriberStatus
+
+export const NewsletterSubscriberStatus: typeof $Enums.NewsletterSubscriberStatus
+
+export type NewsletterEmailType = $Enums.NewsletterEmailType
+
+export const NewsletterEmailType: typeof $Enums.NewsletterEmailType
+
+export type NewsletterEmailStatus = $Enums.NewsletterEmailStatus
+
+export const NewsletterEmailStatus: typeof $Enums.NewsletterEmailStatus
+
+export type NewsletterPostSendStatus = $Enums.NewsletterPostSendStatus
+
+export const NewsletterPostSendStatus: typeof $Enums.NewsletterPostSendStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -258,6 +323,36 @@ export class PrismaClient<
     * ```
     */
   get blogPostTranslation(): Prisma.BlogPostTranslationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.newsletterSubscriber`: Exposes CRUD operations for the **NewsletterSubscriber** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more NewsletterSubscribers
+    * const newsletterSubscribers = await prisma.newsletterSubscriber.findMany()
+    * ```
+    */
+  get newsletterSubscriber(): Prisma.NewsletterSubscriberDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.newsletterPostSend`: Exposes CRUD operations for the **NewsletterPostSend** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more NewsletterPostSends
+    * const newsletterPostSends = await prisma.newsletterPostSend.findMany()
+    * ```
+    */
+  get newsletterPostSend(): Prisma.NewsletterPostSendDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.newsletterEmailEvent`: Exposes CRUD operations for the **NewsletterEmailEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more NewsletterEmailEvents
+    * const newsletterEmailEvents = await prisma.newsletterEmailEvent.findMany()
+    * ```
+    */
+  get newsletterEmailEvent(): Prisma.NewsletterEmailEventDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -696,7 +791,10 @@ export namespace Prisma {
     ProjectTranslation: 'ProjectTranslation',
     Website: 'Website',
     BlogPost: 'BlogPost',
-    BlogPostTranslation: 'BlogPostTranslation'
+    BlogPostTranslation: 'BlogPostTranslation',
+    NewsletterSubscriber: 'NewsletterSubscriber',
+    NewsletterPostSend: 'NewsletterPostSend',
+    NewsletterEmailEvent: 'NewsletterEmailEvent'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -712,7 +810,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "project" | "projectTranslation" | "website" | "blogPost" | "blogPostTranslation"
+      modelProps: "project" | "projectTranslation" | "website" | "blogPost" | "blogPostTranslation" | "newsletterSubscriber" | "newsletterPostSend" | "newsletterEmailEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1086,6 +1184,228 @@ export namespace Prisma {
           }
         }
       }
+      NewsletterSubscriber: {
+        payload: Prisma.$NewsletterSubscriberPayload<ExtArgs>
+        fields: Prisma.NewsletterSubscriberFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NewsletterSubscriberFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NewsletterSubscriberFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>
+          }
+          findFirst: {
+            args: Prisma.NewsletterSubscriberFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NewsletterSubscriberFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>
+          }
+          findMany: {
+            args: Prisma.NewsletterSubscriberFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>[]
+          }
+          create: {
+            args: Prisma.NewsletterSubscriberCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>
+          }
+          createMany: {
+            args: Prisma.NewsletterSubscriberCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NewsletterSubscriberCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>[]
+          }
+          delete: {
+            args: Prisma.NewsletterSubscriberDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>
+          }
+          update: {
+            args: Prisma.NewsletterSubscriberUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>
+          }
+          deleteMany: {
+            args: Prisma.NewsletterSubscriberDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NewsletterSubscriberUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NewsletterSubscriberUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>[]
+          }
+          upsert: {
+            args: Prisma.NewsletterSubscriberUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>
+          }
+          aggregate: {
+            args: Prisma.NewsletterSubscriberAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNewsletterSubscriber>
+          }
+          groupBy: {
+            args: Prisma.NewsletterSubscriberGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NewsletterSubscriberGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NewsletterSubscriberCountArgs<ExtArgs>
+            result: $Utils.Optional<NewsletterSubscriberCountAggregateOutputType> | number
+          }
+        }
+      }
+      NewsletterPostSend: {
+        payload: Prisma.$NewsletterPostSendPayload<ExtArgs>
+        fields: Prisma.NewsletterPostSendFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NewsletterPostSendFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterPostSendPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NewsletterPostSendFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterPostSendPayload>
+          }
+          findFirst: {
+            args: Prisma.NewsletterPostSendFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterPostSendPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NewsletterPostSendFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterPostSendPayload>
+          }
+          findMany: {
+            args: Prisma.NewsletterPostSendFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterPostSendPayload>[]
+          }
+          create: {
+            args: Prisma.NewsletterPostSendCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterPostSendPayload>
+          }
+          createMany: {
+            args: Prisma.NewsletterPostSendCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NewsletterPostSendCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterPostSendPayload>[]
+          }
+          delete: {
+            args: Prisma.NewsletterPostSendDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterPostSendPayload>
+          }
+          update: {
+            args: Prisma.NewsletterPostSendUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterPostSendPayload>
+          }
+          deleteMany: {
+            args: Prisma.NewsletterPostSendDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NewsletterPostSendUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NewsletterPostSendUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterPostSendPayload>[]
+          }
+          upsert: {
+            args: Prisma.NewsletterPostSendUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterPostSendPayload>
+          }
+          aggregate: {
+            args: Prisma.NewsletterPostSendAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNewsletterPostSend>
+          }
+          groupBy: {
+            args: Prisma.NewsletterPostSendGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NewsletterPostSendGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NewsletterPostSendCountArgs<ExtArgs>
+            result: $Utils.Optional<NewsletterPostSendCountAggregateOutputType> | number
+          }
+        }
+      }
+      NewsletterEmailEvent: {
+        payload: Prisma.$NewsletterEmailEventPayload<ExtArgs>
+        fields: Prisma.NewsletterEmailEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NewsletterEmailEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterEmailEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NewsletterEmailEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterEmailEventPayload>
+          }
+          findFirst: {
+            args: Prisma.NewsletterEmailEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterEmailEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NewsletterEmailEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterEmailEventPayload>
+          }
+          findMany: {
+            args: Prisma.NewsletterEmailEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterEmailEventPayload>[]
+          }
+          create: {
+            args: Prisma.NewsletterEmailEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterEmailEventPayload>
+          }
+          createMany: {
+            args: Prisma.NewsletterEmailEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NewsletterEmailEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterEmailEventPayload>[]
+          }
+          delete: {
+            args: Prisma.NewsletterEmailEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterEmailEventPayload>
+          }
+          update: {
+            args: Prisma.NewsletterEmailEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterEmailEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.NewsletterEmailEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NewsletterEmailEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NewsletterEmailEventUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterEmailEventPayload>[]
+          }
+          upsert: {
+            args: Prisma.NewsletterEmailEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsletterEmailEventPayload>
+          }
+          aggregate: {
+            args: Prisma.NewsletterEmailEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNewsletterEmailEvent>
+          }
+          groupBy: {
+            args: Prisma.NewsletterEmailEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NewsletterEmailEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NewsletterEmailEventCountArgs<ExtArgs>
+            result: $Utils.Optional<NewsletterEmailEventCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1199,6 +1519,9 @@ export namespace Prisma {
     website?: WebsiteOmit
     blogPost?: BlogPostOmit
     blogPostTranslation?: BlogPostTranslationOmit
+    newsletterSubscriber?: NewsletterSubscriberOmit
+    newsletterPostSend?: NewsletterPostSendOmit
+    newsletterEmailEvent?: NewsletterEmailEventOmit
   }
 
   /* Types for Logging */
@@ -1311,10 +1634,14 @@ export namespace Prisma {
 
   export type BlogPostCountOutputType = {
     translations: number
+    newsletterSends: number
+    newsletterEmailEvents: number
   }
 
   export type BlogPostCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     translations?: boolean | BlogPostCountOutputTypeCountTranslationsArgs
+    newsletterSends?: boolean | BlogPostCountOutputTypeCountNewsletterSendsArgs
+    newsletterEmailEvents?: boolean | BlogPostCountOutputTypeCountNewsletterEmailEventsArgs
   }
 
   // Custom InputTypes
@@ -1333,6 +1660,82 @@ export namespace Prisma {
    */
   export type BlogPostCountOutputTypeCountTranslationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BlogPostTranslationWhereInput
+  }
+
+  /**
+   * BlogPostCountOutputType without action
+   */
+  export type BlogPostCountOutputTypeCountNewsletterSendsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NewsletterPostSendWhereInput
+  }
+
+  /**
+   * BlogPostCountOutputType without action
+   */
+  export type BlogPostCountOutputTypeCountNewsletterEmailEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NewsletterEmailEventWhereInput
+  }
+
+
+  /**
+   * Count Type NewsletterSubscriberCountOutputType
+   */
+
+  export type NewsletterSubscriberCountOutputType = {
+    emailEvents: number
+  }
+
+  export type NewsletterSubscriberCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    emailEvents?: boolean | NewsletterSubscriberCountOutputTypeCountEmailEventsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * NewsletterSubscriberCountOutputType without action
+   */
+  export type NewsletterSubscriberCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterSubscriberCountOutputType
+     */
+    select?: NewsletterSubscriberCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * NewsletterSubscriberCountOutputType without action
+   */
+  export type NewsletterSubscriberCountOutputTypeCountEmailEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NewsletterEmailEventWhereInput
+  }
+
+
+  /**
+   * Count Type NewsletterPostSendCountOutputType
+   */
+
+  export type NewsletterPostSendCountOutputType = {
+    emailEvents: number
+  }
+
+  export type NewsletterPostSendCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    emailEvents?: boolean | NewsletterPostSendCountOutputTypeCountEmailEventsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * NewsletterPostSendCountOutputType without action
+   */
+  export type NewsletterPostSendCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterPostSendCountOutputType
+     */
+    select?: NewsletterPostSendCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * NewsletterPostSendCountOutputType without action
+   */
+  export type NewsletterPostSendCountOutputTypeCountEmailEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NewsletterEmailEventWhereInput
   }
 
 
@@ -4984,6 +5387,8 @@ export namespace Prisma {
     updatedAt?: boolean
     publishedAt?: boolean
     translations?: boolean | BlogPost$translationsArgs<ExtArgs>
+    newsletterSends?: boolean | BlogPost$newsletterSendsArgs<ExtArgs>
+    newsletterEmailEvents?: boolean | BlogPost$newsletterEmailEventsArgs<ExtArgs>
     _count?: boolean | BlogPostCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["blogPost"]>
 
@@ -5032,6 +5437,8 @@ export namespace Prisma {
   export type BlogPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "status" | "featured" | "tags" | "coverImageUrl" | "coverImageCredit" | "coverImageCreditUrl" | "createdAt" | "updatedAt" | "publishedAt", ExtArgs["result"]["blogPost"]>
   export type BlogPostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     translations?: boolean | BlogPost$translationsArgs<ExtArgs>
+    newsletterSends?: boolean | BlogPost$newsletterSendsArgs<ExtArgs>
+    newsletterEmailEvents?: boolean | BlogPost$newsletterEmailEventsArgs<ExtArgs>
     _count?: boolean | BlogPostCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BlogPostIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5041,6 +5448,8 @@ export namespace Prisma {
     name: "BlogPost"
     objects: {
       translations: Prisma.$BlogPostTranslationPayload<ExtArgs>[]
+      newsletterSends: Prisma.$NewsletterPostSendPayload<ExtArgs>[]
+      newsletterEmailEvents: Prisma.$NewsletterEmailEventPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5449,6 +5858,8 @@ export namespace Prisma {
   export interface Prisma__BlogPostClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     translations<T extends BlogPost$translationsArgs<ExtArgs> = {}>(args?: Subset<T, BlogPost$translationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlogPostTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    newsletterSends<T extends BlogPost$newsletterSendsArgs<ExtArgs> = {}>(args?: Subset<T, BlogPost$newsletterSendsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsletterPostSendPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    newsletterEmailEvents<T extends BlogPost$newsletterEmailEventsArgs<ExtArgs> = {}>(args?: Subset<T, BlogPost$newsletterEmailEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsletterEmailEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5898,6 +6309,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BlogPostTranslationScalarFieldEnum | BlogPostTranslationScalarFieldEnum[]
+  }
+
+  /**
+   * BlogPost.newsletterSends
+   */
+  export type BlogPost$newsletterSendsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterPostSend
+     */
+    select?: NewsletterPostSendSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterPostSend
+     */
+    omit?: NewsletterPostSendOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterPostSendInclude<ExtArgs> | null
+    where?: NewsletterPostSendWhereInput
+    orderBy?: NewsletterPostSendOrderByWithRelationInput | NewsletterPostSendOrderByWithRelationInput[]
+    cursor?: NewsletterPostSendWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NewsletterPostSendScalarFieldEnum | NewsletterPostSendScalarFieldEnum[]
+  }
+
+  /**
+   * BlogPost.newsletterEmailEvents
+   */
+  export type BlogPost$newsletterEmailEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterEmailEvent
+     */
+    select?: NewsletterEmailEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterEmailEvent
+     */
+    omit?: NewsletterEmailEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterEmailEventInclude<ExtArgs> | null
+    where?: NewsletterEmailEventWhereInput
+    orderBy?: NewsletterEmailEventOrderByWithRelationInput | NewsletterEmailEventOrderByWithRelationInput[]
+    cursor?: NewsletterEmailEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NewsletterEmailEventScalarFieldEnum | NewsletterEmailEventScalarFieldEnum[]
   }
 
   /**
@@ -7069,6 +7528,3610 @@ export namespace Prisma {
 
 
   /**
+   * Model NewsletterSubscriber
+   */
+
+  export type AggregateNewsletterSubscriber = {
+    _count: NewsletterSubscriberCountAggregateOutputType | null
+    _min: NewsletterSubscriberMinAggregateOutputType | null
+    _max: NewsletterSubscriberMaxAggregateOutputType | null
+  }
+
+  export type NewsletterSubscriberMinAggregateOutputType = {
+    id: string | null
+    email: string | null
+    locale: $Enums.Locale | null
+    status: $Enums.NewsletterSubscriberStatus | null
+    source: string | null
+    confirmationTokenHash: string | null
+    unsubscribeToken: string | null
+    ipHash: string | null
+    userAgent: string | null
+    consentAt: Date | null
+    confirmedAt: Date | null
+    unsubscribedAt: Date | null
+    lastSentAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type NewsletterSubscriberMaxAggregateOutputType = {
+    id: string | null
+    email: string | null
+    locale: $Enums.Locale | null
+    status: $Enums.NewsletterSubscriberStatus | null
+    source: string | null
+    confirmationTokenHash: string | null
+    unsubscribeToken: string | null
+    ipHash: string | null
+    userAgent: string | null
+    consentAt: Date | null
+    confirmedAt: Date | null
+    unsubscribedAt: Date | null
+    lastSentAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type NewsletterSubscriberCountAggregateOutputType = {
+    id: number
+    email: number
+    locale: number
+    status: number
+    source: number
+    confirmationTokenHash: number
+    unsubscribeToken: number
+    ipHash: number
+    userAgent: number
+    consentAt: number
+    confirmedAt: number
+    unsubscribedAt: number
+    lastSentAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type NewsletterSubscriberMinAggregateInputType = {
+    id?: true
+    email?: true
+    locale?: true
+    status?: true
+    source?: true
+    confirmationTokenHash?: true
+    unsubscribeToken?: true
+    ipHash?: true
+    userAgent?: true
+    consentAt?: true
+    confirmedAt?: true
+    unsubscribedAt?: true
+    lastSentAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type NewsletterSubscriberMaxAggregateInputType = {
+    id?: true
+    email?: true
+    locale?: true
+    status?: true
+    source?: true
+    confirmationTokenHash?: true
+    unsubscribeToken?: true
+    ipHash?: true
+    userAgent?: true
+    consentAt?: true
+    confirmedAt?: true
+    unsubscribedAt?: true
+    lastSentAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type NewsletterSubscriberCountAggregateInputType = {
+    id?: true
+    email?: true
+    locale?: true
+    status?: true
+    source?: true
+    confirmationTokenHash?: true
+    unsubscribeToken?: true
+    ipHash?: true
+    userAgent?: true
+    consentAt?: true
+    confirmedAt?: true
+    unsubscribedAt?: true
+    lastSentAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type NewsletterSubscriberAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NewsletterSubscriber to aggregate.
+     */
+    where?: NewsletterSubscriberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsletterSubscribers to fetch.
+     */
+    orderBy?: NewsletterSubscriberOrderByWithRelationInput | NewsletterSubscriberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NewsletterSubscriberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsletterSubscribers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsletterSubscribers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned NewsletterSubscribers
+    **/
+    _count?: true | NewsletterSubscriberCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NewsletterSubscriberMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NewsletterSubscriberMaxAggregateInputType
+  }
+
+  export type GetNewsletterSubscriberAggregateType<T extends NewsletterSubscriberAggregateArgs> = {
+        [P in keyof T & keyof AggregateNewsletterSubscriber]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNewsletterSubscriber[P]>
+      : GetScalarType<T[P], AggregateNewsletterSubscriber[P]>
+  }
+
+
+
+
+  export type NewsletterSubscriberGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NewsletterSubscriberWhereInput
+    orderBy?: NewsletterSubscriberOrderByWithAggregationInput | NewsletterSubscriberOrderByWithAggregationInput[]
+    by: NewsletterSubscriberScalarFieldEnum[] | NewsletterSubscriberScalarFieldEnum
+    having?: NewsletterSubscriberScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NewsletterSubscriberCountAggregateInputType | true
+    _min?: NewsletterSubscriberMinAggregateInputType
+    _max?: NewsletterSubscriberMaxAggregateInputType
+  }
+
+  export type NewsletterSubscriberGroupByOutputType = {
+    id: string
+    email: string
+    locale: $Enums.Locale
+    status: $Enums.NewsletterSubscriberStatus
+    source: string | null
+    confirmationTokenHash: string | null
+    unsubscribeToken: string
+    ipHash: string | null
+    userAgent: string | null
+    consentAt: Date
+    confirmedAt: Date | null
+    unsubscribedAt: Date | null
+    lastSentAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: NewsletterSubscriberCountAggregateOutputType | null
+    _min: NewsletterSubscriberMinAggregateOutputType | null
+    _max: NewsletterSubscriberMaxAggregateOutputType | null
+  }
+
+  type GetNewsletterSubscriberGroupByPayload<T extends NewsletterSubscriberGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NewsletterSubscriberGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NewsletterSubscriberGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NewsletterSubscriberGroupByOutputType[P]>
+            : GetScalarType<T[P], NewsletterSubscriberGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NewsletterSubscriberSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    locale?: boolean
+    status?: boolean
+    source?: boolean
+    confirmationTokenHash?: boolean
+    unsubscribeToken?: boolean
+    ipHash?: boolean
+    userAgent?: boolean
+    consentAt?: boolean
+    confirmedAt?: boolean
+    unsubscribedAt?: boolean
+    lastSentAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    emailEvents?: boolean | NewsletterSubscriber$emailEventsArgs<ExtArgs>
+    _count?: boolean | NewsletterSubscriberCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["newsletterSubscriber"]>
+
+  export type NewsletterSubscriberSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    locale?: boolean
+    status?: boolean
+    source?: boolean
+    confirmationTokenHash?: boolean
+    unsubscribeToken?: boolean
+    ipHash?: boolean
+    userAgent?: boolean
+    consentAt?: boolean
+    confirmedAt?: boolean
+    unsubscribedAt?: boolean
+    lastSentAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["newsletterSubscriber"]>
+
+  export type NewsletterSubscriberSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    locale?: boolean
+    status?: boolean
+    source?: boolean
+    confirmationTokenHash?: boolean
+    unsubscribeToken?: boolean
+    ipHash?: boolean
+    userAgent?: boolean
+    consentAt?: boolean
+    confirmedAt?: boolean
+    unsubscribedAt?: boolean
+    lastSentAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["newsletterSubscriber"]>
+
+  export type NewsletterSubscriberSelectScalar = {
+    id?: boolean
+    email?: boolean
+    locale?: boolean
+    status?: boolean
+    source?: boolean
+    confirmationTokenHash?: boolean
+    unsubscribeToken?: boolean
+    ipHash?: boolean
+    userAgent?: boolean
+    consentAt?: boolean
+    confirmedAt?: boolean
+    unsubscribedAt?: boolean
+    lastSentAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type NewsletterSubscriberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "locale" | "status" | "source" | "confirmationTokenHash" | "unsubscribeToken" | "ipHash" | "userAgent" | "consentAt" | "confirmedAt" | "unsubscribedAt" | "lastSentAt" | "createdAt" | "updatedAt", ExtArgs["result"]["newsletterSubscriber"]>
+  export type NewsletterSubscriberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    emailEvents?: boolean | NewsletterSubscriber$emailEventsArgs<ExtArgs>
+    _count?: boolean | NewsletterSubscriberCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type NewsletterSubscriberIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type NewsletterSubscriberIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $NewsletterSubscriberPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "NewsletterSubscriber"
+    objects: {
+      emailEvents: Prisma.$NewsletterEmailEventPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      email: string
+      locale: $Enums.Locale
+      status: $Enums.NewsletterSubscriberStatus
+      source: string | null
+      confirmationTokenHash: string | null
+      unsubscribeToken: string
+      ipHash: string | null
+      userAgent: string | null
+      consentAt: Date
+      confirmedAt: Date | null
+      unsubscribedAt: Date | null
+      lastSentAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["newsletterSubscriber"]>
+    composites: {}
+  }
+
+  type NewsletterSubscriberGetPayload<S extends boolean | null | undefined | NewsletterSubscriberDefaultArgs> = $Result.GetResult<Prisma.$NewsletterSubscriberPayload, S>
+
+  type NewsletterSubscriberCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NewsletterSubscriberFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NewsletterSubscriberCountAggregateInputType | true
+    }
+
+  export interface NewsletterSubscriberDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['NewsletterSubscriber'], meta: { name: 'NewsletterSubscriber' } }
+    /**
+     * Find zero or one NewsletterSubscriber that matches the filter.
+     * @param {NewsletterSubscriberFindUniqueArgs} args - Arguments to find a NewsletterSubscriber
+     * @example
+     * // Get one NewsletterSubscriber
+     * const newsletterSubscriber = await prisma.newsletterSubscriber.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NewsletterSubscriberFindUniqueArgs>(args: SelectSubset<T, NewsletterSubscriberFindUniqueArgs<ExtArgs>>): Prisma__NewsletterSubscriberClient<$Result.GetResult<Prisma.$NewsletterSubscriberPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one NewsletterSubscriber that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NewsletterSubscriberFindUniqueOrThrowArgs} args - Arguments to find a NewsletterSubscriber
+     * @example
+     * // Get one NewsletterSubscriber
+     * const newsletterSubscriber = await prisma.newsletterSubscriber.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NewsletterSubscriberFindUniqueOrThrowArgs>(args: SelectSubset<T, NewsletterSubscriberFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NewsletterSubscriberClient<$Result.GetResult<Prisma.$NewsletterSubscriberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NewsletterSubscriber that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterSubscriberFindFirstArgs} args - Arguments to find a NewsletterSubscriber
+     * @example
+     * // Get one NewsletterSubscriber
+     * const newsletterSubscriber = await prisma.newsletterSubscriber.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NewsletterSubscriberFindFirstArgs>(args?: SelectSubset<T, NewsletterSubscriberFindFirstArgs<ExtArgs>>): Prisma__NewsletterSubscriberClient<$Result.GetResult<Prisma.$NewsletterSubscriberPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NewsletterSubscriber that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterSubscriberFindFirstOrThrowArgs} args - Arguments to find a NewsletterSubscriber
+     * @example
+     * // Get one NewsletterSubscriber
+     * const newsletterSubscriber = await prisma.newsletterSubscriber.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NewsletterSubscriberFindFirstOrThrowArgs>(args?: SelectSubset<T, NewsletterSubscriberFindFirstOrThrowArgs<ExtArgs>>): Prisma__NewsletterSubscriberClient<$Result.GetResult<Prisma.$NewsletterSubscriberPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more NewsletterSubscribers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterSubscriberFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all NewsletterSubscribers
+     * const newsletterSubscribers = await prisma.newsletterSubscriber.findMany()
+     * 
+     * // Get first 10 NewsletterSubscribers
+     * const newsletterSubscribers = await prisma.newsletterSubscriber.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const newsletterSubscriberWithIdOnly = await prisma.newsletterSubscriber.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NewsletterSubscriberFindManyArgs>(args?: SelectSubset<T, NewsletterSubscriberFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsletterSubscriberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a NewsletterSubscriber.
+     * @param {NewsletterSubscriberCreateArgs} args - Arguments to create a NewsletterSubscriber.
+     * @example
+     * // Create one NewsletterSubscriber
+     * const NewsletterSubscriber = await prisma.newsletterSubscriber.create({
+     *   data: {
+     *     // ... data to create a NewsletterSubscriber
+     *   }
+     * })
+     * 
+     */
+    create<T extends NewsletterSubscriberCreateArgs>(args: SelectSubset<T, NewsletterSubscriberCreateArgs<ExtArgs>>): Prisma__NewsletterSubscriberClient<$Result.GetResult<Prisma.$NewsletterSubscriberPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many NewsletterSubscribers.
+     * @param {NewsletterSubscriberCreateManyArgs} args - Arguments to create many NewsletterSubscribers.
+     * @example
+     * // Create many NewsletterSubscribers
+     * const newsletterSubscriber = await prisma.newsletterSubscriber.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NewsletterSubscriberCreateManyArgs>(args?: SelectSubset<T, NewsletterSubscriberCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many NewsletterSubscribers and returns the data saved in the database.
+     * @param {NewsletterSubscriberCreateManyAndReturnArgs} args - Arguments to create many NewsletterSubscribers.
+     * @example
+     * // Create many NewsletterSubscribers
+     * const newsletterSubscriber = await prisma.newsletterSubscriber.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many NewsletterSubscribers and only return the `id`
+     * const newsletterSubscriberWithIdOnly = await prisma.newsletterSubscriber.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NewsletterSubscriberCreateManyAndReturnArgs>(args?: SelectSubset<T, NewsletterSubscriberCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsletterSubscriberPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a NewsletterSubscriber.
+     * @param {NewsletterSubscriberDeleteArgs} args - Arguments to delete one NewsletterSubscriber.
+     * @example
+     * // Delete one NewsletterSubscriber
+     * const NewsletterSubscriber = await prisma.newsletterSubscriber.delete({
+     *   where: {
+     *     // ... filter to delete one NewsletterSubscriber
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NewsletterSubscriberDeleteArgs>(args: SelectSubset<T, NewsletterSubscriberDeleteArgs<ExtArgs>>): Prisma__NewsletterSubscriberClient<$Result.GetResult<Prisma.$NewsletterSubscriberPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one NewsletterSubscriber.
+     * @param {NewsletterSubscriberUpdateArgs} args - Arguments to update one NewsletterSubscriber.
+     * @example
+     * // Update one NewsletterSubscriber
+     * const newsletterSubscriber = await prisma.newsletterSubscriber.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NewsletterSubscriberUpdateArgs>(args: SelectSubset<T, NewsletterSubscriberUpdateArgs<ExtArgs>>): Prisma__NewsletterSubscriberClient<$Result.GetResult<Prisma.$NewsletterSubscriberPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more NewsletterSubscribers.
+     * @param {NewsletterSubscriberDeleteManyArgs} args - Arguments to filter NewsletterSubscribers to delete.
+     * @example
+     * // Delete a few NewsletterSubscribers
+     * const { count } = await prisma.newsletterSubscriber.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NewsletterSubscriberDeleteManyArgs>(args?: SelectSubset<T, NewsletterSubscriberDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NewsletterSubscribers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterSubscriberUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many NewsletterSubscribers
+     * const newsletterSubscriber = await prisma.newsletterSubscriber.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NewsletterSubscriberUpdateManyArgs>(args: SelectSubset<T, NewsletterSubscriberUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NewsletterSubscribers and returns the data updated in the database.
+     * @param {NewsletterSubscriberUpdateManyAndReturnArgs} args - Arguments to update many NewsletterSubscribers.
+     * @example
+     * // Update many NewsletterSubscribers
+     * const newsletterSubscriber = await prisma.newsletterSubscriber.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more NewsletterSubscribers and only return the `id`
+     * const newsletterSubscriberWithIdOnly = await prisma.newsletterSubscriber.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NewsletterSubscriberUpdateManyAndReturnArgs>(args: SelectSubset<T, NewsletterSubscriberUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsletterSubscriberPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one NewsletterSubscriber.
+     * @param {NewsletterSubscriberUpsertArgs} args - Arguments to update or create a NewsletterSubscriber.
+     * @example
+     * // Update or create a NewsletterSubscriber
+     * const newsletterSubscriber = await prisma.newsletterSubscriber.upsert({
+     *   create: {
+     *     // ... data to create a NewsletterSubscriber
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the NewsletterSubscriber we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NewsletterSubscriberUpsertArgs>(args: SelectSubset<T, NewsletterSubscriberUpsertArgs<ExtArgs>>): Prisma__NewsletterSubscriberClient<$Result.GetResult<Prisma.$NewsletterSubscriberPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of NewsletterSubscribers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterSubscriberCountArgs} args - Arguments to filter NewsletterSubscribers to count.
+     * @example
+     * // Count the number of NewsletterSubscribers
+     * const count = await prisma.newsletterSubscriber.count({
+     *   where: {
+     *     // ... the filter for the NewsletterSubscribers we want to count
+     *   }
+     * })
+    **/
+    count<T extends NewsletterSubscriberCountArgs>(
+      args?: Subset<T, NewsletterSubscriberCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NewsletterSubscriberCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a NewsletterSubscriber.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterSubscriberAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NewsletterSubscriberAggregateArgs>(args: Subset<T, NewsletterSubscriberAggregateArgs>): Prisma.PrismaPromise<GetNewsletterSubscriberAggregateType<T>>
+
+    /**
+     * Group by NewsletterSubscriber.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterSubscriberGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NewsletterSubscriberGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NewsletterSubscriberGroupByArgs['orderBy'] }
+        : { orderBy?: NewsletterSubscriberGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NewsletterSubscriberGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNewsletterSubscriberGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the NewsletterSubscriber model
+   */
+  readonly fields: NewsletterSubscriberFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for NewsletterSubscriber.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NewsletterSubscriberClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    emailEvents<T extends NewsletterSubscriber$emailEventsArgs<ExtArgs> = {}>(args?: Subset<T, NewsletterSubscriber$emailEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsletterEmailEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the NewsletterSubscriber model
+   */
+  interface NewsletterSubscriberFieldRefs {
+    readonly id: FieldRef<"NewsletterSubscriber", 'String'>
+    readonly email: FieldRef<"NewsletterSubscriber", 'String'>
+    readonly locale: FieldRef<"NewsletterSubscriber", 'Locale'>
+    readonly status: FieldRef<"NewsletterSubscriber", 'NewsletterSubscriberStatus'>
+    readonly source: FieldRef<"NewsletterSubscriber", 'String'>
+    readonly confirmationTokenHash: FieldRef<"NewsletterSubscriber", 'String'>
+    readonly unsubscribeToken: FieldRef<"NewsletterSubscriber", 'String'>
+    readonly ipHash: FieldRef<"NewsletterSubscriber", 'String'>
+    readonly userAgent: FieldRef<"NewsletterSubscriber", 'String'>
+    readonly consentAt: FieldRef<"NewsletterSubscriber", 'DateTime'>
+    readonly confirmedAt: FieldRef<"NewsletterSubscriber", 'DateTime'>
+    readonly unsubscribedAt: FieldRef<"NewsletterSubscriber", 'DateTime'>
+    readonly lastSentAt: FieldRef<"NewsletterSubscriber", 'DateTime'>
+    readonly createdAt: FieldRef<"NewsletterSubscriber", 'DateTime'>
+    readonly updatedAt: FieldRef<"NewsletterSubscriber", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * NewsletterSubscriber findUnique
+   */
+  export type NewsletterSubscriberFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterSubscriber
+     */
+    select?: NewsletterSubscriberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterSubscriber
+     */
+    omit?: NewsletterSubscriberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterSubscriberInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsletterSubscriber to fetch.
+     */
+    where: NewsletterSubscriberWhereUniqueInput
+  }
+
+  /**
+   * NewsletterSubscriber findUniqueOrThrow
+   */
+  export type NewsletterSubscriberFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterSubscriber
+     */
+    select?: NewsletterSubscriberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterSubscriber
+     */
+    omit?: NewsletterSubscriberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterSubscriberInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsletterSubscriber to fetch.
+     */
+    where: NewsletterSubscriberWhereUniqueInput
+  }
+
+  /**
+   * NewsletterSubscriber findFirst
+   */
+  export type NewsletterSubscriberFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterSubscriber
+     */
+    select?: NewsletterSubscriberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterSubscriber
+     */
+    omit?: NewsletterSubscriberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterSubscriberInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsletterSubscriber to fetch.
+     */
+    where?: NewsletterSubscriberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsletterSubscribers to fetch.
+     */
+    orderBy?: NewsletterSubscriberOrderByWithRelationInput | NewsletterSubscriberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NewsletterSubscribers.
+     */
+    cursor?: NewsletterSubscriberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsletterSubscribers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsletterSubscribers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsletterSubscribers.
+     */
+    distinct?: NewsletterSubscriberScalarFieldEnum | NewsletterSubscriberScalarFieldEnum[]
+  }
+
+  /**
+   * NewsletterSubscriber findFirstOrThrow
+   */
+  export type NewsletterSubscriberFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterSubscriber
+     */
+    select?: NewsletterSubscriberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterSubscriber
+     */
+    omit?: NewsletterSubscriberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterSubscriberInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsletterSubscriber to fetch.
+     */
+    where?: NewsletterSubscriberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsletterSubscribers to fetch.
+     */
+    orderBy?: NewsletterSubscriberOrderByWithRelationInput | NewsletterSubscriberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NewsletterSubscribers.
+     */
+    cursor?: NewsletterSubscriberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsletterSubscribers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsletterSubscribers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsletterSubscribers.
+     */
+    distinct?: NewsletterSubscriberScalarFieldEnum | NewsletterSubscriberScalarFieldEnum[]
+  }
+
+  /**
+   * NewsletterSubscriber findMany
+   */
+  export type NewsletterSubscriberFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterSubscriber
+     */
+    select?: NewsletterSubscriberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterSubscriber
+     */
+    omit?: NewsletterSubscriberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterSubscriberInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsletterSubscribers to fetch.
+     */
+    where?: NewsletterSubscriberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsletterSubscribers to fetch.
+     */
+    orderBy?: NewsletterSubscriberOrderByWithRelationInput | NewsletterSubscriberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing NewsletterSubscribers.
+     */
+    cursor?: NewsletterSubscriberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsletterSubscribers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsletterSubscribers.
+     */
+    skip?: number
+    distinct?: NewsletterSubscriberScalarFieldEnum | NewsletterSubscriberScalarFieldEnum[]
+  }
+
+  /**
+   * NewsletterSubscriber create
+   */
+  export type NewsletterSubscriberCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterSubscriber
+     */
+    select?: NewsletterSubscriberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterSubscriber
+     */
+    omit?: NewsletterSubscriberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterSubscriberInclude<ExtArgs> | null
+    /**
+     * The data needed to create a NewsletterSubscriber.
+     */
+    data: XOR<NewsletterSubscriberCreateInput, NewsletterSubscriberUncheckedCreateInput>
+  }
+
+  /**
+   * NewsletterSubscriber createMany
+   */
+  export type NewsletterSubscriberCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many NewsletterSubscribers.
+     */
+    data: NewsletterSubscriberCreateManyInput | NewsletterSubscriberCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * NewsletterSubscriber createManyAndReturn
+   */
+  export type NewsletterSubscriberCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterSubscriber
+     */
+    select?: NewsletterSubscriberSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterSubscriber
+     */
+    omit?: NewsletterSubscriberOmit<ExtArgs> | null
+    /**
+     * The data used to create many NewsletterSubscribers.
+     */
+    data: NewsletterSubscriberCreateManyInput | NewsletterSubscriberCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * NewsletterSubscriber update
+   */
+  export type NewsletterSubscriberUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterSubscriber
+     */
+    select?: NewsletterSubscriberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterSubscriber
+     */
+    omit?: NewsletterSubscriberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterSubscriberInclude<ExtArgs> | null
+    /**
+     * The data needed to update a NewsletterSubscriber.
+     */
+    data: XOR<NewsletterSubscriberUpdateInput, NewsletterSubscriberUncheckedUpdateInput>
+    /**
+     * Choose, which NewsletterSubscriber to update.
+     */
+    where: NewsletterSubscriberWhereUniqueInput
+  }
+
+  /**
+   * NewsletterSubscriber updateMany
+   */
+  export type NewsletterSubscriberUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update NewsletterSubscribers.
+     */
+    data: XOR<NewsletterSubscriberUpdateManyMutationInput, NewsletterSubscriberUncheckedUpdateManyInput>
+    /**
+     * Filter which NewsletterSubscribers to update
+     */
+    where?: NewsletterSubscriberWhereInput
+    /**
+     * Limit how many NewsletterSubscribers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * NewsletterSubscriber updateManyAndReturn
+   */
+  export type NewsletterSubscriberUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterSubscriber
+     */
+    select?: NewsletterSubscriberSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterSubscriber
+     */
+    omit?: NewsletterSubscriberOmit<ExtArgs> | null
+    /**
+     * The data used to update NewsletterSubscribers.
+     */
+    data: XOR<NewsletterSubscriberUpdateManyMutationInput, NewsletterSubscriberUncheckedUpdateManyInput>
+    /**
+     * Filter which NewsletterSubscribers to update
+     */
+    where?: NewsletterSubscriberWhereInput
+    /**
+     * Limit how many NewsletterSubscribers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * NewsletterSubscriber upsert
+   */
+  export type NewsletterSubscriberUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterSubscriber
+     */
+    select?: NewsletterSubscriberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterSubscriber
+     */
+    omit?: NewsletterSubscriberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterSubscriberInclude<ExtArgs> | null
+    /**
+     * The filter to search for the NewsletterSubscriber to update in case it exists.
+     */
+    where: NewsletterSubscriberWhereUniqueInput
+    /**
+     * In case the NewsletterSubscriber found by the `where` argument doesn't exist, create a new NewsletterSubscriber with this data.
+     */
+    create: XOR<NewsletterSubscriberCreateInput, NewsletterSubscriberUncheckedCreateInput>
+    /**
+     * In case the NewsletterSubscriber was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NewsletterSubscriberUpdateInput, NewsletterSubscriberUncheckedUpdateInput>
+  }
+
+  /**
+   * NewsletterSubscriber delete
+   */
+  export type NewsletterSubscriberDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterSubscriber
+     */
+    select?: NewsletterSubscriberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterSubscriber
+     */
+    omit?: NewsletterSubscriberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterSubscriberInclude<ExtArgs> | null
+    /**
+     * Filter which NewsletterSubscriber to delete.
+     */
+    where: NewsletterSubscriberWhereUniqueInput
+  }
+
+  /**
+   * NewsletterSubscriber deleteMany
+   */
+  export type NewsletterSubscriberDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NewsletterSubscribers to delete
+     */
+    where?: NewsletterSubscriberWhereInput
+    /**
+     * Limit how many NewsletterSubscribers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * NewsletterSubscriber.emailEvents
+   */
+  export type NewsletterSubscriber$emailEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterEmailEvent
+     */
+    select?: NewsletterEmailEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterEmailEvent
+     */
+    omit?: NewsletterEmailEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterEmailEventInclude<ExtArgs> | null
+    where?: NewsletterEmailEventWhereInput
+    orderBy?: NewsletterEmailEventOrderByWithRelationInput | NewsletterEmailEventOrderByWithRelationInput[]
+    cursor?: NewsletterEmailEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NewsletterEmailEventScalarFieldEnum | NewsletterEmailEventScalarFieldEnum[]
+  }
+
+  /**
+   * NewsletterSubscriber without action
+   */
+  export type NewsletterSubscriberDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterSubscriber
+     */
+    select?: NewsletterSubscriberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterSubscriber
+     */
+    omit?: NewsletterSubscriberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterSubscriberInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model NewsletterPostSend
+   */
+
+  export type AggregateNewsletterPostSend = {
+    _count: NewsletterPostSendCountAggregateOutputType | null
+    _avg: NewsletterPostSendAvgAggregateOutputType | null
+    _sum: NewsletterPostSendSumAggregateOutputType | null
+    _min: NewsletterPostSendMinAggregateOutputType | null
+    _max: NewsletterPostSendMaxAggregateOutputType | null
+  }
+
+  export type NewsletterPostSendAvgAggregateOutputType = {
+    recipientCount: number | null
+    sentCount: number | null
+    failedCount: number | null
+  }
+
+  export type NewsletterPostSendSumAggregateOutputType = {
+    recipientCount: number | null
+    sentCount: number | null
+    failedCount: number | null
+  }
+
+  export type NewsletterPostSendMinAggregateOutputType = {
+    id: string | null
+    postId: string | null
+    status: $Enums.NewsletterPostSendStatus | null
+    recipientCount: number | null
+    sentCount: number | null
+    failedCount: number | null
+    errorMessage: string | null
+    startedAt: Date | null
+    completedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type NewsletterPostSendMaxAggregateOutputType = {
+    id: string | null
+    postId: string | null
+    status: $Enums.NewsletterPostSendStatus | null
+    recipientCount: number | null
+    sentCount: number | null
+    failedCount: number | null
+    errorMessage: string | null
+    startedAt: Date | null
+    completedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type NewsletterPostSendCountAggregateOutputType = {
+    id: number
+    postId: number
+    status: number
+    recipientCount: number
+    sentCount: number
+    failedCount: number
+    errorMessage: number
+    startedAt: number
+    completedAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type NewsletterPostSendAvgAggregateInputType = {
+    recipientCount?: true
+    sentCount?: true
+    failedCount?: true
+  }
+
+  export type NewsletterPostSendSumAggregateInputType = {
+    recipientCount?: true
+    sentCount?: true
+    failedCount?: true
+  }
+
+  export type NewsletterPostSendMinAggregateInputType = {
+    id?: true
+    postId?: true
+    status?: true
+    recipientCount?: true
+    sentCount?: true
+    failedCount?: true
+    errorMessage?: true
+    startedAt?: true
+    completedAt?: true
+    createdAt?: true
+  }
+
+  export type NewsletterPostSendMaxAggregateInputType = {
+    id?: true
+    postId?: true
+    status?: true
+    recipientCount?: true
+    sentCount?: true
+    failedCount?: true
+    errorMessage?: true
+    startedAt?: true
+    completedAt?: true
+    createdAt?: true
+  }
+
+  export type NewsletterPostSendCountAggregateInputType = {
+    id?: true
+    postId?: true
+    status?: true
+    recipientCount?: true
+    sentCount?: true
+    failedCount?: true
+    errorMessage?: true
+    startedAt?: true
+    completedAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type NewsletterPostSendAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NewsletterPostSend to aggregate.
+     */
+    where?: NewsletterPostSendWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsletterPostSends to fetch.
+     */
+    orderBy?: NewsletterPostSendOrderByWithRelationInput | NewsletterPostSendOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NewsletterPostSendWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsletterPostSends from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsletterPostSends.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned NewsletterPostSends
+    **/
+    _count?: true | NewsletterPostSendCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: NewsletterPostSendAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: NewsletterPostSendSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NewsletterPostSendMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NewsletterPostSendMaxAggregateInputType
+  }
+
+  export type GetNewsletterPostSendAggregateType<T extends NewsletterPostSendAggregateArgs> = {
+        [P in keyof T & keyof AggregateNewsletterPostSend]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNewsletterPostSend[P]>
+      : GetScalarType<T[P], AggregateNewsletterPostSend[P]>
+  }
+
+
+
+
+  export type NewsletterPostSendGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NewsletterPostSendWhereInput
+    orderBy?: NewsletterPostSendOrderByWithAggregationInput | NewsletterPostSendOrderByWithAggregationInput[]
+    by: NewsletterPostSendScalarFieldEnum[] | NewsletterPostSendScalarFieldEnum
+    having?: NewsletterPostSendScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NewsletterPostSendCountAggregateInputType | true
+    _avg?: NewsletterPostSendAvgAggregateInputType
+    _sum?: NewsletterPostSendSumAggregateInputType
+    _min?: NewsletterPostSendMinAggregateInputType
+    _max?: NewsletterPostSendMaxAggregateInputType
+  }
+
+  export type NewsletterPostSendGroupByOutputType = {
+    id: string
+    postId: string
+    status: $Enums.NewsletterPostSendStatus
+    recipientCount: number
+    sentCount: number
+    failedCount: number
+    errorMessage: string | null
+    startedAt: Date
+    completedAt: Date | null
+    createdAt: Date
+    _count: NewsletterPostSendCountAggregateOutputType | null
+    _avg: NewsletterPostSendAvgAggregateOutputType | null
+    _sum: NewsletterPostSendSumAggregateOutputType | null
+    _min: NewsletterPostSendMinAggregateOutputType | null
+    _max: NewsletterPostSendMaxAggregateOutputType | null
+  }
+
+  type GetNewsletterPostSendGroupByPayload<T extends NewsletterPostSendGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NewsletterPostSendGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NewsletterPostSendGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NewsletterPostSendGroupByOutputType[P]>
+            : GetScalarType<T[P], NewsletterPostSendGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NewsletterPostSendSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    status?: boolean
+    recipientCount?: boolean
+    sentCount?: boolean
+    failedCount?: boolean
+    errorMessage?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    post?: boolean | BlogPostDefaultArgs<ExtArgs>
+    emailEvents?: boolean | NewsletterPostSend$emailEventsArgs<ExtArgs>
+    _count?: boolean | NewsletterPostSendCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["newsletterPostSend"]>
+
+  export type NewsletterPostSendSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    status?: boolean
+    recipientCount?: boolean
+    sentCount?: boolean
+    failedCount?: boolean
+    errorMessage?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    post?: boolean | BlogPostDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["newsletterPostSend"]>
+
+  export type NewsletterPostSendSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    status?: boolean
+    recipientCount?: boolean
+    sentCount?: boolean
+    failedCount?: boolean
+    errorMessage?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    post?: boolean | BlogPostDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["newsletterPostSend"]>
+
+  export type NewsletterPostSendSelectScalar = {
+    id?: boolean
+    postId?: boolean
+    status?: boolean
+    recipientCount?: boolean
+    sentCount?: boolean
+    failedCount?: boolean
+    errorMessage?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type NewsletterPostSendOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "postId" | "status" | "recipientCount" | "sentCount" | "failedCount" | "errorMessage" | "startedAt" | "completedAt" | "createdAt", ExtArgs["result"]["newsletterPostSend"]>
+  export type NewsletterPostSendInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | BlogPostDefaultArgs<ExtArgs>
+    emailEvents?: boolean | NewsletterPostSend$emailEventsArgs<ExtArgs>
+    _count?: boolean | NewsletterPostSendCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type NewsletterPostSendIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | BlogPostDefaultArgs<ExtArgs>
+  }
+  export type NewsletterPostSendIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | BlogPostDefaultArgs<ExtArgs>
+  }
+
+  export type $NewsletterPostSendPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "NewsletterPostSend"
+    objects: {
+      post: Prisma.$BlogPostPayload<ExtArgs>
+      emailEvents: Prisma.$NewsletterEmailEventPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      postId: string
+      status: $Enums.NewsletterPostSendStatus
+      recipientCount: number
+      sentCount: number
+      failedCount: number
+      errorMessage: string | null
+      startedAt: Date
+      completedAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["newsletterPostSend"]>
+    composites: {}
+  }
+
+  type NewsletterPostSendGetPayload<S extends boolean | null | undefined | NewsletterPostSendDefaultArgs> = $Result.GetResult<Prisma.$NewsletterPostSendPayload, S>
+
+  type NewsletterPostSendCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NewsletterPostSendFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NewsletterPostSendCountAggregateInputType | true
+    }
+
+  export interface NewsletterPostSendDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['NewsletterPostSend'], meta: { name: 'NewsletterPostSend' } }
+    /**
+     * Find zero or one NewsletterPostSend that matches the filter.
+     * @param {NewsletterPostSendFindUniqueArgs} args - Arguments to find a NewsletterPostSend
+     * @example
+     * // Get one NewsletterPostSend
+     * const newsletterPostSend = await prisma.newsletterPostSend.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NewsletterPostSendFindUniqueArgs>(args: SelectSubset<T, NewsletterPostSendFindUniqueArgs<ExtArgs>>): Prisma__NewsletterPostSendClient<$Result.GetResult<Prisma.$NewsletterPostSendPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one NewsletterPostSend that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NewsletterPostSendFindUniqueOrThrowArgs} args - Arguments to find a NewsletterPostSend
+     * @example
+     * // Get one NewsletterPostSend
+     * const newsletterPostSend = await prisma.newsletterPostSend.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NewsletterPostSendFindUniqueOrThrowArgs>(args: SelectSubset<T, NewsletterPostSendFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NewsletterPostSendClient<$Result.GetResult<Prisma.$NewsletterPostSendPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NewsletterPostSend that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterPostSendFindFirstArgs} args - Arguments to find a NewsletterPostSend
+     * @example
+     * // Get one NewsletterPostSend
+     * const newsletterPostSend = await prisma.newsletterPostSend.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NewsletterPostSendFindFirstArgs>(args?: SelectSubset<T, NewsletterPostSendFindFirstArgs<ExtArgs>>): Prisma__NewsletterPostSendClient<$Result.GetResult<Prisma.$NewsletterPostSendPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NewsletterPostSend that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterPostSendFindFirstOrThrowArgs} args - Arguments to find a NewsletterPostSend
+     * @example
+     * // Get one NewsletterPostSend
+     * const newsletterPostSend = await prisma.newsletterPostSend.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NewsletterPostSendFindFirstOrThrowArgs>(args?: SelectSubset<T, NewsletterPostSendFindFirstOrThrowArgs<ExtArgs>>): Prisma__NewsletterPostSendClient<$Result.GetResult<Prisma.$NewsletterPostSendPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more NewsletterPostSends that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterPostSendFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all NewsletterPostSends
+     * const newsletterPostSends = await prisma.newsletterPostSend.findMany()
+     * 
+     * // Get first 10 NewsletterPostSends
+     * const newsletterPostSends = await prisma.newsletterPostSend.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const newsletterPostSendWithIdOnly = await prisma.newsletterPostSend.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NewsletterPostSendFindManyArgs>(args?: SelectSubset<T, NewsletterPostSendFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsletterPostSendPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a NewsletterPostSend.
+     * @param {NewsletterPostSendCreateArgs} args - Arguments to create a NewsletterPostSend.
+     * @example
+     * // Create one NewsletterPostSend
+     * const NewsletterPostSend = await prisma.newsletterPostSend.create({
+     *   data: {
+     *     // ... data to create a NewsletterPostSend
+     *   }
+     * })
+     * 
+     */
+    create<T extends NewsletterPostSendCreateArgs>(args: SelectSubset<T, NewsletterPostSendCreateArgs<ExtArgs>>): Prisma__NewsletterPostSendClient<$Result.GetResult<Prisma.$NewsletterPostSendPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many NewsletterPostSends.
+     * @param {NewsletterPostSendCreateManyArgs} args - Arguments to create many NewsletterPostSends.
+     * @example
+     * // Create many NewsletterPostSends
+     * const newsletterPostSend = await prisma.newsletterPostSend.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NewsletterPostSendCreateManyArgs>(args?: SelectSubset<T, NewsletterPostSendCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many NewsletterPostSends and returns the data saved in the database.
+     * @param {NewsletterPostSendCreateManyAndReturnArgs} args - Arguments to create many NewsletterPostSends.
+     * @example
+     * // Create many NewsletterPostSends
+     * const newsletterPostSend = await prisma.newsletterPostSend.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many NewsletterPostSends and only return the `id`
+     * const newsletterPostSendWithIdOnly = await prisma.newsletterPostSend.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NewsletterPostSendCreateManyAndReturnArgs>(args?: SelectSubset<T, NewsletterPostSendCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsletterPostSendPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a NewsletterPostSend.
+     * @param {NewsletterPostSendDeleteArgs} args - Arguments to delete one NewsletterPostSend.
+     * @example
+     * // Delete one NewsletterPostSend
+     * const NewsletterPostSend = await prisma.newsletterPostSend.delete({
+     *   where: {
+     *     // ... filter to delete one NewsletterPostSend
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NewsletterPostSendDeleteArgs>(args: SelectSubset<T, NewsletterPostSendDeleteArgs<ExtArgs>>): Prisma__NewsletterPostSendClient<$Result.GetResult<Prisma.$NewsletterPostSendPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one NewsletterPostSend.
+     * @param {NewsletterPostSendUpdateArgs} args - Arguments to update one NewsletterPostSend.
+     * @example
+     * // Update one NewsletterPostSend
+     * const newsletterPostSend = await prisma.newsletterPostSend.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NewsletterPostSendUpdateArgs>(args: SelectSubset<T, NewsletterPostSendUpdateArgs<ExtArgs>>): Prisma__NewsletterPostSendClient<$Result.GetResult<Prisma.$NewsletterPostSendPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more NewsletterPostSends.
+     * @param {NewsletterPostSendDeleteManyArgs} args - Arguments to filter NewsletterPostSends to delete.
+     * @example
+     * // Delete a few NewsletterPostSends
+     * const { count } = await prisma.newsletterPostSend.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NewsletterPostSendDeleteManyArgs>(args?: SelectSubset<T, NewsletterPostSendDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NewsletterPostSends.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterPostSendUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many NewsletterPostSends
+     * const newsletterPostSend = await prisma.newsletterPostSend.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NewsletterPostSendUpdateManyArgs>(args: SelectSubset<T, NewsletterPostSendUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NewsletterPostSends and returns the data updated in the database.
+     * @param {NewsletterPostSendUpdateManyAndReturnArgs} args - Arguments to update many NewsletterPostSends.
+     * @example
+     * // Update many NewsletterPostSends
+     * const newsletterPostSend = await prisma.newsletterPostSend.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more NewsletterPostSends and only return the `id`
+     * const newsletterPostSendWithIdOnly = await prisma.newsletterPostSend.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NewsletterPostSendUpdateManyAndReturnArgs>(args: SelectSubset<T, NewsletterPostSendUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsletterPostSendPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one NewsletterPostSend.
+     * @param {NewsletterPostSendUpsertArgs} args - Arguments to update or create a NewsletterPostSend.
+     * @example
+     * // Update or create a NewsletterPostSend
+     * const newsletterPostSend = await prisma.newsletterPostSend.upsert({
+     *   create: {
+     *     // ... data to create a NewsletterPostSend
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the NewsletterPostSend we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NewsletterPostSendUpsertArgs>(args: SelectSubset<T, NewsletterPostSendUpsertArgs<ExtArgs>>): Prisma__NewsletterPostSendClient<$Result.GetResult<Prisma.$NewsletterPostSendPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of NewsletterPostSends.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterPostSendCountArgs} args - Arguments to filter NewsletterPostSends to count.
+     * @example
+     * // Count the number of NewsletterPostSends
+     * const count = await prisma.newsletterPostSend.count({
+     *   where: {
+     *     // ... the filter for the NewsletterPostSends we want to count
+     *   }
+     * })
+    **/
+    count<T extends NewsletterPostSendCountArgs>(
+      args?: Subset<T, NewsletterPostSendCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NewsletterPostSendCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a NewsletterPostSend.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterPostSendAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NewsletterPostSendAggregateArgs>(args: Subset<T, NewsletterPostSendAggregateArgs>): Prisma.PrismaPromise<GetNewsletterPostSendAggregateType<T>>
+
+    /**
+     * Group by NewsletterPostSend.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterPostSendGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NewsletterPostSendGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NewsletterPostSendGroupByArgs['orderBy'] }
+        : { orderBy?: NewsletterPostSendGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NewsletterPostSendGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNewsletterPostSendGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the NewsletterPostSend model
+   */
+  readonly fields: NewsletterPostSendFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for NewsletterPostSend.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NewsletterPostSendClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    post<T extends BlogPostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BlogPostDefaultArgs<ExtArgs>>): Prisma__BlogPostClient<$Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    emailEvents<T extends NewsletterPostSend$emailEventsArgs<ExtArgs> = {}>(args?: Subset<T, NewsletterPostSend$emailEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsletterEmailEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the NewsletterPostSend model
+   */
+  interface NewsletterPostSendFieldRefs {
+    readonly id: FieldRef<"NewsletterPostSend", 'String'>
+    readonly postId: FieldRef<"NewsletterPostSend", 'String'>
+    readonly status: FieldRef<"NewsletterPostSend", 'NewsletterPostSendStatus'>
+    readonly recipientCount: FieldRef<"NewsletterPostSend", 'Int'>
+    readonly sentCount: FieldRef<"NewsletterPostSend", 'Int'>
+    readonly failedCount: FieldRef<"NewsletterPostSend", 'Int'>
+    readonly errorMessage: FieldRef<"NewsletterPostSend", 'String'>
+    readonly startedAt: FieldRef<"NewsletterPostSend", 'DateTime'>
+    readonly completedAt: FieldRef<"NewsletterPostSend", 'DateTime'>
+    readonly createdAt: FieldRef<"NewsletterPostSend", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * NewsletterPostSend findUnique
+   */
+  export type NewsletterPostSendFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterPostSend
+     */
+    select?: NewsletterPostSendSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterPostSend
+     */
+    omit?: NewsletterPostSendOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterPostSendInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsletterPostSend to fetch.
+     */
+    where: NewsletterPostSendWhereUniqueInput
+  }
+
+  /**
+   * NewsletterPostSend findUniqueOrThrow
+   */
+  export type NewsletterPostSendFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterPostSend
+     */
+    select?: NewsletterPostSendSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterPostSend
+     */
+    omit?: NewsletterPostSendOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterPostSendInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsletterPostSend to fetch.
+     */
+    where: NewsletterPostSendWhereUniqueInput
+  }
+
+  /**
+   * NewsletterPostSend findFirst
+   */
+  export type NewsletterPostSendFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterPostSend
+     */
+    select?: NewsletterPostSendSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterPostSend
+     */
+    omit?: NewsletterPostSendOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterPostSendInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsletterPostSend to fetch.
+     */
+    where?: NewsletterPostSendWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsletterPostSends to fetch.
+     */
+    orderBy?: NewsletterPostSendOrderByWithRelationInput | NewsletterPostSendOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NewsletterPostSends.
+     */
+    cursor?: NewsletterPostSendWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsletterPostSends from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsletterPostSends.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsletterPostSends.
+     */
+    distinct?: NewsletterPostSendScalarFieldEnum | NewsletterPostSendScalarFieldEnum[]
+  }
+
+  /**
+   * NewsletterPostSend findFirstOrThrow
+   */
+  export type NewsletterPostSendFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterPostSend
+     */
+    select?: NewsletterPostSendSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterPostSend
+     */
+    omit?: NewsletterPostSendOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterPostSendInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsletterPostSend to fetch.
+     */
+    where?: NewsletterPostSendWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsletterPostSends to fetch.
+     */
+    orderBy?: NewsletterPostSendOrderByWithRelationInput | NewsletterPostSendOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NewsletterPostSends.
+     */
+    cursor?: NewsletterPostSendWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsletterPostSends from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsletterPostSends.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsletterPostSends.
+     */
+    distinct?: NewsletterPostSendScalarFieldEnum | NewsletterPostSendScalarFieldEnum[]
+  }
+
+  /**
+   * NewsletterPostSend findMany
+   */
+  export type NewsletterPostSendFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterPostSend
+     */
+    select?: NewsletterPostSendSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterPostSend
+     */
+    omit?: NewsletterPostSendOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterPostSendInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsletterPostSends to fetch.
+     */
+    where?: NewsletterPostSendWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsletterPostSends to fetch.
+     */
+    orderBy?: NewsletterPostSendOrderByWithRelationInput | NewsletterPostSendOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing NewsletterPostSends.
+     */
+    cursor?: NewsletterPostSendWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsletterPostSends from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsletterPostSends.
+     */
+    skip?: number
+    distinct?: NewsletterPostSendScalarFieldEnum | NewsletterPostSendScalarFieldEnum[]
+  }
+
+  /**
+   * NewsletterPostSend create
+   */
+  export type NewsletterPostSendCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterPostSend
+     */
+    select?: NewsletterPostSendSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterPostSend
+     */
+    omit?: NewsletterPostSendOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterPostSendInclude<ExtArgs> | null
+    /**
+     * The data needed to create a NewsletterPostSend.
+     */
+    data: XOR<NewsletterPostSendCreateInput, NewsletterPostSendUncheckedCreateInput>
+  }
+
+  /**
+   * NewsletterPostSend createMany
+   */
+  export type NewsletterPostSendCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many NewsletterPostSends.
+     */
+    data: NewsletterPostSendCreateManyInput | NewsletterPostSendCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * NewsletterPostSend createManyAndReturn
+   */
+  export type NewsletterPostSendCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterPostSend
+     */
+    select?: NewsletterPostSendSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterPostSend
+     */
+    omit?: NewsletterPostSendOmit<ExtArgs> | null
+    /**
+     * The data used to create many NewsletterPostSends.
+     */
+    data: NewsletterPostSendCreateManyInput | NewsletterPostSendCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterPostSendIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NewsletterPostSend update
+   */
+  export type NewsletterPostSendUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterPostSend
+     */
+    select?: NewsletterPostSendSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterPostSend
+     */
+    omit?: NewsletterPostSendOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterPostSendInclude<ExtArgs> | null
+    /**
+     * The data needed to update a NewsletterPostSend.
+     */
+    data: XOR<NewsletterPostSendUpdateInput, NewsletterPostSendUncheckedUpdateInput>
+    /**
+     * Choose, which NewsletterPostSend to update.
+     */
+    where: NewsletterPostSendWhereUniqueInput
+  }
+
+  /**
+   * NewsletterPostSend updateMany
+   */
+  export type NewsletterPostSendUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update NewsletterPostSends.
+     */
+    data: XOR<NewsletterPostSendUpdateManyMutationInput, NewsletterPostSendUncheckedUpdateManyInput>
+    /**
+     * Filter which NewsletterPostSends to update
+     */
+    where?: NewsletterPostSendWhereInput
+    /**
+     * Limit how many NewsletterPostSends to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * NewsletterPostSend updateManyAndReturn
+   */
+  export type NewsletterPostSendUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterPostSend
+     */
+    select?: NewsletterPostSendSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterPostSend
+     */
+    omit?: NewsletterPostSendOmit<ExtArgs> | null
+    /**
+     * The data used to update NewsletterPostSends.
+     */
+    data: XOR<NewsletterPostSendUpdateManyMutationInput, NewsletterPostSendUncheckedUpdateManyInput>
+    /**
+     * Filter which NewsletterPostSends to update
+     */
+    where?: NewsletterPostSendWhereInput
+    /**
+     * Limit how many NewsletterPostSends to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterPostSendIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NewsletterPostSend upsert
+   */
+  export type NewsletterPostSendUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterPostSend
+     */
+    select?: NewsletterPostSendSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterPostSend
+     */
+    omit?: NewsletterPostSendOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterPostSendInclude<ExtArgs> | null
+    /**
+     * The filter to search for the NewsletterPostSend to update in case it exists.
+     */
+    where: NewsletterPostSendWhereUniqueInput
+    /**
+     * In case the NewsletterPostSend found by the `where` argument doesn't exist, create a new NewsletterPostSend with this data.
+     */
+    create: XOR<NewsletterPostSendCreateInput, NewsletterPostSendUncheckedCreateInput>
+    /**
+     * In case the NewsletterPostSend was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NewsletterPostSendUpdateInput, NewsletterPostSendUncheckedUpdateInput>
+  }
+
+  /**
+   * NewsletterPostSend delete
+   */
+  export type NewsletterPostSendDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterPostSend
+     */
+    select?: NewsletterPostSendSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterPostSend
+     */
+    omit?: NewsletterPostSendOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterPostSendInclude<ExtArgs> | null
+    /**
+     * Filter which NewsletterPostSend to delete.
+     */
+    where: NewsletterPostSendWhereUniqueInput
+  }
+
+  /**
+   * NewsletterPostSend deleteMany
+   */
+  export type NewsletterPostSendDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NewsletterPostSends to delete
+     */
+    where?: NewsletterPostSendWhereInput
+    /**
+     * Limit how many NewsletterPostSends to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * NewsletterPostSend.emailEvents
+   */
+  export type NewsletterPostSend$emailEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterEmailEvent
+     */
+    select?: NewsletterEmailEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterEmailEvent
+     */
+    omit?: NewsletterEmailEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterEmailEventInclude<ExtArgs> | null
+    where?: NewsletterEmailEventWhereInput
+    orderBy?: NewsletterEmailEventOrderByWithRelationInput | NewsletterEmailEventOrderByWithRelationInput[]
+    cursor?: NewsletterEmailEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NewsletterEmailEventScalarFieldEnum | NewsletterEmailEventScalarFieldEnum[]
+  }
+
+  /**
+   * NewsletterPostSend without action
+   */
+  export type NewsletterPostSendDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterPostSend
+     */
+    select?: NewsletterPostSendSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterPostSend
+     */
+    omit?: NewsletterPostSendOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterPostSendInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model NewsletterEmailEvent
+   */
+
+  export type AggregateNewsletterEmailEvent = {
+    _count: NewsletterEmailEventCountAggregateOutputType | null
+    _min: NewsletterEmailEventMinAggregateOutputType | null
+    _max: NewsletterEmailEventMaxAggregateOutputType | null
+  }
+
+  export type NewsletterEmailEventMinAggregateOutputType = {
+    id: string | null
+    subscriberId: string | null
+    postId: string | null
+    postSendId: string | null
+    type: $Enums.NewsletterEmailType | null
+    status: $Enums.NewsletterEmailStatus | null
+    toEmail: string | null
+    subject: string | null
+    resendEmailId: string | null
+    errorMessage: string | null
+    createdAt: Date | null
+  }
+
+  export type NewsletterEmailEventMaxAggregateOutputType = {
+    id: string | null
+    subscriberId: string | null
+    postId: string | null
+    postSendId: string | null
+    type: $Enums.NewsletterEmailType | null
+    status: $Enums.NewsletterEmailStatus | null
+    toEmail: string | null
+    subject: string | null
+    resendEmailId: string | null
+    errorMessage: string | null
+    createdAt: Date | null
+  }
+
+  export type NewsletterEmailEventCountAggregateOutputType = {
+    id: number
+    subscriberId: number
+    postId: number
+    postSendId: number
+    type: number
+    status: number
+    toEmail: number
+    subject: number
+    resendEmailId: number
+    errorMessage: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type NewsletterEmailEventMinAggregateInputType = {
+    id?: true
+    subscriberId?: true
+    postId?: true
+    postSendId?: true
+    type?: true
+    status?: true
+    toEmail?: true
+    subject?: true
+    resendEmailId?: true
+    errorMessage?: true
+    createdAt?: true
+  }
+
+  export type NewsletterEmailEventMaxAggregateInputType = {
+    id?: true
+    subscriberId?: true
+    postId?: true
+    postSendId?: true
+    type?: true
+    status?: true
+    toEmail?: true
+    subject?: true
+    resendEmailId?: true
+    errorMessage?: true
+    createdAt?: true
+  }
+
+  export type NewsletterEmailEventCountAggregateInputType = {
+    id?: true
+    subscriberId?: true
+    postId?: true
+    postSendId?: true
+    type?: true
+    status?: true
+    toEmail?: true
+    subject?: true
+    resendEmailId?: true
+    errorMessage?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type NewsletterEmailEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NewsletterEmailEvent to aggregate.
+     */
+    where?: NewsletterEmailEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsletterEmailEvents to fetch.
+     */
+    orderBy?: NewsletterEmailEventOrderByWithRelationInput | NewsletterEmailEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NewsletterEmailEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsletterEmailEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsletterEmailEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned NewsletterEmailEvents
+    **/
+    _count?: true | NewsletterEmailEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NewsletterEmailEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NewsletterEmailEventMaxAggregateInputType
+  }
+
+  export type GetNewsletterEmailEventAggregateType<T extends NewsletterEmailEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateNewsletterEmailEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNewsletterEmailEvent[P]>
+      : GetScalarType<T[P], AggregateNewsletterEmailEvent[P]>
+  }
+
+
+
+
+  export type NewsletterEmailEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NewsletterEmailEventWhereInput
+    orderBy?: NewsletterEmailEventOrderByWithAggregationInput | NewsletterEmailEventOrderByWithAggregationInput[]
+    by: NewsletterEmailEventScalarFieldEnum[] | NewsletterEmailEventScalarFieldEnum
+    having?: NewsletterEmailEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NewsletterEmailEventCountAggregateInputType | true
+    _min?: NewsletterEmailEventMinAggregateInputType
+    _max?: NewsletterEmailEventMaxAggregateInputType
+  }
+
+  export type NewsletterEmailEventGroupByOutputType = {
+    id: string
+    subscriberId: string | null
+    postId: string | null
+    postSendId: string | null
+    type: $Enums.NewsletterEmailType
+    status: $Enums.NewsletterEmailStatus
+    toEmail: string
+    subject: string
+    resendEmailId: string | null
+    errorMessage: string | null
+    createdAt: Date
+    _count: NewsletterEmailEventCountAggregateOutputType | null
+    _min: NewsletterEmailEventMinAggregateOutputType | null
+    _max: NewsletterEmailEventMaxAggregateOutputType | null
+  }
+
+  type GetNewsletterEmailEventGroupByPayload<T extends NewsletterEmailEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NewsletterEmailEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NewsletterEmailEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NewsletterEmailEventGroupByOutputType[P]>
+            : GetScalarType<T[P], NewsletterEmailEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NewsletterEmailEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    subscriberId?: boolean
+    postId?: boolean
+    postSendId?: boolean
+    type?: boolean
+    status?: boolean
+    toEmail?: boolean
+    subject?: boolean
+    resendEmailId?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+    subscriber?: boolean | NewsletterEmailEvent$subscriberArgs<ExtArgs>
+    post?: boolean | NewsletterEmailEvent$postArgs<ExtArgs>
+    postSend?: boolean | NewsletterEmailEvent$postSendArgs<ExtArgs>
+  }, ExtArgs["result"]["newsletterEmailEvent"]>
+
+  export type NewsletterEmailEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    subscriberId?: boolean
+    postId?: boolean
+    postSendId?: boolean
+    type?: boolean
+    status?: boolean
+    toEmail?: boolean
+    subject?: boolean
+    resendEmailId?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+    subscriber?: boolean | NewsletterEmailEvent$subscriberArgs<ExtArgs>
+    post?: boolean | NewsletterEmailEvent$postArgs<ExtArgs>
+    postSend?: boolean | NewsletterEmailEvent$postSendArgs<ExtArgs>
+  }, ExtArgs["result"]["newsletterEmailEvent"]>
+
+  export type NewsletterEmailEventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    subscriberId?: boolean
+    postId?: boolean
+    postSendId?: boolean
+    type?: boolean
+    status?: boolean
+    toEmail?: boolean
+    subject?: boolean
+    resendEmailId?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+    subscriber?: boolean | NewsletterEmailEvent$subscriberArgs<ExtArgs>
+    post?: boolean | NewsletterEmailEvent$postArgs<ExtArgs>
+    postSend?: boolean | NewsletterEmailEvent$postSendArgs<ExtArgs>
+  }, ExtArgs["result"]["newsletterEmailEvent"]>
+
+  export type NewsletterEmailEventSelectScalar = {
+    id?: boolean
+    subscriberId?: boolean
+    postId?: boolean
+    postSendId?: boolean
+    type?: boolean
+    status?: boolean
+    toEmail?: boolean
+    subject?: boolean
+    resendEmailId?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+  }
+
+  export type NewsletterEmailEventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "subscriberId" | "postId" | "postSendId" | "type" | "status" | "toEmail" | "subject" | "resendEmailId" | "errorMessage" | "createdAt", ExtArgs["result"]["newsletterEmailEvent"]>
+  export type NewsletterEmailEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subscriber?: boolean | NewsletterEmailEvent$subscriberArgs<ExtArgs>
+    post?: boolean | NewsletterEmailEvent$postArgs<ExtArgs>
+    postSend?: boolean | NewsletterEmailEvent$postSendArgs<ExtArgs>
+  }
+  export type NewsletterEmailEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subscriber?: boolean | NewsletterEmailEvent$subscriberArgs<ExtArgs>
+    post?: boolean | NewsletterEmailEvent$postArgs<ExtArgs>
+    postSend?: boolean | NewsletterEmailEvent$postSendArgs<ExtArgs>
+  }
+  export type NewsletterEmailEventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subscriber?: boolean | NewsletterEmailEvent$subscriberArgs<ExtArgs>
+    post?: boolean | NewsletterEmailEvent$postArgs<ExtArgs>
+    postSend?: boolean | NewsletterEmailEvent$postSendArgs<ExtArgs>
+  }
+
+  export type $NewsletterEmailEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "NewsletterEmailEvent"
+    objects: {
+      subscriber: Prisma.$NewsletterSubscriberPayload<ExtArgs> | null
+      post: Prisma.$BlogPostPayload<ExtArgs> | null
+      postSend: Prisma.$NewsletterPostSendPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      subscriberId: string | null
+      postId: string | null
+      postSendId: string | null
+      type: $Enums.NewsletterEmailType
+      status: $Enums.NewsletterEmailStatus
+      toEmail: string
+      subject: string
+      resendEmailId: string | null
+      errorMessage: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["newsletterEmailEvent"]>
+    composites: {}
+  }
+
+  type NewsletterEmailEventGetPayload<S extends boolean | null | undefined | NewsletterEmailEventDefaultArgs> = $Result.GetResult<Prisma.$NewsletterEmailEventPayload, S>
+
+  type NewsletterEmailEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NewsletterEmailEventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NewsletterEmailEventCountAggregateInputType | true
+    }
+
+  export interface NewsletterEmailEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['NewsletterEmailEvent'], meta: { name: 'NewsletterEmailEvent' } }
+    /**
+     * Find zero or one NewsletterEmailEvent that matches the filter.
+     * @param {NewsletterEmailEventFindUniqueArgs} args - Arguments to find a NewsletterEmailEvent
+     * @example
+     * // Get one NewsletterEmailEvent
+     * const newsletterEmailEvent = await prisma.newsletterEmailEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NewsletterEmailEventFindUniqueArgs>(args: SelectSubset<T, NewsletterEmailEventFindUniqueArgs<ExtArgs>>): Prisma__NewsletterEmailEventClient<$Result.GetResult<Prisma.$NewsletterEmailEventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one NewsletterEmailEvent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NewsletterEmailEventFindUniqueOrThrowArgs} args - Arguments to find a NewsletterEmailEvent
+     * @example
+     * // Get one NewsletterEmailEvent
+     * const newsletterEmailEvent = await prisma.newsletterEmailEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NewsletterEmailEventFindUniqueOrThrowArgs>(args: SelectSubset<T, NewsletterEmailEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NewsletterEmailEventClient<$Result.GetResult<Prisma.$NewsletterEmailEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NewsletterEmailEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterEmailEventFindFirstArgs} args - Arguments to find a NewsletterEmailEvent
+     * @example
+     * // Get one NewsletterEmailEvent
+     * const newsletterEmailEvent = await prisma.newsletterEmailEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NewsletterEmailEventFindFirstArgs>(args?: SelectSubset<T, NewsletterEmailEventFindFirstArgs<ExtArgs>>): Prisma__NewsletterEmailEventClient<$Result.GetResult<Prisma.$NewsletterEmailEventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NewsletterEmailEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterEmailEventFindFirstOrThrowArgs} args - Arguments to find a NewsletterEmailEvent
+     * @example
+     * // Get one NewsletterEmailEvent
+     * const newsletterEmailEvent = await prisma.newsletterEmailEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NewsletterEmailEventFindFirstOrThrowArgs>(args?: SelectSubset<T, NewsletterEmailEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__NewsletterEmailEventClient<$Result.GetResult<Prisma.$NewsletterEmailEventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more NewsletterEmailEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterEmailEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all NewsletterEmailEvents
+     * const newsletterEmailEvents = await prisma.newsletterEmailEvent.findMany()
+     * 
+     * // Get first 10 NewsletterEmailEvents
+     * const newsletterEmailEvents = await prisma.newsletterEmailEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const newsletterEmailEventWithIdOnly = await prisma.newsletterEmailEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NewsletterEmailEventFindManyArgs>(args?: SelectSubset<T, NewsletterEmailEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsletterEmailEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a NewsletterEmailEvent.
+     * @param {NewsletterEmailEventCreateArgs} args - Arguments to create a NewsletterEmailEvent.
+     * @example
+     * // Create one NewsletterEmailEvent
+     * const NewsletterEmailEvent = await prisma.newsletterEmailEvent.create({
+     *   data: {
+     *     // ... data to create a NewsletterEmailEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends NewsletterEmailEventCreateArgs>(args: SelectSubset<T, NewsletterEmailEventCreateArgs<ExtArgs>>): Prisma__NewsletterEmailEventClient<$Result.GetResult<Prisma.$NewsletterEmailEventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many NewsletterEmailEvents.
+     * @param {NewsletterEmailEventCreateManyArgs} args - Arguments to create many NewsletterEmailEvents.
+     * @example
+     * // Create many NewsletterEmailEvents
+     * const newsletterEmailEvent = await prisma.newsletterEmailEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NewsletterEmailEventCreateManyArgs>(args?: SelectSubset<T, NewsletterEmailEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many NewsletterEmailEvents and returns the data saved in the database.
+     * @param {NewsletterEmailEventCreateManyAndReturnArgs} args - Arguments to create many NewsletterEmailEvents.
+     * @example
+     * // Create many NewsletterEmailEvents
+     * const newsletterEmailEvent = await prisma.newsletterEmailEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many NewsletterEmailEvents and only return the `id`
+     * const newsletterEmailEventWithIdOnly = await prisma.newsletterEmailEvent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NewsletterEmailEventCreateManyAndReturnArgs>(args?: SelectSubset<T, NewsletterEmailEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsletterEmailEventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a NewsletterEmailEvent.
+     * @param {NewsletterEmailEventDeleteArgs} args - Arguments to delete one NewsletterEmailEvent.
+     * @example
+     * // Delete one NewsletterEmailEvent
+     * const NewsletterEmailEvent = await prisma.newsletterEmailEvent.delete({
+     *   where: {
+     *     // ... filter to delete one NewsletterEmailEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NewsletterEmailEventDeleteArgs>(args: SelectSubset<T, NewsletterEmailEventDeleteArgs<ExtArgs>>): Prisma__NewsletterEmailEventClient<$Result.GetResult<Prisma.$NewsletterEmailEventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one NewsletterEmailEvent.
+     * @param {NewsletterEmailEventUpdateArgs} args - Arguments to update one NewsletterEmailEvent.
+     * @example
+     * // Update one NewsletterEmailEvent
+     * const newsletterEmailEvent = await prisma.newsletterEmailEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NewsletterEmailEventUpdateArgs>(args: SelectSubset<T, NewsletterEmailEventUpdateArgs<ExtArgs>>): Prisma__NewsletterEmailEventClient<$Result.GetResult<Prisma.$NewsletterEmailEventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more NewsletterEmailEvents.
+     * @param {NewsletterEmailEventDeleteManyArgs} args - Arguments to filter NewsletterEmailEvents to delete.
+     * @example
+     * // Delete a few NewsletterEmailEvents
+     * const { count } = await prisma.newsletterEmailEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NewsletterEmailEventDeleteManyArgs>(args?: SelectSubset<T, NewsletterEmailEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NewsletterEmailEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterEmailEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many NewsletterEmailEvents
+     * const newsletterEmailEvent = await prisma.newsletterEmailEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NewsletterEmailEventUpdateManyArgs>(args: SelectSubset<T, NewsletterEmailEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NewsletterEmailEvents and returns the data updated in the database.
+     * @param {NewsletterEmailEventUpdateManyAndReturnArgs} args - Arguments to update many NewsletterEmailEvents.
+     * @example
+     * // Update many NewsletterEmailEvents
+     * const newsletterEmailEvent = await prisma.newsletterEmailEvent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more NewsletterEmailEvents and only return the `id`
+     * const newsletterEmailEventWithIdOnly = await prisma.newsletterEmailEvent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NewsletterEmailEventUpdateManyAndReturnArgs>(args: SelectSubset<T, NewsletterEmailEventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsletterEmailEventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one NewsletterEmailEvent.
+     * @param {NewsletterEmailEventUpsertArgs} args - Arguments to update or create a NewsletterEmailEvent.
+     * @example
+     * // Update or create a NewsletterEmailEvent
+     * const newsletterEmailEvent = await prisma.newsletterEmailEvent.upsert({
+     *   create: {
+     *     // ... data to create a NewsletterEmailEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the NewsletterEmailEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NewsletterEmailEventUpsertArgs>(args: SelectSubset<T, NewsletterEmailEventUpsertArgs<ExtArgs>>): Prisma__NewsletterEmailEventClient<$Result.GetResult<Prisma.$NewsletterEmailEventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of NewsletterEmailEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterEmailEventCountArgs} args - Arguments to filter NewsletterEmailEvents to count.
+     * @example
+     * // Count the number of NewsletterEmailEvents
+     * const count = await prisma.newsletterEmailEvent.count({
+     *   where: {
+     *     // ... the filter for the NewsletterEmailEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends NewsletterEmailEventCountArgs>(
+      args?: Subset<T, NewsletterEmailEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NewsletterEmailEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a NewsletterEmailEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterEmailEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NewsletterEmailEventAggregateArgs>(args: Subset<T, NewsletterEmailEventAggregateArgs>): Prisma.PrismaPromise<GetNewsletterEmailEventAggregateType<T>>
+
+    /**
+     * Group by NewsletterEmailEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsletterEmailEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NewsletterEmailEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NewsletterEmailEventGroupByArgs['orderBy'] }
+        : { orderBy?: NewsletterEmailEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NewsletterEmailEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNewsletterEmailEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the NewsletterEmailEvent model
+   */
+  readonly fields: NewsletterEmailEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for NewsletterEmailEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NewsletterEmailEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    subscriber<T extends NewsletterEmailEvent$subscriberArgs<ExtArgs> = {}>(args?: Subset<T, NewsletterEmailEvent$subscriberArgs<ExtArgs>>): Prisma__NewsletterSubscriberClient<$Result.GetResult<Prisma.$NewsletterSubscriberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    post<T extends NewsletterEmailEvent$postArgs<ExtArgs> = {}>(args?: Subset<T, NewsletterEmailEvent$postArgs<ExtArgs>>): Prisma__BlogPostClient<$Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    postSend<T extends NewsletterEmailEvent$postSendArgs<ExtArgs> = {}>(args?: Subset<T, NewsletterEmailEvent$postSendArgs<ExtArgs>>): Prisma__NewsletterPostSendClient<$Result.GetResult<Prisma.$NewsletterPostSendPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the NewsletterEmailEvent model
+   */
+  interface NewsletterEmailEventFieldRefs {
+    readonly id: FieldRef<"NewsletterEmailEvent", 'String'>
+    readonly subscriberId: FieldRef<"NewsletterEmailEvent", 'String'>
+    readonly postId: FieldRef<"NewsletterEmailEvent", 'String'>
+    readonly postSendId: FieldRef<"NewsletterEmailEvent", 'String'>
+    readonly type: FieldRef<"NewsletterEmailEvent", 'NewsletterEmailType'>
+    readonly status: FieldRef<"NewsletterEmailEvent", 'NewsletterEmailStatus'>
+    readonly toEmail: FieldRef<"NewsletterEmailEvent", 'String'>
+    readonly subject: FieldRef<"NewsletterEmailEvent", 'String'>
+    readonly resendEmailId: FieldRef<"NewsletterEmailEvent", 'String'>
+    readonly errorMessage: FieldRef<"NewsletterEmailEvent", 'String'>
+    readonly createdAt: FieldRef<"NewsletterEmailEvent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * NewsletterEmailEvent findUnique
+   */
+  export type NewsletterEmailEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterEmailEvent
+     */
+    select?: NewsletterEmailEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterEmailEvent
+     */
+    omit?: NewsletterEmailEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterEmailEventInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsletterEmailEvent to fetch.
+     */
+    where: NewsletterEmailEventWhereUniqueInput
+  }
+
+  /**
+   * NewsletterEmailEvent findUniqueOrThrow
+   */
+  export type NewsletterEmailEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterEmailEvent
+     */
+    select?: NewsletterEmailEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterEmailEvent
+     */
+    omit?: NewsletterEmailEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterEmailEventInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsletterEmailEvent to fetch.
+     */
+    where: NewsletterEmailEventWhereUniqueInput
+  }
+
+  /**
+   * NewsletterEmailEvent findFirst
+   */
+  export type NewsletterEmailEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterEmailEvent
+     */
+    select?: NewsletterEmailEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterEmailEvent
+     */
+    omit?: NewsletterEmailEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterEmailEventInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsletterEmailEvent to fetch.
+     */
+    where?: NewsletterEmailEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsletterEmailEvents to fetch.
+     */
+    orderBy?: NewsletterEmailEventOrderByWithRelationInput | NewsletterEmailEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NewsletterEmailEvents.
+     */
+    cursor?: NewsletterEmailEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsletterEmailEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsletterEmailEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsletterEmailEvents.
+     */
+    distinct?: NewsletterEmailEventScalarFieldEnum | NewsletterEmailEventScalarFieldEnum[]
+  }
+
+  /**
+   * NewsletterEmailEvent findFirstOrThrow
+   */
+  export type NewsletterEmailEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterEmailEvent
+     */
+    select?: NewsletterEmailEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterEmailEvent
+     */
+    omit?: NewsletterEmailEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterEmailEventInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsletterEmailEvent to fetch.
+     */
+    where?: NewsletterEmailEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsletterEmailEvents to fetch.
+     */
+    orderBy?: NewsletterEmailEventOrderByWithRelationInput | NewsletterEmailEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NewsletterEmailEvents.
+     */
+    cursor?: NewsletterEmailEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsletterEmailEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsletterEmailEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsletterEmailEvents.
+     */
+    distinct?: NewsletterEmailEventScalarFieldEnum | NewsletterEmailEventScalarFieldEnum[]
+  }
+
+  /**
+   * NewsletterEmailEvent findMany
+   */
+  export type NewsletterEmailEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterEmailEvent
+     */
+    select?: NewsletterEmailEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterEmailEvent
+     */
+    omit?: NewsletterEmailEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterEmailEventInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsletterEmailEvents to fetch.
+     */
+    where?: NewsletterEmailEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsletterEmailEvents to fetch.
+     */
+    orderBy?: NewsletterEmailEventOrderByWithRelationInput | NewsletterEmailEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing NewsletterEmailEvents.
+     */
+    cursor?: NewsletterEmailEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsletterEmailEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsletterEmailEvents.
+     */
+    skip?: number
+    distinct?: NewsletterEmailEventScalarFieldEnum | NewsletterEmailEventScalarFieldEnum[]
+  }
+
+  /**
+   * NewsletterEmailEvent create
+   */
+  export type NewsletterEmailEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterEmailEvent
+     */
+    select?: NewsletterEmailEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterEmailEvent
+     */
+    omit?: NewsletterEmailEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterEmailEventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a NewsletterEmailEvent.
+     */
+    data: XOR<NewsletterEmailEventCreateInput, NewsletterEmailEventUncheckedCreateInput>
+  }
+
+  /**
+   * NewsletterEmailEvent createMany
+   */
+  export type NewsletterEmailEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many NewsletterEmailEvents.
+     */
+    data: NewsletterEmailEventCreateManyInput | NewsletterEmailEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * NewsletterEmailEvent createManyAndReturn
+   */
+  export type NewsletterEmailEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterEmailEvent
+     */
+    select?: NewsletterEmailEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterEmailEvent
+     */
+    omit?: NewsletterEmailEventOmit<ExtArgs> | null
+    /**
+     * The data used to create many NewsletterEmailEvents.
+     */
+    data: NewsletterEmailEventCreateManyInput | NewsletterEmailEventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterEmailEventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NewsletterEmailEvent update
+   */
+  export type NewsletterEmailEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterEmailEvent
+     */
+    select?: NewsletterEmailEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterEmailEvent
+     */
+    omit?: NewsletterEmailEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterEmailEventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a NewsletterEmailEvent.
+     */
+    data: XOR<NewsletterEmailEventUpdateInput, NewsletterEmailEventUncheckedUpdateInput>
+    /**
+     * Choose, which NewsletterEmailEvent to update.
+     */
+    where: NewsletterEmailEventWhereUniqueInput
+  }
+
+  /**
+   * NewsletterEmailEvent updateMany
+   */
+  export type NewsletterEmailEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update NewsletterEmailEvents.
+     */
+    data: XOR<NewsletterEmailEventUpdateManyMutationInput, NewsletterEmailEventUncheckedUpdateManyInput>
+    /**
+     * Filter which NewsletterEmailEvents to update
+     */
+    where?: NewsletterEmailEventWhereInput
+    /**
+     * Limit how many NewsletterEmailEvents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * NewsletterEmailEvent updateManyAndReturn
+   */
+  export type NewsletterEmailEventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterEmailEvent
+     */
+    select?: NewsletterEmailEventSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterEmailEvent
+     */
+    omit?: NewsletterEmailEventOmit<ExtArgs> | null
+    /**
+     * The data used to update NewsletterEmailEvents.
+     */
+    data: XOR<NewsletterEmailEventUpdateManyMutationInput, NewsletterEmailEventUncheckedUpdateManyInput>
+    /**
+     * Filter which NewsletterEmailEvents to update
+     */
+    where?: NewsletterEmailEventWhereInput
+    /**
+     * Limit how many NewsletterEmailEvents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterEmailEventIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NewsletterEmailEvent upsert
+   */
+  export type NewsletterEmailEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterEmailEvent
+     */
+    select?: NewsletterEmailEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterEmailEvent
+     */
+    omit?: NewsletterEmailEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterEmailEventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the NewsletterEmailEvent to update in case it exists.
+     */
+    where: NewsletterEmailEventWhereUniqueInput
+    /**
+     * In case the NewsletterEmailEvent found by the `where` argument doesn't exist, create a new NewsletterEmailEvent with this data.
+     */
+    create: XOR<NewsletterEmailEventCreateInput, NewsletterEmailEventUncheckedCreateInput>
+    /**
+     * In case the NewsletterEmailEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NewsletterEmailEventUpdateInput, NewsletterEmailEventUncheckedUpdateInput>
+  }
+
+  /**
+   * NewsletterEmailEvent delete
+   */
+  export type NewsletterEmailEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterEmailEvent
+     */
+    select?: NewsletterEmailEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterEmailEvent
+     */
+    omit?: NewsletterEmailEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterEmailEventInclude<ExtArgs> | null
+    /**
+     * Filter which NewsletterEmailEvent to delete.
+     */
+    where: NewsletterEmailEventWhereUniqueInput
+  }
+
+  /**
+   * NewsletterEmailEvent deleteMany
+   */
+  export type NewsletterEmailEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NewsletterEmailEvents to delete
+     */
+    where?: NewsletterEmailEventWhereInput
+    /**
+     * Limit how many NewsletterEmailEvents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * NewsletterEmailEvent.subscriber
+   */
+  export type NewsletterEmailEvent$subscriberArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterSubscriber
+     */
+    select?: NewsletterSubscriberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterSubscriber
+     */
+    omit?: NewsletterSubscriberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterSubscriberInclude<ExtArgs> | null
+    where?: NewsletterSubscriberWhereInput
+  }
+
+  /**
+   * NewsletterEmailEvent.post
+   */
+  export type NewsletterEmailEvent$postArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlogPost
+     */
+    select?: BlogPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlogPost
+     */
+    omit?: BlogPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlogPostInclude<ExtArgs> | null
+    where?: BlogPostWhereInput
+  }
+
+  /**
+   * NewsletterEmailEvent.postSend
+   */
+  export type NewsletterEmailEvent$postSendArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterPostSend
+     */
+    select?: NewsletterPostSendSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterPostSend
+     */
+    omit?: NewsletterPostSendOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterPostSendInclude<ExtArgs> | null
+    where?: NewsletterPostSendWhereInput
+  }
+
+  /**
+   * NewsletterEmailEvent without action
+   */
+  export type NewsletterEmailEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsletterEmailEvent
+     */
+    select?: NewsletterEmailEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsletterEmailEvent
+     */
+    omit?: NewsletterEmailEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsletterEmailEventInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -7168,6 +11231,60 @@ export namespace Prisma {
   };
 
   export type BlogPostTranslationScalarFieldEnum = (typeof BlogPostTranslationScalarFieldEnum)[keyof typeof BlogPostTranslationScalarFieldEnum]
+
+
+  export const NewsletterSubscriberScalarFieldEnum: {
+    id: 'id',
+    email: 'email',
+    locale: 'locale',
+    status: 'status',
+    source: 'source',
+    confirmationTokenHash: 'confirmationTokenHash',
+    unsubscribeToken: 'unsubscribeToken',
+    ipHash: 'ipHash',
+    userAgent: 'userAgent',
+    consentAt: 'consentAt',
+    confirmedAt: 'confirmedAt',
+    unsubscribedAt: 'unsubscribedAt',
+    lastSentAt: 'lastSentAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type NewsletterSubscriberScalarFieldEnum = (typeof NewsletterSubscriberScalarFieldEnum)[keyof typeof NewsletterSubscriberScalarFieldEnum]
+
+
+  export const NewsletterPostSendScalarFieldEnum: {
+    id: 'id',
+    postId: 'postId',
+    status: 'status',
+    recipientCount: 'recipientCount',
+    sentCount: 'sentCount',
+    failedCount: 'failedCount',
+    errorMessage: 'errorMessage',
+    startedAt: 'startedAt',
+    completedAt: 'completedAt',
+    createdAt: 'createdAt'
+  };
+
+  export type NewsletterPostSendScalarFieldEnum = (typeof NewsletterPostSendScalarFieldEnum)[keyof typeof NewsletterPostSendScalarFieldEnum]
+
+
+  export const NewsletterEmailEventScalarFieldEnum: {
+    id: 'id',
+    subscriberId: 'subscriberId',
+    postId: 'postId',
+    postSendId: 'postSendId',
+    type: 'type',
+    status: 'status',
+    toEmail: 'toEmail',
+    subject: 'subject',
+    resendEmailId: 'resendEmailId',
+    errorMessage: 'errorMessage',
+    createdAt: 'createdAt'
+  };
+
+  export type NewsletterEmailEventScalarFieldEnum = (typeof NewsletterEmailEventScalarFieldEnum)[keyof typeof NewsletterEmailEventScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -7331,6 +11448,62 @@ export namespace Prisma {
    * Reference to a field of type 'BlogPostStatus[]'
    */
   export type ListEnumBlogPostStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BlogPostStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'NewsletterSubscriberStatus'
+   */
+  export type EnumNewsletterSubscriberStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NewsletterSubscriberStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'NewsletterSubscriberStatus[]'
+   */
+  export type ListEnumNewsletterSubscriberStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NewsletterSubscriberStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'NewsletterPostSendStatus'
+   */
+  export type EnumNewsletterPostSendStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NewsletterPostSendStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'NewsletterPostSendStatus[]'
+   */
+  export type ListEnumNewsletterPostSendStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NewsletterPostSendStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'NewsletterEmailType'
+   */
+  export type EnumNewsletterEmailTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NewsletterEmailType'>
+    
+
+
+  /**
+   * Reference to a field of type 'NewsletterEmailType[]'
+   */
+  export type ListEnumNewsletterEmailTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NewsletterEmailType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'NewsletterEmailStatus'
+   */
+  export type EnumNewsletterEmailStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NewsletterEmailStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'NewsletterEmailStatus[]'
+   */
+  export type ListEnumNewsletterEmailStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NewsletterEmailStatus[]'>
     
 
 
@@ -7634,6 +11807,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"BlogPost"> | Date | string
     publishedAt?: DateTimeNullableFilter<"BlogPost"> | Date | string | null
     translations?: BlogPostTranslationListRelationFilter
+    newsletterSends?: NewsletterPostSendListRelationFilter
+    newsletterEmailEvents?: NewsletterEmailEventListRelationFilter
   }
 
   export type BlogPostOrderByWithRelationInput = {
@@ -7649,6 +11824,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     publishedAt?: SortOrderInput | SortOrder
     translations?: BlogPostTranslationOrderByRelationAggregateInput
+    newsletterSends?: NewsletterPostSendOrderByRelationAggregateInput
+    newsletterEmailEvents?: NewsletterEmailEventOrderByRelationAggregateInput
   }
 
   export type BlogPostWhereUniqueInput = Prisma.AtLeast<{
@@ -7667,6 +11844,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"BlogPost"> | Date | string
     publishedAt?: DateTimeNullableFilter<"BlogPost"> | Date | string | null
     translations?: BlogPostTranslationListRelationFilter
+    newsletterSends?: NewsletterPostSendListRelationFilter
+    newsletterEmailEvents?: NewsletterEmailEventListRelationFilter
   }, "id" | "slug">
 
   export type BlogPostOrderByWithAggregationInput = {
@@ -7792,6 +11971,287 @@ export namespace Prisma {
     coverImageCaption?: StringNullableWithAggregatesFilter<"BlogPostTranslation"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"BlogPostTranslation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"BlogPostTranslation"> | Date | string
+  }
+
+  export type NewsletterSubscriberWhereInput = {
+    AND?: NewsletterSubscriberWhereInput | NewsletterSubscriberWhereInput[]
+    OR?: NewsletterSubscriberWhereInput[]
+    NOT?: NewsletterSubscriberWhereInput | NewsletterSubscriberWhereInput[]
+    id?: StringFilter<"NewsletterSubscriber"> | string
+    email?: StringFilter<"NewsletterSubscriber"> | string
+    locale?: EnumLocaleFilter<"NewsletterSubscriber"> | $Enums.Locale
+    status?: EnumNewsletterSubscriberStatusFilter<"NewsletterSubscriber"> | $Enums.NewsletterSubscriberStatus
+    source?: StringNullableFilter<"NewsletterSubscriber"> | string | null
+    confirmationTokenHash?: StringNullableFilter<"NewsletterSubscriber"> | string | null
+    unsubscribeToken?: StringFilter<"NewsletterSubscriber"> | string
+    ipHash?: StringNullableFilter<"NewsletterSubscriber"> | string | null
+    userAgent?: StringNullableFilter<"NewsletterSubscriber"> | string | null
+    consentAt?: DateTimeFilter<"NewsletterSubscriber"> | Date | string
+    confirmedAt?: DateTimeNullableFilter<"NewsletterSubscriber"> | Date | string | null
+    unsubscribedAt?: DateTimeNullableFilter<"NewsletterSubscriber"> | Date | string | null
+    lastSentAt?: DateTimeNullableFilter<"NewsletterSubscriber"> | Date | string | null
+    createdAt?: DateTimeFilter<"NewsletterSubscriber"> | Date | string
+    updatedAt?: DateTimeFilter<"NewsletterSubscriber"> | Date | string
+    emailEvents?: NewsletterEmailEventListRelationFilter
+  }
+
+  export type NewsletterSubscriberOrderByWithRelationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    locale?: SortOrder
+    status?: SortOrder
+    source?: SortOrderInput | SortOrder
+    confirmationTokenHash?: SortOrderInput | SortOrder
+    unsubscribeToken?: SortOrder
+    ipHash?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    consentAt?: SortOrder
+    confirmedAt?: SortOrderInput | SortOrder
+    unsubscribedAt?: SortOrderInput | SortOrder
+    lastSentAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    emailEvents?: NewsletterEmailEventOrderByRelationAggregateInput
+  }
+
+  export type NewsletterSubscriberWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    email?: string
+    confirmationTokenHash?: string
+    unsubscribeToken?: string
+    AND?: NewsletterSubscriberWhereInput | NewsletterSubscriberWhereInput[]
+    OR?: NewsletterSubscriberWhereInput[]
+    NOT?: NewsletterSubscriberWhereInput | NewsletterSubscriberWhereInput[]
+    locale?: EnumLocaleFilter<"NewsletterSubscriber"> | $Enums.Locale
+    status?: EnumNewsletterSubscriberStatusFilter<"NewsletterSubscriber"> | $Enums.NewsletterSubscriberStatus
+    source?: StringNullableFilter<"NewsletterSubscriber"> | string | null
+    ipHash?: StringNullableFilter<"NewsletterSubscriber"> | string | null
+    userAgent?: StringNullableFilter<"NewsletterSubscriber"> | string | null
+    consentAt?: DateTimeFilter<"NewsletterSubscriber"> | Date | string
+    confirmedAt?: DateTimeNullableFilter<"NewsletterSubscriber"> | Date | string | null
+    unsubscribedAt?: DateTimeNullableFilter<"NewsletterSubscriber"> | Date | string | null
+    lastSentAt?: DateTimeNullableFilter<"NewsletterSubscriber"> | Date | string | null
+    createdAt?: DateTimeFilter<"NewsletterSubscriber"> | Date | string
+    updatedAt?: DateTimeFilter<"NewsletterSubscriber"> | Date | string
+    emailEvents?: NewsletterEmailEventListRelationFilter
+  }, "id" | "email" | "confirmationTokenHash" | "unsubscribeToken">
+
+  export type NewsletterSubscriberOrderByWithAggregationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    locale?: SortOrder
+    status?: SortOrder
+    source?: SortOrderInput | SortOrder
+    confirmationTokenHash?: SortOrderInput | SortOrder
+    unsubscribeToken?: SortOrder
+    ipHash?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    consentAt?: SortOrder
+    confirmedAt?: SortOrderInput | SortOrder
+    unsubscribedAt?: SortOrderInput | SortOrder
+    lastSentAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: NewsletterSubscriberCountOrderByAggregateInput
+    _max?: NewsletterSubscriberMaxOrderByAggregateInput
+    _min?: NewsletterSubscriberMinOrderByAggregateInput
+  }
+
+  export type NewsletterSubscriberScalarWhereWithAggregatesInput = {
+    AND?: NewsletterSubscriberScalarWhereWithAggregatesInput | NewsletterSubscriberScalarWhereWithAggregatesInput[]
+    OR?: NewsletterSubscriberScalarWhereWithAggregatesInput[]
+    NOT?: NewsletterSubscriberScalarWhereWithAggregatesInput | NewsletterSubscriberScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"NewsletterSubscriber"> | string
+    email?: StringWithAggregatesFilter<"NewsletterSubscriber"> | string
+    locale?: EnumLocaleWithAggregatesFilter<"NewsletterSubscriber"> | $Enums.Locale
+    status?: EnumNewsletterSubscriberStatusWithAggregatesFilter<"NewsletterSubscriber"> | $Enums.NewsletterSubscriberStatus
+    source?: StringNullableWithAggregatesFilter<"NewsletterSubscriber"> | string | null
+    confirmationTokenHash?: StringNullableWithAggregatesFilter<"NewsletterSubscriber"> | string | null
+    unsubscribeToken?: StringWithAggregatesFilter<"NewsletterSubscriber"> | string
+    ipHash?: StringNullableWithAggregatesFilter<"NewsletterSubscriber"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"NewsletterSubscriber"> | string | null
+    consentAt?: DateTimeWithAggregatesFilter<"NewsletterSubscriber"> | Date | string
+    confirmedAt?: DateTimeNullableWithAggregatesFilter<"NewsletterSubscriber"> | Date | string | null
+    unsubscribedAt?: DateTimeNullableWithAggregatesFilter<"NewsletterSubscriber"> | Date | string | null
+    lastSentAt?: DateTimeNullableWithAggregatesFilter<"NewsletterSubscriber"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"NewsletterSubscriber"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"NewsletterSubscriber"> | Date | string
+  }
+
+  export type NewsletterPostSendWhereInput = {
+    AND?: NewsletterPostSendWhereInput | NewsletterPostSendWhereInput[]
+    OR?: NewsletterPostSendWhereInput[]
+    NOT?: NewsletterPostSendWhereInput | NewsletterPostSendWhereInput[]
+    id?: StringFilter<"NewsletterPostSend"> | string
+    postId?: StringFilter<"NewsletterPostSend"> | string
+    status?: EnumNewsletterPostSendStatusFilter<"NewsletterPostSend"> | $Enums.NewsletterPostSendStatus
+    recipientCount?: IntFilter<"NewsletterPostSend"> | number
+    sentCount?: IntFilter<"NewsletterPostSend"> | number
+    failedCount?: IntFilter<"NewsletterPostSend"> | number
+    errorMessage?: StringNullableFilter<"NewsletterPostSend"> | string | null
+    startedAt?: DateTimeFilter<"NewsletterPostSend"> | Date | string
+    completedAt?: DateTimeNullableFilter<"NewsletterPostSend"> | Date | string | null
+    createdAt?: DateTimeFilter<"NewsletterPostSend"> | Date | string
+    post?: XOR<BlogPostScalarRelationFilter, BlogPostWhereInput>
+    emailEvents?: NewsletterEmailEventListRelationFilter
+  }
+
+  export type NewsletterPostSendOrderByWithRelationInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    status?: SortOrder
+    recipientCount?: SortOrder
+    sentCount?: SortOrder
+    failedCount?: SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    post?: BlogPostOrderByWithRelationInput
+    emailEvents?: NewsletterEmailEventOrderByRelationAggregateInput
+  }
+
+  export type NewsletterPostSendWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: NewsletterPostSendWhereInput | NewsletterPostSendWhereInput[]
+    OR?: NewsletterPostSendWhereInput[]
+    NOT?: NewsletterPostSendWhereInput | NewsletterPostSendWhereInput[]
+    postId?: StringFilter<"NewsletterPostSend"> | string
+    status?: EnumNewsletterPostSendStatusFilter<"NewsletterPostSend"> | $Enums.NewsletterPostSendStatus
+    recipientCount?: IntFilter<"NewsletterPostSend"> | number
+    sentCount?: IntFilter<"NewsletterPostSend"> | number
+    failedCount?: IntFilter<"NewsletterPostSend"> | number
+    errorMessage?: StringNullableFilter<"NewsletterPostSend"> | string | null
+    startedAt?: DateTimeFilter<"NewsletterPostSend"> | Date | string
+    completedAt?: DateTimeNullableFilter<"NewsletterPostSend"> | Date | string | null
+    createdAt?: DateTimeFilter<"NewsletterPostSend"> | Date | string
+    post?: XOR<BlogPostScalarRelationFilter, BlogPostWhereInput>
+    emailEvents?: NewsletterEmailEventListRelationFilter
+  }, "id">
+
+  export type NewsletterPostSendOrderByWithAggregationInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    status?: SortOrder
+    recipientCount?: SortOrder
+    sentCount?: SortOrder
+    failedCount?: SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: NewsletterPostSendCountOrderByAggregateInput
+    _avg?: NewsletterPostSendAvgOrderByAggregateInput
+    _max?: NewsletterPostSendMaxOrderByAggregateInput
+    _min?: NewsletterPostSendMinOrderByAggregateInput
+    _sum?: NewsletterPostSendSumOrderByAggregateInput
+  }
+
+  export type NewsletterPostSendScalarWhereWithAggregatesInput = {
+    AND?: NewsletterPostSendScalarWhereWithAggregatesInput | NewsletterPostSendScalarWhereWithAggregatesInput[]
+    OR?: NewsletterPostSendScalarWhereWithAggregatesInput[]
+    NOT?: NewsletterPostSendScalarWhereWithAggregatesInput | NewsletterPostSendScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"NewsletterPostSend"> | string
+    postId?: StringWithAggregatesFilter<"NewsletterPostSend"> | string
+    status?: EnumNewsletterPostSendStatusWithAggregatesFilter<"NewsletterPostSend"> | $Enums.NewsletterPostSendStatus
+    recipientCount?: IntWithAggregatesFilter<"NewsletterPostSend"> | number
+    sentCount?: IntWithAggregatesFilter<"NewsletterPostSend"> | number
+    failedCount?: IntWithAggregatesFilter<"NewsletterPostSend"> | number
+    errorMessage?: StringNullableWithAggregatesFilter<"NewsletterPostSend"> | string | null
+    startedAt?: DateTimeWithAggregatesFilter<"NewsletterPostSend"> | Date | string
+    completedAt?: DateTimeNullableWithAggregatesFilter<"NewsletterPostSend"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"NewsletterPostSend"> | Date | string
+  }
+
+  export type NewsletterEmailEventWhereInput = {
+    AND?: NewsletterEmailEventWhereInput | NewsletterEmailEventWhereInput[]
+    OR?: NewsletterEmailEventWhereInput[]
+    NOT?: NewsletterEmailEventWhereInput | NewsletterEmailEventWhereInput[]
+    id?: StringFilter<"NewsletterEmailEvent"> | string
+    subscriberId?: StringNullableFilter<"NewsletterEmailEvent"> | string | null
+    postId?: StringNullableFilter<"NewsletterEmailEvent"> | string | null
+    postSendId?: StringNullableFilter<"NewsletterEmailEvent"> | string | null
+    type?: EnumNewsletterEmailTypeFilter<"NewsletterEmailEvent"> | $Enums.NewsletterEmailType
+    status?: EnumNewsletterEmailStatusFilter<"NewsletterEmailEvent"> | $Enums.NewsletterEmailStatus
+    toEmail?: StringFilter<"NewsletterEmailEvent"> | string
+    subject?: StringFilter<"NewsletterEmailEvent"> | string
+    resendEmailId?: StringNullableFilter<"NewsletterEmailEvent"> | string | null
+    errorMessage?: StringNullableFilter<"NewsletterEmailEvent"> | string | null
+    createdAt?: DateTimeFilter<"NewsletterEmailEvent"> | Date | string
+    subscriber?: XOR<NewsletterSubscriberNullableScalarRelationFilter, NewsletterSubscriberWhereInput> | null
+    post?: XOR<BlogPostNullableScalarRelationFilter, BlogPostWhereInput> | null
+    postSend?: XOR<NewsletterPostSendNullableScalarRelationFilter, NewsletterPostSendWhereInput> | null
+  }
+
+  export type NewsletterEmailEventOrderByWithRelationInput = {
+    id?: SortOrder
+    subscriberId?: SortOrderInput | SortOrder
+    postId?: SortOrderInput | SortOrder
+    postSendId?: SortOrderInput | SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    toEmail?: SortOrder
+    subject?: SortOrder
+    resendEmailId?: SortOrderInput | SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    subscriber?: NewsletterSubscriberOrderByWithRelationInput
+    post?: BlogPostOrderByWithRelationInput
+    postSend?: NewsletterPostSendOrderByWithRelationInput
+  }
+
+  export type NewsletterEmailEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: NewsletterEmailEventWhereInput | NewsletterEmailEventWhereInput[]
+    OR?: NewsletterEmailEventWhereInput[]
+    NOT?: NewsletterEmailEventWhereInput | NewsletterEmailEventWhereInput[]
+    subscriberId?: StringNullableFilter<"NewsletterEmailEvent"> | string | null
+    postId?: StringNullableFilter<"NewsletterEmailEvent"> | string | null
+    postSendId?: StringNullableFilter<"NewsletterEmailEvent"> | string | null
+    type?: EnumNewsletterEmailTypeFilter<"NewsletterEmailEvent"> | $Enums.NewsletterEmailType
+    status?: EnumNewsletterEmailStatusFilter<"NewsletterEmailEvent"> | $Enums.NewsletterEmailStatus
+    toEmail?: StringFilter<"NewsletterEmailEvent"> | string
+    subject?: StringFilter<"NewsletterEmailEvent"> | string
+    resendEmailId?: StringNullableFilter<"NewsletterEmailEvent"> | string | null
+    errorMessage?: StringNullableFilter<"NewsletterEmailEvent"> | string | null
+    createdAt?: DateTimeFilter<"NewsletterEmailEvent"> | Date | string
+    subscriber?: XOR<NewsletterSubscriberNullableScalarRelationFilter, NewsletterSubscriberWhereInput> | null
+    post?: XOR<BlogPostNullableScalarRelationFilter, BlogPostWhereInput> | null
+    postSend?: XOR<NewsletterPostSendNullableScalarRelationFilter, NewsletterPostSendWhereInput> | null
+  }, "id">
+
+  export type NewsletterEmailEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    subscriberId?: SortOrderInput | SortOrder
+    postId?: SortOrderInput | SortOrder
+    postSendId?: SortOrderInput | SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    toEmail?: SortOrder
+    subject?: SortOrder
+    resendEmailId?: SortOrderInput | SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: NewsletterEmailEventCountOrderByAggregateInput
+    _max?: NewsletterEmailEventMaxOrderByAggregateInput
+    _min?: NewsletterEmailEventMinOrderByAggregateInput
+  }
+
+  export type NewsletterEmailEventScalarWhereWithAggregatesInput = {
+    AND?: NewsletterEmailEventScalarWhereWithAggregatesInput | NewsletterEmailEventScalarWhereWithAggregatesInput[]
+    OR?: NewsletterEmailEventScalarWhereWithAggregatesInput[]
+    NOT?: NewsletterEmailEventScalarWhereWithAggregatesInput | NewsletterEmailEventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"NewsletterEmailEvent"> | string
+    subscriberId?: StringNullableWithAggregatesFilter<"NewsletterEmailEvent"> | string | null
+    postId?: StringNullableWithAggregatesFilter<"NewsletterEmailEvent"> | string | null
+    postSendId?: StringNullableWithAggregatesFilter<"NewsletterEmailEvent"> | string | null
+    type?: EnumNewsletterEmailTypeWithAggregatesFilter<"NewsletterEmailEvent"> | $Enums.NewsletterEmailType
+    status?: EnumNewsletterEmailStatusWithAggregatesFilter<"NewsletterEmailEvent"> | $Enums.NewsletterEmailStatus
+    toEmail?: StringWithAggregatesFilter<"NewsletterEmailEvent"> | string
+    subject?: StringWithAggregatesFilter<"NewsletterEmailEvent"> | string
+    resendEmailId?: StringNullableWithAggregatesFilter<"NewsletterEmailEvent"> | string | null
+    errorMessage?: StringNullableWithAggregatesFilter<"NewsletterEmailEvent"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"NewsletterEmailEvent"> | Date | string
   }
 
   export type ProjectCreateInput = {
@@ -8118,6 +12578,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     publishedAt?: Date | string | null
     translations?: BlogPostTranslationCreateNestedManyWithoutPostInput
+    newsletterSends?: NewsletterPostSendCreateNestedManyWithoutPostInput
+    newsletterEmailEvents?: NewsletterEmailEventCreateNestedManyWithoutPostInput
   }
 
   export type BlogPostUncheckedCreateInput = {
@@ -8133,6 +12595,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     publishedAt?: Date | string | null
     translations?: BlogPostTranslationUncheckedCreateNestedManyWithoutPostInput
+    newsletterSends?: NewsletterPostSendUncheckedCreateNestedManyWithoutPostInput
+    newsletterEmailEvents?: NewsletterEmailEventUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type BlogPostUpdateInput = {
@@ -8148,6 +12612,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     translations?: BlogPostTranslationUpdateManyWithoutPostNestedInput
+    newsletterSends?: NewsletterPostSendUpdateManyWithoutPostNestedInput
+    newsletterEmailEvents?: NewsletterEmailEventUpdateManyWithoutPostNestedInput
   }
 
   export type BlogPostUncheckedUpdateInput = {
@@ -8163,6 +12629,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     translations?: BlogPostTranslationUncheckedUpdateManyWithoutPostNestedInput
+    newsletterSends?: NewsletterPostSendUncheckedUpdateManyWithoutPostNestedInput
+    newsletterEmailEvents?: NewsletterEmailEventUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type BlogPostCreateManyInput = {
@@ -8309,6 +12777,325 @@ export namespace Prisma {
     coverImageCaption?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsletterSubscriberCreateInput = {
+    id?: string
+    email: string
+    locale?: $Enums.Locale
+    status?: $Enums.NewsletterSubscriberStatus
+    source?: string | null
+    confirmationTokenHash?: string | null
+    unsubscribeToken: string
+    ipHash?: string | null
+    userAgent?: string | null
+    consentAt?: Date | string
+    confirmedAt?: Date | string | null
+    unsubscribedAt?: Date | string | null
+    lastSentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    emailEvents?: NewsletterEmailEventCreateNestedManyWithoutSubscriberInput
+  }
+
+  export type NewsletterSubscriberUncheckedCreateInput = {
+    id?: string
+    email: string
+    locale?: $Enums.Locale
+    status?: $Enums.NewsletterSubscriberStatus
+    source?: string | null
+    confirmationTokenHash?: string | null
+    unsubscribeToken: string
+    ipHash?: string | null
+    userAgent?: string | null
+    consentAt?: Date | string
+    confirmedAt?: Date | string | null
+    unsubscribedAt?: Date | string | null
+    lastSentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    emailEvents?: NewsletterEmailEventUncheckedCreateNestedManyWithoutSubscriberInput
+  }
+
+  export type NewsletterSubscriberUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    status?: EnumNewsletterSubscriberStatusFieldUpdateOperationsInput | $Enums.NewsletterSubscriberStatus
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmationTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    unsubscribeToken?: StringFieldUpdateOperationsInput | string
+    ipHash?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    consentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    unsubscribedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emailEvents?: NewsletterEmailEventUpdateManyWithoutSubscriberNestedInput
+  }
+
+  export type NewsletterSubscriberUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    status?: EnumNewsletterSubscriberStatusFieldUpdateOperationsInput | $Enums.NewsletterSubscriberStatus
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmationTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    unsubscribeToken?: StringFieldUpdateOperationsInput | string
+    ipHash?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    consentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    unsubscribedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emailEvents?: NewsletterEmailEventUncheckedUpdateManyWithoutSubscriberNestedInput
+  }
+
+  export type NewsletterSubscriberCreateManyInput = {
+    id?: string
+    email: string
+    locale?: $Enums.Locale
+    status?: $Enums.NewsletterSubscriberStatus
+    source?: string | null
+    confirmationTokenHash?: string | null
+    unsubscribeToken: string
+    ipHash?: string | null
+    userAgent?: string | null
+    consentAt?: Date | string
+    confirmedAt?: Date | string | null
+    unsubscribedAt?: Date | string | null
+    lastSentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NewsletterSubscriberUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    status?: EnumNewsletterSubscriberStatusFieldUpdateOperationsInput | $Enums.NewsletterSubscriberStatus
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmationTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    unsubscribeToken?: StringFieldUpdateOperationsInput | string
+    ipHash?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    consentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    unsubscribedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsletterSubscriberUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    status?: EnumNewsletterSubscriberStatusFieldUpdateOperationsInput | $Enums.NewsletterSubscriberStatus
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmationTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    unsubscribeToken?: StringFieldUpdateOperationsInput | string
+    ipHash?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    consentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    unsubscribedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsletterPostSendCreateInput = {
+    id?: string
+    status: $Enums.NewsletterPostSendStatus
+    recipientCount?: number
+    sentCount?: number
+    failedCount?: number
+    errorMessage?: string | null
+    startedAt?: Date | string
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    post: BlogPostCreateNestedOneWithoutNewsletterSendsInput
+    emailEvents?: NewsletterEmailEventCreateNestedManyWithoutPostSendInput
+  }
+
+  export type NewsletterPostSendUncheckedCreateInput = {
+    id?: string
+    postId: string
+    status: $Enums.NewsletterPostSendStatus
+    recipientCount?: number
+    sentCount?: number
+    failedCount?: number
+    errorMessage?: string | null
+    startedAt?: Date | string
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    emailEvents?: NewsletterEmailEventUncheckedCreateNestedManyWithoutPostSendInput
+  }
+
+  export type NewsletterPostSendUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumNewsletterPostSendStatusFieldUpdateOperationsInput | $Enums.NewsletterPostSendStatus
+    recipientCount?: IntFieldUpdateOperationsInput | number
+    sentCount?: IntFieldUpdateOperationsInput | number
+    failedCount?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: BlogPostUpdateOneRequiredWithoutNewsletterSendsNestedInput
+    emailEvents?: NewsletterEmailEventUpdateManyWithoutPostSendNestedInput
+  }
+
+  export type NewsletterPostSendUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    status?: EnumNewsletterPostSendStatusFieldUpdateOperationsInput | $Enums.NewsletterPostSendStatus
+    recipientCount?: IntFieldUpdateOperationsInput | number
+    sentCount?: IntFieldUpdateOperationsInput | number
+    failedCount?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emailEvents?: NewsletterEmailEventUncheckedUpdateManyWithoutPostSendNestedInput
+  }
+
+  export type NewsletterPostSendCreateManyInput = {
+    id?: string
+    postId: string
+    status: $Enums.NewsletterPostSendStatus
+    recipientCount?: number
+    sentCount?: number
+    failedCount?: number
+    errorMessage?: string | null
+    startedAt?: Date | string
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type NewsletterPostSendUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumNewsletterPostSendStatusFieldUpdateOperationsInput | $Enums.NewsletterPostSendStatus
+    recipientCount?: IntFieldUpdateOperationsInput | number
+    sentCount?: IntFieldUpdateOperationsInput | number
+    failedCount?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsletterPostSendUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    status?: EnumNewsletterPostSendStatusFieldUpdateOperationsInput | $Enums.NewsletterPostSendStatus
+    recipientCount?: IntFieldUpdateOperationsInput | number
+    sentCount?: IntFieldUpdateOperationsInput | number
+    failedCount?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsletterEmailEventCreateInput = {
+    id?: string
+    type: $Enums.NewsletterEmailType
+    status: $Enums.NewsletterEmailStatus
+    toEmail: string
+    subject: string
+    resendEmailId?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+    subscriber?: NewsletterSubscriberCreateNestedOneWithoutEmailEventsInput
+    post?: BlogPostCreateNestedOneWithoutNewsletterEmailEventsInput
+    postSend?: NewsletterPostSendCreateNestedOneWithoutEmailEventsInput
+  }
+
+  export type NewsletterEmailEventUncheckedCreateInput = {
+    id?: string
+    subscriberId?: string | null
+    postId?: string | null
+    postSendId?: string | null
+    type: $Enums.NewsletterEmailType
+    status: $Enums.NewsletterEmailStatus
+    toEmail: string
+    subject: string
+    resendEmailId?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+  }
+
+  export type NewsletterEmailEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNewsletterEmailTypeFieldUpdateOperationsInput | $Enums.NewsletterEmailType
+    status?: EnumNewsletterEmailStatusFieldUpdateOperationsInput | $Enums.NewsletterEmailStatus
+    toEmail?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    resendEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriber?: NewsletterSubscriberUpdateOneWithoutEmailEventsNestedInput
+    post?: BlogPostUpdateOneWithoutNewsletterEmailEventsNestedInput
+    postSend?: NewsletterPostSendUpdateOneWithoutEmailEventsNestedInput
+  }
+
+  export type NewsletterEmailEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subscriberId?: NullableStringFieldUpdateOperationsInput | string | null
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    postSendId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumNewsletterEmailTypeFieldUpdateOperationsInput | $Enums.NewsletterEmailType
+    status?: EnumNewsletterEmailStatusFieldUpdateOperationsInput | $Enums.NewsletterEmailStatus
+    toEmail?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    resendEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsletterEmailEventCreateManyInput = {
+    id?: string
+    subscriberId?: string | null
+    postId?: string | null
+    postSendId?: string | null
+    type: $Enums.NewsletterEmailType
+    status: $Enums.NewsletterEmailStatus
+    toEmail: string
+    subject: string
+    resendEmailId?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+  }
+
+  export type NewsletterEmailEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNewsletterEmailTypeFieldUpdateOperationsInput | $Enums.NewsletterEmailType
+    status?: EnumNewsletterEmailStatusFieldUpdateOperationsInput | $Enums.NewsletterEmailStatus
+    toEmail?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    resendEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsletterEmailEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subscriberId?: NullableStringFieldUpdateOperationsInput | string | null
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    postSendId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumNewsletterEmailTypeFieldUpdateOperationsInput | $Enums.NewsletterEmailType
+    status?: EnumNewsletterEmailStatusFieldUpdateOperationsInput | $Enums.NewsletterEmailStatus
+    toEmail?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    resendEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -8780,7 +13567,27 @@ export namespace Prisma {
     none?: BlogPostTranslationWhereInput
   }
 
+  export type NewsletterPostSendListRelationFilter = {
+    every?: NewsletterPostSendWhereInput
+    some?: NewsletterPostSendWhereInput
+    none?: NewsletterPostSendWhereInput
+  }
+
+  export type NewsletterEmailEventListRelationFilter = {
+    every?: NewsletterEmailEventWhereInput
+    some?: NewsletterEmailEventWhereInput
+    none?: NewsletterEmailEventWhereInput
+  }
+
   export type BlogPostTranslationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type NewsletterPostSendOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type NewsletterEmailEventOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -8887,6 +13694,236 @@ export namespace Prisma {
     coverImageCaption?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type EnumNewsletterSubscriberStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsletterSubscriberStatus | EnumNewsletterSubscriberStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsletterSubscriberStatus[] | ListEnumNewsletterSubscriberStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsletterSubscriberStatus[] | ListEnumNewsletterSubscriberStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsletterSubscriberStatusFilter<$PrismaModel> | $Enums.NewsletterSubscriberStatus
+  }
+
+  export type NewsletterSubscriberCountOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    locale?: SortOrder
+    status?: SortOrder
+    source?: SortOrder
+    confirmationTokenHash?: SortOrder
+    unsubscribeToken?: SortOrder
+    ipHash?: SortOrder
+    userAgent?: SortOrder
+    consentAt?: SortOrder
+    confirmedAt?: SortOrder
+    unsubscribedAt?: SortOrder
+    lastSentAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NewsletterSubscriberMaxOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    locale?: SortOrder
+    status?: SortOrder
+    source?: SortOrder
+    confirmationTokenHash?: SortOrder
+    unsubscribeToken?: SortOrder
+    ipHash?: SortOrder
+    userAgent?: SortOrder
+    consentAt?: SortOrder
+    confirmedAt?: SortOrder
+    unsubscribedAt?: SortOrder
+    lastSentAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NewsletterSubscriberMinOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    locale?: SortOrder
+    status?: SortOrder
+    source?: SortOrder
+    confirmationTokenHash?: SortOrder
+    unsubscribeToken?: SortOrder
+    ipHash?: SortOrder
+    userAgent?: SortOrder
+    consentAt?: SortOrder
+    confirmedAt?: SortOrder
+    unsubscribedAt?: SortOrder
+    lastSentAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumNewsletterSubscriberStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsletterSubscriberStatus | EnumNewsletterSubscriberStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsletterSubscriberStatus[] | ListEnumNewsletterSubscriberStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsletterSubscriberStatus[] | ListEnumNewsletterSubscriberStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsletterSubscriberStatusWithAggregatesFilter<$PrismaModel> | $Enums.NewsletterSubscriberStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNewsletterSubscriberStatusFilter<$PrismaModel>
+    _max?: NestedEnumNewsletterSubscriberStatusFilter<$PrismaModel>
+  }
+
+  export type EnumNewsletterPostSendStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsletterPostSendStatus | EnumNewsletterPostSendStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsletterPostSendStatus[] | ListEnumNewsletterPostSendStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsletterPostSendStatus[] | ListEnumNewsletterPostSendStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsletterPostSendStatusFilter<$PrismaModel> | $Enums.NewsletterPostSendStatus
+  }
+
+  export type NewsletterPostSendCountOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    status?: SortOrder
+    recipientCount?: SortOrder
+    sentCount?: SortOrder
+    failedCount?: SortOrder
+    errorMessage?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NewsletterPostSendAvgOrderByAggregateInput = {
+    recipientCount?: SortOrder
+    sentCount?: SortOrder
+    failedCount?: SortOrder
+  }
+
+  export type NewsletterPostSendMaxOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    status?: SortOrder
+    recipientCount?: SortOrder
+    sentCount?: SortOrder
+    failedCount?: SortOrder
+    errorMessage?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NewsletterPostSendMinOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    status?: SortOrder
+    recipientCount?: SortOrder
+    sentCount?: SortOrder
+    failedCount?: SortOrder
+    errorMessage?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NewsletterPostSendSumOrderByAggregateInput = {
+    recipientCount?: SortOrder
+    sentCount?: SortOrder
+    failedCount?: SortOrder
+  }
+
+  export type EnumNewsletterPostSendStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsletterPostSendStatus | EnumNewsletterPostSendStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsletterPostSendStatus[] | ListEnumNewsletterPostSendStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsletterPostSendStatus[] | ListEnumNewsletterPostSendStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsletterPostSendStatusWithAggregatesFilter<$PrismaModel> | $Enums.NewsletterPostSendStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNewsletterPostSendStatusFilter<$PrismaModel>
+    _max?: NestedEnumNewsletterPostSendStatusFilter<$PrismaModel>
+  }
+
+  export type EnumNewsletterEmailTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsletterEmailType | EnumNewsletterEmailTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsletterEmailType[] | ListEnumNewsletterEmailTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsletterEmailType[] | ListEnumNewsletterEmailTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsletterEmailTypeFilter<$PrismaModel> | $Enums.NewsletterEmailType
+  }
+
+  export type EnumNewsletterEmailStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsletterEmailStatus | EnumNewsletterEmailStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsletterEmailStatus[] | ListEnumNewsletterEmailStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsletterEmailStatus[] | ListEnumNewsletterEmailStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsletterEmailStatusFilter<$PrismaModel> | $Enums.NewsletterEmailStatus
+  }
+
+  export type NewsletterSubscriberNullableScalarRelationFilter = {
+    is?: NewsletterSubscriberWhereInput | null
+    isNot?: NewsletterSubscriberWhereInput | null
+  }
+
+  export type BlogPostNullableScalarRelationFilter = {
+    is?: BlogPostWhereInput | null
+    isNot?: BlogPostWhereInput | null
+  }
+
+  export type NewsletterPostSendNullableScalarRelationFilter = {
+    is?: NewsletterPostSendWhereInput | null
+    isNot?: NewsletterPostSendWhereInput | null
+  }
+
+  export type NewsletterEmailEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    subscriberId?: SortOrder
+    postId?: SortOrder
+    postSendId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    toEmail?: SortOrder
+    subject?: SortOrder
+    resendEmailId?: SortOrder
+    errorMessage?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NewsletterEmailEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    subscriberId?: SortOrder
+    postId?: SortOrder
+    postSendId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    toEmail?: SortOrder
+    subject?: SortOrder
+    resendEmailId?: SortOrder
+    errorMessage?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NewsletterEmailEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    subscriberId?: SortOrder
+    postId?: SortOrder
+    postSendId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    toEmail?: SortOrder
+    subject?: SortOrder
+    resendEmailId?: SortOrder
+    errorMessage?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumNewsletterEmailTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsletterEmailType | EnumNewsletterEmailTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsletterEmailType[] | ListEnumNewsletterEmailTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsletterEmailType[] | ListEnumNewsletterEmailTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsletterEmailTypeWithAggregatesFilter<$PrismaModel> | $Enums.NewsletterEmailType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNewsletterEmailTypeFilter<$PrismaModel>
+    _max?: NestedEnumNewsletterEmailTypeFilter<$PrismaModel>
+  }
+
+  export type EnumNewsletterEmailStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsletterEmailStatus | EnumNewsletterEmailStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsletterEmailStatus[] | ListEnumNewsletterEmailStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsletterEmailStatus[] | ListEnumNewsletterEmailStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsletterEmailStatusWithAggregatesFilter<$PrismaModel> | $Enums.NewsletterEmailStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNewsletterEmailStatusFilter<$PrismaModel>
+    _max?: NestedEnumNewsletterEmailStatusFilter<$PrismaModel>
   }
 
   export type ProjectCreategalleryImageUrlsInput = {
@@ -9031,11 +14068,39 @@ export namespace Prisma {
     connect?: BlogPostTranslationWhereUniqueInput | BlogPostTranslationWhereUniqueInput[]
   }
 
+  export type NewsletterPostSendCreateNestedManyWithoutPostInput = {
+    create?: XOR<NewsletterPostSendCreateWithoutPostInput, NewsletterPostSendUncheckedCreateWithoutPostInput> | NewsletterPostSendCreateWithoutPostInput[] | NewsletterPostSendUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: NewsletterPostSendCreateOrConnectWithoutPostInput | NewsletterPostSendCreateOrConnectWithoutPostInput[]
+    createMany?: NewsletterPostSendCreateManyPostInputEnvelope
+    connect?: NewsletterPostSendWhereUniqueInput | NewsletterPostSendWhereUniqueInput[]
+  }
+
+  export type NewsletterEmailEventCreateNestedManyWithoutPostInput = {
+    create?: XOR<NewsletterEmailEventCreateWithoutPostInput, NewsletterEmailEventUncheckedCreateWithoutPostInput> | NewsletterEmailEventCreateWithoutPostInput[] | NewsletterEmailEventUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: NewsletterEmailEventCreateOrConnectWithoutPostInput | NewsletterEmailEventCreateOrConnectWithoutPostInput[]
+    createMany?: NewsletterEmailEventCreateManyPostInputEnvelope
+    connect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+  }
+
   export type BlogPostTranslationUncheckedCreateNestedManyWithoutPostInput = {
     create?: XOR<BlogPostTranslationCreateWithoutPostInput, BlogPostTranslationUncheckedCreateWithoutPostInput> | BlogPostTranslationCreateWithoutPostInput[] | BlogPostTranslationUncheckedCreateWithoutPostInput[]
     connectOrCreate?: BlogPostTranslationCreateOrConnectWithoutPostInput | BlogPostTranslationCreateOrConnectWithoutPostInput[]
     createMany?: BlogPostTranslationCreateManyPostInputEnvelope
     connect?: BlogPostTranslationWhereUniqueInput | BlogPostTranslationWhereUniqueInput[]
+  }
+
+  export type NewsletterPostSendUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<NewsletterPostSendCreateWithoutPostInput, NewsletterPostSendUncheckedCreateWithoutPostInput> | NewsletterPostSendCreateWithoutPostInput[] | NewsletterPostSendUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: NewsletterPostSendCreateOrConnectWithoutPostInput | NewsletterPostSendCreateOrConnectWithoutPostInput[]
+    createMany?: NewsletterPostSendCreateManyPostInputEnvelope
+    connect?: NewsletterPostSendWhereUniqueInput | NewsletterPostSendWhereUniqueInput[]
+  }
+
+  export type NewsletterEmailEventUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<NewsletterEmailEventCreateWithoutPostInput, NewsletterEmailEventUncheckedCreateWithoutPostInput> | NewsletterEmailEventCreateWithoutPostInput[] | NewsletterEmailEventUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: NewsletterEmailEventCreateOrConnectWithoutPostInput | NewsletterEmailEventCreateOrConnectWithoutPostInput[]
+    createMany?: NewsletterEmailEventCreateManyPostInputEnvelope
+    connect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
   }
 
   export type EnumBlogPostStatusFieldUpdateOperationsInput = {
@@ -9061,6 +14126,34 @@ export namespace Prisma {
     deleteMany?: BlogPostTranslationScalarWhereInput | BlogPostTranslationScalarWhereInput[]
   }
 
+  export type NewsletterPostSendUpdateManyWithoutPostNestedInput = {
+    create?: XOR<NewsletterPostSendCreateWithoutPostInput, NewsletterPostSendUncheckedCreateWithoutPostInput> | NewsletterPostSendCreateWithoutPostInput[] | NewsletterPostSendUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: NewsletterPostSendCreateOrConnectWithoutPostInput | NewsletterPostSendCreateOrConnectWithoutPostInput[]
+    upsert?: NewsletterPostSendUpsertWithWhereUniqueWithoutPostInput | NewsletterPostSendUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: NewsletterPostSendCreateManyPostInputEnvelope
+    set?: NewsletterPostSendWhereUniqueInput | NewsletterPostSendWhereUniqueInput[]
+    disconnect?: NewsletterPostSendWhereUniqueInput | NewsletterPostSendWhereUniqueInput[]
+    delete?: NewsletterPostSendWhereUniqueInput | NewsletterPostSendWhereUniqueInput[]
+    connect?: NewsletterPostSendWhereUniqueInput | NewsletterPostSendWhereUniqueInput[]
+    update?: NewsletterPostSendUpdateWithWhereUniqueWithoutPostInput | NewsletterPostSendUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: NewsletterPostSendUpdateManyWithWhereWithoutPostInput | NewsletterPostSendUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: NewsletterPostSendScalarWhereInput | NewsletterPostSendScalarWhereInput[]
+  }
+
+  export type NewsletterEmailEventUpdateManyWithoutPostNestedInput = {
+    create?: XOR<NewsletterEmailEventCreateWithoutPostInput, NewsletterEmailEventUncheckedCreateWithoutPostInput> | NewsletterEmailEventCreateWithoutPostInput[] | NewsletterEmailEventUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: NewsletterEmailEventCreateOrConnectWithoutPostInput | NewsletterEmailEventCreateOrConnectWithoutPostInput[]
+    upsert?: NewsletterEmailEventUpsertWithWhereUniqueWithoutPostInput | NewsletterEmailEventUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: NewsletterEmailEventCreateManyPostInputEnvelope
+    set?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    disconnect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    delete?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    connect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    update?: NewsletterEmailEventUpdateWithWhereUniqueWithoutPostInput | NewsletterEmailEventUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: NewsletterEmailEventUpdateManyWithWhereWithoutPostInput | NewsletterEmailEventUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: NewsletterEmailEventScalarWhereInput | NewsletterEmailEventScalarWhereInput[]
+  }
+
   export type BlogPostTranslationUncheckedUpdateManyWithoutPostNestedInput = {
     create?: XOR<BlogPostTranslationCreateWithoutPostInput, BlogPostTranslationUncheckedCreateWithoutPostInput> | BlogPostTranslationCreateWithoutPostInput[] | BlogPostTranslationUncheckedCreateWithoutPostInput[]
     connectOrCreate?: BlogPostTranslationCreateOrConnectWithoutPostInput | BlogPostTranslationCreateOrConnectWithoutPostInput[]
@@ -9075,6 +14168,34 @@ export namespace Prisma {
     deleteMany?: BlogPostTranslationScalarWhereInput | BlogPostTranslationScalarWhereInput[]
   }
 
+  export type NewsletterPostSendUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<NewsletterPostSendCreateWithoutPostInput, NewsletterPostSendUncheckedCreateWithoutPostInput> | NewsletterPostSendCreateWithoutPostInput[] | NewsletterPostSendUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: NewsletterPostSendCreateOrConnectWithoutPostInput | NewsletterPostSendCreateOrConnectWithoutPostInput[]
+    upsert?: NewsletterPostSendUpsertWithWhereUniqueWithoutPostInput | NewsletterPostSendUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: NewsletterPostSendCreateManyPostInputEnvelope
+    set?: NewsletterPostSendWhereUniqueInput | NewsletterPostSendWhereUniqueInput[]
+    disconnect?: NewsletterPostSendWhereUniqueInput | NewsletterPostSendWhereUniqueInput[]
+    delete?: NewsletterPostSendWhereUniqueInput | NewsletterPostSendWhereUniqueInput[]
+    connect?: NewsletterPostSendWhereUniqueInput | NewsletterPostSendWhereUniqueInput[]
+    update?: NewsletterPostSendUpdateWithWhereUniqueWithoutPostInput | NewsletterPostSendUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: NewsletterPostSendUpdateManyWithWhereWithoutPostInput | NewsletterPostSendUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: NewsletterPostSendScalarWhereInput | NewsletterPostSendScalarWhereInput[]
+  }
+
+  export type NewsletterEmailEventUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<NewsletterEmailEventCreateWithoutPostInput, NewsletterEmailEventUncheckedCreateWithoutPostInput> | NewsletterEmailEventCreateWithoutPostInput[] | NewsletterEmailEventUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: NewsletterEmailEventCreateOrConnectWithoutPostInput | NewsletterEmailEventCreateOrConnectWithoutPostInput[]
+    upsert?: NewsletterEmailEventUpsertWithWhereUniqueWithoutPostInput | NewsletterEmailEventUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: NewsletterEmailEventCreateManyPostInputEnvelope
+    set?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    disconnect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    delete?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    connect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    update?: NewsletterEmailEventUpdateWithWhereUniqueWithoutPostInput | NewsletterEmailEventUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: NewsletterEmailEventUpdateManyWithWhereWithoutPostInput | NewsletterEmailEventUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: NewsletterEmailEventScalarWhereInput | NewsletterEmailEventScalarWhereInput[]
+  }
+
   export type BlogPostCreateNestedOneWithoutTranslationsInput = {
     create?: XOR<BlogPostCreateWithoutTranslationsInput, BlogPostUncheckedCreateWithoutTranslationsInput>
     connectOrCreate?: BlogPostCreateOrConnectWithoutTranslationsInput
@@ -9087,6 +14208,168 @@ export namespace Prisma {
     upsert?: BlogPostUpsertWithoutTranslationsInput
     connect?: BlogPostWhereUniqueInput
     update?: XOR<XOR<BlogPostUpdateToOneWithWhereWithoutTranslationsInput, BlogPostUpdateWithoutTranslationsInput>, BlogPostUncheckedUpdateWithoutTranslationsInput>
+  }
+
+  export type NewsletterEmailEventCreateNestedManyWithoutSubscriberInput = {
+    create?: XOR<NewsletterEmailEventCreateWithoutSubscriberInput, NewsletterEmailEventUncheckedCreateWithoutSubscriberInput> | NewsletterEmailEventCreateWithoutSubscriberInput[] | NewsletterEmailEventUncheckedCreateWithoutSubscriberInput[]
+    connectOrCreate?: NewsletterEmailEventCreateOrConnectWithoutSubscriberInput | NewsletterEmailEventCreateOrConnectWithoutSubscriberInput[]
+    createMany?: NewsletterEmailEventCreateManySubscriberInputEnvelope
+    connect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+  }
+
+  export type NewsletterEmailEventUncheckedCreateNestedManyWithoutSubscriberInput = {
+    create?: XOR<NewsletterEmailEventCreateWithoutSubscriberInput, NewsletterEmailEventUncheckedCreateWithoutSubscriberInput> | NewsletterEmailEventCreateWithoutSubscriberInput[] | NewsletterEmailEventUncheckedCreateWithoutSubscriberInput[]
+    connectOrCreate?: NewsletterEmailEventCreateOrConnectWithoutSubscriberInput | NewsletterEmailEventCreateOrConnectWithoutSubscriberInput[]
+    createMany?: NewsletterEmailEventCreateManySubscriberInputEnvelope
+    connect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+  }
+
+  export type EnumNewsletterSubscriberStatusFieldUpdateOperationsInput = {
+    set?: $Enums.NewsletterSubscriberStatus
+  }
+
+  export type NewsletterEmailEventUpdateManyWithoutSubscriberNestedInput = {
+    create?: XOR<NewsletterEmailEventCreateWithoutSubscriberInput, NewsletterEmailEventUncheckedCreateWithoutSubscriberInput> | NewsletterEmailEventCreateWithoutSubscriberInput[] | NewsletterEmailEventUncheckedCreateWithoutSubscriberInput[]
+    connectOrCreate?: NewsletterEmailEventCreateOrConnectWithoutSubscriberInput | NewsletterEmailEventCreateOrConnectWithoutSubscriberInput[]
+    upsert?: NewsletterEmailEventUpsertWithWhereUniqueWithoutSubscriberInput | NewsletterEmailEventUpsertWithWhereUniqueWithoutSubscriberInput[]
+    createMany?: NewsletterEmailEventCreateManySubscriberInputEnvelope
+    set?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    disconnect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    delete?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    connect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    update?: NewsletterEmailEventUpdateWithWhereUniqueWithoutSubscriberInput | NewsletterEmailEventUpdateWithWhereUniqueWithoutSubscriberInput[]
+    updateMany?: NewsletterEmailEventUpdateManyWithWhereWithoutSubscriberInput | NewsletterEmailEventUpdateManyWithWhereWithoutSubscriberInput[]
+    deleteMany?: NewsletterEmailEventScalarWhereInput | NewsletterEmailEventScalarWhereInput[]
+  }
+
+  export type NewsletterEmailEventUncheckedUpdateManyWithoutSubscriberNestedInput = {
+    create?: XOR<NewsletterEmailEventCreateWithoutSubscriberInput, NewsletterEmailEventUncheckedCreateWithoutSubscriberInput> | NewsletterEmailEventCreateWithoutSubscriberInput[] | NewsletterEmailEventUncheckedCreateWithoutSubscriberInput[]
+    connectOrCreate?: NewsletterEmailEventCreateOrConnectWithoutSubscriberInput | NewsletterEmailEventCreateOrConnectWithoutSubscriberInput[]
+    upsert?: NewsletterEmailEventUpsertWithWhereUniqueWithoutSubscriberInput | NewsletterEmailEventUpsertWithWhereUniqueWithoutSubscriberInput[]
+    createMany?: NewsletterEmailEventCreateManySubscriberInputEnvelope
+    set?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    disconnect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    delete?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    connect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    update?: NewsletterEmailEventUpdateWithWhereUniqueWithoutSubscriberInput | NewsletterEmailEventUpdateWithWhereUniqueWithoutSubscriberInput[]
+    updateMany?: NewsletterEmailEventUpdateManyWithWhereWithoutSubscriberInput | NewsletterEmailEventUpdateManyWithWhereWithoutSubscriberInput[]
+    deleteMany?: NewsletterEmailEventScalarWhereInput | NewsletterEmailEventScalarWhereInput[]
+  }
+
+  export type BlogPostCreateNestedOneWithoutNewsletterSendsInput = {
+    create?: XOR<BlogPostCreateWithoutNewsletterSendsInput, BlogPostUncheckedCreateWithoutNewsletterSendsInput>
+    connectOrCreate?: BlogPostCreateOrConnectWithoutNewsletterSendsInput
+    connect?: BlogPostWhereUniqueInput
+  }
+
+  export type NewsletterEmailEventCreateNestedManyWithoutPostSendInput = {
+    create?: XOR<NewsletterEmailEventCreateWithoutPostSendInput, NewsletterEmailEventUncheckedCreateWithoutPostSendInput> | NewsletterEmailEventCreateWithoutPostSendInput[] | NewsletterEmailEventUncheckedCreateWithoutPostSendInput[]
+    connectOrCreate?: NewsletterEmailEventCreateOrConnectWithoutPostSendInput | NewsletterEmailEventCreateOrConnectWithoutPostSendInput[]
+    createMany?: NewsletterEmailEventCreateManyPostSendInputEnvelope
+    connect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+  }
+
+  export type NewsletterEmailEventUncheckedCreateNestedManyWithoutPostSendInput = {
+    create?: XOR<NewsletterEmailEventCreateWithoutPostSendInput, NewsletterEmailEventUncheckedCreateWithoutPostSendInput> | NewsletterEmailEventCreateWithoutPostSendInput[] | NewsletterEmailEventUncheckedCreateWithoutPostSendInput[]
+    connectOrCreate?: NewsletterEmailEventCreateOrConnectWithoutPostSendInput | NewsletterEmailEventCreateOrConnectWithoutPostSendInput[]
+    createMany?: NewsletterEmailEventCreateManyPostSendInputEnvelope
+    connect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+  }
+
+  export type EnumNewsletterPostSendStatusFieldUpdateOperationsInput = {
+    set?: $Enums.NewsletterPostSendStatus
+  }
+
+  export type BlogPostUpdateOneRequiredWithoutNewsletterSendsNestedInput = {
+    create?: XOR<BlogPostCreateWithoutNewsletterSendsInput, BlogPostUncheckedCreateWithoutNewsletterSendsInput>
+    connectOrCreate?: BlogPostCreateOrConnectWithoutNewsletterSendsInput
+    upsert?: BlogPostUpsertWithoutNewsletterSendsInput
+    connect?: BlogPostWhereUniqueInput
+    update?: XOR<XOR<BlogPostUpdateToOneWithWhereWithoutNewsletterSendsInput, BlogPostUpdateWithoutNewsletterSendsInput>, BlogPostUncheckedUpdateWithoutNewsletterSendsInput>
+  }
+
+  export type NewsletterEmailEventUpdateManyWithoutPostSendNestedInput = {
+    create?: XOR<NewsletterEmailEventCreateWithoutPostSendInput, NewsletterEmailEventUncheckedCreateWithoutPostSendInput> | NewsletterEmailEventCreateWithoutPostSendInput[] | NewsletterEmailEventUncheckedCreateWithoutPostSendInput[]
+    connectOrCreate?: NewsletterEmailEventCreateOrConnectWithoutPostSendInput | NewsletterEmailEventCreateOrConnectWithoutPostSendInput[]
+    upsert?: NewsletterEmailEventUpsertWithWhereUniqueWithoutPostSendInput | NewsletterEmailEventUpsertWithWhereUniqueWithoutPostSendInput[]
+    createMany?: NewsletterEmailEventCreateManyPostSendInputEnvelope
+    set?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    disconnect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    delete?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    connect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    update?: NewsletterEmailEventUpdateWithWhereUniqueWithoutPostSendInput | NewsletterEmailEventUpdateWithWhereUniqueWithoutPostSendInput[]
+    updateMany?: NewsletterEmailEventUpdateManyWithWhereWithoutPostSendInput | NewsletterEmailEventUpdateManyWithWhereWithoutPostSendInput[]
+    deleteMany?: NewsletterEmailEventScalarWhereInput | NewsletterEmailEventScalarWhereInput[]
+  }
+
+  export type NewsletterEmailEventUncheckedUpdateManyWithoutPostSendNestedInput = {
+    create?: XOR<NewsletterEmailEventCreateWithoutPostSendInput, NewsletterEmailEventUncheckedCreateWithoutPostSendInput> | NewsletterEmailEventCreateWithoutPostSendInput[] | NewsletterEmailEventUncheckedCreateWithoutPostSendInput[]
+    connectOrCreate?: NewsletterEmailEventCreateOrConnectWithoutPostSendInput | NewsletterEmailEventCreateOrConnectWithoutPostSendInput[]
+    upsert?: NewsletterEmailEventUpsertWithWhereUniqueWithoutPostSendInput | NewsletterEmailEventUpsertWithWhereUniqueWithoutPostSendInput[]
+    createMany?: NewsletterEmailEventCreateManyPostSendInputEnvelope
+    set?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    disconnect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    delete?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    connect?: NewsletterEmailEventWhereUniqueInput | NewsletterEmailEventWhereUniqueInput[]
+    update?: NewsletterEmailEventUpdateWithWhereUniqueWithoutPostSendInput | NewsletterEmailEventUpdateWithWhereUniqueWithoutPostSendInput[]
+    updateMany?: NewsletterEmailEventUpdateManyWithWhereWithoutPostSendInput | NewsletterEmailEventUpdateManyWithWhereWithoutPostSendInput[]
+    deleteMany?: NewsletterEmailEventScalarWhereInput | NewsletterEmailEventScalarWhereInput[]
+  }
+
+  export type NewsletterSubscriberCreateNestedOneWithoutEmailEventsInput = {
+    create?: XOR<NewsletterSubscriberCreateWithoutEmailEventsInput, NewsletterSubscriberUncheckedCreateWithoutEmailEventsInput>
+    connectOrCreate?: NewsletterSubscriberCreateOrConnectWithoutEmailEventsInput
+    connect?: NewsletterSubscriberWhereUniqueInput
+  }
+
+  export type BlogPostCreateNestedOneWithoutNewsletterEmailEventsInput = {
+    create?: XOR<BlogPostCreateWithoutNewsletterEmailEventsInput, BlogPostUncheckedCreateWithoutNewsletterEmailEventsInput>
+    connectOrCreate?: BlogPostCreateOrConnectWithoutNewsletterEmailEventsInput
+    connect?: BlogPostWhereUniqueInput
+  }
+
+  export type NewsletterPostSendCreateNestedOneWithoutEmailEventsInput = {
+    create?: XOR<NewsletterPostSendCreateWithoutEmailEventsInput, NewsletterPostSendUncheckedCreateWithoutEmailEventsInput>
+    connectOrCreate?: NewsletterPostSendCreateOrConnectWithoutEmailEventsInput
+    connect?: NewsletterPostSendWhereUniqueInput
+  }
+
+  export type EnumNewsletterEmailTypeFieldUpdateOperationsInput = {
+    set?: $Enums.NewsletterEmailType
+  }
+
+  export type EnumNewsletterEmailStatusFieldUpdateOperationsInput = {
+    set?: $Enums.NewsletterEmailStatus
+  }
+
+  export type NewsletterSubscriberUpdateOneWithoutEmailEventsNestedInput = {
+    create?: XOR<NewsletterSubscriberCreateWithoutEmailEventsInput, NewsletterSubscriberUncheckedCreateWithoutEmailEventsInput>
+    connectOrCreate?: NewsletterSubscriberCreateOrConnectWithoutEmailEventsInput
+    upsert?: NewsletterSubscriberUpsertWithoutEmailEventsInput
+    disconnect?: NewsletterSubscriberWhereInput | boolean
+    delete?: NewsletterSubscriberWhereInput | boolean
+    connect?: NewsletterSubscriberWhereUniqueInput
+    update?: XOR<XOR<NewsletterSubscriberUpdateToOneWithWhereWithoutEmailEventsInput, NewsletterSubscriberUpdateWithoutEmailEventsInput>, NewsletterSubscriberUncheckedUpdateWithoutEmailEventsInput>
+  }
+
+  export type BlogPostUpdateOneWithoutNewsletterEmailEventsNestedInput = {
+    create?: XOR<BlogPostCreateWithoutNewsletterEmailEventsInput, BlogPostUncheckedCreateWithoutNewsletterEmailEventsInput>
+    connectOrCreate?: BlogPostCreateOrConnectWithoutNewsletterEmailEventsInput
+    upsert?: BlogPostUpsertWithoutNewsletterEmailEventsInput
+    disconnect?: BlogPostWhereInput | boolean
+    delete?: BlogPostWhereInput | boolean
+    connect?: BlogPostWhereUniqueInput
+    update?: XOR<XOR<BlogPostUpdateToOneWithWhereWithoutNewsletterEmailEventsInput, BlogPostUpdateWithoutNewsletterEmailEventsInput>, BlogPostUncheckedUpdateWithoutNewsletterEmailEventsInput>
+  }
+
+  export type NewsletterPostSendUpdateOneWithoutEmailEventsNestedInput = {
+    create?: XOR<NewsletterPostSendCreateWithoutEmailEventsInput, NewsletterPostSendUncheckedCreateWithoutEmailEventsInput>
+    connectOrCreate?: NewsletterPostSendCreateOrConnectWithoutEmailEventsInput
+    upsert?: NewsletterPostSendUpsertWithoutEmailEventsInput
+    disconnect?: NewsletterPostSendWhereInput | boolean
+    delete?: NewsletterPostSendWhereInput | boolean
+    connect?: NewsletterPostSendWhereUniqueInput
+    update?: XOR<XOR<NewsletterPostSendUpdateToOneWithWhereWithoutEmailEventsInput, NewsletterPostSendUpdateWithoutEmailEventsInput>, NewsletterPostSendUncheckedUpdateWithoutEmailEventsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -9381,6 +14664,74 @@ export namespace Prisma {
     _max?: NestedEnumBlogPostStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumNewsletterSubscriberStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsletterSubscriberStatus | EnumNewsletterSubscriberStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsletterSubscriberStatus[] | ListEnumNewsletterSubscriberStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsletterSubscriberStatus[] | ListEnumNewsletterSubscriberStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsletterSubscriberStatusFilter<$PrismaModel> | $Enums.NewsletterSubscriberStatus
+  }
+
+  export type NestedEnumNewsletterSubscriberStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsletterSubscriberStatus | EnumNewsletterSubscriberStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsletterSubscriberStatus[] | ListEnumNewsletterSubscriberStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsletterSubscriberStatus[] | ListEnumNewsletterSubscriberStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsletterSubscriberStatusWithAggregatesFilter<$PrismaModel> | $Enums.NewsletterSubscriberStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNewsletterSubscriberStatusFilter<$PrismaModel>
+    _max?: NestedEnumNewsletterSubscriberStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumNewsletterPostSendStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsletterPostSendStatus | EnumNewsletterPostSendStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsletterPostSendStatus[] | ListEnumNewsletterPostSendStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsletterPostSendStatus[] | ListEnumNewsletterPostSendStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsletterPostSendStatusFilter<$PrismaModel> | $Enums.NewsletterPostSendStatus
+  }
+
+  export type NestedEnumNewsletterPostSendStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsletterPostSendStatus | EnumNewsletterPostSendStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsletterPostSendStatus[] | ListEnumNewsletterPostSendStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsletterPostSendStatus[] | ListEnumNewsletterPostSendStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsletterPostSendStatusWithAggregatesFilter<$PrismaModel> | $Enums.NewsletterPostSendStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNewsletterPostSendStatusFilter<$PrismaModel>
+    _max?: NestedEnumNewsletterPostSendStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumNewsletterEmailTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsletterEmailType | EnumNewsletterEmailTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsletterEmailType[] | ListEnumNewsletterEmailTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsletterEmailType[] | ListEnumNewsletterEmailTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsletterEmailTypeFilter<$PrismaModel> | $Enums.NewsletterEmailType
+  }
+
+  export type NestedEnumNewsletterEmailStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsletterEmailStatus | EnumNewsletterEmailStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsletterEmailStatus[] | ListEnumNewsletterEmailStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsletterEmailStatus[] | ListEnumNewsletterEmailStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsletterEmailStatusFilter<$PrismaModel> | $Enums.NewsletterEmailStatus
+  }
+
+  export type NestedEnumNewsletterEmailTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsletterEmailType | EnumNewsletterEmailTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsletterEmailType[] | ListEnumNewsletterEmailTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsletterEmailType[] | ListEnumNewsletterEmailTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsletterEmailTypeWithAggregatesFilter<$PrismaModel> | $Enums.NewsletterEmailType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNewsletterEmailTypeFilter<$PrismaModel>
+    _max?: NestedEnumNewsletterEmailTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumNewsletterEmailStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsletterEmailStatus | EnumNewsletterEmailStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsletterEmailStatus[] | ListEnumNewsletterEmailStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsletterEmailStatus[] | ListEnumNewsletterEmailStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsletterEmailStatusWithAggregatesFilter<$PrismaModel> | $Enums.NewsletterEmailStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNewsletterEmailStatusFilter<$PrismaModel>
+    _max?: NestedEnumNewsletterEmailStatusFilter<$PrismaModel>
+  }
+
   export type ProjectTranslationCreateWithoutProjectInput = {
     id?: string
     locale: $Enums.Locale
@@ -9571,6 +14922,78 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type NewsletterPostSendCreateWithoutPostInput = {
+    id?: string
+    status: $Enums.NewsletterPostSendStatus
+    recipientCount?: number
+    sentCount?: number
+    failedCount?: number
+    errorMessage?: string | null
+    startedAt?: Date | string
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    emailEvents?: NewsletterEmailEventCreateNestedManyWithoutPostSendInput
+  }
+
+  export type NewsletterPostSendUncheckedCreateWithoutPostInput = {
+    id?: string
+    status: $Enums.NewsletterPostSendStatus
+    recipientCount?: number
+    sentCount?: number
+    failedCount?: number
+    errorMessage?: string | null
+    startedAt?: Date | string
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    emailEvents?: NewsletterEmailEventUncheckedCreateNestedManyWithoutPostSendInput
+  }
+
+  export type NewsletterPostSendCreateOrConnectWithoutPostInput = {
+    where: NewsletterPostSendWhereUniqueInput
+    create: XOR<NewsletterPostSendCreateWithoutPostInput, NewsletterPostSendUncheckedCreateWithoutPostInput>
+  }
+
+  export type NewsletterPostSendCreateManyPostInputEnvelope = {
+    data: NewsletterPostSendCreateManyPostInput | NewsletterPostSendCreateManyPostInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NewsletterEmailEventCreateWithoutPostInput = {
+    id?: string
+    type: $Enums.NewsletterEmailType
+    status: $Enums.NewsletterEmailStatus
+    toEmail: string
+    subject: string
+    resendEmailId?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+    subscriber?: NewsletterSubscriberCreateNestedOneWithoutEmailEventsInput
+    postSend?: NewsletterPostSendCreateNestedOneWithoutEmailEventsInput
+  }
+
+  export type NewsletterEmailEventUncheckedCreateWithoutPostInput = {
+    id?: string
+    subscriberId?: string | null
+    postSendId?: string | null
+    type: $Enums.NewsletterEmailType
+    status: $Enums.NewsletterEmailStatus
+    toEmail: string
+    subject: string
+    resendEmailId?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+  }
+
+  export type NewsletterEmailEventCreateOrConnectWithoutPostInput = {
+    where: NewsletterEmailEventWhereUniqueInput
+    create: XOR<NewsletterEmailEventCreateWithoutPostInput, NewsletterEmailEventUncheckedCreateWithoutPostInput>
+  }
+
+  export type NewsletterEmailEventCreateManyPostInputEnvelope = {
+    data: NewsletterEmailEventCreateManyPostInput | NewsletterEmailEventCreateManyPostInput[]
+    skipDuplicates?: boolean
+  }
+
   export type BlogPostTranslationUpsertWithWhereUniqueWithoutPostInput = {
     where: BlogPostTranslationWhereUniqueInput
     update: XOR<BlogPostTranslationUpdateWithoutPostInput, BlogPostTranslationUncheckedUpdateWithoutPostInput>
@@ -9605,6 +15028,71 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"BlogPostTranslation"> | Date | string
   }
 
+  export type NewsletterPostSendUpsertWithWhereUniqueWithoutPostInput = {
+    where: NewsletterPostSendWhereUniqueInput
+    update: XOR<NewsletterPostSendUpdateWithoutPostInput, NewsletterPostSendUncheckedUpdateWithoutPostInput>
+    create: XOR<NewsletterPostSendCreateWithoutPostInput, NewsletterPostSendUncheckedCreateWithoutPostInput>
+  }
+
+  export type NewsletterPostSendUpdateWithWhereUniqueWithoutPostInput = {
+    where: NewsletterPostSendWhereUniqueInput
+    data: XOR<NewsletterPostSendUpdateWithoutPostInput, NewsletterPostSendUncheckedUpdateWithoutPostInput>
+  }
+
+  export type NewsletterPostSendUpdateManyWithWhereWithoutPostInput = {
+    where: NewsletterPostSendScalarWhereInput
+    data: XOR<NewsletterPostSendUpdateManyMutationInput, NewsletterPostSendUncheckedUpdateManyWithoutPostInput>
+  }
+
+  export type NewsletterPostSendScalarWhereInput = {
+    AND?: NewsletterPostSendScalarWhereInput | NewsletterPostSendScalarWhereInput[]
+    OR?: NewsletterPostSendScalarWhereInput[]
+    NOT?: NewsletterPostSendScalarWhereInput | NewsletterPostSendScalarWhereInput[]
+    id?: StringFilter<"NewsletterPostSend"> | string
+    postId?: StringFilter<"NewsletterPostSend"> | string
+    status?: EnumNewsletterPostSendStatusFilter<"NewsletterPostSend"> | $Enums.NewsletterPostSendStatus
+    recipientCount?: IntFilter<"NewsletterPostSend"> | number
+    sentCount?: IntFilter<"NewsletterPostSend"> | number
+    failedCount?: IntFilter<"NewsletterPostSend"> | number
+    errorMessage?: StringNullableFilter<"NewsletterPostSend"> | string | null
+    startedAt?: DateTimeFilter<"NewsletterPostSend"> | Date | string
+    completedAt?: DateTimeNullableFilter<"NewsletterPostSend"> | Date | string | null
+    createdAt?: DateTimeFilter<"NewsletterPostSend"> | Date | string
+  }
+
+  export type NewsletterEmailEventUpsertWithWhereUniqueWithoutPostInput = {
+    where: NewsletterEmailEventWhereUniqueInput
+    update: XOR<NewsletterEmailEventUpdateWithoutPostInput, NewsletterEmailEventUncheckedUpdateWithoutPostInput>
+    create: XOR<NewsletterEmailEventCreateWithoutPostInput, NewsletterEmailEventUncheckedCreateWithoutPostInput>
+  }
+
+  export type NewsletterEmailEventUpdateWithWhereUniqueWithoutPostInput = {
+    where: NewsletterEmailEventWhereUniqueInput
+    data: XOR<NewsletterEmailEventUpdateWithoutPostInput, NewsletterEmailEventUncheckedUpdateWithoutPostInput>
+  }
+
+  export type NewsletterEmailEventUpdateManyWithWhereWithoutPostInput = {
+    where: NewsletterEmailEventScalarWhereInput
+    data: XOR<NewsletterEmailEventUpdateManyMutationInput, NewsletterEmailEventUncheckedUpdateManyWithoutPostInput>
+  }
+
+  export type NewsletterEmailEventScalarWhereInput = {
+    AND?: NewsletterEmailEventScalarWhereInput | NewsletterEmailEventScalarWhereInput[]
+    OR?: NewsletterEmailEventScalarWhereInput[]
+    NOT?: NewsletterEmailEventScalarWhereInput | NewsletterEmailEventScalarWhereInput[]
+    id?: StringFilter<"NewsletterEmailEvent"> | string
+    subscriberId?: StringNullableFilter<"NewsletterEmailEvent"> | string | null
+    postId?: StringNullableFilter<"NewsletterEmailEvent"> | string | null
+    postSendId?: StringNullableFilter<"NewsletterEmailEvent"> | string | null
+    type?: EnumNewsletterEmailTypeFilter<"NewsletterEmailEvent"> | $Enums.NewsletterEmailType
+    status?: EnumNewsletterEmailStatusFilter<"NewsletterEmailEvent"> | $Enums.NewsletterEmailStatus
+    toEmail?: StringFilter<"NewsletterEmailEvent"> | string
+    subject?: StringFilter<"NewsletterEmailEvent"> | string
+    resendEmailId?: StringNullableFilter<"NewsletterEmailEvent"> | string | null
+    errorMessage?: StringNullableFilter<"NewsletterEmailEvent"> | string | null
+    createdAt?: DateTimeFilter<"NewsletterEmailEvent"> | Date | string
+  }
+
   export type BlogPostCreateWithoutTranslationsInput = {
     id?: string
     slug: string
@@ -9617,6 +15105,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
+    newsletterSends?: NewsletterPostSendCreateNestedManyWithoutPostInput
+    newsletterEmailEvents?: NewsletterEmailEventCreateNestedManyWithoutPostInput
   }
 
   export type BlogPostUncheckedCreateWithoutTranslationsInput = {
@@ -9631,6 +15121,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
+    newsletterSends?: NewsletterPostSendUncheckedCreateNestedManyWithoutPostInput
+    newsletterEmailEvents?: NewsletterEmailEventUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type BlogPostCreateOrConnectWithoutTranslationsInput = {
@@ -9661,6 +15153,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newsletterSends?: NewsletterPostSendUpdateManyWithoutPostNestedInput
+    newsletterEmailEvents?: NewsletterEmailEventUpdateManyWithoutPostNestedInput
   }
 
   export type BlogPostUncheckedUpdateWithoutTranslationsInput = {
@@ -9675,6 +15169,428 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    newsletterSends?: NewsletterPostSendUncheckedUpdateManyWithoutPostNestedInput
+    newsletterEmailEvents?: NewsletterEmailEventUncheckedUpdateManyWithoutPostNestedInput
+  }
+
+  export type NewsletterEmailEventCreateWithoutSubscriberInput = {
+    id?: string
+    type: $Enums.NewsletterEmailType
+    status: $Enums.NewsletterEmailStatus
+    toEmail: string
+    subject: string
+    resendEmailId?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+    post?: BlogPostCreateNestedOneWithoutNewsletterEmailEventsInput
+    postSend?: NewsletterPostSendCreateNestedOneWithoutEmailEventsInput
+  }
+
+  export type NewsletterEmailEventUncheckedCreateWithoutSubscriberInput = {
+    id?: string
+    postId?: string | null
+    postSendId?: string | null
+    type: $Enums.NewsletterEmailType
+    status: $Enums.NewsletterEmailStatus
+    toEmail: string
+    subject: string
+    resendEmailId?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+  }
+
+  export type NewsletterEmailEventCreateOrConnectWithoutSubscriberInput = {
+    where: NewsletterEmailEventWhereUniqueInput
+    create: XOR<NewsletterEmailEventCreateWithoutSubscriberInput, NewsletterEmailEventUncheckedCreateWithoutSubscriberInput>
+  }
+
+  export type NewsletterEmailEventCreateManySubscriberInputEnvelope = {
+    data: NewsletterEmailEventCreateManySubscriberInput | NewsletterEmailEventCreateManySubscriberInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NewsletterEmailEventUpsertWithWhereUniqueWithoutSubscriberInput = {
+    where: NewsletterEmailEventWhereUniqueInput
+    update: XOR<NewsletterEmailEventUpdateWithoutSubscriberInput, NewsletterEmailEventUncheckedUpdateWithoutSubscriberInput>
+    create: XOR<NewsletterEmailEventCreateWithoutSubscriberInput, NewsletterEmailEventUncheckedCreateWithoutSubscriberInput>
+  }
+
+  export type NewsletterEmailEventUpdateWithWhereUniqueWithoutSubscriberInput = {
+    where: NewsletterEmailEventWhereUniqueInput
+    data: XOR<NewsletterEmailEventUpdateWithoutSubscriberInput, NewsletterEmailEventUncheckedUpdateWithoutSubscriberInput>
+  }
+
+  export type NewsletterEmailEventUpdateManyWithWhereWithoutSubscriberInput = {
+    where: NewsletterEmailEventScalarWhereInput
+    data: XOR<NewsletterEmailEventUpdateManyMutationInput, NewsletterEmailEventUncheckedUpdateManyWithoutSubscriberInput>
+  }
+
+  export type BlogPostCreateWithoutNewsletterSendsInput = {
+    id?: string
+    slug: string
+    status?: $Enums.BlogPostStatus
+    featured?: boolean
+    tags?: BlogPostCreatetagsInput | string[]
+    coverImageUrl?: string | null
+    coverImageCredit?: string | null
+    coverImageCreditUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    translations?: BlogPostTranslationCreateNestedManyWithoutPostInput
+    newsletterEmailEvents?: NewsletterEmailEventCreateNestedManyWithoutPostInput
+  }
+
+  export type BlogPostUncheckedCreateWithoutNewsletterSendsInput = {
+    id?: string
+    slug: string
+    status?: $Enums.BlogPostStatus
+    featured?: boolean
+    tags?: BlogPostCreatetagsInput | string[]
+    coverImageUrl?: string | null
+    coverImageCredit?: string | null
+    coverImageCreditUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    translations?: BlogPostTranslationUncheckedCreateNestedManyWithoutPostInput
+    newsletterEmailEvents?: NewsletterEmailEventUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type BlogPostCreateOrConnectWithoutNewsletterSendsInput = {
+    where: BlogPostWhereUniqueInput
+    create: XOR<BlogPostCreateWithoutNewsletterSendsInput, BlogPostUncheckedCreateWithoutNewsletterSendsInput>
+  }
+
+  export type NewsletterEmailEventCreateWithoutPostSendInput = {
+    id?: string
+    type: $Enums.NewsletterEmailType
+    status: $Enums.NewsletterEmailStatus
+    toEmail: string
+    subject: string
+    resendEmailId?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+    subscriber?: NewsletterSubscriberCreateNestedOneWithoutEmailEventsInput
+    post?: BlogPostCreateNestedOneWithoutNewsletterEmailEventsInput
+  }
+
+  export type NewsletterEmailEventUncheckedCreateWithoutPostSendInput = {
+    id?: string
+    subscriberId?: string | null
+    postId?: string | null
+    type: $Enums.NewsletterEmailType
+    status: $Enums.NewsletterEmailStatus
+    toEmail: string
+    subject: string
+    resendEmailId?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+  }
+
+  export type NewsletterEmailEventCreateOrConnectWithoutPostSendInput = {
+    where: NewsletterEmailEventWhereUniqueInput
+    create: XOR<NewsletterEmailEventCreateWithoutPostSendInput, NewsletterEmailEventUncheckedCreateWithoutPostSendInput>
+  }
+
+  export type NewsletterEmailEventCreateManyPostSendInputEnvelope = {
+    data: NewsletterEmailEventCreateManyPostSendInput | NewsletterEmailEventCreateManyPostSendInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BlogPostUpsertWithoutNewsletterSendsInput = {
+    update: XOR<BlogPostUpdateWithoutNewsletterSendsInput, BlogPostUncheckedUpdateWithoutNewsletterSendsInput>
+    create: XOR<BlogPostCreateWithoutNewsletterSendsInput, BlogPostUncheckedCreateWithoutNewsletterSendsInput>
+    where?: BlogPostWhereInput
+  }
+
+  export type BlogPostUpdateToOneWithWhereWithoutNewsletterSendsInput = {
+    where?: BlogPostWhereInput
+    data: XOR<BlogPostUpdateWithoutNewsletterSendsInput, BlogPostUncheckedUpdateWithoutNewsletterSendsInput>
+  }
+
+  export type BlogPostUpdateWithoutNewsletterSendsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumBlogPostStatusFieldUpdateOperationsInput | $Enums.BlogPostStatus
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    tags?: BlogPostUpdatetagsInput | string[]
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageCredit?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageCreditUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    translations?: BlogPostTranslationUpdateManyWithoutPostNestedInput
+    newsletterEmailEvents?: NewsletterEmailEventUpdateManyWithoutPostNestedInput
+  }
+
+  export type BlogPostUncheckedUpdateWithoutNewsletterSendsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumBlogPostStatusFieldUpdateOperationsInput | $Enums.BlogPostStatus
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    tags?: BlogPostUpdatetagsInput | string[]
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageCredit?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageCreditUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    translations?: BlogPostTranslationUncheckedUpdateManyWithoutPostNestedInput
+    newsletterEmailEvents?: NewsletterEmailEventUncheckedUpdateManyWithoutPostNestedInput
+  }
+
+  export type NewsletterEmailEventUpsertWithWhereUniqueWithoutPostSendInput = {
+    where: NewsletterEmailEventWhereUniqueInput
+    update: XOR<NewsletterEmailEventUpdateWithoutPostSendInput, NewsletterEmailEventUncheckedUpdateWithoutPostSendInput>
+    create: XOR<NewsletterEmailEventCreateWithoutPostSendInput, NewsletterEmailEventUncheckedCreateWithoutPostSendInput>
+  }
+
+  export type NewsletterEmailEventUpdateWithWhereUniqueWithoutPostSendInput = {
+    where: NewsletterEmailEventWhereUniqueInput
+    data: XOR<NewsletterEmailEventUpdateWithoutPostSendInput, NewsletterEmailEventUncheckedUpdateWithoutPostSendInput>
+  }
+
+  export type NewsletterEmailEventUpdateManyWithWhereWithoutPostSendInput = {
+    where: NewsletterEmailEventScalarWhereInput
+    data: XOR<NewsletterEmailEventUpdateManyMutationInput, NewsletterEmailEventUncheckedUpdateManyWithoutPostSendInput>
+  }
+
+  export type NewsletterSubscriberCreateWithoutEmailEventsInput = {
+    id?: string
+    email: string
+    locale?: $Enums.Locale
+    status?: $Enums.NewsletterSubscriberStatus
+    source?: string | null
+    confirmationTokenHash?: string | null
+    unsubscribeToken: string
+    ipHash?: string | null
+    userAgent?: string | null
+    consentAt?: Date | string
+    confirmedAt?: Date | string | null
+    unsubscribedAt?: Date | string | null
+    lastSentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NewsletterSubscriberUncheckedCreateWithoutEmailEventsInput = {
+    id?: string
+    email: string
+    locale?: $Enums.Locale
+    status?: $Enums.NewsletterSubscriberStatus
+    source?: string | null
+    confirmationTokenHash?: string | null
+    unsubscribeToken: string
+    ipHash?: string | null
+    userAgent?: string | null
+    consentAt?: Date | string
+    confirmedAt?: Date | string | null
+    unsubscribedAt?: Date | string | null
+    lastSentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NewsletterSubscriberCreateOrConnectWithoutEmailEventsInput = {
+    where: NewsletterSubscriberWhereUniqueInput
+    create: XOR<NewsletterSubscriberCreateWithoutEmailEventsInput, NewsletterSubscriberUncheckedCreateWithoutEmailEventsInput>
+  }
+
+  export type BlogPostCreateWithoutNewsletterEmailEventsInput = {
+    id?: string
+    slug: string
+    status?: $Enums.BlogPostStatus
+    featured?: boolean
+    tags?: BlogPostCreatetagsInput | string[]
+    coverImageUrl?: string | null
+    coverImageCredit?: string | null
+    coverImageCreditUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    translations?: BlogPostTranslationCreateNestedManyWithoutPostInput
+    newsletterSends?: NewsletterPostSendCreateNestedManyWithoutPostInput
+  }
+
+  export type BlogPostUncheckedCreateWithoutNewsletterEmailEventsInput = {
+    id?: string
+    slug: string
+    status?: $Enums.BlogPostStatus
+    featured?: boolean
+    tags?: BlogPostCreatetagsInput | string[]
+    coverImageUrl?: string | null
+    coverImageCredit?: string | null
+    coverImageCreditUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    translations?: BlogPostTranslationUncheckedCreateNestedManyWithoutPostInput
+    newsletterSends?: NewsletterPostSendUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type BlogPostCreateOrConnectWithoutNewsletterEmailEventsInput = {
+    where: BlogPostWhereUniqueInput
+    create: XOR<BlogPostCreateWithoutNewsletterEmailEventsInput, BlogPostUncheckedCreateWithoutNewsletterEmailEventsInput>
+  }
+
+  export type NewsletterPostSendCreateWithoutEmailEventsInput = {
+    id?: string
+    status: $Enums.NewsletterPostSendStatus
+    recipientCount?: number
+    sentCount?: number
+    failedCount?: number
+    errorMessage?: string | null
+    startedAt?: Date | string
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    post: BlogPostCreateNestedOneWithoutNewsletterSendsInput
+  }
+
+  export type NewsletterPostSendUncheckedCreateWithoutEmailEventsInput = {
+    id?: string
+    postId: string
+    status: $Enums.NewsletterPostSendStatus
+    recipientCount?: number
+    sentCount?: number
+    failedCount?: number
+    errorMessage?: string | null
+    startedAt?: Date | string
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type NewsletterPostSendCreateOrConnectWithoutEmailEventsInput = {
+    where: NewsletterPostSendWhereUniqueInput
+    create: XOR<NewsletterPostSendCreateWithoutEmailEventsInput, NewsletterPostSendUncheckedCreateWithoutEmailEventsInput>
+  }
+
+  export type NewsletterSubscriberUpsertWithoutEmailEventsInput = {
+    update: XOR<NewsletterSubscriberUpdateWithoutEmailEventsInput, NewsletterSubscriberUncheckedUpdateWithoutEmailEventsInput>
+    create: XOR<NewsletterSubscriberCreateWithoutEmailEventsInput, NewsletterSubscriberUncheckedCreateWithoutEmailEventsInput>
+    where?: NewsletterSubscriberWhereInput
+  }
+
+  export type NewsletterSubscriberUpdateToOneWithWhereWithoutEmailEventsInput = {
+    where?: NewsletterSubscriberWhereInput
+    data: XOR<NewsletterSubscriberUpdateWithoutEmailEventsInput, NewsletterSubscriberUncheckedUpdateWithoutEmailEventsInput>
+  }
+
+  export type NewsletterSubscriberUpdateWithoutEmailEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    status?: EnumNewsletterSubscriberStatusFieldUpdateOperationsInput | $Enums.NewsletterSubscriberStatus
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmationTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    unsubscribeToken?: StringFieldUpdateOperationsInput | string
+    ipHash?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    consentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    unsubscribedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsletterSubscriberUncheckedUpdateWithoutEmailEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    status?: EnumNewsletterSubscriberStatusFieldUpdateOperationsInput | $Enums.NewsletterSubscriberStatus
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmationTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    unsubscribeToken?: StringFieldUpdateOperationsInput | string
+    ipHash?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    consentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    unsubscribedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BlogPostUpsertWithoutNewsletterEmailEventsInput = {
+    update: XOR<BlogPostUpdateWithoutNewsletterEmailEventsInput, BlogPostUncheckedUpdateWithoutNewsletterEmailEventsInput>
+    create: XOR<BlogPostCreateWithoutNewsletterEmailEventsInput, BlogPostUncheckedCreateWithoutNewsletterEmailEventsInput>
+    where?: BlogPostWhereInput
+  }
+
+  export type BlogPostUpdateToOneWithWhereWithoutNewsletterEmailEventsInput = {
+    where?: BlogPostWhereInput
+    data: XOR<BlogPostUpdateWithoutNewsletterEmailEventsInput, BlogPostUncheckedUpdateWithoutNewsletterEmailEventsInput>
+  }
+
+  export type BlogPostUpdateWithoutNewsletterEmailEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumBlogPostStatusFieldUpdateOperationsInput | $Enums.BlogPostStatus
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    tags?: BlogPostUpdatetagsInput | string[]
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageCredit?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageCreditUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    translations?: BlogPostTranslationUpdateManyWithoutPostNestedInput
+    newsletterSends?: NewsletterPostSendUpdateManyWithoutPostNestedInput
+  }
+
+  export type BlogPostUncheckedUpdateWithoutNewsletterEmailEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumBlogPostStatusFieldUpdateOperationsInput | $Enums.BlogPostStatus
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    tags?: BlogPostUpdatetagsInput | string[]
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageCredit?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageCreditUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    translations?: BlogPostTranslationUncheckedUpdateManyWithoutPostNestedInput
+    newsletterSends?: NewsletterPostSendUncheckedUpdateManyWithoutPostNestedInput
+  }
+
+  export type NewsletterPostSendUpsertWithoutEmailEventsInput = {
+    update: XOR<NewsletterPostSendUpdateWithoutEmailEventsInput, NewsletterPostSendUncheckedUpdateWithoutEmailEventsInput>
+    create: XOR<NewsletterPostSendCreateWithoutEmailEventsInput, NewsletterPostSendUncheckedCreateWithoutEmailEventsInput>
+    where?: NewsletterPostSendWhereInput
+  }
+
+  export type NewsletterPostSendUpdateToOneWithWhereWithoutEmailEventsInput = {
+    where?: NewsletterPostSendWhereInput
+    data: XOR<NewsletterPostSendUpdateWithoutEmailEventsInput, NewsletterPostSendUncheckedUpdateWithoutEmailEventsInput>
+  }
+
+  export type NewsletterPostSendUpdateWithoutEmailEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumNewsletterPostSendStatusFieldUpdateOperationsInput | $Enums.NewsletterPostSendStatus
+    recipientCount?: IntFieldUpdateOperationsInput | number
+    sentCount?: IntFieldUpdateOperationsInput | number
+    failedCount?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: BlogPostUpdateOneRequiredWithoutNewsletterSendsNestedInput
+  }
+
+  export type NewsletterPostSendUncheckedUpdateWithoutEmailEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    status?: EnumNewsletterPostSendStatusFieldUpdateOperationsInput | $Enums.NewsletterPostSendStatus
+    recipientCount?: IntFieldUpdateOperationsInput | number
+    sentCount?: IntFieldUpdateOperationsInput | number
+    failedCount?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProjectTranslationCreateManyProjectInput = {
@@ -9747,6 +15663,31 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type NewsletterPostSendCreateManyPostInput = {
+    id?: string
+    status: $Enums.NewsletterPostSendStatus
+    recipientCount?: number
+    sentCount?: number
+    failedCount?: number
+    errorMessage?: string | null
+    startedAt?: Date | string
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type NewsletterEmailEventCreateManyPostInput = {
+    id?: string
+    subscriberId?: string | null
+    postSendId?: string | null
+    type: $Enums.NewsletterEmailType
+    status: $Enums.NewsletterEmailStatus
+    toEmail: string
+    subject: string
+    resendEmailId?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+  }
+
   export type BlogPostTranslationUpdateWithoutPostInput = {
     id?: StringFieldUpdateOperationsInput | string
     locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
@@ -9787,6 +15728,187 @@ export namespace Prisma {
     coverImageCaption?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsletterPostSendUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumNewsletterPostSendStatusFieldUpdateOperationsInput | $Enums.NewsletterPostSendStatus
+    recipientCount?: IntFieldUpdateOperationsInput | number
+    sentCount?: IntFieldUpdateOperationsInput | number
+    failedCount?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emailEvents?: NewsletterEmailEventUpdateManyWithoutPostSendNestedInput
+  }
+
+  export type NewsletterPostSendUncheckedUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumNewsletterPostSendStatusFieldUpdateOperationsInput | $Enums.NewsletterPostSendStatus
+    recipientCount?: IntFieldUpdateOperationsInput | number
+    sentCount?: IntFieldUpdateOperationsInput | number
+    failedCount?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emailEvents?: NewsletterEmailEventUncheckedUpdateManyWithoutPostSendNestedInput
+  }
+
+  export type NewsletterPostSendUncheckedUpdateManyWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumNewsletterPostSendStatusFieldUpdateOperationsInput | $Enums.NewsletterPostSendStatus
+    recipientCount?: IntFieldUpdateOperationsInput | number
+    sentCount?: IntFieldUpdateOperationsInput | number
+    failedCount?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsletterEmailEventUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNewsletterEmailTypeFieldUpdateOperationsInput | $Enums.NewsletterEmailType
+    status?: EnumNewsletterEmailStatusFieldUpdateOperationsInput | $Enums.NewsletterEmailStatus
+    toEmail?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    resendEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriber?: NewsletterSubscriberUpdateOneWithoutEmailEventsNestedInput
+    postSend?: NewsletterPostSendUpdateOneWithoutEmailEventsNestedInput
+  }
+
+  export type NewsletterEmailEventUncheckedUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subscriberId?: NullableStringFieldUpdateOperationsInput | string | null
+    postSendId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumNewsletterEmailTypeFieldUpdateOperationsInput | $Enums.NewsletterEmailType
+    status?: EnumNewsletterEmailStatusFieldUpdateOperationsInput | $Enums.NewsletterEmailStatus
+    toEmail?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    resendEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsletterEmailEventUncheckedUpdateManyWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subscriberId?: NullableStringFieldUpdateOperationsInput | string | null
+    postSendId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumNewsletterEmailTypeFieldUpdateOperationsInput | $Enums.NewsletterEmailType
+    status?: EnumNewsletterEmailStatusFieldUpdateOperationsInput | $Enums.NewsletterEmailStatus
+    toEmail?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    resendEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsletterEmailEventCreateManySubscriberInput = {
+    id?: string
+    postId?: string | null
+    postSendId?: string | null
+    type: $Enums.NewsletterEmailType
+    status: $Enums.NewsletterEmailStatus
+    toEmail: string
+    subject: string
+    resendEmailId?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+  }
+
+  export type NewsletterEmailEventUpdateWithoutSubscriberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNewsletterEmailTypeFieldUpdateOperationsInput | $Enums.NewsletterEmailType
+    status?: EnumNewsletterEmailStatusFieldUpdateOperationsInput | $Enums.NewsletterEmailStatus
+    toEmail?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    resendEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: BlogPostUpdateOneWithoutNewsletterEmailEventsNestedInput
+    postSend?: NewsletterPostSendUpdateOneWithoutEmailEventsNestedInput
+  }
+
+  export type NewsletterEmailEventUncheckedUpdateWithoutSubscriberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    postSendId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumNewsletterEmailTypeFieldUpdateOperationsInput | $Enums.NewsletterEmailType
+    status?: EnumNewsletterEmailStatusFieldUpdateOperationsInput | $Enums.NewsletterEmailStatus
+    toEmail?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    resendEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsletterEmailEventUncheckedUpdateManyWithoutSubscriberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    postSendId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumNewsletterEmailTypeFieldUpdateOperationsInput | $Enums.NewsletterEmailType
+    status?: EnumNewsletterEmailStatusFieldUpdateOperationsInput | $Enums.NewsletterEmailStatus
+    toEmail?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    resendEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsletterEmailEventCreateManyPostSendInput = {
+    id?: string
+    subscriberId?: string | null
+    postId?: string | null
+    type: $Enums.NewsletterEmailType
+    status: $Enums.NewsletterEmailStatus
+    toEmail: string
+    subject: string
+    resendEmailId?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+  }
+
+  export type NewsletterEmailEventUpdateWithoutPostSendInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNewsletterEmailTypeFieldUpdateOperationsInput | $Enums.NewsletterEmailType
+    status?: EnumNewsletterEmailStatusFieldUpdateOperationsInput | $Enums.NewsletterEmailStatus
+    toEmail?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    resendEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriber?: NewsletterSubscriberUpdateOneWithoutEmailEventsNestedInput
+    post?: BlogPostUpdateOneWithoutNewsletterEmailEventsNestedInput
+  }
+
+  export type NewsletterEmailEventUncheckedUpdateWithoutPostSendInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subscriberId?: NullableStringFieldUpdateOperationsInput | string | null
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumNewsletterEmailTypeFieldUpdateOperationsInput | $Enums.NewsletterEmailType
+    status?: EnumNewsletterEmailStatusFieldUpdateOperationsInput | $Enums.NewsletterEmailStatus
+    toEmail?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    resendEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsletterEmailEventUncheckedUpdateManyWithoutPostSendInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subscriberId?: NullableStringFieldUpdateOperationsInput | string | null
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumNewsletterEmailTypeFieldUpdateOperationsInput | $Enums.NewsletterEmailType
+    status?: EnumNewsletterEmailStatusFieldUpdateOperationsInput | $Enums.NewsletterEmailStatus
+    toEmail?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    resendEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

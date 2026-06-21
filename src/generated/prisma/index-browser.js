@@ -193,6 +193,51 @@ exports.Prisma.BlogPostTranslationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.NewsletterSubscriberScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  locale: 'locale',
+  status: 'status',
+  source: 'source',
+  confirmationTokenHash: 'confirmationTokenHash',
+  unsubscribeToken: 'unsubscribeToken',
+  ipHash: 'ipHash',
+  userAgent: 'userAgent',
+  consentAt: 'consentAt',
+  confirmedAt: 'confirmedAt',
+  unsubscribedAt: 'unsubscribedAt',
+  lastSentAt: 'lastSentAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NewsletterPostSendScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  status: 'status',
+  recipientCount: 'recipientCount',
+  sentCount: 'sentCount',
+  failedCount: 'failedCount',
+  errorMessage: 'errorMessage',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.NewsletterEmailEventScalarFieldEnum = {
+  id: 'id',
+  subscriberId: 'subscriberId',
+  postId: 'postId',
+  postSendId: 'postSendId',
+  type: 'type',
+  status: 'status',
+  toEmail: 'toEmail',
+  subject: 'subject',
+  resendEmailId: 'resendEmailId',
+  errorMessage: 'errorMessage',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -237,12 +282,37 @@ exports.BlogPostStatus = exports.$Enums.BlogPostStatus = {
   PUBLISHED: 'PUBLISHED'
 };
 
+exports.NewsletterSubscriberStatus = exports.$Enums.NewsletterSubscriberStatus = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  UNSUBSCRIBED: 'UNSUBSCRIBED'
+};
+
+exports.NewsletterPostSendStatus = exports.$Enums.NewsletterPostSendStatus = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
+exports.NewsletterEmailType = exports.$Enums.NewsletterEmailType = {
+  CONFIRMATION: 'CONFIRMATION',
+  BLOG_POST: 'BLOG_POST'
+};
+
+exports.NewsletterEmailStatus = exports.$Enums.NewsletterEmailStatus = {
+  SENT: 'SENT',
+  FAILED: 'FAILED'
+};
+
 exports.Prisma.ModelName = {
   Project: 'Project',
   ProjectTranslation: 'ProjectTranslation',
   Website: 'Website',
   BlogPost: 'BlogPost',
-  BlogPostTranslation: 'BlogPostTranslation'
+  BlogPostTranslation: 'BlogPostTranslation',
+  NewsletterSubscriber: 'NewsletterSubscriber',
+  NewsletterPostSend: 'NewsletterPostSend',
+  NewsletterEmailEvent: 'NewsletterEmailEvent'
 };
 
 /**
