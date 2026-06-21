@@ -9,6 +9,9 @@ import { z } from "zod";
 
 config({ path: ".env", quiet: true });
 config({ path: ".env.local", override: true, quiet: true });
+if (process.env.BLOG_PUBLISH_ENV_FILE) {
+  config({ path: process.env.BLOG_PUBLISH_ENV_FILE, override: true, quiet: true });
+}
 
 const LOCALES = ["cs", "en"] as const;
 const MAX_UPLOAD_SIZE_BYTES = 4.5 * 1024 * 1024;

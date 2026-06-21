@@ -34,8 +34,13 @@ export const buildLocalePath = (locale: Locale, pathname = "/"): string => {
   return normalizedPathname === "/" ? `/${locale}` : `/${locale}${normalizedPathname}`;
 };
 
-export const toAbsoluteUrl = (pathname: string): string =>
-  new URL(normalizePathname(pathname), SITE_URL).toString();
+export const toAbsoluteUrl = (pathname: string): string => {
+  if (/^https?:\/\//i.test(pathname)) {
+    return pathname;
+  }
+
+  return new URL(normalizePathname(pathname), SITE_URL).toString();
+};
 
 export const buildLocaleAlternates = (
   pathname = "/",
