@@ -92,13 +92,13 @@ export default async function BlogPage({ params }: PageProps) {
             </p>
           </div>
           {posts.length > 0 ? (
-            <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-10 flex max-w-5xl flex-col gap-5">
               {posts.map((post, index) => (
                 <BlogPostCard
                   key={post.id}
                   post={post}
                   locale={locale}
-                  priority={index < 3}
+                  priority={index === 0}
                 />
               ))}
             </div>
