@@ -22,6 +22,7 @@ import { getBlurDataURL } from "@/lib/image-placeholder";
 import { buildPageMetadata } from "@/lib/seo";
 import {
   createBreadcrumbSchema,
+  createProjectCreativeWorkSchema,
   createWebPageSchema,
 } from "@/lib/structured-data";
 import type { CaseStudyBlock } from "@/types/case-study";
@@ -180,6 +181,16 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             pathname: `/projects/${slug}`,
             title: metaTitle,
             description,
+          }),
+          createProjectCreativeWorkSchema({
+            locale,
+            pathname: `/projects/${slug}`,
+            title: project.title,
+            description,
+            image: project.coverImageUrl,
+            keywords: project.techStack,
+            url: project.liveUrl,
+            codeRepository: project.repoUrl,
           }),
           breadcrumb,
         ]}

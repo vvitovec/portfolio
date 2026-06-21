@@ -1,6 +1,8 @@
 import type { Locale } from "@/i18n/routing";
 import {
+  GITHUB_URL,
   LANGUAGE_TAGS,
+  LINKEDIN_URL,
   PROFILE_IMAGE_PATH,
   SITE_ALTERNATE_NAME,
   SITE_NAME,
@@ -59,7 +61,8 @@ export const createBlogPostingSchema = ({
 };
 
 const SOCIAL_PROFILES = [
-  "https://github.com/vvitovec",
+  GITHUB_URL,
+  LINKEDIN_URL,
   "https://www.instagram.com/vitonovate",
 ];
 
@@ -71,7 +74,25 @@ export const createPersonSchema = () => ({
   alternateName: SITE_ALTERNATE_NAME,
   url: SITE_URL,
   image: toAbsoluteUrl(PROFILE_IMAGE_PATH),
-  jobTitle: "IT / Web developer",
+  jobTitle: "Software and Data Engineer",
+  worksFor: {
+    "@type": "Organization",
+    name: SITE_NAME,
+    url: SITE_URL,
+  },
+  knowsAbout: [
+    "AI automation",
+    "workflow automation",
+    "data workflows",
+    "self-hosting",
+    "Next.js",
+    "TypeScript",
+    "PostgreSQL",
+    "Prisma",
+    "Vercel",
+    "UX engineering",
+    "web performance",
+  ],
   sameAs: SOCIAL_PROFILES,
 });
 
@@ -137,5 +158,81 @@ export const createWebPageSchema = ({
           },
         }
       : {}),
+  };
+};
+
+type ItemListItem = {
+  name: string;
+  pathname: string;
+  description?: string | null;
+};
+
+export const createItemListSchema = (
+  locale: Locale,
+  pathname: string,
+  name: string,
+  items: ItemListItem[],
+) => {
+  const url = toAbsoluteUrl(buildLocalePath(locale, pathname));
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": `${url}#item-list`,
+    name,
+    itemListOrder: "https://schema.org/ItemListOrderDescending",
+    numberOfItems: items.length,
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: toAbsoluteUrl(buildLocalePath(locale, item.pathname)),
+      name: item.name,
+      ...(item.description ? { description: item.description } : {}),
+    })),
+  };
+};
+
+type CreativeWorkSchemaInput = {
+  locale: Locale;
+  pathname: string;
+  title: string;
+  description: string;
+  image?: string | null;
+  keywords?: string[];
+  url?: string | null;
+  codeRepository?: string | null;
+};
+
+export const createProjectCreativeWorkSchema = ({
+  locale,
+  pathname,
+  title,
+  description,
+  image,
+  keywords = [],
+  url,
+  codeRepository,
+}: CreativeWorkSchemaInput) => {
+  const pageUrl = toAbsoluteUrl(buildLocalePath(locale, pathname));
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "@id": `${pageUrl}#project`,
+    name: title,
+    headline: title,
+    description,
+    inLanguage: LANGUAGE_TAGS[locale],
+    url: pageUrl,
+    ...(image ? { image: toAbsoluteUrl(image) } : {}),
+    ...(keywords.length > 0 ? { keywords } : {}),
+    ...(url ? { workExample: url } : {}),
+    ...(codeRepository ? { codeRepository } : {}),
+    creator: {
+      "@id": `${SITE_URL}#person`,
+    },
+    isPartOf: {
+      "@id": `${SITE_URL}#website`,
+    },
   };
 };

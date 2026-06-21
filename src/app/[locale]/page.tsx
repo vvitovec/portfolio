@@ -24,6 +24,7 @@ import WebsitesShowcase from "@/components/websites/WebsitesShowcase";
 import { getBlurDataURL } from "@/lib/image-placeholder";
 import { buildPageMetadata, PROFILE_IMAGE_PATH } from "@/lib/seo";
 import {
+  createItemListSchema,
   createPersonSchema,
   createWebPageSchema,
   createWebsiteSchema,
@@ -83,6 +84,19 @@ export default async function HomePage({ params }: PageProps) {
   const latestBlogPosts = blogPosts.slice(0, 3);
   const blurDataURL = getBlurDataURL(1200, 675);
   const meta = homeMetadataByLocale[locale];
+  const featuredListSchema =
+    featured.length > 0
+      ? createItemListSchema(
+          locale,
+          "/projects",
+          home("featured.title"),
+          featured.map((project) => ({
+            name: project.title,
+            pathname: `/projects/${project.slug}`,
+            description: project.tagline ?? project.descriptionShort,
+          })),
+        )
+      : null;
   const services = [
     {
       key: "automation",
@@ -120,6 +134,7 @@ export default async function HomePage({ params }: PageProps) {
             description: meta.description,
             includePerson: true,
           }),
+          ...(featuredListSchema ? [featuredListSchema] : []),
         ]}
       />
       <section className="py-12 sm:py-16">

@@ -7,6 +7,9 @@ export const SITE_NAME = "Viktor Vítovec";
 export const SITE_ALTERNATE_NAME = "Viktor Vitovec";
 export const PROFILE_IMAGE_PATH = "/images/profile/viktor-vitovec.jpg?v=20260319";
 export const DEFAULT_OG_IMAGE_PATH = PROFILE_IMAGE_PATH;
+export const GITHUB_URL = "https://github.com/vvitovec";
+export const LINKEDIN_URL =
+  "https://www.linkedin.com/in/viktor-v%C3%ADtovec-15079a378/";
 
 export const LANGUAGE_TAGS: Record<Locale, string> = {
   cs: "cs-CZ",
@@ -75,7 +78,9 @@ export const buildPageMetadata = ({
   const absoluteImages = imageUrls.map((imageUrl) => toAbsoluteUrl(imageUrl));
 
   return {
-    title,
+    title: {
+      absolute: title,
+    },
     description,
     alternates: {
       canonical,

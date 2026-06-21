@@ -10,6 +10,7 @@ import { getBlurDataURL } from "@/lib/image-placeholder";
 import { buildPageMetadata } from "@/lib/seo";
 import {
   createBreadcrumbSchema,
+  createItemListSchema,
   createWebPageSchema,
 } from "@/lib/structured-data";
 import { getPublishedProjects } from "@/server/queries/projects";
@@ -88,6 +89,16 @@ export default async function ProjectsPage({ params }: PageProps) {
             title: meta.title,
             description: meta.description,
           }),
+          createItemListSchema(
+            locale,
+            "/projects",
+            t("title"),
+            projects.map((project) => ({
+              name: project.title,
+              pathname: `/projects/${project.slug}`,
+              description: project.tagline ?? project.descriptionShort,
+            })),
+          ),
           breadcrumb,
         ]}
       />

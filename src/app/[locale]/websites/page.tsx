@@ -2,9 +2,14 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
 import Container from "@/components/layout/Container";
+import JsonLd from "@/components/seo/JsonLd";
 import WebsitesShowcase from "@/components/websites/WebsitesShowcase";
 import { routing, type Locale } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/seo";
+import {
+  createItemListSchema,
+  createWebPageSchema,
+} from "@/lib/structured-data";
 import { getPublishedWebsites } from "@/server/queries/websites";
 
 export const revalidate = 300;
@@ -51,18 +56,41 @@ export default async function WebsitesPage({ params }: PageProps) {
   const websites = await getPublishedWebsites(locale);
 
   return (
-    <section className="py-20 sm:py-28">
-      <Container>
-        <div className="max-w-2xl">
-          <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            {t("title")}
-          </h1>
-          <p className="mt-4 text-base text-muted-foreground sm:text-lg">
-            {t("subtitle")}
-          </p>
-        </div>
-        <WebsitesShowcase websites={websites} />
-      </Container>
-    </section>
+    <>
+      <JsonLd
+        id={`websites-structured-data-${locale}`}
+        data={[
+          createWebPageSchema({
+            locale,
+            pathname: "/websites",
+            title: metaByLocale[locale].title,
+            description: metaByLocale[locale].description,
+          }),
+          createItemListSchema(
+            locale,
+            "/websites",
+            t("title"),
+            websites.map((website) => ({
+              name: website.name,
+              pathname: "/websites",
+              description: website.description,
+            })),
+          ),
+        ]}
+      />
+      <section className="py-20 sm:py-28">
+        <Container>
+          <div className="max-w-2xl">
+            <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+              {t("title")}
+            </h1>
+            <p className="mt-4 text-base text-muted-foreground sm:text-lg">
+              {t("subtitle")}
+            </p>
+          </div>
+          <WebsitesShowcase websites={websites} />
+        </Container>
+      </section>
+    </>
   );
 }

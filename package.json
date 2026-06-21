@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "seo:audit": "tsx scripts/seo-audit.ts",
+    "seo:ai-audit": "tsx scripts/seo-ai-audit.ts",
     "db:seed": "prisma db seed",
     "blog:publish": "tsx scripts/blog-publish.ts",
     "portfolio:publish": "tsx scripts/portfolio-publish.ts"

@@ -19,6 +19,12 @@ export default function Footer() {
           </Link>
           <p className="text-foreground/80">{footer("title")}</p>
           <p>{footer("subtitle")}</p>
+          <Link
+            href="/ai-search-brief"
+            className="inline-block text-xs text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
+          >
+            {footer("aiBrief")}
+          </Link>
         </div>
         <div className="flex flex-col gap-3">
           <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">

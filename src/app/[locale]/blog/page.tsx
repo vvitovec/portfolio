@@ -10,6 +10,7 @@ import { routing, type Locale } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/seo";
 import {
   createBreadcrumbSchema,
+  createItemListSchema,
   createWebPageSchema,
 } from "@/lib/structured-data";
 import { getPublishedBlogPosts } from "@/server/queries/blog";
@@ -77,6 +78,16 @@ export default async function BlogPage({ params }: PageProps) {
             title: meta.title,
             description: meta.description,
           }),
+          createItemListSchema(
+            locale,
+            "/blog",
+            t("title"),
+            posts.map((post) => ({
+              name: post.title,
+              pathname: `/blog/${post.slug}`,
+              description: post.excerpt,
+            })),
+          ),
           breadcrumb,
         ]}
       />

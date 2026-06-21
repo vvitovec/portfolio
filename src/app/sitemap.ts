@@ -5,7 +5,14 @@ import { routing } from "@/i18n/routing";
 import { buildLocalePath, toAbsoluteUrl } from "@/lib/seo";
 import { db } from "@/server/db";
 
-const STATIC_PATHS = ["/", "/websites", "/projects", "/blog", "/contact"];
+const STATIC_PATHS = [
+  "/",
+  "/websites",
+  "/projects",
+  "/blog",
+  "/contact",
+  "/ai-search-brief",
+];
 
 export const dynamic = "force-dynamic";
 
