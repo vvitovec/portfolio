@@ -10,11 +10,12 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { isHttpUrl } from "@/lib/url-safety";
 import { trpc } from "@/trpc/react";
 
 const formSchema = z.object({
   name: z.string().trim().min(1, "required").max(160, "max"),
-  url: z.string().trim().min(1, "required").max(500, "max").url("url"),
+  url: z.string().trim().min(1, "required").max(500, "max").refine(isHttpUrl, "url"),
   category: z.string().trim().min(1, "required").max(120, "max"),
   description: z.string().trim().max(300, "max").optional(),
   sortOrder: z.number().int().min(0, "min").max(9999, "max"),

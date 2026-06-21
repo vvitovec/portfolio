@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { contactSchema } from "@/lib/validation/contact";
+import { getClientIp } from "@/server/request-ip";
 
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 5;
@@ -11,14 +12,6 @@ type RateLimitEntry = {
 };
 
 const rateLimitStore = new Map<string, RateLimitEntry>();
-
-function getClientIp(request: Request) {
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  if (forwardedFor) {
-    return forwardedFor.split(",")[0]?.trim() ?? "unknown";
-  }
-  return request.headers.get("x-real-ip") ?? "unknown";
-}
 
 function isRateLimited(ip: string) {
   const now = Date.now();

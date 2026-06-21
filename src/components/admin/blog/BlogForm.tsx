@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { isHttpUrl, isSafePublicImageUrl } from "@/lib/url-safety";
 import { trpc } from "@/trpc/react";
 
 const translationSchema = z.object({
@@ -35,9 +36,19 @@ const formSchema = z.object({
   featured: z.boolean(),
   status: z.enum(["DRAFT", "PUBLISHED"]),
   tags: z.array(z.string().trim().min(1).max(80)).max(12),
-  coverImageUrl: z.string().trim().max(500, "max").optional(),
+  coverImageUrl: z
+    .string()
+    .trim()
+    .max(500, "max")
+    .refine((value) => value === "" || isSafePublicImageUrl(value), "url")
+    .optional(),
   coverImageCredit: z.string().trim().max(200, "max").optional(),
-  coverImageCreditUrl: z.string().trim().max(500, "max").optional(),
+  coverImageCreditUrl: z
+    .string()
+    .trim()
+    .max(500, "max")
+    .refine((value) => value === "" || isHttpUrl(value), "url")
+    .optional(),
   translations: z.object({
     cs: translationSchema,
     en: translationSchema,

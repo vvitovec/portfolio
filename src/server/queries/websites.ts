@@ -3,6 +3,7 @@ import "server-only";
 import { unstable_cache, unstable_noStore } from "next/cache";
 
 import { type Locale, WebsiteStatus } from "@/generated/prisma";
+import { normalizeHttpUrl } from "@/lib/url-safety";
 import { db } from "@/server/db";
 import {
   isDatabaseUnavailableError,
@@ -40,10 +41,21 @@ const getPublishedWebsitesFetcher = async (): Promise<WebsiteView[]> => {
       },
     });
 
-    return websites.map((website) => ({
-      ...website,
-      previewImageUrl: getWebsitePreviewImageUrl(website.url),
-    }));
+    return websites.flatMap((website) => {
+      const url = normalizeHttpUrl(website.url);
+
+      if (!url) {
+        return [];
+      }
+
+      return [
+        {
+          ...website,
+          url,
+          previewImageUrl: getWebsitePreviewImageUrl(url),
+        },
+      ];
+    });
   } catch (error) {
     if (!isDatabaseUnavailableError(error)) {
       throw error;

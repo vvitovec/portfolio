@@ -26,6 +26,7 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import TagInput from "@/components/admin/projects/TagInput";
+import { isHttpUrl, isSafePublicImageUrl } from "@/lib/url-safety";
 import { slugify } from "@/lib/slugify";
 import { trpc } from "@/trpc/react";
 import { CaseStudyBlocksSchema, createDefaultCaseStudyBlocks } from "@/types/case-study";
@@ -37,15 +38,23 @@ const optionalUrl = z
   .string()
   .trim()
   .max(500)
-  .refine((value) => value === "" || isValidUrl(value), {
+  .refine((value) => value === "" || isHttpUrl(value), {
     message: "url",
   });
 
-const urlSchema = z
+const optionalImageUrl = z
   .string()
   .trim()
   .max(500)
-  .refine((value) => isValidUrl(value), {
+  .refine((value) => value === "" || isSafePublicImageUrl(value), {
+    message: "url",
+  });
+
+const imageUrlSchema = z
+  .string()
+  .trim()
+  .max(500)
+  .refine((value) => isSafePublicImageUrl(value), {
     message: "url",
   });
 
@@ -69,8 +78,8 @@ const formSchema = z.object({
   featured: z.boolean(),
   status: z.enum(["DRAFT", "PUBLISHED"]),
   year: z.number().int().min(1900).max(2100).optional(),
-  coverImageUrl: optionalUrl,
-  galleryImageUrls: z.array(urlSchema),
+  coverImageUrl: optionalImageUrl,
+  galleryImageUrls: z.array(imageUrlSchema),
   liveUrl: optionalUrl,
   repoUrl: optionalUrl,
   techStack: z.array(z.string().trim().min(1).max(100)).max(MAX_TECH_STACK),
@@ -88,15 +97,6 @@ type ProjectFormProps = {
   initialValues?: ProjectFormValues;
   onCreated?: (id: string) => void;
 };
-
-function isValidUrl(value: string) {
-  try {
-    new URL(value);
-    return true;
-  } catch {
-    return false;
-  }
-}
 
 const emptyTranslations = {
   title: "",

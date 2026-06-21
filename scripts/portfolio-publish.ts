@@ -1,11 +1,13 @@
 import crypto from "node:crypto";
-import { readFile, stat } from "node:fs/promises";
+import { readFile, realpath, stat } from "node:fs/promises";
 import path from "node:path";
 
 import { put } from "@vercel/blob";
 import { config } from "dotenv";
 import { Pool } from "pg";
 import { z } from "zod";
+
+import { isHttpUrl, isSafePublicImageUrl } from "../src/lib/url-safety";
 
 config({ path: ".env", quiet: true });
 config({ path: ".env.local", override: true, quiet: true });
@@ -32,6 +34,11 @@ const slugify = (input: string) =>
 const trimTrailingSlash = (value: string) => value.replace(/\/+$/g, "");
 const trimSlashes = (value: string) => value.replace(/^\/+|\/+$/g, "");
 
+const isPathInside = (root: string, target: string) => {
+  const relative = path.relative(root, target);
+  return relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative));
+};
+
 const optionalText = z
   .string()
   .trim()
@@ -44,7 +51,7 @@ const imageBlockSchema = z.object({
   type: z.literal("image"),
   title: optionalText,
   body: optionalText,
-  imageUrl: z.string().trim().min(1).max(500).optional(),
+  imageUrl: z.string().trim().min(1).max(500).refine(isSafePublicImageUrl).optional(),
   imagePath: z.string().trim().min(1).optional(),
   caption: optionalText,
   layout: z.enum(["left", "right", "full"]).optional(),
@@ -83,12 +90,12 @@ const projectSchema = z.object({
   status: z.enum(["DRAFT", "PUBLISHED"]).default("PUBLISHED"),
   featured: z.boolean().default(false),
   year: z.number().int().min(1900).max(2100).nullable().optional(),
-  coverImageUrl: z.string().trim().min(1).max(500).optional(),
+  coverImageUrl: z.string().trim().min(1).max(500).refine(isSafePublicImageUrl).optional(),
   coverImagePath: z.string().trim().min(1).optional(),
-  galleryImageUrls: z.array(z.string().trim().min(1).max(500)).default([]),
+  galleryImageUrls: z.array(z.string().trim().min(1).max(500).refine(isSafePublicImageUrl)).default([]),
   galleryImagePaths: z.array(z.string().trim().min(1)).default([]),
-  liveUrl: optionalText,
-  repoUrl: optionalText,
+  liveUrl: optionalText.refine((value) => !value || isHttpUrl(value)),
+  repoUrl: optionalText.refine((value) => !value || isHttpUrl(value)),
   techStack: z.array(z.string().trim().min(1).max(100)).max(12).default([]),
   publishedAt: z.string().datetime().optional(),
 });
@@ -96,7 +103,7 @@ const projectSchema = z.object({
 const websiteSchema = z.object({
   id: z.string().trim().min(1).regex(/^[A-Za-z0-9_-]+$/).optional(),
   name: z.string().trim().min(1).max(160),
-  url: z.string().trim().url().max(500),
+  url: z.string().trim().max(500).refine(isHttpUrl),
   category: z.string().trim().min(1).max(120),
   description: optionalText,
   sortOrder: z.number().int().default(0),
@@ -261,9 +268,17 @@ const getSelfHostedStorage = () => {
 };
 
 const resolveImage = async (inputPath: string, payloadDir: string) => {
-  const absolutePath = path.isAbsolute(inputPath)
-    ? inputPath
-    : path.resolve(payloadDir, inputPath);
+  if (path.isAbsolute(inputPath)) {
+    throw new Error(`Image path must be relative to the payload file: ${inputPath}`);
+  }
+
+  const payloadRoot = await realpath(payloadDir);
+  const absolutePath = await realpath(path.resolve(payloadDir, inputPath));
+
+  if (!isPathInside(payloadRoot, absolutePath)) {
+    throw new Error(`Image path must stay inside the payload directory: ${inputPath}`);
+  }
+
   const extension = path.extname(absolutePath).slice(1).toLowerCase();
   const contentType = IMAGE_TYPES_BY_EXTENSION[extension];
 
@@ -396,7 +411,8 @@ const stripImagePath = (block: CaseStudyBlock) => {
     return block;
   }
 
-  const { imagePath: _imagePath, ...cleanBlock } = block;
+  const cleanBlock = { ...block };
+  delete cleanBlock.imagePath;
   return cleanBlock;
 };
 

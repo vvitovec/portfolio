@@ -1,11 +1,13 @@
 import crypto from "node:crypto";
-import { readFile, stat } from "node:fs/promises";
+import { readFile, realpath, stat } from "node:fs/promises";
 import path from "node:path";
 
 import { put } from "@vercel/blob";
 import { config } from "dotenv";
 import { Pool } from "pg";
 import { z } from "zod";
+
+import { isHttpUrl, isSafePublicImageUrl } from "../src/lib/url-safety";
 
 config({ path: ".env", quiet: true });
 config({ path: ".env.local", override: true, quiet: true });
@@ -35,6 +37,11 @@ const slugify = (input: string) =>
 const trimTrailingSlash = (value: string) => value.replace(/\/+$/g, "");
 const trimSlashes = (value: string) => value.replace(/^\/+|\/+$/g, "");
 
+const isPathInside = (root: string, target: string) => {
+  const relative = path.relative(root, target);
+  return relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative));
+};
+
 const optionalText = z
   .string()
   .trim()
@@ -58,10 +65,10 @@ const postSchema = z.object({
   status: z.enum(["DRAFT", "PUBLISHED"]).default("DRAFT"),
   featured: z.boolean().default(false),
   tags: z.array(z.string().trim().min(1).max(80)).max(12).default([]),
-  coverImageUrl: z.string().trim().min(1).max(500).optional(),
+  coverImageUrl: z.string().trim().min(1).max(500).refine(isSafePublicImageUrl).optional(),
   coverImagePath: z.string().trim().min(1).optional(),
   coverImageCredit: optionalText,
-  coverImageCreditUrl: optionalText,
+  coverImageCreditUrl: optionalText.refine((value) => !value || isHttpUrl(value)),
   publishedAt: z.string().datetime().optional(),
 });
 
@@ -216,9 +223,17 @@ const getSelfHostedStorage = () => {
 };
 
 const resolveImage = async (inputPath: string, payloadDir: string) => {
-  const absolutePath = path.isAbsolute(inputPath)
-    ? inputPath
-    : path.resolve(payloadDir, inputPath);
+  if (path.isAbsolute(inputPath)) {
+    throw new Error(`Image path must be relative to the payload file: ${inputPath}`);
+  }
+
+  const payloadRoot = await realpath(payloadDir);
+  const absolutePath = await realpath(path.resolve(payloadDir, inputPath));
+
+  if (!isPathInside(payloadRoot, absolutePath)) {
+    throw new Error(`Image path must stay inside the payload directory: ${inputPath}`);
+  }
+
   const extension = path.extname(absolutePath).slice(1).toLowerCase();
   const contentType = IMAGE_TYPES_BY_EXTENSION[extension];
 

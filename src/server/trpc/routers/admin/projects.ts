@@ -4,6 +4,12 @@ import { zodTextFormat } from "openai/helpers/zod";
 
 import { Locale, ProjectStatus } from "@/generated/prisma";
 import { slugify } from "@/lib/slugify";
+import {
+  isHttpUrl,
+  isSafePublicImageUrl,
+  normalizeHttpUrl,
+  normalizeSafePublicImageUrl,
+} from "@/lib/url-safety";
 import { deleteManagedStorageUrls } from "@/server/blob/getBlobRwToken";
 import { db } from "@/server/db";
 import { adminProcedure, router } from "@/server/trpc/trpc";
@@ -39,10 +45,28 @@ const baseFieldsSchema = z.object({
   featured: z.boolean().optional(),
   status: z.nativeEnum(ProjectStatus).optional(),
   year: z.number().int().min(1900).max(2100).optional().nullable(),
-  coverImageUrl: z.string().trim().max(500).optional().nullable(),
-  galleryImageUrls: z.array(z.string().trim().max(500)).optional(),
-  liveUrl: z.string().trim().max(500).optional().nullable(),
-  repoUrl: z.string().trim().max(500).optional().nullable(),
+  coverImageUrl: z
+    .string()
+    .trim()
+    .max(500)
+    .refine((value) => value === "" || isSafePublicImageUrl(value))
+    .optional()
+    .nullable(),
+  galleryImageUrls: z.array(z.string().trim().max(500).refine(isSafePublicImageUrl)).optional(),
+  liveUrl: z
+    .string()
+    .trim()
+    .max(500)
+    .refine((value) => value === "" || isHttpUrl(value))
+    .optional()
+    .nullable(),
+  repoUrl: z
+    .string()
+    .trim()
+    .max(500)
+    .refine((value) => value === "" || isHttpUrl(value))
+    .optional()
+    .nullable(),
   techStack: z.array(z.string().trim().min(1).max(100)).optional(),
 });
 
@@ -65,17 +89,13 @@ const normalizeOptionalString = (value?: string | null) => {
   return trimmed ? trimmed : null;
 };
 
-const normalizeStringArray = (values?: string[]) => {
-  if (!values) return [];
-  return values
-    .map((value) => value.trim())
-    .filter((value) => value.length > 0);
-};
-
 const normalizeOptionalStringArray = (values?: string[] | null) => {
   if (!values) return [];
   return values.map((value) => value.trim()).filter((value) => value.length > 0);
 };
+
+const normalizeImageUrlArray = (values?: string[] | null) =>
+  normalizeOptionalStringArray(values).filter(isSafePublicImageUrl);
 
 const AUTO_TRANSLATE_COOLDOWN_MS = 10_000;
 const lastAutoTranslateAt = new Map<string, number>();
@@ -327,10 +347,10 @@ export const adminProjectsRouter = router({
         status,
         publishedAt,
         year: input.year ?? null,
-        coverImageUrl: normalizeOptionalString(input.coverImageUrl),
-        galleryImageUrls: normalizeStringArray(input.galleryImageUrls),
-        liveUrl: normalizeOptionalString(input.liveUrl),
-        repoUrl: normalizeOptionalString(input.repoUrl),
+        coverImageUrl: normalizeSafePublicImageUrl(input.coverImageUrl),
+        galleryImageUrls: normalizeImageUrlArray(input.galleryImageUrls),
+        liveUrl: normalizeHttpUrl(input.liveUrl),
+        repoUrl: normalizeHttpUrl(input.repoUrl),
         techStack: input.techStack ?? [],
         translations: {
           create: [
@@ -381,11 +401,11 @@ export const adminProjectsRouter = router({
 
     const nextCoverImageUrl =
       input.coverImageUrl !== undefined
-        ? normalizeOptionalString(input.coverImageUrl)
+        ? normalizeSafePublicImageUrl(input.coverImageUrl)
         : existing.coverImageUrl;
     const nextGalleryImageUrls =
       input.galleryImageUrls !== undefined
-        ? normalizeStringArray(input.galleryImageUrls)
+        ? normalizeImageUrlArray(input.galleryImageUrls)
         : existing.galleryImageUrls;
 
     const updateData = {
@@ -406,10 +426,10 @@ export const adminProjectsRouter = router({
         ? { galleryImageUrls: nextGalleryImageUrls }
         : {}),
       ...(input.liveUrl !== undefined
-        ? { liveUrl: normalizeOptionalString(input.liveUrl) }
+        ? { liveUrl: normalizeHttpUrl(input.liveUrl) }
         : {}),
       ...(input.repoUrl !== undefined
-        ? { repoUrl: normalizeOptionalString(input.repoUrl) }
+        ? { repoUrl: normalizeHttpUrl(input.repoUrl) }
         : {}),
       ...(input.techStack !== undefined ? { techStack: input.techStack } : {}),
       translations: {

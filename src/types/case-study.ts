@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import type { Locale } from '@/i18n/routing';
+import { isSafePublicImageUrl } from '@/lib/url-safety';
 
 export type CaseStudyProblemBlock = {
   id: string;
@@ -58,18 +59,7 @@ const imageUrlSchema = z
   .trim()
   .min(1)
   .max(500)
-  .refine((value) => {
-    if (value.startsWith('/')) {
-      return true;
-    }
-
-    try {
-      new URL(value);
-      return true;
-    } catch {
-      return false;
-    }
-  }, 'url');
+  .refine(isSafePublicImageUrl, 'url');
 
 const problemSolutionSchema = blockBaseSchema.extend({
   type: z.enum(['problem', 'solution']),

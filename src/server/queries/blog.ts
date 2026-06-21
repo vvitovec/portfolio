@@ -3,6 +3,7 @@ import "server-only";
 import { unstable_cache, unstable_noStore } from "next/cache";
 
 import { BlogPostStatus, type Locale } from "@/generated/prisma";
+import { normalizeHttpUrl, normalizeSafePublicImageUrl } from "@/lib/url-safety";
 import { db } from "@/server/db";
 import {
   isDatabaseUnavailableError,
@@ -95,9 +96,9 @@ function normalizeBlogPost(
     slug: post.slug,
     featured: post.featured,
     tags: post.tags,
-    coverImageUrl: post.coverImageUrl,
+    coverImageUrl: normalizeSafePublicImageUrl(post.coverImageUrl),
     coverImageCredit: post.coverImageCredit,
-    coverImageCreditUrl: post.coverImageCreditUrl,
+    coverImageCreditUrl: normalizeHttpUrl(post.coverImageCreditUrl),
     createdAt,
     updatedAt,
     publishedAt: coerceDate(post.publishedAt),

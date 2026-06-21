@@ -3,6 +3,12 @@ import { z } from "zod";
 
 import { BlogPostStatus, Locale } from "@/generated/prisma";
 import { slugify } from "@/lib/slugify";
+import {
+  isHttpUrl,
+  isSafePublicImageUrl,
+  normalizeHttpUrl,
+  normalizeSafePublicImageUrl,
+} from "@/lib/url-safety";
 import { deleteManagedStorageUrls } from "@/server/blob/getBlobRwToken";
 import { db } from "@/server/db";
 import { revalidatePublicBlog } from "@/server/revalidate";
@@ -28,9 +34,21 @@ const baseFieldsSchema = z.object({
   featured: z.boolean().optional(),
   status: z.nativeEnum(BlogPostStatus).optional(),
   tags: z.array(z.string().trim().min(1).max(80)).max(12).optional(),
-  coverImageUrl: z.string().trim().max(500).optional().nullable(),
+  coverImageUrl: z
+    .string()
+    .trim()
+    .max(500)
+    .refine((value) => value === "" || isSafePublicImageUrl(value))
+    .optional()
+    .nullable(),
   coverImageCredit: z.string().trim().max(200).optional().nullable(),
-  coverImageCreditUrl: z.string().trim().max(500).url().optional().nullable(),
+  coverImageCreditUrl: z
+    .string()
+    .trim()
+    .max(500)
+    .refine((value) => value === "" || isHttpUrl(value))
+    .optional()
+    .nullable(),
 });
 
 const createSchema = baseFieldsSchema.extend({
@@ -173,9 +191,9 @@ export const adminBlogRouter = router({
         featured: input.featured ?? false,
         status,
         tags: normalizeStringArray(input.tags),
-        coverImageUrl: normalizeOptionalString(input.coverImageUrl),
+        coverImageUrl: normalizeSafePublicImageUrl(input.coverImageUrl),
         coverImageCredit: normalizeOptionalString(input.coverImageCredit),
-        coverImageCreditUrl: normalizeOptionalString(input.coverImageCreditUrl),
+        coverImageCreditUrl: normalizeHttpUrl(input.coverImageCreditUrl),
         publishedAt: getPublishedAt(status),
         translations: {
           create: [
@@ -224,7 +242,7 @@ export const adminBlogRouter = router({
     const status = input.status ?? undefined;
     const nextCoverImageUrl =
       input.coverImageUrl !== undefined
-        ? normalizeOptionalString(input.coverImageUrl)
+        ? normalizeSafePublicImageUrl(input.coverImageUrl)
         : existing.coverImageUrl;
     const csTranslation = normalizeTranslation(input.translations.cs);
     const enTranslation = normalizeTranslation(input.translations.en);
@@ -251,9 +269,7 @@ export const adminBlogRouter = router({
           : {}),
         ...(input.coverImageCreditUrl !== undefined
           ? {
-              coverImageCreditUrl: normalizeOptionalString(
-                input.coverImageCreditUrl,
-              ),
+              coverImageCreditUrl: normalizeHttpUrl(input.coverImageCreditUrl),
             }
           : {}),
         translations: {

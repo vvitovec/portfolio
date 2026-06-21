@@ -3,6 +3,7 @@ import "server-only";
 import { unstable_cache, unstable_noStore } from "next/cache";
 
 import { type Locale, ProjectStatus } from "@/generated/prisma";
+import { normalizeHttpUrl, normalizeSafePublicImageUrl } from "@/lib/url-safety";
 import { db } from "@/server/db";
 import {
   isDatabaseUnavailableError,
@@ -104,10 +105,13 @@ function normalizeProject(
     slug: project.slug,
     featured: project.featured,
     year: resolveProjectYear(project.year, project.publishedAt, project.createdAt),
-    coverImageUrl: project.coverImageUrl,
-    galleryImageUrls: project.galleryImageUrls ?? [],
-    liveUrl: project.liveUrl ?? null,
-    repoUrl: project.repoUrl ?? null,
+    coverImageUrl: normalizeSafePublicImageUrl(project.coverImageUrl),
+    galleryImageUrls: (project.galleryImageUrls ?? []).flatMap((url) => {
+      const normalized = normalizeSafePublicImageUrl(url);
+      return normalized ? [normalized] : [];
+    }),
+    liveUrl: normalizeHttpUrl(project.liveUrl),
+    repoUrl: normalizeHttpUrl(project.repoUrl),
     techStack: project.techStack,
     title: translation?.title ?? project.slug,
     tagline: translation?.tagline ?? null,

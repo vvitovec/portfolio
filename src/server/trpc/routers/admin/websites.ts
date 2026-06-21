@@ -2,13 +2,14 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { WebsiteStatus } from "@/generated/prisma";
+import { isHttpUrl } from "@/lib/url-safety";
 import { db } from "@/server/db";
 import { revalidatePublicWebsites } from "@/server/revalidate";
 import { adminProcedure, router } from "@/server/trpc/trpc";
 
 const websiteSchema = z.object({
   name: z.string().trim().min(1).max(160),
-  url: z.string().trim().min(1).max(500).url(),
+  url: z.string().trim().min(1).max(500).refine(isHttpUrl),
   category: z.string().trim().min(1).max(120),
   description: z.string().trim().max(300).optional().nullable(),
   sortOrder: z.number().int().min(0).max(9999).optional(),

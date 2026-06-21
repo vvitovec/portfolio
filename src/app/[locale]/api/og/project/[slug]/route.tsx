@@ -3,6 +3,7 @@ import { ImageResponse } from "next/og";
 
 import { type Locale as PrismaLocale } from "@/generated/prisma";
 import { routing, type Locale as RoutingLocale } from "@/i18n/routing";
+import { normalizeSafePublicImageUrl } from "@/lib/url-safety";
 import { getPublishedProjectBySlug } from "@/server/queries/projects";
 
 export const runtime = "nodejs";
@@ -40,6 +41,7 @@ export async function GET(
   const tagline = (project.tagline ?? project.descriptionShort ?? "").trim();
   const summary = tagline ? clampText(tagline, 160) : "";
   const techStack = project.techStack.slice(0, 5);
+  const coverImageUrl = normalizeSafePublicImageUrl(project.coverImageUrl);
 
   return new ImageResponse(
     (
@@ -56,9 +58,9 @@ export async function GET(
           fontFamily: "Manrope, system-ui, sans-serif",
         }}
       >
-        {project.coverImageUrl ? (
+        {coverImageUrl ? (
           <img
-            src={project.coverImageUrl}
+            src={coverImageUrl}
             alt=""
             style={{
               position: "absolute",

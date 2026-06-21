@@ -3,9 +3,7 @@ import { PrismaClient } from "@/generated/prisma";
 
 function createPrismaClient() {
   const databaseUrl = process.env.DATABASE_URL;
-  const acceptSelfSigned =
-    process.env.PRISMA_PG_ACCEPT_SELF_SIGNED === "true" ||
-    process.env.PG_SSL_REJECT_UNAUTHORIZED === "false";
+  const acceptSelfSigned = shouldAcceptSelfSignedCertificate();
 
   if (!databaseUrl) {
     throw new Error(
@@ -14,7 +12,7 @@ function createPrismaClient() {
   }
 
   const adapter = new PrismaPg({
-    connectionString: databaseUrl,
+    connectionString: normalizePostgresConnectionString(databaseUrl),
     ...(acceptSelfSigned ? { ssl: { rejectUnauthorized: false } } : {}),
   });
 
@@ -23,6 +21,35 @@ function createPrismaClient() {
     log:
       process.env.NODE_ENV === "development" ? ["warn", "error"] : ["error"],
   });
+}
+
+const INSECURE_SSL_MODES = new Set(["prefer", "require", "verify-ca"]);
+
+function shouldAcceptSelfSignedCertificate() {
+  if (process.env.NODE_ENV === "production") {
+    return false;
+  }
+
+  return (
+    process.env.PRISMA_PG_ACCEPT_SELF_SIGNED === "true" ||
+    process.env.PG_SSL_REJECT_UNAUTHORIZED === "false"
+  );
+}
+
+function normalizePostgresConnectionString(databaseUrl: string) {
+  try {
+    const parsed = new URL(databaseUrl);
+    const sslMode = parsed.searchParams.get("sslmode")?.toLowerCase();
+    const useLibpqCompat = parsed.searchParams.get("uselibpqcompat") === "true";
+
+    if (sslMode && INSECURE_SSL_MODES.has(sslMode) && !useLibpqCompat) {
+      parsed.searchParams.set("sslmode", "verify-full");
+    }
+
+    return parsed.toString();
+  } catch {
+    return databaseUrl;
+  }
 }
 
 export const db = createPrismaClient();

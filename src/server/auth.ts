@@ -10,6 +10,12 @@ const getAdminLogins = () =>
     .map((login) => login.trim().toLowerCase())
     .filter(Boolean);
 
+const getAdminIds = () =>
+  (process.env.ADMIN_GITHUB_IDS ?? "")
+    .split(",")
+    .map((id) => id.trim())
+    .filter(Boolean);
+
 const getProfileLogin = (profile: unknown) => {
   if (
     profile &&
@@ -21,6 +27,33 @@ const getProfileLogin = (profile: unknown) => {
   }
 
   return null;
+};
+
+const getProfileId = (profile: unknown) => {
+  if (profile && typeof profile === "object" && "id" in profile) {
+    const id = (profile as { id?: unknown }).id;
+    if (typeof id === "string" || typeof id === "number") {
+      return String(id).trim();
+    }
+  }
+
+  return null;
+};
+
+const isApprovedAdmin = ({
+  githubId,
+  login,
+}: {
+  githubId: string | null;
+  login: string | null;
+}) => {
+  const adminIds = getAdminIds();
+  if (adminIds.length > 0) {
+    return Boolean(githubId && adminIds.includes(githubId));
+  }
+
+  const adminLogins = getAdminLogins();
+  return Boolean(login && adminLogins.includes(login.toLowerCase()));
 };
 
 export const authOptions: NextAuthOptions = {
@@ -36,13 +69,9 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     signIn({ profile }) {
       const login = getProfileLogin(profile)?.toLowerCase() ?? null;
-      const allowlist = getAdminLogins();
+      const githubId = getProfileId(profile);
 
-      if (!login || allowlist.length === 0) {
-        return false;
-      }
-
-      return allowlist.includes(login);
+      return isApprovedAdmin({ githubId, login });
     },
     jwt({ token, profile }) {
       const profileLogin = getProfileLogin(profile);
@@ -50,9 +79,15 @@ export const authOptions: NextAuthOptions = {
         token.login = profileLogin;
       }
 
-      const allowlist = getAdminLogins();
+      const profileId = getProfileId(profile);
+      if (profileId) {
+        token.githubId = profileId;
+      }
+
       const login = typeof token.login === "string" ? token.login.toLowerCase() : "";
-      token.isAdmin = Boolean(login && allowlist.includes(login));
+      const githubId =
+        typeof token.githubId === "string" ? token.githubId : null;
+      token.isAdmin = isApprovedAdmin({ githubId, login });
 
       return token;
     },

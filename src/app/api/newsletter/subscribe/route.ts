@@ -8,12 +8,13 @@ import {
   getNewsletterBaseUrl,
   sendNewsletterEmail,
 } from "@/server/newsletter/email";
-import { getClientIp, isRateLimited } from "@/server/newsletter/rate-limit";
+import { isRateLimited } from "@/server/newsletter/rate-limit";
 import {
   createNewsletterToken,
   hashNewsletterToken,
   hashNewsletterValue,
 } from "@/server/newsletter/tokens";
+import { getClientIp } from "@/server/request-ip";
 
 const genericSuccess = () => NextResponse.json({ ok: true });
 
