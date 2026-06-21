@@ -102,8 +102,8 @@
   },
   "blog": {
     "label": "Blog",
-    "title": "Notes from building",
-    "subtitle": "Casual, useful writing about AI, automation, development, teams, and the small decisions that make work faster.",
+    "title": "Blog",
+    "subtitle": "Notes from building",
     "empty": "No posts are published yet.",
     "back": "Back to blog",
     "coverAlt": "Illustration for {title}",

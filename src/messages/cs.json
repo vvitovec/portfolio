@@ -102,8 +102,8 @@
   },
   "blog": {
     "label": "Blog",
-    "title": "Poznámky z vývoje",
-    "subtitle": "Osobní a praktické texty o AI, automatizaci, vývoji, týmech a malých rozhodnutích, která šetří čas.",
+    "title": "Blog",
+    "subtitle": "Poznámky z vývoje",
     "empty": "Zatím není publikovaný žádný článek.",
     "back": "Zpět na blog",
     "coverAlt": "Ilustrace pro {title}",

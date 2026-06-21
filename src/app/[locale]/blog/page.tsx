@@ -91,10 +91,7 @@ export default async function BlogPage({ params, searchParams }: PageProps) {
       <section className="py-20 sm:py-28">
         <Container>
           <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              {t("label")}
-            </p>
-            <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               {t("title")}
             </h1>
             <p className="mt-4 text-base text-muted-foreground sm:text-lg">
