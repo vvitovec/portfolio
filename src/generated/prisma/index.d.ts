@@ -163,7 +163,9 @@ export const NewsletterPostSendStatus: typeof $Enums.NewsletterPostSendStatus
  * Type-safe database client for TypeScript & Node.js
  * @example
  * ```
- * const prisma = new PrismaClient()
+ * const prisma = new PrismaClient({
+ *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+ * })
  * // Fetch zero or more Projects
  * const projects = await prisma.project.findMany()
  * ```
@@ -184,7 +186,9 @@ export class PrismaClient<
    * Type-safe database client for TypeScript & Node.js
    * @example
    * ```
-   * const prisma = new PrismaClient()
+   * const prisma = new PrismaClient({
+   *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+   * })
    * // Fetch zero or more Projects
    * const projects = await prisma.project.findMany()
    * ```
@@ -264,9 +268,9 @@ export class PrismaClient<
    * ])
    * ```
    * 
-   * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
+   * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
    */
-  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
   $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<R>
 
@@ -403,8 +407,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 7.3.0
-   * Query Engine version: 9d6ad21cbbceab97458517b147a6a09ff43aa735
+   * Prisma Client JS version: 7.8.0
+   * Query Engine version: 3c6e192761c0362d496ed980de936e2f3cebcd3a
    */
   export type PrismaVersion = {
     client: string
@@ -2709,6 +2713,11 @@ export namespace Prisma {
      * Skip the first `n` Projects.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Projects.
+     */
     distinct?: ProjectScalarFieldEnum | ProjectScalarFieldEnum[]
   }
 
@@ -3866,6 +3875,11 @@ export namespace Prisma {
      * Skip the first `n` ProjectTranslations.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectTranslations.
+     */
     distinct?: ProjectTranslationScalarFieldEnum | ProjectTranslationScalarFieldEnum[]
   }
 
@@ -4988,6 +5002,11 @@ export namespace Prisma {
      * Skip the first `n` Websites.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Websites.
+     */
     distinct?: WebsiteScalarFieldEnum | WebsiteScalarFieldEnum[]
   }
 
@@ -6096,6 +6115,11 @@ export namespace Prisma {
      * Skip the first `n` BlogPosts.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BlogPosts.
+     */
     distinct?: BlogPostScalarFieldEnum | BlogPostScalarFieldEnum[]
   }
 
@@ -7309,6 +7333,11 @@ export namespace Prisma {
      * Skip the first `n` BlogPostTranslations.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BlogPostTranslations.
+     */
     distinct?: BlogPostTranslationScalarFieldEnum | BlogPostTranslationScalarFieldEnum[]
   }
 
@@ -8493,6 +8522,11 @@ export namespace Prisma {
      * Skip the first `n` NewsletterSubscribers.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsletterSubscribers.
+     */
     distinct?: NewsletterSubscriberScalarFieldEnum | NewsletterSubscriberScalarFieldEnum[]
   }
 
@@ -9680,6 +9714,11 @@ export namespace Prisma {
      * Skip the first `n` NewsletterPostSends.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsletterPostSends.
+     */
     distinct?: NewsletterPostSendScalarFieldEnum | NewsletterPostSendScalarFieldEnum[]
   }
 
@@ -10856,6 +10895,11 @@ export namespace Prisma {
      * Skip the first `n` NewsletterEmailEvents.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsletterEmailEvents.
+     */
     distinct?: NewsletterEmailEventScalarFieldEnum | NewsletterEmailEventScalarFieldEnum[]
   }
 
