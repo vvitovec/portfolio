@@ -119,20 +119,20 @@ export function buildConfirmationEmail({
 }) {
   const subject =
     locale === "cs"
-      ? "Potvrzeni odberu blogu"
+      ? "Potvrzení odběru blogu"
       : "Confirm your blog subscription";
   const title =
     locale === "cs"
-      ? "Potvrdte odber blogu"
+      ? "Potvrďte odběr blogu"
       : "Confirm your blog subscription";
   const intro =
     locale === "cs"
-      ? "Kliknutim na odkaz nize potvrdite, ze chcete dostavat nove clanky od Viktora Vitovce."
+      ? "Kliknutím na odkaz níže potvrďte, že chcete dostávat nové články od Viktora Vítovce."
       : "Click the link below to confirm that you want to receive new posts from Viktor Vitovec.";
-  const button = locale === "cs" ? "Potvrdit odber" : "Confirm subscription";
+  const button = locale === "cs" ? "Potvrdit odběr" : "Confirm subscription";
   const footer =
     locale === "cs"
-      ? "Pokud jste se neprihlasili vy, tento email ignorujte."
+      ? "Pokud jste se k odběru nepřihlásili vy, tento e-mail ignorujte."
       : "If you did not request this, you can ignore this email.";
 
   return {
@@ -166,11 +166,11 @@ export function buildBlogPostEmail({
   postUrl: string;
   unsubscribeUrl: string;
 }) {
-  const subjectPrefix = locale === "cs" ? "Novy clanek" : "New note";
-  const cta = locale === "cs" ? "Precist clanek" : "Read the post";
+  const subjectPrefix = locale === "cs" ? "Nový článek" : "New note";
+  const cta = locale === "cs" ? "Přečíst článek" : "Read the post";
   const unsubscribe =
     locale === "cs"
-      ? "Odhlasit odber blogu"
+      ? "Odhlásit odběr blogu"
       : "Unsubscribe from blog emails";
   const summary = excerpt?.trim() || normalizeExcerpt(contentMarkdown);
   const subject = `${subjectPrefix}: ${title}`;
