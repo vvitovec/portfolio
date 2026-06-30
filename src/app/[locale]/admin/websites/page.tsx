@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import AdminBackLink from "@/components/admin/AdminBackLink";
 import WebsiteList from "@/components/admin/websites/WebsiteList";
 import Container from "@/components/layout/Container";
 import { routing, type Locale } from "@/i18n/routing";
@@ -28,7 +29,10 @@ export default async function AdminWebsitesPage({ params }: PageProps) {
   return (
     <section className="py-20 sm:py-28">
       <Container>
-        <WebsiteList />
+        <div className="space-y-6">
+          <AdminBackLink />
+          <WebsiteList />
+        </div>
       </Container>
     </section>
   );

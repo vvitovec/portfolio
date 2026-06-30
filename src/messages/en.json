@@ -295,6 +295,7 @@
     "dashboard": {
       "title": "Admin dashboard",
       "subtitle": "Choose the section you want to manage.",
+      "back": "Back to admin",
       "signOut": "Sign out",
       "sections": {
         "projects": {

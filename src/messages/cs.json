@@ -295,6 +295,7 @@
     "dashboard": {
       "title": "Admin dashboard",
       "subtitle": "Vyberte sekci, kterou chcete spravovat.",
+      "back": "Zpět na admin",
       "signOut": "Odhlásit se",
       "sections": {
         "projects": {

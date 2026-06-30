@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import AdminBackLink from "@/components/admin/AdminBackLink";
 import ProjectList from "@/components/admin/projects/ProjectList";
 import Container from "@/components/layout/Container";
 import { getServerAuthSession } from "@/server/auth";
@@ -28,7 +29,10 @@ export default async function AdminProjectsPage({ params }: PageProps) {
   return (
     <section className="py-20 sm:py-28">
       <Container>
-        <ProjectList />
+        <div className="space-y-6">
+          <AdminBackLink />
+          <ProjectList />
+        </div>
       </Container>
     </section>
   );
