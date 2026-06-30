@@ -12,6 +12,7 @@ const STATIC_PATHS = [
   "/blog",
   "/contact",
   "/ai-search-brief",
+  "/privacy",
 ];
 
 export const dynamic = "force-dynamic";
