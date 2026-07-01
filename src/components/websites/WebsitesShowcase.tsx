@@ -166,13 +166,13 @@ export default function WebsitesShowcase({ websites, limit }: WebsitesShowcasePr
         >
           <div className="flex shrink-0 items-center justify-between border-b border-white/10 bg-[rgba(15,23,42,0.95)] px-6 py-3">
             <div className="flex min-w-0 flex-1 items-center gap-4">
-              <span className="text-foreground text-sm font-semibold">{modal.site.name}</span>
-              <span className="text-muted-foreground truncate text-xs">{modal.site.url}</span>
+              <span className="text-sm font-semibold text-white">{modal.site.name}</span>
+              <span className="truncate text-xs text-slate-300">{modal.site.url}</span>
             </div>
             <div className="ml-4 flex shrink-0 items-center gap-2">
               <Link
                 href={`/story/website/${modal.site.id}`}
-                className="text-foreground inline-flex items-center gap-1.5 rounded-lg border border-white/12 bg-white/6 px-4 py-2 text-xs font-medium transition-colors hover:bg-white/10"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-white/25 bg-white/12 px-4 py-2 text-xs font-medium text-white transition-colors hover:border-white/35 hover:bg-white/20"
               >
                 {t('story.shareCard')}
               </Link>
@@ -180,13 +180,13 @@ export default function WebsitesShowcase({ websites, limit }: WebsitesShowcasePr
                 href={modal.site.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-foreground inline-flex items-center gap-1.5 rounded-lg border border-white/12 bg-white/6 px-4 py-2 text-xs font-medium transition-colors hover:bg-white/10"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-white/25 bg-white/12 px-4 py-2 text-xs font-medium text-white transition-colors hover:border-white/35 hover:bg-white/20"
               >
                 ↗ {t('openSite')}
               </a>
               <button
                 onClick={closeModal}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-red-500/25 bg-red-500/12 px-4 py-2 text-xs font-medium text-red-300 transition-colors hover:bg-red-500/25"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-red-300/40 bg-red-500/20 px-4 py-2 text-xs font-medium text-red-100 transition-colors hover:border-red-200/60 hover:bg-red-500/30"
               >
                 {t('close')}
               </button>
