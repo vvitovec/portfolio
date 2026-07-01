@@ -125,7 +125,7 @@ export default function WebsitesShowcase({ websites, limit }: WebsitesShowcasePr
               key={site.url}
               role="button"
               tabIndex={0}
-              className="ws-card group rounded-2xl border border-border/60 bg-card/80 p-3 text-left shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-safe:duration-300 motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-lg"
+              className="ws-card group cursor-pointer overflow-hidden rounded-2xl border border-border/60 bg-card/80 text-left shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-safe:duration-300 motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-lg"
               style={{ animationDelay: `${i * 0.08}s` }}
               onClick={() => openModal(site)}
               onKeyDown={(event) => {
@@ -135,7 +135,7 @@ export default function WebsitesShowcase({ websites, limit }: WebsitesShowcasePr
                 }
               }}
             >
-              <div className="ws-preview relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-border bg-muted">
+              <div className="ws-preview relative aspect-[16/10] w-full overflow-hidden bg-muted">
                 {site.previewImageUrl ? (
                   <Image
                     src={site.previewImageUrl}
@@ -175,7 +175,7 @@ export default function WebsitesShowcase({ websites, limit }: WebsitesShowcasePr
                 </div>
               </div>
 
-              <div className="flex items-center justify-between gap-3 px-2 pt-4 pb-1">
+              <div className="flex items-center justify-between gap-3 px-5 py-4">
                 <span className="text-foreground min-w-0 truncate text-sm font-semibold">
                   {site.name}
                 </span>
