@@ -11,6 +11,7 @@
     "seo:ai-audit": "tsx scripts/seo-ai-audit.ts",
     "db:seed": "prisma db seed",
     "blog:publish": "tsx scripts/blog-publish.ts",
+    "devto:publish": "tsx scripts/devto-publish.ts",
     "portfolio:publish": "tsx scripts/portfolio-publish.ts"
   },
   "prisma": {
