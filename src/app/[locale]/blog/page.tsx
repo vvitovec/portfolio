@@ -6,7 +6,6 @@ import BlogPostCard from '@/components/blog/BlogPostCard';
 import Container from '@/components/layout/Container';
 import BlogNewsletterClientState from '@/components/newsletter/BlogNewsletterClientState';
 import JsonLd from '@/components/seo/JsonLd';
-import StoryCardLink from '@/components/story/StoryCardLink';
 import { routing, type Locale } from '@/i18n/routing';
 import { buildPageMetadata } from '@/lib/seo';
 import {
@@ -103,10 +102,12 @@ export default async function BlogPage({ params }: PageProps) {
           {posts.length > 0 ? (
             <div className="mt-10 flex max-w-5xl flex-col gap-5">
               {posts.map((post, index) => (
-                <div key={post.id} className="space-y-3">
-                  <BlogPostCard post={post} locale={locale} priority={index === 0} />
-                  <StoryCardLink href={`/story/blog/${post.slug}`} label={t('story.shareCard')} />
-                </div>
+                <BlogPostCard
+                  key={post.id}
+                  post={post}
+                  locale={locale}
+                  priority={index === 0}
+                />
               ))}
             </div>
           ) : (

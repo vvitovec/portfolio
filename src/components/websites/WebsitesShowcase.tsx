@@ -4,9 +4,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
-import StoryCardLink from '@/components/story/StoryCardLink';
 import WebsiteCard from '@/components/websites/WebsiteCard';
-import { usePathname, useRouter } from '@/i18n/navigation';
+import { Link, usePathname, useRouter } from '@/i18n/navigation';
 import type { WebsiteView } from '@/server/queries/websites';
 
 interface ModalState {
@@ -146,22 +145,16 @@ export default function WebsitesShowcase({ websites, limit }: WebsitesShowcasePr
       )}
 
       <div ref={gridRef} className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((site, i) => {
-          return (
-            <div key={site.id} className="space-y-3">
-              <WebsiteCard
-                site={site}
-                categoryLabel={categoryLabel(site.category)}
-                exploreLabel={t('explore')}
-                onOpen={openModal}
-                animationDelay={`${i * 0.08}s`}
-              />
-              {!limit ? (
-                <StoryCardLink href={`/story/website/${site.id}`} label={t('story.shareCard')} />
-              ) : null}
-            </div>
-          );
-        })}
+        {filtered.map((site, i) => (
+          <WebsiteCard
+            key={site.id}
+            site={site}
+            categoryLabel={categoryLabel(site.category)}
+            exploreLabel={t('explore')}
+            onOpen={openModal}
+            animationDelay={`${i * 0.08}s`}
+          />
+        ))}
       </div>
 
       {modal.open && modal.site && (
@@ -177,6 +170,12 @@ export default function WebsitesShowcase({ websites, limit }: WebsitesShowcasePr
               <span className="text-muted-foreground truncate text-xs">{modal.site.url}</span>
             </div>
             <div className="ml-4 flex shrink-0 items-center gap-2">
+              <Link
+                href={`/story/website/${modal.site.id}`}
+                className="text-foreground inline-flex items-center gap-1.5 rounded-lg border border-white/12 bg-white/6 px-4 py-2 text-xs font-medium transition-colors hover:bg-white/10"
+              >
+                {t('story.shareCard')}
+              </Link>
               <a
                 href={modal.site.url}
                 target="_blank"

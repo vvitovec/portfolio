@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 import ProjectCard from '@/components/projects/ProjectCard';
-import StoryCardLink from '@/components/story/StoryCardLink';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -265,17 +264,14 @@ export default function ProjectsExplorer({ projects, blurDataURL }: ProjectsExpl
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2">
-          {filteredProjects.map((project) => {
-            return (
-              <div key={project.id} className="space-y-3">
-                <ProjectCard project={project} blurDataURL={blurDataURL} viewLabel={t('view')} />
-                <StoryCardLink
-                  href={`/story/project/${project.slug}`}
-                  label={t('story.shareCard')}
-                />
-              </div>
-            );
-          })}
+          {filteredProjects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              blurDataURL={blurDataURL}
+              viewLabel={t('view')}
+            />
+          ))}
         </div>
       )}
     </div>
