@@ -47,12 +47,6 @@ export default function Header() {
             {t('blog')}
           </Link>
           <Link
-            href="/community"
-            className="hover:text-foreground transition-colors motion-safe:transition-colors motion-safe:duration-200 motion-reduce:transition-none"
-          >
-            {t('community')}
-          </Link>
-          <Link
             href="/contact"
             className="hover:text-foreground transition-colors motion-safe:transition-colors motion-safe:duration-200 motion-reduce:transition-none"
           >
@@ -89,12 +83,6 @@ export default function Header() {
               className="hover:text-foreground transition-colors motion-safe:transition-colors motion-safe:duration-200 motion-reduce:transition-none"
             >
               {t('blog')}
-            </Link>
-            <Link
-              href="/community"
-              className="hover:text-foreground transition-colors motion-safe:transition-colors motion-safe:duration-200 motion-reduce:transition-none"
-            >
-              {t('community')}
             </Link>
             <Link
               href="/contact"
