@@ -131,7 +131,7 @@ export default function StoryCapture({
               : null;
 
   return (
-    <div className="bg-background min-h-screen px-4 py-5 sm:px-6">
+    <div data-story-page className="bg-background min-h-screen px-4 py-5 sm:px-6">
       <div className="mx-auto flex max-w-[30rem] flex-col gap-4">
         <div
           ref={storyRef}
