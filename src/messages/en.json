@@ -20,7 +20,7 @@
     "secondaryCta": "Contact"
   },
   "story": {
-    "share": "Share story",
+    "share": "Share",
     "download": "PNG",
     "copy": "Link",
     "open": "Open",
@@ -112,7 +112,7 @@
       "apps": "Apps"
     },
     "story": {
-      "shareCard": "Instagram story"
+      "shareCard": "Share"
     },
     "empty": "There are no published websites yet."
   },
@@ -127,7 +127,7 @@
     "morePosts": "More posts",
     "talkCta": "Talk to me",
     "story": {
-      "shareCard": "Instagram story"
+      "shareCard": "Share"
     },
     "articleNavigation": {
       "label": "Article navigation",
@@ -179,7 +179,7 @@
     "view": "View project",
     "coverAlt": "Cover image for {title}",
     "story": {
-      "shareCard": "Instagram story"
+      "shareCard": "Share"
     },
     "caseStudyTitle": "Case study",
     "caseStudySummary": "Structured overview of the challenge, solution, and results.",

@@ -11,7 +11,7 @@ import { buildLocalePath, buildPageMetadata, toAbsoluteUrl } from '@/lib/seo';
 import { getBlurDataURL } from '@/lib/image-placeholder';
 import { getPublishedBlogPostBySlug } from '@/server/queries/blog';
 import { getPublishedProjectBySlug } from '@/server/queries/projects';
-import { getPublishedWebsiteById, type WebsiteView } from '@/server/queries/websites';
+import { getPublishedWebsites, type WebsiteView } from '@/server/queries/websites';
 
 export const revalidate = 300;
 
@@ -46,6 +46,11 @@ const getWebsiteCategoryLabel = (
 const getDownloadName = (kind: StoryKind, slug: string) =>
   `vvitovec-${kind}-${slug.replace(/[^a-z0-9-]/gi, '-').toLowerCase()}-story.png`;
 
+const getPublishedWebsiteForStory = async (slug: string, locale: Locale) => {
+  const websites = await getPublishedWebsites(locale);
+  return websites.find((website) => website.id === slug) ?? null;
+};
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale: rawLocale, kind, slug } = await params;
   const locale = getLocale(rawLocale);
@@ -64,7 +69,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const post = await getPublishedBlogPostBySlug(slug, locale);
     title = post?.title ?? null;
   } else {
-    const website = await getPublishedWebsiteById(slug);
+    const website = await getPublishedWebsiteForStory(slug, locale);
     title = website?.name ?? null;
   }
 
@@ -148,7 +153,7 @@ export default async function StoryPage({ params }: PageProps) {
   }
 
   const [website, websitesT] = await Promise.all([
-    getPublishedWebsiteById(slug),
+    getPublishedWebsiteForStory(slug, locale),
     getTranslations({ locale, namespace: 'websites' }),
   ]);
 

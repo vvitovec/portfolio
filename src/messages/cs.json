@@ -20,7 +20,7 @@
     "secondaryCta": "Kontakt"
   },
   "story": {
-    "share": "Sdílet story",
+    "share": "Sdílet",
     "download": "PNG",
     "copy": "Odkaz",
     "open": "Otevřít",
@@ -112,7 +112,7 @@
       "apps": "Aplikace"
     },
     "story": {
-      "shareCard": "Instagram story"
+      "shareCard": "Sdílet"
     },
     "empty": "Zatím zde nejsou žádné publikované weby."
   },
@@ -127,7 +127,7 @@
     "morePosts": "Další články",
     "talkCta": "Napsat mi",
     "story": {
-      "shareCard": "Instagram story"
+      "shareCard": "Sdílet"
     },
     "articleNavigation": {
       "label": "Navigace mezi články",
@@ -179,7 +179,7 @@
     "view": "Zobrazit projekt",
     "coverAlt": "Cover obrázek pro {title}",
     "story": {
-      "shareCard": "Instagram story"
+      "shareCard": "Sdílet"
     },
     "caseStudyTitle": "Případová studie",
     "caseStudySummary": "Strukturovaný přehled problému, řešení a výsledků.",
