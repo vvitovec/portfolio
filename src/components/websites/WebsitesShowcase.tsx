@@ -123,11 +123,19 @@ export default function WebsitesShowcase({ websites, limit }: WebsitesShowcasePr
           return (
             <div
               key={site.url}
-              className="ws-card group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-500/25 hover:shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
+              role="button"
+              tabIndex={0}
+              className="ws-card group rounded-2xl border border-border/60 bg-card/80 p-3 text-left shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-safe:duration-300 motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-lg"
               style={{ animationDelay: `${i * 0.08}s` }}
               onClick={() => openModal(site)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  openModal(site);
+                }
+              }}
             >
-              <div className="ws-preview relative aspect-[16/10] w-full overflow-hidden bg-[#111827]">
+              <div className="ws-preview relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-border bg-muted">
                 {site.previewImageUrl ? (
                   <Image
                     src={site.previewImageUrl}
@@ -154,23 +162,25 @@ export default function WebsitesShowcase({ websites, limit }: WebsitesShowcasePr
                         loader?.classList.add("opacity-0", "pointer-events-none");
                       }}
                     />
-                    <div className="ws-loader absolute inset-0 z-20 flex items-center justify-center bg-[#111827] transition-opacity duration-500">
+                    <div className="ws-loader absolute inset-0 z-20 flex items-center justify-center bg-muted transition-opacity duration-500">
                       <span className="h-8 w-8 animate-spin rounded-full border-[3px] border-indigo-500/20 border-t-indigo-400" />
                     </div>
                   </>
                 )}
+
+                <div className="absolute inset-0 z-30 flex items-end bg-black/45 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <span className="text-xs font-semibold tracking-[0.2em] text-white/90 uppercase">
+                    {t("explore")}
+                  </span>
+                </div>
               </div>
 
-              <div className="flex items-center justify-between gap-3 px-5 py-4">
-                <span className="text-foreground truncate text-sm font-semibold">{site.name}</span>
-                <span className="shrink-0 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3 py-1 text-[0.65rem] font-semibold tracking-wide text-indigo-300 uppercase">
-                  {categoryLabel(site.category)}
+              <div className="flex items-center justify-between gap-3 px-2 pt-4 pb-1">
+                <span className="text-foreground min-w-0 truncate text-sm font-semibold">
+                  {site.name}
                 </span>
-              </div>
-
-              <div className="absolute inset-0 z-30 flex items-center justify-center bg-[rgba(10,14,26,0.6)] opacity-0 backdrop-blur-[4px] transition-opacity duration-300 group-hover:opacity-100">
-                <span className="translate-y-2 rounded-xl bg-indigo-500/90 px-6 py-3 text-sm font-semibold text-white shadow-[0_4px_24px_rgba(99,102,241,0.4)] transition-transform duration-300 group-hover:translate-y-0">
-                  {t("explore")}
+                <span className="shrink-0 rounded-full border border-border bg-muted px-3 py-1 text-[0.65rem] font-semibold tracking-wide text-foreground uppercase">
+                  {categoryLabel(site.category)}
                 </span>
               </div>
             </div>
