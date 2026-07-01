@@ -1,3 +1,7 @@
+import { existsSync } from "node:fs";
+import { homedir } from "node:os";
+import path from "node:path";
+
 import { config } from "dotenv";
 import { Pool } from "pg";
 import { z } from "zod";
@@ -9,6 +13,11 @@ if (process.env.BLOG_PUBLISH_ENV_FILE) {
 }
 if (process.env.DEVTO_ENV_FILE) {
   config({ path: process.env.DEVTO_ENV_FILE, override: true, quiet: true });
+} else {
+  const defaultDevtoEnvFile = path.join(homedir(), ".config", "portfolio-web", "devto.env");
+  if (existsSync(defaultDevtoEnvFile)) {
+    config({ path: defaultDevtoEnvFile, override: true, quiet: true });
+  }
 }
 
 const LOCALES = ["cs", "en"] as const;
