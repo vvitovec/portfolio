@@ -80,6 +80,14 @@ export default function Footer() {
             >
               {footer("social.linkedin")}
             </a>
+            <a
+              href="https://dev.to/vvitovec"
+              target="_blank"
+              rel="me noreferrer"
+              className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
+            >
+              {footer("social.devto")}
+            </a>
           </div>
         </div>
       </Container>
