@@ -146,7 +146,7 @@ export default async function StoryPage({ params }: PageProps) {
         downloadName={getDownloadName(kind, post.slug)}
       >
         <div className="w-full">
-          <BlogPostCard post={post} locale={locale} priority />
+          <BlogPostCard post={post} locale={locale} variant="compact" priority />
         </div>
       </StoryCapture>
     );

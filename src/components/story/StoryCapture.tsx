@@ -37,7 +37,7 @@ export default function StoryCapture({
 
     const { toPng } = await import('html-to-image');
     const dataUrl = await toPng(storyRef.current, {
-      backgroundColor: '#faf7ef',
+      backgroundColor: 'transparent',
       cacheBust: true,
       pixelRatio: 3,
       preferredFontFormat: 'woff2',
@@ -132,12 +132,14 @@ export default function StoryCapture({
 
   return (
     <div data-story-page className="bg-background min-h-screen px-4 py-5 sm:px-6">
-      <div className="mx-auto flex max-w-[30rem] flex-col gap-4">
-        <div
-          ref={storyRef}
-          className="border-border/70 bg-background relative aspect-[9/16] w-full overflow-hidden rounded-[2rem] border p-6 shadow-sm"
-        >
-          <div className="flex h-full items-center">{children}</div>
+      <div className="mx-auto flex max-w-[28rem] flex-col gap-4">
+        <div className="bg-muted/35 rounded-[1.75rem] border border-dashed border-border/70 p-4 sm:p-5">
+          <div
+            ref={storyRef}
+            className="story-export mx-auto w-full overflow-visible rounded-2xl bg-transparent"
+          >
+            {children}
+          </div>
         </div>
 
         <div className="border-border/70 bg-card/80 grid gap-2 rounded-2xl border p-3 shadow-sm">
