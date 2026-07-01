@@ -34,7 +34,7 @@ export default function ProjectCard({
   return (
     <Link
       href={href ?? `/projects/${project.slug}`}
-      className="group border-border bg-card/80 hover:border-foreground/30 focus-visible:ring-ring focus-visible:ring-offset-background rounded-2xl border p-6 transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+      className="group border-border bg-card/80 hover:border-foreground/30 focus-visible:ring-ring focus-visible:ring-offset-background block rounded-2xl border p-6 transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
     >
       <div className="border-border bg-muted relative aspect-[16/10] overflow-hidden rounded-2xl border">
         {project.coverImageUrl ? (

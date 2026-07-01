@@ -24,7 +24,7 @@ export default function WebsiteCard({
 }: WebsiteCardProps) {
   const previewAlt = `${site.name} website preview`;
   const className =
-    'ws-card group cursor-pointer overflow-hidden rounded-2xl border border-border/60 bg-card/80 text-left shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-safe:duration-300 motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-lg';
+    'ws-card group block cursor-pointer overflow-hidden rounded-2xl border border-border/60 bg-card/80 text-left shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-safe:duration-300 motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-lg';
 
   const content = (
     <>
