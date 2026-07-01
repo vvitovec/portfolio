@@ -15,9 +15,41 @@ type StoryCaptureProps = {
 
 type Status = 'idle' | 'working' | 'shared' | 'downloaded' | 'copied' | 'error';
 
+type ImageRestore = {
+  image: HTMLImageElement;
+  src: string | null;
+  srcset: string | null;
+  sizes: string | null;
+};
+
 const dataUrlToBlob = async (dataUrl: string) => {
   const response = await fetch(dataUrl);
   return response.blob();
+};
+
+const blobToDataUrl = (blob: Blob) =>
+  new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(blob);
+  });
+
+const getShareDownloadName = (downloadName: string) =>
+  downloadName.replace(/\.png$/i, '.jpg');
+
+const getFetchableImageUrl = (src: string) => {
+  const url = new URL(src, window.location.href);
+
+  if (url.protocol === 'data:' || url.protocol === 'blob:') {
+    return null;
+  }
+
+  if (url.origin === window.location.origin) {
+    return url.href;
+  }
+
+  return `/api/internal/story-image?url=${encodeURIComponent(url.href)}`;
 };
 
 export default function StoryCapture({
@@ -28,23 +60,114 @@ export default function StoryCapture({
 }: StoryCaptureProps) {
   const t = useTranslations('story');
   const storyRef = useRef<HTMLDivElement>(null);
+  const shareFrameRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<Status>('idle');
 
-  const createStoryFile = async () => {
+  const withInlinedImages = async <T,>(node: HTMLElement, action: () => Promise<T>) => {
+    await document.fonts?.ready;
+
+    const restores: ImageRestore[] = [];
+    const images = Array.from(node.querySelectorAll('img'));
+
+    await Promise.all(
+      images.map(async (image) => {
+        const src = image.currentSrc || image.src || image.getAttribute('src');
+        if (!src) {
+          return;
+        }
+
+        const fetchUrl = getFetchableImageUrl(src);
+        if (!fetchUrl) {
+          return;
+        }
+
+        try {
+          const response = await fetch(fetchUrl, { cache: 'force-cache' });
+          if (!response.ok) {
+            throw new Error(`Image fetch failed: ${response.status}`);
+          }
+
+          const dataUrl = await blobToDataUrl(await response.blob());
+          restores.push({
+            image,
+            src: image.getAttribute('src'),
+            srcset: image.getAttribute('srcset'),
+            sizes: image.getAttribute('sizes'),
+          });
+
+          image.removeAttribute('srcset');
+          image.removeAttribute('sizes');
+          image.src = dataUrl;
+          await image.decode?.();
+        } catch (error) {
+          console.warn('Failed to inline story image before export', error);
+          await image.decode?.().catch(() => undefined);
+        }
+      }),
+    );
+
+    try {
+      return await action();
+    } finally {
+      restores.forEach(({ image, src, srcset, sizes }) => {
+        if (src === null) {
+          image.removeAttribute('src');
+        } else {
+          image.setAttribute('src', src);
+        }
+
+        if (srcset === null) {
+          image.removeAttribute('srcset');
+        } else {
+          image.setAttribute('srcset', srcset);
+        }
+
+        if (sizes === null) {
+          image.removeAttribute('sizes');
+        } else {
+          image.setAttribute('sizes', sizes);
+        }
+      });
+    }
+  };
+
+  const createTransparentStoryFile = async () => {
     if (!storyRef.current) {
       return null;
     }
 
-    const { toPng } = await import('html-to-image');
-    const dataUrl = await toPng(storyRef.current, {
-      backgroundColor: 'transparent',
-      cacheBust: true,
-      pixelRatio: 3,
-      preferredFontFormat: 'woff2',
+    const dataUrl = await withInlinedImages(storyRef.current, async () => {
+      const { toPng } = await import('html-to-image');
+      return toPng(storyRef.current!, {
+        backgroundColor: 'transparent',
+        cacheBust: true,
+        pixelRatio: 3,
+        preferredFontFormat: 'woff2',
+      });
     });
     const blob = await dataUrlToBlob(dataUrl);
 
     return new File([blob], downloadName, { type: 'image/png' });
+  };
+
+  const createInstagramStoryFile = async () => {
+    if (!shareFrameRef.current) {
+      return null;
+    }
+
+    const dataUrl = await withInlinedImages(shareFrameRef.current, async () => {
+      const { toJpeg } = await import('html-to-image');
+      return toJpeg(shareFrameRef.current!, {
+        backgroundColor: '#f4f1e8',
+        cacheBust: true,
+        pixelRatio: 1,
+        preferredFontFormat: 'woff2',
+        quality: 0.94,
+      });
+    });
+    const blob = await dataUrlToBlob(dataUrl);
+
+    return new File([blob], getShareDownloadName(downloadName), { type: 'image/jpeg' });
   };
 
   const downloadFile = (file: File) => {
@@ -62,11 +185,13 @@ export default function StoryCapture({
     setStatus('working');
 
     try {
-      const file = await createStoryFile();
+      const file = await createInstagramStoryFile();
       if (!file) {
         setStatus('error');
         return;
       }
+
+      await navigator.clipboard?.writeText(targetUrl).catch(() => undefined);
 
       const shareData = {
         title,
@@ -94,7 +219,7 @@ export default function StoryCapture({
     setStatus('working');
 
     try {
-      const file = await createStoryFile();
+      const file = await createTransparentStoryFile();
       if (!file) {
         setStatus('error');
         return;
@@ -192,6 +317,15 @@ export default function StoryCapture({
           {statusLabel ? (
             <p className="text-muted-foreground px-1 text-center text-xs">{statusLabel}</p>
           ) : null}
+        </div>
+      </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-[-10000px] h-[1920px] w-[1080px] overflow-hidden bg-[#f4f1e8]"
+        ref={shareFrameRef}
+      >
+        <div className="flex h-full w-full items-center justify-center px-[120px]">
+          <div className="w-[840px]">{children}</div>
         </div>
       </div>
     </div>

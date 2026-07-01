@@ -22,6 +22,7 @@ export type WebsiteView = {
 const REVALIDATE_SECONDS = 300;
 
 const WEBSITE_PREVIEW_IMAGES: Record<string, string> = {
+  'https://mostky-web.vercel.app/cs#plots': '/images/websites/mostky-u-kaplice/homepage.webp',
   'https://www.solis.cz/': '/images/projects/solis/homepage.webp',
 };
 
