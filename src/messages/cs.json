@@ -19,6 +19,19 @@
     "primaryCta": "Projekty",
     "secondaryCta": "Kontakt"
   },
+  "story": {
+    "share": "Sdílet story",
+    "download": "PNG",
+    "copy": "Odkaz",
+    "open": "Otevřít",
+    "working": "Připravuju obrázek pro Story.",
+    "shared": "Story obrázek je předaný do sdílení.",
+    "downloaded": "PNG je stažené a odkaz je připravený pro link sticker.",
+    "copied": "Odkaz zkopírován.",
+    "error": "Sdílení se nepovedlo. Zkuste stáhnout PNG.",
+    "metaTitle": "Instagram story - {title}",
+    "metaDescription": "Story náhled pro sdílení obsahu z portfolia."
+  },
   "home": {
     "identity": {
       "kicker": "Portfolio",
@@ -98,6 +111,9 @@
       "consulting": "Poradenství",
       "apps": "Aplikace"
     },
+    "story": {
+      "shareCard": "Instagram story"
+    },
     "empty": "Zatím zde nejsou žádné publikované weby."
   },
   "blog": {
@@ -110,6 +126,9 @@
     "imageCredit": "Zdroj obrázku",
     "morePosts": "Další články",
     "talkCta": "Napsat mi",
+    "story": {
+      "shareCard": "Instagram story"
+    },
     "articleNavigation": {
       "label": "Navigace mezi články",
       "previous": "Předchozí článek",
@@ -159,6 +178,9 @@
     "subtitle": "Vybrané případové studie se doplňují.",
     "view": "Zobrazit projekt",
     "coverAlt": "Cover obrázek pro {title}",
+    "story": {
+      "shareCard": "Instagram story"
+    },
     "caseStudyTitle": "Případová studie",
     "caseStudySummary": "Strukturovaný přehled problému, řešení a výsledků.",
     "caseStudyEmpty": "Case study zatím není vyplněná.",

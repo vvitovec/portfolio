@@ -1,0 +1,7 @@
+.codex/
+.next/
+.playwright-cli/
+node_modules/
+output/
+outputs/
+src/app/[locale]/preview/

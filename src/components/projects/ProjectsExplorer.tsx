@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useCallback, useMemo } from "react";
-import Image from "next/image";
-import { useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useCallback, useMemo } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import ProjectCard from '@/components/projects/ProjectCard';
+import StoryCardLink from '@/components/story/StoryCardLink';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogClose,
@@ -15,10 +15,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Link, usePathname, useRouter } from "@/i18n/navigation";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Link, usePathname, useRouter } from '@/i18n/navigation';
+import { cn } from '@/lib/utils';
 
 type ProjectCard = {
   id: string;
@@ -41,11 +41,11 @@ const normalize = (value: string) => value.trim().toLowerCase();
 const MAX_VISIBLE_TECH = 4;
 
 const parseSearchParams = (params: URLSearchParams) => {
-  const q = params.get("q")?.trim() ?? "";
-  const techParam = params.get("tech")?.trim() ?? "";
+  const q = params.get('q')?.trim() ?? '';
+  const techParam = params.get('tech')?.trim() ?? '';
   const tech = techParam
     ? techParam
-        .split(",")
+        .split(',')
         .map((item) => item.trim())
         .filter((item) => item.length > 0)
         .filter((item, index, array) => array.indexOf(item) === index)
@@ -54,11 +54,8 @@ const parseSearchParams = (params: URLSearchParams) => {
   return { q, tech };
 };
 
-export default function ProjectsExplorer({
-  projects,
-  blurDataURL,
-}: ProjectsExplorerProps) {
-  const t = useTranslations("projects");
+export default function ProjectsExplorer({ projects, blurDataURL }: ProjectsExplorerProps) {
+  const t = useTranslations('projects');
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -72,10 +69,10 @@ export default function ProjectsExplorer({
     (nextQuery: string, nextTech: string[]) => {
       const params = new URLSearchParams();
       if (nextQuery.trim()) {
-        params.set("q", nextQuery.trim());
+        params.set('q', nextQuery.trim());
       }
       if (nextTech.length > 0) {
-        params.set("tech", nextTech.join(","));
+        params.set('tech', nextTech.join(','));
       }
       const next = params.toString();
       const current = searchParams.toString();
@@ -115,9 +112,7 @@ export default function ProjectsExplorer({
 
   const visibleTechOptions = useMemo(() => {
     const selectedSet = new Set(selectedTech);
-    return techOptions
-      .filter((tech) => !selectedSet.has(tech))
-      .slice(0, MAX_VISIBLE_TECH);
+    return techOptions.filter((tech) => !selectedSet.has(tech)).slice(0, MAX_VISIBLE_TECH);
   }, [techOptions, selectedTech]);
 
   const hasMoreTech = techOptions.length > MAX_VISIBLE_TECH;
@@ -131,8 +126,7 @@ export default function ProjectsExplorer({
       const taglineMatch = project.tagline
         ? normalize(project.tagline).includes(normalizedQuery)
         : false;
-      const matchesQuery =
-        normalizedQuery.length === 0 ? true : titleMatch || taglineMatch;
+      const matchesQuery = normalizedQuery.length === 0 ? true : titleMatch || taglineMatch;
 
       const projectTech = project.techStack.map(normalize);
       const matchesTech =
@@ -152,13 +146,13 @@ export default function ProjectsExplorer({
   };
 
   const clearFilters = () => {
-    updateUrl("", []);
+    updateUrl('', []);
   };
 
   const hasFilters = query.trim().length > 0 || selectedTech.length > 0;
 
   const actionButtonClass =
-    "w-full min-w-[12rem] justify-center shadow-sm transition-shadow motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-md";
+    'w-full min-w-[12rem] justify-center shadow-sm transition-shadow motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-md';
 
   const renderTechButton = (tech: string) => {
     const isSelected = selectedTech.includes(tech);
@@ -168,10 +162,10 @@ export default function ProjectsExplorer({
         type="button"
         onClick={() => toggleTech(tech)}
         className={cn(
-          "rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          'focus-visible:ring-ring focus-visible:ring-offset-background rounded-full border px-3 py-1 text-xs font-semibold tracking-[0.2em] uppercase transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
           isSelected
-            ? "border-foreground bg-foreground text-background"
-            : "border-border bg-background text-muted-foreground hover:text-foreground",
+            ? 'border-foreground bg-foreground text-background'
+            : 'border-border bg-background text-muted-foreground hover:text-foreground',
         )}
         aria-pressed={isSelected}
       >
@@ -182,33 +176,31 @@ export default function ProjectsExplorer({
 
   return (
     <div className="mt-10 space-y-8">
-      <div className="rounded-2xl border border-border/60 bg-card/80 p-6 shadow-sm md:p-8">
+      <div className="border-border/60 bg-card/80 rounded-2xl border p-6 shadow-sm md:p-8">
         <div className="grid gap-6 md:grid-cols-[minmax(0,_1.4fr)_minmax(0,_1fr)_auto] md:items-start">
           <div className="space-y-2">
             <label
               htmlFor="project-search"
-              className="text-xs uppercase tracking-widest text-muted-foreground"
+              className="text-muted-foreground text-xs tracking-widest uppercase"
             >
-              {t("filters.searchLabel")}
+              {t('filters.searchLabel')}
             </label>
             <Input
               id="project-search"
               type="search"
               value={query}
-              onChange={(event) =>
-                updateUrl(event.target.value, selectedTech)
-              }
-              placeholder={t("filters.searchPlaceholder")}
+              onChange={(event) => updateUrl(event.target.value, selectedTech)}
+              placeholder={t('filters.searchPlaceholder')}
             />
           </div>
           <div className="space-y-3">
-            <p className="text-xs uppercase tracking-widest text-muted-foreground">
-              {t("filters.techLabel")}
+            <p className="text-muted-foreground text-xs tracking-widest uppercase">
+              {t('filters.techLabel')}
             </p>
             {selectedTechOrdered.length > 0 ? (
               <div className="space-y-2">
-                <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
-                  {t("filters.selectedLabel")}
+                <p className="text-muted-foreground text-[11px] tracking-widest uppercase">
+                  {t('filters.selectedLabel')}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {selectedTechOrdered.map((tech) => renderTechButton(tech))}
@@ -228,26 +220,19 @@ export default function ProjectsExplorer({
               onClick={clearFilters}
               className={actionButtonClass}
             >
-              {t("filters.clear")}
+              {t('filters.clear')}
             </Button>
             {hasMoreTech ? (
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className={actionButtonClass}
-                  >
-                    {t("filters.moreButton")}
+                  <Button type="button" variant="outline" size="sm" className={actionButtonClass}>
+                    {t('filters.moreButton')}
                   </Button>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>{t("filters.moreTitle")}</DialogTitle>
-                    <DialogDescription>
-                      {t("filters.moreDescription")}
-                    </DialogDescription>
+                    <DialogTitle>{t('filters.moreTitle')}</DialogTitle>
+                    <DialogDescription>{t('filters.moreDescription')}</DialogDescription>
                   </DialogHeader>
                   <div className="mt-4 max-h-[60vh] space-y-4 overflow-auto pr-2">
                     <div className="flex flex-wrap gap-2">
@@ -257,7 +242,7 @@ export default function ProjectsExplorer({
                   <div className="mt-6 flex justify-end">
                     <DialogClose asChild>
                       <Button type="button" variant="ghost">
-                        {t("filters.moreClose")}
+                        {t('filters.moreClose')}
                       </Button>
                     </DialogClose>
                   </div>
@@ -269,73 +254,26 @@ export default function ProjectsExplorer({
       </div>
 
       {filteredProjects.length === 0 ? (
-        <div className="rounded-2xl border border-border/60 bg-card/80 p-8 text-center shadow-sm">
-          <h2 className="font-display text-2xl font-semibold text-foreground">
-            {t("filters.emptyTitle")}
+        <div className="border-border/60 bg-card/80 rounded-2xl border p-8 text-center shadow-sm">
+          <h2 className="font-display text-foreground text-2xl font-semibold">
+            {t('filters.emptyTitle')}
           </h2>
-          <p className="mt-3 text-sm text-muted-foreground">
-            {t("filters.emptySubtitle")}
-          </p>
+          <p className="text-muted-foreground mt-3 text-sm">{t('filters.emptySubtitle')}</p>
           <Button asChild className="mt-6">
-            <Link href="/contact">{t("filters.emptyCta")}</Link>
+            <Link href="/contact">{t('filters.emptyCta')}</Link>
           </Button>
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2">
           {filteredProjects.map((project) => {
-            const summary = project.tagline ?? project.descriptionShort;
             return (
-              <Link
-                key={project.id}
-                href={`/projects/${project.slug}`}
-                className="group rounded-2xl border border-border bg-card/80 p-6 transition hover:border-foreground/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              >
-                <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-border bg-muted">
-                  {project.coverImageUrl ? (
-                    <>
-                      <Image
-                        src={project.coverImageUrl}
-                        alt={project.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        placeholder="blur"
-                        blurDataURL={blurDataURL}
-                        className="object-cover transition-transform motion-safe:duration-500 motion-safe:transition-transform motion-reduce:transition-none group-hover:scale-[1.03]"
-                      />
-                      <div className="absolute inset-0 bg-black/45 opacity-0 transition-opacity motion-safe:duration-300 motion-safe:transition-opacity motion-reduce:transition-none group-hover:opacity-100" />
-                    </>
-                  ) : (
-                    <div className="absolute inset-0 bg-muted/70" />
-                  )}
-                  <div className="absolute inset-0 flex items-end justify-between p-4">
-                    <span className="text-xs font-semibold uppercase tracking-[0.2em] text-white/90 opacity-0 transition-opacity motion-safe:duration-300 motion-safe:transition-opacity motion-reduce:transition-none group-hover:opacity-100">
-                      {t("view")}
-                    </span>
-                  </div>
-                </div>
-                <div className="mt-4 space-y-2">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <h2 className="min-w-0 font-display text-xl font-semibold text-foreground">
-                      {project.title}
-                    </h2>
-                    <span className="shrink-0 text-right text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                      {project.year}
-                    </span>
-                  </div>
-                  {summary ? (
-                    <p className="text-sm text-muted-foreground">
-                      {summary}
-                    </p>
-                  ) : null}
-                  {project.techStack.length > 0 ? (
-                    <div className="flex flex-wrap items-center gap-2">
-                      {project.techStack.slice(0, 5).map((tech) => (
-                        <Badge key={tech}>{tech}</Badge>
-                      ))}
-                    </div>
-                  ) : null}
-                </div>
-              </Link>
+              <div key={project.id} className="space-y-3">
+                <ProjectCard project={project} blurDataURL={blurDataURL} viewLabel={t('view')} />
+                <StoryCardLink
+                  href={`/story/project/${project.slug}`}
+                  label={t('story.shareCard')}
+                />
+              </div>
             );
           })}
         </div>

@@ -1,9 +1,13 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { useTranslations } from "next-intl";
-import type { WebsiteView } from "@/server/queries/websites";
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+
+import StoryCardLink from '@/components/story/StoryCardLink';
+import WebsiteCard from '@/components/websites/WebsiteCard';
+import { usePathname, useRouter } from '@/i18n/navigation';
+import type { WebsiteView } from '@/server/queries/websites';
 
 interface ModalState {
   open: boolean;
@@ -17,63 +21,88 @@ interface WebsitesShowcaseProps {
 }
 
 const CATEGORY_LABEL_KEYS: Record<string, string> = {
-  "Stavebnictví & reality": "constructionRealEstate",
-  "E-shop": "eshop",
-  Gastro: "gastro",
-  Poradenství: "consulting",
-  Aplikace: "apps",
+  'Stavebnictví & reality': 'constructionRealEstate',
+  'E-shop': 'eshop',
+  Gastro: 'gastro',
+  Poradenství: 'consulting',
+  Aplikace: 'apps',
 };
 
 export default function WebsitesShowcase({ websites, limit }: WebsitesShowcaseProps) {
-  const t = useTranslations("websites");
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [modal, setModal] = useState<ModalState>({ open: false, site: null, loaded: false });
+  const t = useTranslations('websites');
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [modal, setModal] = useState<ModalState>(() => {
+    if (limit) {
+      return { open: false, site: null, loaded: false };
+    }
+
+    const siteId = searchParams.get('site');
+    const site = siteId ? websites.find((website) => website.id === siteId) : null;
+    return site ? { open: true, site, loaded: false } : { open: false, site: null, loaded: false };
+  });
   const gridRef = useRef<HTMLDivElement>(null);
 
-  const categories = ["all", ...Array.from(new Set(websites.map((website) => website.category)))];
+  const categories = ['all', ...Array.from(new Set(websites.map((website) => website.category)))];
 
   const filtered = limit
     ? websites.slice(0, limit)
-    : activeCategory === "all"
+    : activeCategory === 'all'
       ? websites
       : websites.filter((website) => website.category === activeCategory);
 
   function scaleIframe(card: HTMLElement) {
-    const preview = card.querySelector<HTMLElement>(".ws-preview");
-    const iframe = card.querySelector<HTMLIFrameElement>("iframe");
+    const preview = card.querySelector<HTMLElement>('.ws-preview');
+    const iframe = card.querySelector<HTMLIFrameElement>('iframe');
     if (!preview || !iframe) return;
     const scale = preview.offsetWidth / 1440;
     iframe.style.transform = `scale(${scale})`;
     preview.style.height = `${900 * scale}px`;
   }
 
-  function openModal(site: WebsiteView) {
-    setModal({ open: true, site, loaded: false });
-  }
+  const openModal = useCallback(
+    (site: WebsiteView) => {
+      setModal({ open: true, site, loaded: false });
+      if (!limit) {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('site', site.id);
+        router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+      }
+    },
+    [limit, pathname, router, searchParams],
+  );
 
-  function closeModal() {
+  const closeModal = useCallback(() => {
     setModal((prev) => ({ ...prev, open: false }));
-  }
+    if (!limit && searchParams.has('site')) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete('site');
+      const next = params.toString();
+      router.replace(next ? `${pathname}?${next}` : pathname, { scroll: false });
+    }
+  }, [limit, pathname, router, searchParams]);
 
   useEffect(() => {
-    document.body.style.overflow = modal.open ? "hidden" : "";
+    document.body.style.overflow = modal.open ? 'hidden' : '';
 
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     };
   }, [modal.open]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") closeModal();
+      if (e.key === 'Escape') closeModal();
     }
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, []);
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [closeModal]);
 
   useEffect(() => {
     if (!gridRef.current) return;
-    const cards = gridRef.current.querySelectorAll<HTMLElement>(".ws-card");
+    const cards = gridRef.current.querySelectorAll<HTMLElement>('.ws-card');
     cards.forEach((card) => {
       scaleIframe(card);
     });
@@ -82,14 +111,14 @@ export default function WebsitesShowcase({ websites, limit }: WebsitesShowcasePr
   useEffect(() => {
     function handleResize() {
       if (!gridRef.current) return;
-      gridRef.current.querySelectorAll<HTMLElement>(".ws-card").forEach(scaleIframe);
+      gridRef.current.querySelectorAll<HTMLElement>('.ws-card').forEach(scaleIframe);
     }
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const categoryLabel = (cat: string) => {
-    if (cat === "all") return t("all");
+    if (cat === 'all') return t('all');
 
     const key = CATEGORY_LABEL_KEYS[cat];
     return key ? t(`categories.${key}`) : cat;
@@ -104,11 +133,11 @@ export default function WebsitesShowcase({ websites, limit }: WebsitesShowcasePr
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={[
-                "rounded-full border px-4 py-1.5 text-sm font-medium transition-colors",
+                'rounded-full border px-4 py-1.5 text-sm font-medium transition-colors',
                 activeCategory === cat
-                  ? "border-indigo-400 bg-indigo-100 text-indigo-950 shadow-[0_2px_10px_rgba(99,102,241,0.18)]"
-                  : "text-muted-foreground border-white/10 bg-white/5 hover:border-indigo-400/40 hover:bg-indigo-100/60 hover:text-indigo-900",
-              ].join(" ")}
+                  ? 'border-indigo-400 bg-indigo-100 text-indigo-950 shadow-[0_2px_10px_rgba(99,102,241,0.18)]'
+                  : 'text-muted-foreground border-white/10 bg-white/5 hover:border-indigo-400/40 hover:bg-indigo-100/60 hover:text-indigo-900',
+              ].join(' ')}
             >
               {categoryLabel(cat)}
             </button>
@@ -118,71 +147,18 @@ export default function WebsitesShowcase({ websites, limit }: WebsitesShowcasePr
 
       <div ref={gridRef} className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((site, i) => {
-          const previewAlt = `${site.name} website preview`;
-
           return (
-            <div
-              key={site.url}
-              role="button"
-              tabIndex={0}
-              className="ws-card group cursor-pointer overflow-hidden rounded-2xl border border-border/60 bg-card/80 text-left shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-safe:duration-300 motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-lg"
-              style={{ animationDelay: `${i * 0.08}s` }}
-              onClick={() => openModal(site)}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
-                  openModal(site);
-                }
-              }}
-            >
-              <div className="ws-preview relative aspect-[16/10] w-full overflow-hidden bg-muted">
-                {site.previewImageUrl ? (
-                  <Image
-                    src={site.previewImageUrl}
-                    alt={previewAlt}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover object-top transition-transform duration-500 motion-safe:group-hover:scale-[1.03]"
-                  />
-                ) : (
-                  <>
-                    <div className="absolute inset-0 z-10" />
-                    <iframe
-                      src={site.url}
-                      loading="lazy"
-                      sandbox="allow-scripts allow-same-origin allow-popups"
-                      title={site.name}
-                      className="absolute top-0 left-0 h-[900px] w-[1440px] origin-top-left border-none"
-                      onLoad={(e) => {
-                        const card = (e.target as HTMLIFrameElement).closest<HTMLElement>(
-                          ".ws-card",
-                        );
-                        if (card) scaleIframe(card);
-                        const loader = card?.querySelector(".ws-loader");
-                        loader?.classList.add("opacity-0", "pointer-events-none");
-                      }}
-                    />
-                    <div className="ws-loader absolute inset-0 z-20 flex items-center justify-center bg-muted transition-opacity duration-500">
-                      <span className="h-8 w-8 animate-spin rounded-full border-[3px] border-indigo-500/20 border-t-indigo-400" />
-                    </div>
-                  </>
-                )}
-
-                <div className="absolute inset-0 z-30 flex items-end bg-black/45 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <span className="text-xs font-semibold tracking-[0.2em] text-white/90 uppercase">
-                    {t("explore")}
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between gap-3 px-5 py-4">
-                <span className="text-foreground min-w-0 truncate text-sm font-semibold">
-                  {site.name}
-                </span>
-                <span className="shrink-0 rounded-full border border-border bg-muted px-3 py-1 text-[0.65rem] font-semibold tracking-wide text-foreground uppercase">
-                  {categoryLabel(site.category)}
-                </span>
-              </div>
+            <div key={site.id} className="space-y-3">
+              <WebsiteCard
+                site={site}
+                categoryLabel={categoryLabel(site.category)}
+                exploreLabel={t('explore')}
+                onOpen={openModal}
+                animationDelay={`${i * 0.08}s`}
+              />
+              {!limit ? (
+                <StoryCardLink href={`/story/website/${site.id}`} label={t('story.shareCard')} />
+              ) : null}
             </div>
           );
         })}
@@ -207,13 +183,13 @@ export default function WebsitesShowcase({ websites, limit }: WebsitesShowcasePr
                 rel="noopener noreferrer"
                 className="text-foreground inline-flex items-center gap-1.5 rounded-lg border border-white/12 bg-white/6 px-4 py-2 text-xs font-medium transition-colors hover:bg-white/10"
               >
-                ↗ {t("openSite")}
+                ↗ {t('openSite')}
               </a>
               <button
                 onClick={closeModal}
                 className="inline-flex items-center gap-1.5 rounded-lg border border-red-500/25 bg-red-500/12 px-4 py-2 text-xs font-medium text-red-300 transition-colors hover:bg-red-500/25"
               >
-                {t("close")}
+                {t('close')}
               </button>
             </div>
           </div>
@@ -221,13 +197,10 @@ export default function WebsitesShowcase({ websites, limit }: WebsitesShowcasePr
           <div className="relative flex-1">
             {modal.site.previewImageUrl ? (
               <div className="relative h-full w-full overflow-auto bg-white">
-                <Image
+                <img
                   src={modal.site.previewImageUrl}
                   alt={`${modal.site.name} website preview`}
-                  width={2878}
-                  height={1678}
                   className="mx-auto h-auto w-full"
-                  priority
                 />
               </div>
             ) : (

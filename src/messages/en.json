@@ -19,6 +19,19 @@
     "primaryCta": "Projects",
     "secondaryCta": "Contact"
   },
+  "story": {
+    "share": "Share story",
+    "download": "PNG",
+    "copy": "Link",
+    "open": "Open",
+    "working": "Preparing the Story image.",
+    "shared": "Story image is ready in the share sheet.",
+    "downloaded": "PNG downloaded and the link is ready for a link sticker.",
+    "copied": "Link copied.",
+    "error": "Sharing failed. Try downloading the PNG.",
+    "metaTitle": "Instagram story - {title}",
+    "metaDescription": "Story preview for sharing portfolio content."
+  },
   "home": {
     "identity": {
       "kicker": "Portfolio",
@@ -98,6 +111,9 @@
       "consulting": "Consulting",
       "apps": "Apps"
     },
+    "story": {
+      "shareCard": "Instagram story"
+    },
     "empty": "There are no published websites yet."
   },
   "blog": {
@@ -110,6 +126,9 @@
     "imageCredit": "Image source",
     "morePosts": "More posts",
     "talkCta": "Talk to me",
+    "story": {
+      "shareCard": "Instagram story"
+    },
     "articleNavigation": {
       "label": "Article navigation",
       "previous": "Previous article",
@@ -159,6 +178,9 @@
     "subtitle": "Selected case studies are being added.",
     "view": "View project",
     "coverAlt": "Cover image for {title}",
+    "story": {
+      "shareCard": "Instagram story"
+    },
     "caseStudyTitle": "Case study",
     "caseStudySummary": "Structured overview of the challenge, solution, and results.",
     "caseStudyEmpty": "Case study isn't filled in yet.",

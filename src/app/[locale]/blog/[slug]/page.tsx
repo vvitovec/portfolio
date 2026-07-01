@@ -1,27 +1,28 @@
-import type { Metadata } from "next";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import type { Metadata } from 'next';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { notFound } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
 
-import Markdown from "@/components/content/Markdown";
-import Container from "@/components/layout/Container";
-import NewsletterSignupForm from "@/components/newsletter/NewsletterSignupForm";
-import JsonLd from "@/components/seo/JsonLd";
-import { Badge } from "@/components/ui/badge";
-import { Link } from "@/i18n/navigation";
-import { routing, type Locale } from "@/i18n/routing";
-import { buildPageMetadata } from "@/lib/seo";
+import Markdown from '@/components/content/Markdown';
+import Container from '@/components/layout/Container';
+import NewsletterSignupForm from '@/components/newsletter/NewsletterSignupForm';
+import JsonLd from '@/components/seo/JsonLd';
+import StoryCardLink from '@/components/story/StoryCardLink';
+import { Badge } from '@/components/ui/badge';
+import { Link } from '@/i18n/navigation';
+import { routing, type Locale } from '@/i18n/routing';
+import { buildPageMetadata } from '@/lib/seo';
 import {
   createBlogPostingSchema,
   createBreadcrumbSchema,
   createWebPageSchema,
-} from "@/lib/structured-data";
+} from '@/lib/structured-data';
 import {
   type BlogPostView,
   getPublishedBlogPostBySlug,
   getPublishedBlogPostNeighbors,
   getPublishedBlogPosts,
-} from "@/server/queries/blog";
+} from '@/server/queries/blog';
 
 export const revalidate = 300;
 
@@ -30,7 +31,7 @@ type PageProps = {
 };
 
 const getBlogPostMetaTitle = (locale: Locale, postTitle: string): string => {
-  if (locale === "cs") {
+  if (locale === 'cs') {
     return `${postTitle} | Blog Viktora Vítovce`;
   }
 
@@ -61,8 +62,8 @@ export async function generateStaticParams() {
 }
 
 type ArticlePointerProps = {
-  direction: "previous" | "next";
-  post: Pick<BlogPostView, "slug" | "title" | "coverImageUrl" | "coverImageAlt"> | null;
+  direction: 'previous' | 'next';
+  post: Pick<BlogPostView, 'slug' | 'title' | 'coverImageUrl' | 'coverImageAlt'> | null;
   title: string;
   placeholderTitle: string;
   placeholderDescription: string;
@@ -77,10 +78,10 @@ function ArticlePointer({
   placeholderDescription,
   placeholderImageLabel,
 }: ArticlePointerProps) {
-  const isPrevious = direction === "previous";
+  const isPrevious = direction === 'previous';
   const content = (
     <>
-      <div className="flex items-center justify-between gap-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+      <div className="text-muted-foreground flex items-center justify-between gap-3 text-xs tracking-[0.2em] uppercase">
         <span>{title}</span>
         {isPrevious ? (
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
@@ -89,7 +90,7 @@ function ArticlePointer({
         )}
       </div>
       <div className="grid gap-4 sm:grid-cols-[8rem_1fr] sm:items-center">
-        <div className="aspect-[16/10] overflow-hidden rounded-xl bg-muted">
+        <div className="bg-muted aspect-[16/10] overflow-hidden rounded-xl">
           {post?.coverImageUrl ? (
             <img
               src={post.coverImageUrl}
@@ -97,17 +98,17 @@ function ArticlePointer({
               className="h-full w-full object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.04]"
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-secondary text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            <div className="bg-secondary text-muted-foreground flex h-full w-full items-center justify-center text-xs tracking-[0.2em] uppercase">
               {placeholderImageLabel}
             </div>
           )}
         </div>
         <div className="min-w-0">
-          <h2 className="line-clamp-2 font-display text-xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-primary">
+          <h2 className="font-display text-foreground group-hover:text-primary line-clamp-2 text-xl font-semibold tracking-tight transition-colors">
             {post ? post.title : placeholderTitle}
           </h2>
           {post ? null : (
-            <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">
+            <p className="text-muted-foreground mt-2 line-clamp-2 text-sm leading-6">
               {placeholderDescription}
             </p>
           )}
@@ -117,7 +118,7 @@ function ArticlePointer({
   );
 
   const className =
-    "group flex min-h-48 flex-col justify-between gap-5 rounded-2xl border border-border/60 bg-card/80 p-5 shadow-sm transition motion-safe:duration-300";
+    'group flex min-h-48 flex-col justify-between gap-5 rounded-2xl border border-border/60 bg-card/80 p-5 shadow-sm transition motion-safe:duration-300';
 
   if (!post) {
     return (
@@ -130,36 +131,34 @@ function ArticlePointer({
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className={`${className} motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`}
+      className={`${className} focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-lg`}
     >
       {content}
     </Link>
   );
 }
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale: rawLocale, slug } = await params;
   const locale = routing.locales.includes(rawLocale as Locale)
     ? (rawLocale as Locale)
     : routing.defaultLocale;
   const post = await getPublishedBlogPostBySlug(slug, locale);
-  const t = await getTranslations({ locale, namespace: "blog" });
+  const t = await getTranslations({ locale, namespace: 'blog' });
 
   if (!post) {
     return {};
   }
 
   const title = post.seoTitle ?? getBlogPostMetaTitle(locale, post.title);
-  const description = post.seoDescription ?? post.excerpt ?? t("meta.fallbackDescription");
+  const description = post.seoDescription ?? post.excerpt ?? t('meta.fallbackDescription');
 
   return buildPageMetadata({
     locale,
     pathname: `/blog/${slug}`,
     title,
     description,
-    type: "article",
+    type: 'article',
     images: post.coverImageUrl ? [post.coverImageUrl] : undefined,
   });
 }
@@ -173,8 +172,8 @@ export default async function BlogPostPage({ params }: PageProps) {
     getPublishedBlogPostBySlug(slug, locale),
     getPublishedBlogPostNeighbors(slug, locale),
   ]);
-  const t = await getTranslations({ locale, namespace: "blog" });
-  const nav = await getTranslations({ locale, namespace: "nav" });
+  const t = await getTranslations({ locale, namespace: 'blog' });
+  const nav = await getTranslations({ locale, namespace: 'nav' });
 
   if (!post) {
     notFound();
@@ -183,14 +182,13 @@ export default async function BlogPostPage({ params }: PageProps) {
   const date = coerceDate(post.publishedAt) ?? coerceDate(post.createdAt) ?? new Date();
   const updatedAt = coerceDate(post.updatedAt) ?? date;
   const formattedDate = new Intl.DateTimeFormat(locale, {
-    dateStyle: "long",
+    dateStyle: 'long',
   }).format(date);
   const metaTitle = post.seoTitle ?? getBlogPostMetaTitle(locale, post.title);
-  const description =
-    post.seoDescription ?? post.excerpt ?? t("meta.fallbackDescription");
+  const description = post.seoDescription ?? post.excerpt ?? t('meta.fallbackDescription');
   const breadcrumb = createBreadcrumbSchema(locale, [
-    { name: nav("home"), pathname: "/" },
-    { name: nav("blog"), pathname: "/blog" },
+    { name: nav('home'), pathname: '/' },
+    { name: nav('blog'), pathname: '/blog' },
     { name: post.title, pathname: `/blog/${slug}` },
   ]);
 
@@ -222,33 +220,34 @@ export default async function BlogPostPage({ params }: PageProps) {
           <div className="mx-auto max-w-3xl">
             <Link
               href="/blog"
-              className="text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground text-xs tracking-[0.2em] uppercase transition-colors"
             >
-              {t("back")}
+              {t('back')}
             </Link>
+            <div className="mt-5 max-w-xs">
+              <StoryCardLink href={`/story/blog/${post.slug}`} label={t('story.shareCard')} />
+            </div>
             <div className="mt-6 space-y-6">
               <div className="space-y-4">
-                <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                <div className="text-muted-foreground flex flex-wrap items-center gap-3 text-xs tracking-[0.2em] uppercase">
                   <span>{formattedDate}</span>
                   {post.tags.slice(0, 3).map((tag) => (
                     <span key={tag}>{tag}</span>
                   ))}
                 </div>
-                <h1 className="font-display text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+                <h1 className="font-display text-foreground text-4xl font-semibold tracking-tight sm:text-5xl">
                   {post.title}
                 </h1>
                 {post.excerpt ? (
-                  <p className="text-lg leading-8 text-muted-foreground">
-                    {post.excerpt}
-                  </p>
+                  <p className="text-muted-foreground text-lg leading-8">{post.excerpt}</p>
                 ) : null}
               </div>
 
               {post.coverImageUrl ? (
-                <figure className="overflow-hidden rounded-2xl border border-border/60 bg-card/80 shadow-sm">
+                <figure className="border-border/60 bg-card/80 overflow-hidden rounded-2xl border shadow-sm">
                   <img
                     src={post.coverImageUrl}
-                    alt={post.coverImageAlt ?? t("coverAlt", { title: post.title })}
+                    alt={post.coverImageAlt ?? t('coverAlt', { title: post.title })}
                     className="aspect-[16/9] w-full object-cover"
                   />
                 </figure>
@@ -267,39 +266,36 @@ export default async function BlogPostPage({ params }: PageProps) {
               <Markdown content={post.contentMarkdown} />
             </div>
 
-            <div className="mt-12 space-y-6 border-t border-border/70 pt-8">
-              <nav
-                className="grid gap-4 lg:grid-cols-2"
-                aria-label={t("articleNavigation.label")}
-              >
+            <div className="border-border/70 mt-12 space-y-6 border-t pt-8">
+              <nav className="grid gap-4 lg:grid-cols-2" aria-label={t('articleNavigation.label')}>
                 <ArticlePointer
                   direction="previous"
                   post={neighbors.previous}
-                  title={t("articleNavigation.previous")}
-                  placeholderTitle={t("articleNavigation.firstTitle")}
-                  placeholderDescription={t("articleNavigation.firstDescription")}
-                  placeholderImageLabel={t("articleNavigation.firstImageLabel")}
+                  title={t('articleNavigation.previous')}
+                  placeholderTitle={t('articleNavigation.firstTitle')}
+                  placeholderDescription={t('articleNavigation.firstDescription')}
+                  placeholderImageLabel={t('articleNavigation.firstImageLabel')}
                 />
                 <ArticlePointer
                   direction="next"
                   post={neighbors.next}
-                  title={t("articleNavigation.next")}
-                  placeholderTitle={t("articleNavigation.comingSoonTitle")}
-                  placeholderDescription={t("articleNavigation.comingSoonDescription")}
-                  placeholderImageLabel={t("articleNavigation.comingSoonImageLabel")}
+                  title={t('articleNavigation.next')}
+                  placeholderTitle={t('articleNavigation.comingSoonTitle')}
+                  placeholderDescription={t('articleNavigation.comingSoonDescription')}
+                  placeholderImageLabel={t('articleNavigation.comingSoonImageLabel')}
                 />
               </nav>
-              <div className="rounded-2xl border border-border/60 bg-card/80 p-6 shadow-sm sm:p-7">
+              <div className="border-border/60 bg-card/80 rounded-2xl border p-6 shadow-sm sm:p-7">
                 <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                      {t("newsletter.articleLabel")}
+                    <p className="text-muted-foreground text-xs tracking-[0.2em] uppercase">
+                      {t('newsletter.articleLabel')}
                     </p>
-                    <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-                      {t("newsletter.articleTitle")}
+                    <h2 className="font-display text-foreground mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+                      {t('newsletter.articleTitle')}
                     </h2>
-                    <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                      {t("newsletter.articleSubtitle")}
+                    <p className="text-muted-foreground mt-3 text-sm leading-6">
+                      {t('newsletter.articleSubtitle')}
                     </p>
                   </div>
                   <NewsletterSignupForm source="blog-post" variant="inline" />

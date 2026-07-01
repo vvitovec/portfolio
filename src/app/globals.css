@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@source not "../../output";
+@source not "../../outputs";
+@source not "../../.codex";
+@source not "../../.playwright-cli";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
