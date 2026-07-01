@@ -189,6 +189,9 @@ export default function ProjectEdit({ id }: ProjectEditProps) {
                 {t("actions.publish")}
               </Button>
             )}
+            <Button asChild variant="outline" size="sm">
+              <Link href={`/admin/story/project/${data.slug}`}>Story PNG</Link>
+            </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="ghost" size="sm">

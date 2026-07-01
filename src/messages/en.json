@@ -20,17 +20,12 @@
     "secondaryCta": "Contact"
   },
   "story": {
-    "share": "Share",
     "download": "PNG",
-    "copy": "Link",
-    "open": "Open",
-    "working": "Preparing the Story image.",
-    "shared": "Story image is ready in the share sheet and the link is copied for a Link sticker.",
-    "downloaded": "PNG downloaded and the link is ready for a Link sticker.",
-    "copied": "Link copied.",
-    "error": "Sharing failed. Try downloading the PNG.",
-    "metaTitle": "Instagram story - {title}",
-    "metaDescription": "Story preview for sharing portfolio content."
+    "working": "Preparing PNG.",
+    "downloaded": "PNG downloaded.",
+    "error": "Download failed. Try again.",
+    "metaTitle": "Story PNG - {title}",
+    "metaDescription": "Admin preview for downloading a story PNG."
   },
   "home": {
     "identity": {
@@ -111,9 +106,6 @@
       "consulting": "Consulting",
       "apps": "Apps"
     },
-    "story": {
-      "shareCard": "Share"
-    },
     "empty": "There are no published websites yet."
   },
   "blog": {
@@ -126,9 +118,6 @@
     "imageCredit": "Image source",
     "morePosts": "More posts",
     "talkCta": "Talk to me",
-    "story": {
-      "shareCard": "Share"
-    },
     "articleNavigation": {
       "label": "Article navigation",
       "previous": "Previous article",
@@ -178,9 +167,6 @@
     "subtitle": "Selected case studies are being added.",
     "view": "View project",
     "coverAlt": "Cover image for {title}",
-    "story": {
-      "shareCard": "Share"
-    },
     "caseStudyTitle": "Case study",
     "caseStudySummary": "Structured overview of the challenge, solution, and results.",
     "caseStudyEmpty": "Case study isn't filled in yet.",

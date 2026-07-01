@@ -10,7 +10,6 @@ import ProjectGallerySection from '@/components/sections/project/ProjectGalleryS
 import ProjectHeroSection from '@/components/sections/project/ProjectHeroSection';
 import ProjectHighlightsSection from '@/components/sections/project/ProjectHighlightsSection';
 import SectionReveal from '@/components/sections/project/SectionReveal';
-import StoryCardLink from '@/components/story/StoryCardLink';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { getPublishedProjectBySlug, getPublishedProjects } from '@/server/queries/projects';
@@ -200,9 +199,6 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               repoUrl={project.repoUrl}
               labels={heroLabels}
             />
-            <div className="max-w-xs">
-              <StoryCardLink href={`/story/project/${project.slug}`} label={t('story.shareCard')} />
-            </div>
             <ProjectHighlightsSection
               title={t('detail.highlightsTitle')}
               highlights={project.highlights}

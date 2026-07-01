@@ -7,7 +7,6 @@ import Markdown from '@/components/content/Markdown';
 import Container from '@/components/layout/Container';
 import NewsletterSignupForm from '@/components/newsletter/NewsletterSignupForm';
 import JsonLd from '@/components/seo/JsonLd';
-import StoryCardLink from '@/components/story/StoryCardLink';
 import { Badge } from '@/components/ui/badge';
 import { Link } from '@/i18n/navigation';
 import { routing, type Locale } from '@/i18n/routing';
@@ -224,9 +223,6 @@ export default async function BlogPostPage({ params }: PageProps) {
             >
               {t('back')}
             </Link>
-            <div className="mt-5 max-w-xs">
-              <StoryCardLink href={`/story/blog/${post.slug}`} label={t('story.shareCard')} />
-            </div>
             <div className="mt-6 space-y-6">
               <div className="space-y-4">
                 <div className="text-muted-foreground flex flex-wrap items-center gap-3 text-xs tracking-[0.2em] uppercase">

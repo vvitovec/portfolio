@@ -26,7 +26,7 @@ const WEBSITE_PREVIEW_IMAGES: Record<string, string> = {
   'https://www.solis.cz/': '/images/projects/solis/homepage.webp',
 };
 
-const getWebsitePreviewImageUrl = (url: string) => WEBSITE_PREVIEW_IMAGES[url] ?? null;
+export const getWebsitePreviewImageUrl = (url: string) => WEBSITE_PREVIEW_IMAGES[url] ?? null;
 
 const getPublishedWebsitesFetcher = async (): Promise<WebsiteView[]> => {
   try {

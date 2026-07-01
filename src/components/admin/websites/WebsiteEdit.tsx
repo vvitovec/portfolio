@@ -128,6 +128,9 @@ export default function WebsiteEdit({ id }: WebsiteEditProps) {
                 {t("actions.publish")}
               </Button>
             )}
+            <Button asChild variant="outline" size="sm">
+              <Link href={`/admin/story/website/${data.id}`}>Story PNG</Link>
+            </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="ghost" size="sm">

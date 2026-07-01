@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 import WebsiteCard from '@/components/websites/WebsiteCard';
-import { Link, usePathname, useRouter } from '@/i18n/navigation';
+import { usePathname, useRouter } from '@/i18n/navigation';
 import type { WebsiteView } from '@/server/queries/websites';
 
 interface ModalState {
@@ -170,12 +170,6 @@ export default function WebsitesShowcase({ websites, limit }: WebsitesShowcasePr
               <span className="truncate text-xs text-slate-300">{modal.site.url}</span>
             </div>
             <div className="ml-4 flex shrink-0 items-center gap-2">
-              <Link
-                href={`/story/website/${modal.site.id}`}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-white/25 bg-white/12 px-4 py-2 text-xs font-medium text-white transition-colors hover:border-white/35 hover:bg-white/20"
-              >
-                {t('story.shareCard')}
-              </Link>
               <a
                 href={modal.site.url}
                 target="_blank"
