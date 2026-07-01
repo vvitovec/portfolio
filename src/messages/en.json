@@ -5,6 +5,7 @@
     "projects": "Case Studies",
     "websites": "Websites",
     "blog": "Blog",
+    "community": "Community",
     "contact": "Contact",
     "admin": "Admin",
     "language": {
@@ -292,6 +293,51 @@
       "linkedin": "LinkedIn"
     }
   },
+  "comments": {
+    "label": "Comments",
+    "title": "Discussion",
+    "empty": "No comments yet.",
+    "anonymous": "Anonymous",
+    "adminBadge": "Admin",
+    "reply": "Reply",
+    "count": "{count, plural, =0 {0 comments} =1 {1 comment} other {# comments}}",
+    "form": {
+      "nameLabel": "Name (optional)",
+      "namePlaceholder": "Your name",
+      "bodyLabel": "Comment",
+      "bodyPlaceholder": "Write a comment...",
+      "replyPlaceholder": "Write a reply...",
+      "websiteLabel": "Website",
+      "helper": "Empty name appears as anonymous. Your name is saved only in this browser.",
+      "submit": "Post comment",
+      "submitReply": "Post reply",
+      "submitting": "Posting...",
+      "cancel": "Cancel",
+      "successVisible": "Comment published.",
+      "successReview": "Comment is waiting for review.",
+      "errorTooShort": "Comment is too short.",
+      "errorRateLimit": "Please wait a moment and try again.",
+      "errorBlocked": "Comment could not be posted.",
+      "errorGeneric": "Comment could not be posted."
+    }
+  },
+  "community": {
+    "label": "Community",
+    "title": "Community",
+    "subtitle": "All public comments from blog posts and projects in one chronological feed.",
+    "empty": "There are no active threads yet.",
+    "anonymous": "Anonymous",
+    "adminBadge": "Admin",
+    "count": "{count, plural, =1 {1 comment} other {# comments}}",
+    "source": {
+      "blog": "Blog",
+      "project": "Project"
+    },
+    "meta": {
+      "title": "Community | Viktor Vítovec",
+      "description": "Public discussion across portfolio blog posts and projects."
+    }
+  },
   "admin": {
     "label": "Admin",
     "note": "Admin area will be added soon.",
@@ -321,6 +367,10 @@
         "newsletter": {
           "title": "Newsletter",
           "description": "Subscribers, delivery history, and weekly blog sends."
+        },
+        "comments": {
+          "title": "Comments",
+          "description": "Moderate discussion, replies, and IP blocks."
         }
       }
     },
@@ -328,6 +378,66 @@
       "title": "Access denied",
       "subtitle": "This account does not have admin access.",
       "action": "Back to site"
+    },
+    "comments": {
+      "title": "Comments",
+      "subtitle": "Manage public discussion, captured comments, and IP blocks.",
+      "loading": "Loading comments...",
+      "empty": "No comments match this filter.",
+      "anonymous": "Anonymous",
+      "adminBadge": "Admin",
+      "ipHash": "IP hash",
+      "filters": {
+        "all": "All statuses",
+        "search": "Search comments, threads, or moderation reasons"
+      },
+      "columns": {
+        "comment": "Comment",
+        "thread": "Thread",
+        "status": "Status",
+        "moderation": "Moderation",
+        "actions": "Actions"
+      },
+      "status": {
+        "VISIBLE": "Visible",
+        "PENDING_REVIEW": "Pending review",
+        "BLOCKED": "Blocked",
+        "HIDDEN": "Hidden",
+        "DELETED": "Deleted"
+      },
+      "actions": {
+        "restore": "Restore",
+        "hide": "Hide",
+        "softDelete": "Delete",
+        "hardDelete": "Hard delete",
+        "reply": "Reply",
+        "blockIp": "Block IP"
+      },
+      "reply": {
+        "placeholder": "Admin reply...",
+        "submit": "Post reply",
+        "cancel": "Cancel"
+      },
+      "blockReason": {
+        "title": "IP block reason",
+        "subtitle": "Used when clicking Block IP on a specific comment.",
+        "placeholder": "Spam, attack, repeated abuse..."
+      },
+      "blocks": {
+        "title": "IP blocks",
+        "empty": "No IP blocks.",
+        "active": "Active",
+        "inactive": "Inactive",
+        "unblock": "Unblock"
+      },
+      "toast": {
+        "updated": "Comment updated.",
+        "deleted": "Comment removed.",
+        "replied": "Reply posted.",
+        "blocked": "IP hash blocked.",
+        "unblocked": "IP hash unblocked.",
+        "error": "Something went wrong."
+      }
     },
     "projects": {
       "title": "Projects",

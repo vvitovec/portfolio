@@ -3,11 +3,13 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
+import CommentsSection from '@/components/comments/CommentsSection';
 import Markdown from '@/components/content/Markdown';
 import Container from '@/components/layout/Container';
 import NewsletterSignupForm from '@/components/newsletter/NewsletterSignupForm';
 import JsonLd from '@/components/seo/JsonLd';
 import { Badge } from '@/components/ui/badge';
+import { CommentTargetType } from '@/generated/prisma';
 import { Link } from '@/i18n/navigation';
 import { routing, type Locale } from '@/i18n/routing';
 import { buildPageMetadata } from '@/lib/seo';
@@ -297,6 +299,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                   <NewsletterSignupForm source="blog-post" variant="inline" />
                 </div>
               </div>
+              <CommentsSection targetType={CommentTargetType.BLOG_POST} targetSlug={post.slug} />
             </div>
           </div>
         </Container>

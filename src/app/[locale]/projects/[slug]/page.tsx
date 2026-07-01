@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
+import CommentsSection from '@/components/comments/CommentsSection';
 import Container from '@/components/layout/Container';
 import JsonLd from '@/components/seo/JsonLd';
 import CaseStudyBlocks from '@/components/sections/project/CaseStudyBlocks';
@@ -12,6 +13,7 @@ import ProjectHighlightsSection from '@/components/sections/project/ProjectHighl
 import SectionReveal from '@/components/sections/project/SectionReveal';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { CommentTargetType } from '@/generated/prisma';
 import { getPublishedProjectBySlug, getPublishedProjects } from '@/server/queries/projects';
 import { routing, type Locale } from '@/i18n/routing';
 import { Link } from '@/i18n/navigation';
@@ -231,6 +233,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               images={project.galleryImageUrls}
               blurDataURL={blurDataURL}
             />
+            <CommentsSection targetType={CommentTargetType.PROJECT} targetSlug={project.slug} />
           </div>
         </Container>
       </section>

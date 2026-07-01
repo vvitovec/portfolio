@@ -238,12 +238,59 @@ exports.Prisma.NewsletterEmailEventScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CommunityThreadScalarFieldEnum = {
+  id: 'id',
+  targetType: 'targetType',
+  targetSlug: 'targetSlug',
+  blogPostId: 'blogPostId',
+  projectId: 'projectId',
+  title: 'title',
+  lastCommentAt: 'lastCommentAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CommentScalarFieldEnum = {
+  id: 'id',
+  threadId: 'threadId',
+  parentId: 'parentId',
+  authorName: 'authorName',
+  body: 'body',
+  isAdmin: 'isAdmin',
+  status: 'status',
+  moderationStatus: 'moderationStatus',
+  moderationSource: 'moderationSource',
+  moderationReason: 'moderationReason',
+  moderationCategories: 'moderationCategories',
+  moderationCheckedAt: 'moderationCheckedAt',
+  ipHash: 'ipHash',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.CommentIpBlockScalarFieldEnum = {
+  id: 'id',
+  ipHash: 'ipHash',
+  reason: 'reason',
+  active: 'active',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
 };
 
 exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
 };
 
@@ -304,6 +351,26 @@ exports.NewsletterEmailStatus = exports.$Enums.NewsletterEmailStatus = {
   FAILED: 'FAILED'
 };
 
+exports.CommentTargetType = exports.$Enums.CommentTargetType = {
+  BLOG_POST: 'BLOG_POST',
+  PROJECT: 'PROJECT'
+};
+
+exports.CommentStatus = exports.$Enums.CommentStatus = {
+  VISIBLE: 'VISIBLE',
+  PENDING_REVIEW: 'PENDING_REVIEW',
+  BLOCKED: 'BLOCKED',
+  HIDDEN: 'HIDDEN',
+  DELETED: 'DELETED'
+};
+
+exports.CommentModerationStatus = exports.$Enums.CommentModerationStatus = {
+  PASSED: 'PASSED',
+  FLAGGED: 'FLAGGED',
+  BLOCKED: 'BLOCKED',
+  UNCHECKED: 'UNCHECKED'
+};
+
 exports.Prisma.ModelName = {
   Project: 'Project',
   ProjectTranslation: 'ProjectTranslation',
@@ -312,7 +379,10 @@ exports.Prisma.ModelName = {
   BlogPostTranslation: 'BlogPostTranslation',
   NewsletterSubscriber: 'NewsletterSubscriber',
   NewsletterPostSend: 'NewsletterPostSend',
-  NewsletterEmailEvent: 'NewsletterEmailEvent'
+  NewsletterEmailEvent: 'NewsletterEmailEvent',
+  CommunityThread: 'CommunityThread',
+  Comment: 'Comment',
+  CommentIpBlock: 'CommentIpBlock'
 };
 
 /**

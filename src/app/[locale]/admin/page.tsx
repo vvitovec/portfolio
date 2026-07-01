@@ -1,12 +1,12 @@
-import { redirect } from "next/navigation";
-import { getTranslations } from "next-intl/server";
-import { FolderKanban, Globe, Mail, NotebookText } from "lucide-react";
+import { redirect } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
+import { FolderKanban, Globe, Mail, MessageCircle, NotebookText } from 'lucide-react';
 
-import { SignOutButton } from "@/components/admin/AdminAuthButtons";
-import { Link } from "@/i18n/navigation";
-import Container from "@/components/layout/Container";
-import { getServerAuthSession } from "@/server/auth";
-import { routing, type Locale } from "@/i18n/routing";
+import { SignOutButton } from '@/components/admin/AdminAuthButtons';
+import { Link } from '@/i18n/navigation';
+import Container from '@/components/layout/Container';
+import { getServerAuthSession } from '@/server/auth';
+import { routing, type Locale } from '@/i18n/routing';
 
 type PageProps = {
   params: Promise<{ locale: string }>;
@@ -28,80 +28,92 @@ export default async function AdminPage({ params }: PageProps) {
     redirect(`/${locale}/admin/forbidden`);
   }
 
-  const t = await getTranslations({ locale, namespace: "admin" });
+  const t = await getTranslations({ locale, namespace: 'admin' });
 
   return (
     <section className="py-20 sm:py-28">
       <Container>
-        <div className="max-w-4xl space-y-6 rounded-2xl border border-border bg-card/80 p-8">
+        <div className="border-border bg-card/80 max-w-4xl space-y-6 rounded-2xl border p-8">
           <div className="space-y-3">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              {t("label")}
-            </p>
-            <h1 className="font-display text-3xl font-semibold text-foreground">
-              {t("dashboard.title")}
+            <p className="text-muted-foreground text-xs tracking-[0.2em] uppercase">{t('label')}</p>
+            <h1 className="font-display text-foreground text-3xl font-semibold">
+              {t('dashboard.title')}
             </h1>
-            <p className="text-muted-foreground">{t("dashboard.subtitle")}</p>
+            <p className="text-muted-foreground">{t('dashboard.subtitle')}</p>
           </div>
-          <div className="grid gap-4 md:grid-cols-4">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
             <Link
               href="/admin/projects"
-              className="rounded-2xl border border-border/60 bg-background/70 p-6 transition-colors hover:border-foreground/20 hover:bg-muted/30"
+              className="border-border/60 bg-background/70 hover:border-foreground/20 hover:bg-muted/30 rounded-2xl border p-6 transition-colors"
             >
-              <div className="mb-4 inline-flex rounded-full border border-border/60 p-3 text-foreground">
+              <div className="border-border/60 text-foreground mb-4 inline-flex rounded-full border p-3">
                 <FolderKanban className="h-5 w-5" />
               </div>
-              <h2 className="font-display text-2xl font-semibold text-foreground">
-                {t("dashboard.sections.projects.title")}
+              <h2 className="font-display text-foreground text-2xl font-semibold">
+                {t('dashboard.sections.projects.title')}
               </h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {t("dashboard.sections.projects.description")}
+              <p className="text-muted-foreground mt-2 text-sm">
+                {t('dashboard.sections.projects.description')}
               </p>
             </Link>
             <Link
               href="/admin/websites"
-              className="rounded-2xl border border-border/60 bg-background/70 p-6 transition-colors hover:border-foreground/20 hover:bg-muted/30"
+              className="border-border/60 bg-background/70 hover:border-foreground/20 hover:bg-muted/30 rounded-2xl border p-6 transition-colors"
             >
-              <div className="mb-4 inline-flex rounded-full border border-border/60 p-3 text-foreground">
+              <div className="border-border/60 text-foreground mb-4 inline-flex rounded-full border p-3">
                 <Globe className="h-5 w-5" />
               </div>
-              <h2 className="font-display text-2xl font-semibold text-foreground">
-                {t("dashboard.sections.websites.title")}
+              <h2 className="font-display text-foreground text-2xl font-semibold">
+                {t('dashboard.sections.websites.title')}
               </h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {t("dashboard.sections.websites.description")}
+              <p className="text-muted-foreground mt-2 text-sm">
+                {t('dashboard.sections.websites.description')}
               </p>
             </Link>
             <Link
               href="/admin/blog"
-              className="rounded-2xl border border-border/60 bg-background/70 p-6 transition-colors hover:border-foreground/20 hover:bg-muted/30"
+              className="border-border/60 bg-background/70 hover:border-foreground/20 hover:bg-muted/30 rounded-2xl border p-6 transition-colors"
             >
-              <div className="mb-4 inline-flex rounded-full border border-border/60 p-3 text-foreground">
+              <div className="border-border/60 text-foreground mb-4 inline-flex rounded-full border p-3">
                 <NotebookText className="h-5 w-5" />
               </div>
-              <h2 className="font-display text-2xl font-semibold text-foreground">
-                {t("dashboard.sections.blog.title")}
+              <h2 className="font-display text-foreground text-2xl font-semibold">
+                {t('dashboard.sections.blog.title')}
               </h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {t("dashboard.sections.blog.description")}
+              <p className="text-muted-foreground mt-2 text-sm">
+                {t('dashboard.sections.blog.description')}
               </p>
             </Link>
             <Link
               href="/admin/newsletter"
-              className="rounded-2xl border border-border/60 bg-background/70 p-6 transition-colors hover:border-foreground/20 hover:bg-muted/30"
+              className="border-border/60 bg-background/70 hover:border-foreground/20 hover:bg-muted/30 rounded-2xl border p-6 transition-colors"
             >
-              <div className="mb-4 inline-flex rounded-full border border-border/60 p-3 text-foreground">
+              <div className="border-border/60 text-foreground mb-4 inline-flex rounded-full border p-3">
                 <Mail className="h-5 w-5" />
               </div>
-              <h2 className="font-display text-2xl font-semibold text-foreground">
-                {t("dashboard.sections.newsletter.title")}
+              <h2 className="font-display text-foreground text-2xl font-semibold">
+                {t('dashboard.sections.newsletter.title')}
               </h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {t("dashboard.sections.newsletter.description")}
+              <p className="text-muted-foreground mt-2 text-sm">
+                {t('dashboard.sections.newsletter.description')}
+              </p>
+            </Link>
+            <Link
+              href="/admin/comments"
+              className="border-border/60 bg-background/70 hover:border-foreground/20 hover:bg-muted/30 rounded-2xl border p-6 transition-colors"
+            >
+              <div className="border-border/60 text-foreground mb-4 inline-flex rounded-full border p-3">
+                <MessageCircle className="h-5 w-5" />
+              </div>
+              <h2 className="font-display text-foreground text-2xl font-semibold">
+                {t('dashboard.sections.comments.title')}
+              </h2>
+              <p className="text-muted-foreground mt-2 text-sm">
+                {t('dashboard.sections.comments.description')}
               </p>
             </Link>
           </div>
-          <SignOutButton label={t("dashboard.signOut")} />
+          <SignOutButton label={t('dashboard.signOut')} />
         </div>
       </Container>
     </section>

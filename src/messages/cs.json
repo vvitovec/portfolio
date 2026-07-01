@@ -5,6 +5,7 @@
     "projects": "Case Studies",
     "websites": "Weby",
     "blog": "Blog",
+    "community": "Komunita",
     "contact": "Kontakt",
     "admin": "Administrace",
     "language": {
@@ -292,6 +293,51 @@
       "linkedin": "LinkedIn"
     }
   },
+  "comments": {
+    "label": "Komentáře",
+    "title": "Diskuze",
+    "empty": "Zatím tu nejsou žádné komentáře.",
+    "anonymous": "Anonym",
+    "adminBadge": "Admin",
+    "reply": "Odpovědět",
+    "count": "{count, plural, =0 {0 komentářů} =1 {1 komentář} few {# komentáře} other {# komentářů}}",
+    "form": {
+      "nameLabel": "Jméno (volitelně)",
+      "namePlaceholder": "Vaše jméno",
+      "bodyLabel": "Komentář",
+      "bodyPlaceholder": "Napište komentář...",
+      "replyPlaceholder": "Napište odpověď...",
+      "websiteLabel": "Web",
+      "helper": "Nevyplněné jméno se zobrazí jako anonym. Jméno se uloží jen ve vašem prohlížeči.",
+      "submit": "Odeslat",
+      "submitReply": "Odeslat odpověď",
+      "submitting": "Odesílám...",
+      "cancel": "Zrušit",
+      "successVisible": "Komentář je zveřejněný.",
+      "successReview": "Komentář čeká na kontrolu.",
+      "errorTooShort": "Komentář je příliš krátký.",
+      "errorRateLimit": "Zkuste to prosím za chvíli znovu.",
+      "errorBlocked": "Komentář se nepodařilo odeslat.",
+      "errorGeneric": "Komentář se nepodařilo odeslat."
+    }
+  },
+  "community": {
+    "label": "Komunita",
+    "title": "Komunita",
+    "subtitle": "Všechny veřejné komentáře z blogů a projektů na jednom místě.",
+    "empty": "Zatím tu nejsou žádná aktivní vlákna.",
+    "anonymous": "Anonym",
+    "adminBadge": "Admin",
+    "count": "{count, plural, =1 {1 komentář} few {# komentáře} other {# komentářů}}",
+    "source": {
+      "blog": "Blog",
+      "project": "Projekt"
+    },
+    "meta": {
+      "title": "Komunita | Viktor Vítovec",
+      "description": "Veřejná diskuze napříč blogy a projekty portfolia."
+    }
+  },
   "admin": {
     "label": "Administrace",
     "note": "Administrace bude doplněna.",
@@ -321,6 +367,10 @@
         "newsletter": {
           "title": "Newsletter",
           "description": "Odběratelé, historie doručení a týdenní rozesílky blogu."
+        },
+        "comments": {
+          "title": "Komentáře",
+          "description": "Moderace diskuze, odpovědi a IP blokace."
         }
       }
     },
@@ -328,6 +378,66 @@
       "title": "Přístup odepřen",
       "subtitle": "Tento účet nemá oprávnění k administraci.",
       "action": "Zpět na web"
+    },
+    "comments": {
+      "title": "Komentáře",
+      "subtitle": "Správa veřejné diskuze, zachycených komentářů a IP blokací.",
+      "loading": "Načítám komentáře...",
+      "empty": "Žádné komentáře neodpovídají filtru.",
+      "anonymous": "Anonym",
+      "adminBadge": "Admin",
+      "ipHash": "IP hash",
+      "filters": {
+        "all": "Všechny stavy",
+        "search": "Hledat v komentářích, vláknech nebo důvodech moderace"
+      },
+      "columns": {
+        "comment": "Komentář",
+        "thread": "Vlákno",
+        "status": "Status",
+        "moderation": "Moderace",
+        "actions": "Akce"
+      },
+      "status": {
+        "VISIBLE": "Veřejný",
+        "PENDING_REVIEW": "Čeká na kontrolu",
+        "BLOCKED": "Blokovaný",
+        "HIDDEN": "Skrytý",
+        "DELETED": "Smazaný"
+      },
+      "actions": {
+        "restore": "Obnovit",
+        "hide": "Skrýt",
+        "softDelete": "Smazat",
+        "hardDelete": "Hard delete",
+        "reply": "Odpovědět",
+        "blockIp": "Blokovat IP"
+      },
+      "reply": {
+        "placeholder": "Admin odpověď...",
+        "submit": "Odeslat odpověď",
+        "cancel": "Zrušit"
+      },
+      "blockReason": {
+        "title": "Důvod IP blokace",
+        "subtitle": "Použije se při kliknutí na Blokovat IP u konkrétního komentáře.",
+        "placeholder": "Spam, útok, opakované porušení..."
+      },
+      "blocks": {
+        "title": "IP blokace",
+        "empty": "Žádné IP blokace.",
+        "active": "Aktivní",
+        "inactive": "Neaktivní",
+        "unblock": "Odblokovat"
+      },
+      "toast": {
+        "updated": "Komentář aktualizován.",
+        "deleted": "Komentář odstraněn.",
+        "replied": "Odpověď odeslána.",
+        "blocked": "IP hash zablokován.",
+        "unblocked": "IP hash odblokován.",
+        "error": "Něco se pokazilo."
+      }
     },
     "projects": {
       "title": "Projekty",
