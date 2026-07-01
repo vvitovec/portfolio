@@ -13,6 +13,7 @@
 # testing
 /coverage
 /.playwright-cli
+/output/
 
 # next.js
 /.next/
@@ -37,6 +38,9 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# local agent workspaces
+/.codex/
 
 # typescript
 *.tsbuildinfo
