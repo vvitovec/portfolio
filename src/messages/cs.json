@@ -78,8 +78,8 @@
       "cta": "Zobrazit všechny weby"
     },
     "blogSection": {
-      "title": "Poslední poznámky",
-      "subtitle": "Krátké texty o AI, automatizaci, vývoji a tom, jak dělat práci méně zbytečně složitou.",
+      "title": "Z blogu",
+      "subtitle": "Občas píšu o tom, co stavím, zkouším a co mi při práci dává smysl.",
       "cta": "Číst blog"
     },
     "cta": {
@@ -112,7 +112,7 @@
   "blog": {
     "label": "Blog",
     "title": "Blog",
-    "subtitle": "Poznámky z vývoje",
+    "subtitle": "Texty o tom, co stavím, zkouším a učím se v praxi.",
     "empty": "Zatím není publikovaný žádný článek.",
     "back": "Zpět na blog",
     "coverAlt": "Ilustrace pro {title}",
