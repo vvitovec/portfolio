@@ -58,8 +58,8 @@ export default function Header() {
         </div>
       </Container>
       <div className="border-border/60 border-t sm:hidden">
-        <nav aria-label="Mobile navigation">
-          <Container className="text-muted-foreground flex items-center gap-5 overflow-x-auto py-3 text-xs">
+        <nav aria-label="Mobile navigation" className="overflow-x-auto">
+          <div className="text-muted-foreground mx-auto flex w-max min-w-full items-center justify-center gap-5 px-6 py-3 text-xs">
             <Link
               href="/"
               className="hover:text-foreground transition-colors motion-safe:transition-colors motion-safe:duration-200 motion-reduce:transition-none"
@@ -90,7 +90,7 @@ export default function Header() {
             >
               {t('contact')}
             </Link>
-          </Container>
+          </div>
         </nav>
       </div>
     </header>
