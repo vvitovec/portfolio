@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState, type FormEvent } from 'react';
+import { useMemo, useState, type FormEvent } from 'react';
 import { MessageCircle, Reply } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -22,6 +22,14 @@ type CommentsTranslator = ReturnType<typeof useTranslations>;
 
 const AUTHOR_NAME_STORAGE_KEY = 'portfolio.commentAuthorName';
 
+function getStoredAuthorName() {
+  if (typeof window === 'undefined') {
+    return '';
+  }
+
+  return localStorage.getItem(AUTHOR_NAME_STORAGE_KEY) ?? '';
+}
+
 function formatDate(locale: string, value: Date | string) {
   return new Intl.DateTimeFormat(locale, {
     dateStyle: 'medium',
@@ -36,17 +44,13 @@ export default function CommentsClient({
 }: CommentsClientProps) {
   const t = useTranslations('comments');
   const locale = useLocale();
-  const [authorName, setAuthorName] = useState('');
+  const [authorName, setAuthorName] = useState(getStoredAuthorName);
   const [body, setBody] = useState('');
   const [website, setWebsite] = useState('');
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [replyBody, setReplyBody] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    setAuthorName(localStorage.getItem(AUTHOR_NAME_STORAGE_KEY) ?? '');
-  }, []);
 
   const commentCount = useMemo(() => countComments(initialComments), [initialComments]);
 
