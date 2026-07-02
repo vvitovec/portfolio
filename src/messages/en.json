@@ -79,7 +79,7 @@
     },
     "blogSection": {
       "title": "Latest notes",
-      "subtitle": "Short thoughts about AI, automation, building things, and making work less wasteful.",
+      "subtitle": "A new article every Monday about the tech world and things I’m working on.",
       "cta": "Read the blog"
     },
     "cta": {
@@ -112,7 +112,7 @@
   "blog": {
     "label": "Blog",
     "title": "Blog",
-    "subtitle": "Notes from building",
+    "subtitle": "Every Monday I publish a new article about the tech world, my own projects, and the things I’m currently trying, building, or figuring out.",
     "empty": "No posts are published yet.",
     "back": "Back to blog",
     "coverAlt": "Illustration for {title}",

@@ -79,7 +79,7 @@
     },
     "blogSection": {
       "title": "Z blogu",
-      "subtitle": "Občas píšu o tom, co stavím, zkouším a co mi při práci dává smysl.",
+      "subtitle": "Každé pondělí píšu nový článek o IT světě a věcech, na kterých zrovna pracuju.",
       "cta": "Číst blog"
     },
     "cta": {
@@ -112,7 +112,7 @@
   "blog": {
     "label": "Blog",
     "title": "Blog",
-    "subtitle": "Texty o tom, co stavím, zkouším a učím se v praxi.",
+    "subtitle": "Každé pondělí tu vychází nový článek o IT světě, vlastních projektech a věcech, které zrovna zkouším nebo řeším v praxi.",
     "empty": "Zatím není publikovaný žádný článek.",
     "back": "Zpět na blog",
     "coverAlt": "Ilustrace pro {title}",
