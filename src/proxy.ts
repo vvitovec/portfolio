@@ -8,6 +8,7 @@ const intlMiddleware = createMiddleware(routing);
 
 const adminRoutePattern = /^\/(cs|en)\/admin(\/|$)/;
 const adminLoginPattern = /^\/(cs|en)\/admin\/login(\/|$)/;
+const blogShortlinkPattern = /^\/(\d{4})$/;
 const localhostPattern = /^(localhost|127\.0\.0\.1)$/i;
 const CANONICAL_HOST =
   process.env.NEXT_PUBLIC_CANONICAL_HOST ?? "www.vvitovec.com";
@@ -51,6 +52,13 @@ export default async function middleware(request: NextRequest) {
   }
 
   const { pathname } = request.nextUrl;
+
+  const blogShortlinkMatch = pathname.match(blogShortlinkPattern);
+  if (blogShortlinkMatch) {
+    const rewriteUrl = request.nextUrl.clone();
+    rewriteUrl.pathname = `/api/internal/blog-shortlink/${blogShortlinkMatch[1]}`;
+    return NextResponse.rewrite(rewriteUrl);
+  }
 
   if (pathname.startsWith("/api/admin")) {
     const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });

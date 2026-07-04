@@ -31,15 +31,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  async redirects() {
-    return [
-      {
-        source: '/server',
-        destination: '/en/blog/old-gaming-pc-linux-server',
-        permanent: true,
-      },
-    ];
-  },
   turbopack: {
     root: process.cwd(),
   },
