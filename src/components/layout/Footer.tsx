@@ -59,7 +59,7 @@ export default function Footer() {
             <a
               href="https://github.com/vvitovec"
               target="_blank"
-              rel="me noreferrer"
+              rel="me noopener noreferrer"
               className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
             >
               {footer("social.github")}
@@ -67,7 +67,7 @@ export default function Footer() {
             <a
               href="https://www.instagram.com/vitonovate"
               target="_blank"
-              rel="me noreferrer"
+              rel="me noopener noreferrer"
               className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
             >
               {footer("social.instagram")}
@@ -75,7 +75,7 @@ export default function Footer() {
             <a
               href="https://www.linkedin.com/in/viktor-v%C3%ADtovec-15079a378/"
               target="_blank"
-              rel="me noreferrer"
+              rel="me noopener noreferrer"
               className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
             >
               {footer("social.linkedin")}
@@ -83,7 +83,7 @@ export default function Footer() {
             <a
               href="https://dev.to/vvitovec"
               target="_blank"
-              rel="me noreferrer"
+              rel="me noopener noreferrer"
               className="transition-colors motion-safe:duration-200 motion-safe:transition-colors motion-reduce:transition-none hover:text-foreground"
             >
               {footer("social.devto")}
