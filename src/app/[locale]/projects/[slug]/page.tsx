@@ -13,8 +13,14 @@ import ProjectHighlightsSection from '@/components/sections/project/ProjectHighl
 import SectionReveal from '@/components/sections/project/SectionReveal';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { CommentTargetType } from '@/generated/prisma';
-import { getPublishedProjectBySlug, getPublishedProjects } from '@/server/queries/projects';
+import { CommentTargetType, ProjectStatus } from '@/generated/prisma';
+import { getServerAuthSession } from '@/server/auth';
+import {
+  type ProjectView,
+  getProjectBySlugForAdmin,
+  getPublishedProjectBySlug,
+  getPublishedProjects,
+} from '@/server/queries/projects';
 import { routing, type Locale } from '@/i18n/routing';
 import { Link } from '@/i18n/navigation';
 import { getBlurDataURL } from '@/lib/image-placeholder';
@@ -26,6 +32,7 @@ import {
 } from '@/lib/structured-data';
 import type { CaseStudyBlock } from '@/types/case-study';
 
+export const dynamic = 'force-dynamic';
 export const revalidate = 300;
 
 type PageProps = {
@@ -51,6 +58,28 @@ const getProjectMetaTitle = (locale: Locale, projectTitle: string): string => {
   }
 
   return `${projectTitle} | Project by Viktor Vítovec`;
+};
+
+const getVisibleProject = async (
+  slug: string,
+  locale: Locale,
+): Promise<{ project: ProjectView | null; isAdminPreview: boolean }> => {
+  const publishedProject = await getPublishedProjectBySlug(slug, locale);
+
+  if (publishedProject) {
+    return { project: publishedProject, isAdminPreview: false };
+  }
+
+  const session = await getServerAuthSession();
+  if (!session?.user?.isAdmin) {
+    return { project: null, isAdminPreview: false };
+  }
+
+  const adminProject = await getProjectBySlugForAdmin(slug, locale);
+  return {
+    project: adminProject,
+    isAdminPreview: Boolean(adminProject && adminProject.status !== ProjectStatus.PUBLISHED),
+  };
 };
 
 export async function generateStaticParams() {
@@ -100,7 +129,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
     ? (rawLocale as Locale)
     : routing.defaultLocale;
 
-  const project = await getPublishedProjectBySlug(slug, locale);
+  const { project, isAdminPreview } = await getVisibleProject(slug, locale);
   const t = await getTranslations({ locale, namespace: 'projects' });
   const nav = await getTranslations({ locale, namespace: 'nav' });
 
@@ -188,6 +217,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       <section className="py-20 sm:py-28">
         <Container>
           <div className="space-y-16">
+            {isAdminPreview ? (
+              <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+                {t('adminPreview')}
+              </div>
+            ) : null}
             <ProjectHeroSection
               title={project.title}
               tagline={project.tagline}

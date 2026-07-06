@@ -9,10 +9,11 @@ import Container from '@/components/layout/Container';
 import NewsletterSignupForm from '@/components/newsletter/NewsletterSignupForm';
 import JsonLd from '@/components/seo/JsonLd';
 import { Badge } from '@/components/ui/badge';
-import { CommentTargetType } from '@/generated/prisma';
+import { BlogPostStatus, CommentTargetType } from '@/generated/prisma';
 import { Link } from '@/i18n/navigation';
 import { routing, type Locale } from '@/i18n/routing';
 import { buildPageMetadata } from '@/lib/seo';
+import { getServerAuthSession } from '@/server/auth';
 import {
   createBlogPostingSchema,
   createBreadcrumbSchema,
@@ -20,11 +21,13 @@ import {
 } from '@/lib/structured-data';
 import {
   type BlogPostView,
+  getBlogPostBySlugForAdmin,
   getPublishedBlogPostBySlug,
   getPublishedBlogPostNeighbors,
   getPublishedBlogPosts,
 } from '@/server/queries/blog';
 
+export const dynamic = 'force-dynamic';
 export const revalidate = 300;
 
 type PageProps = {
@@ -46,6 +49,28 @@ const coerceDate = (value: Date | string | null | undefined): Date | null => {
 
   const date = value instanceof Date ? value : new Date(value);
   return Number.isNaN(date.getTime()) ? null : date;
+};
+
+const getVisibleBlogPost = async (
+  slug: string,
+  locale: Locale,
+): Promise<{ post: BlogPostView | null; isAdminPreview: boolean }> => {
+  const publishedPost = await getPublishedBlogPostBySlug(slug, locale);
+
+  if (publishedPost) {
+    return { post: publishedPost, isAdminPreview: false };
+  }
+
+  const session = await getServerAuthSession();
+  if (!session?.user?.isAdmin) {
+    return { post: null, isAdminPreview: false };
+  }
+
+  const adminPost = await getBlogPostBySlugForAdmin(slug, locale);
+  return {
+    post: adminPost,
+    isAdminPreview: Boolean(adminPost && adminPost.status !== BlogPostStatus.PUBLISHED),
+  };
 };
 
 export async function generateStaticParams() {
@@ -169,8 +194,8 @@ export default async function BlogPostPage({ params }: PageProps) {
   const locale = routing.locales.includes(rawLocale as Locale)
     ? (rawLocale as Locale)
     : routing.defaultLocale;
-  const [post, neighbors] = await Promise.all([
-    getPublishedBlogPostBySlug(slug, locale),
+  const [{ post, isAdminPreview }, neighbors] = await Promise.all([
+    getVisibleBlogPost(slug, locale),
     getPublishedBlogPostNeighbors(slug, locale),
   ]);
   const t = await getTranslations({ locale, namespace: 'blog' });
@@ -225,6 +250,11 @@ export default async function BlogPostPage({ params }: PageProps) {
             >
               {t('back')}
             </Link>
+            {isAdminPreview ? (
+              <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+                {t('adminPreview')}
+              </div>
+            ) : null}
             <div className="mt-6 space-y-6">
               <div className="space-y-4">
                 <div className="text-muted-foreground flex flex-wrap items-center gap-3 text-xs tracking-[0.2em] uppercase">

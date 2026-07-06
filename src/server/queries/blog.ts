@@ -1,18 +1,19 @@
-import "server-only";
+import 'server-only';
 
-import { unstable_cache, unstable_noStore } from "next/cache";
+import { unstable_cache, unstable_noStore } from 'next/cache';
 
-import { BlogPostStatus, type Locale } from "@/generated/prisma";
-import { normalizeHttpUrl, normalizeSafePublicImageUrl } from "@/lib/url-safety";
-import { db } from "@/server/db";
+import { BlogPostStatus, type Locale } from '@/generated/prisma';
+import { normalizeHttpUrl, normalizeSafePublicImageUrl } from '@/lib/url-safety';
+import { db } from '@/server/db';
 import {
   isDatabaseUnavailableError,
   logPublicQueryFallback,
-} from "@/server/queries/public-query-error";
+} from '@/server/queries/public-query-error';
 
 export type BlogPostView = {
   id: string;
   slug: string;
+  status: BlogPostStatus;
   featured: boolean;
   tags: string[];
   coverImageUrl: string | null;
@@ -41,7 +42,7 @@ type BlogPostTranslationView = {
   coverImageCaption: string | null;
 };
 
-const fallbackOrder: Locale[] = ["cs", "en"];
+const fallbackOrder: Locale[] = ['cs', 'en'];
 const REVALIDATE_SECONDS = 300;
 
 function coerceDate(value: Date | string | null | undefined): Date | null {
@@ -75,6 +76,7 @@ function normalizeBlogPost(
   post: {
     id: string;
     slug: string;
+    status: BlogPostStatus;
     featured: boolean;
     tags: string[];
     coverImageUrl: string | null;
@@ -94,6 +96,7 @@ function normalizeBlogPost(
   return {
     id: post.id,
     slug: post.slug,
+    status: post.status,
     featured: post.featured,
     tags: post.tags,
     coverImageUrl: normalizeSafePublicImageUrl(post.coverImageUrl),
@@ -104,7 +107,7 @@ function normalizeBlogPost(
     publishedAt: coerceDate(post.publishedAt),
     title: translation?.title ?? post.slug,
     excerpt: translation?.excerpt ?? null,
-    contentMarkdown: translation?.contentMarkdown ?? "",
+    contentMarkdown: translation?.contentMarkdown ?? '',
     seoTitle: translation?.seoTitle ?? null,
     seoDescription: translation?.seoDescription ?? null,
     coverImageAlt: translation?.coverImageAlt ?? null,
@@ -112,22 +115,17 @@ function normalizeBlogPost(
   };
 }
 
-const getPublishedBlogPostsFetcher = async (
-  locale: Locale,
-): Promise<BlogPostView[]> => {
+const getPublishedBlogPostsFetcher = async (locale: Locale): Promise<BlogPostView[]> => {
   const locales = getLocaleFallbacks(locale);
 
   try {
     const posts = await db.blogPost.findMany({
       where: { status: BlogPostStatus.PUBLISHED },
-      orderBy: [
-        { featured: "desc" },
-        { publishedAt: "desc" },
-        { createdAt: "desc" },
-      ],
+      orderBy: [{ featured: 'desc' }, { publishedAt: 'desc' }, { createdAt: 'desc' }],
       select: {
         id: true,
         slug: true,
+        status: true,
         featured: true,
         tags: true,
         coverImageUrl: true,
@@ -157,7 +155,7 @@ const getPublishedBlogPostsFetcher = async (
       throw error;
     }
 
-    logPublicQueryFallback("Failed to load published blog posts", error);
+    logPublicQueryFallback('Failed to load published blog posts', error);
     return [];
   }
 };
@@ -174,6 +172,7 @@ const getPublishedBlogPostBySlugFetcher = async (
       select: {
         id: true,
         slug: true,
+        status: true,
         featured: true,
         tags: true,
         coverImageUrl: true,
@@ -222,10 +221,11 @@ const getPublishedBlogPostNeighborsFetcher = async (
   try {
     const posts = await db.blogPost.findMany({
       where: { status: BlogPostStatus.PUBLISHED },
-      orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
+      orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }],
       select: {
         id: true,
         slug: true,
+        status: true,
         featured: true,
         tags: true,
         coverImageUrl: true,
@@ -265,30 +265,65 @@ const getPublishedBlogPostNeighborsFetcher = async (
       throw error;
     }
 
-    logPublicQueryFallback(
-      `Failed to load published blog post neighbors for "${slug}"`,
-      error,
-    );
+    logPublicQueryFallback(`Failed to load published blog post neighbors for "${slug}"`, error);
     return { previous: null, next: null };
   }
 };
 
-export async function getPublishedBlogPosts(
+const getBlogPostBySlugForAdminFetcher = async (
+  slug: string,
   locale: Locale,
-): Promise<BlogPostView[]> {
-  if (process.env.NODE_ENV === "development") {
+): Promise<BlogPostView | null> => {
+  unstable_noStore();
+  const locales = getLocaleFallbacks(locale);
+
+  const post = await db.blogPost.findUnique({
+    where: { slug },
+    select: {
+      id: true,
+      slug: true,
+      status: true,
+      featured: true,
+      tags: true,
+      coverImageUrl: true,
+      coverImageCredit: true,
+      coverImageCreditUrl: true,
+      createdAt: true,
+      updatedAt: true,
+      publishedAt: true,
+      translations: {
+        where: { locale: { in: locales } },
+        select: {
+          locale: true,
+          title: true,
+          excerpt: true,
+          contentMarkdown: true,
+          seoTitle: true,
+          seoDescription: true,
+          coverImageAlt: true,
+          coverImageCaption: true,
+        },
+      },
+    },
+  });
+
+  if (!post) {
+    return null;
+  }
+
+  return normalizeBlogPost(post, locales);
+};
+
+export async function getPublishedBlogPosts(locale: Locale): Promise<BlogPostView[]> {
+  if (process.env.NODE_ENV === 'development') {
     unstable_noStore();
     return getPublishedBlogPostsFetcher(locale);
   }
 
-  const cached = unstable_cache(
-    getPublishedBlogPostsFetcher,
-    ["blog-posts", locale],
-    {
-      revalidate: REVALIDATE_SECONDS,
-      tags: ["blog-posts", `blog-posts:${locale}`],
-    },
-  );
+  const cached = unstable_cache(getPublishedBlogPostsFetcher, ['blog-posts', locale], {
+    revalidate: REVALIDATE_SECONDS,
+    tags: ['blog-posts', `blog-posts:${locale}`],
+  });
 
   return cached(locale);
 }
@@ -297,19 +332,15 @@ export async function getPublishedBlogPostBySlug(
   slug: string,
   locale: Locale,
 ): Promise<BlogPostView | null> {
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === 'development') {
     unstable_noStore();
     return getPublishedBlogPostBySlugFetcher(slug, locale);
   }
 
-  const cached = unstable_cache(
-    getPublishedBlogPostBySlugFetcher,
-    ["blog-post", slug, locale],
-    {
-      revalidate: REVALIDATE_SECONDS,
-      tags: ["blog-posts", `blog-post:${slug}`, `blog-post:${slug}:${locale}`],
-    },
-  );
+  const cached = unstable_cache(getPublishedBlogPostBySlugFetcher, ['blog-post', slug, locale], {
+    revalidate: REVALIDATE_SECONDS,
+    tags: ['blog-posts', `blog-post:${slug}`, `blog-post:${slug}:${locale}`],
+  });
 
   return cached(slug, locale);
 }
@@ -318,19 +349,26 @@ export async function getPublishedBlogPostNeighbors(
   slug: string,
   locale: Locale,
 ): Promise<{ previous: BlogPostView | null; next: BlogPostView | null }> {
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === 'development') {
     unstable_noStore();
     return getPublishedBlogPostNeighborsFetcher(slug, locale);
   }
 
   const cached = unstable_cache(
     getPublishedBlogPostNeighborsFetcher,
-    ["blog-post-neighbors", slug, locale],
+    ['blog-post-neighbors', slug, locale],
     {
       revalidate: REVALIDATE_SECONDS,
-      tags: ["blog-posts", `blog-post:${slug}`, `blog-post:${slug}:${locale}`],
+      tags: ['blog-posts', `blog-post:${slug}`, `blog-post:${slug}:${locale}`],
     },
   );
 
   return cached(slug, locale);
+}
+
+export async function getBlogPostBySlugForAdmin(
+  slug: string,
+  locale: Locale,
+): Promise<BlogPostView | null> {
+  return getBlogPostBySlugForAdminFetcher(slug, locale);
 }

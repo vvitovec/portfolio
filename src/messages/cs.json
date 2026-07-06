@@ -119,6 +119,7 @@
     "imageCredit": "Zdroj obrázku",
     "morePosts": "Další články",
     "talkCta": "Napsat mi",
+    "adminPreview": "Admin náhled: tento koncept vidí jen přihlášený admin.",
     "articleNavigation": {
       "label": "Navigace mezi články",
       "previous": "Předchozí článek",
@@ -168,6 +169,7 @@
     "subtitle": "Vybrané případové studie se doplňují.",
     "view": "Zobrazit projekt",
     "coverAlt": "Cover obrázek pro {title}",
+    "adminPreview": "Admin náhled: tento koncept case study vidí jen přihlášený admin.",
     "caseStudyTitle": "Případová studie",
     "caseStudySummary": "Strukturovaný přehled problému, řešení a výsledků.",
     "caseStudyEmpty": "Case study zatím není vyplněná.",
@@ -470,6 +472,7 @@
       },
       "actions": {
         "edit": "Upravit",
+        "preview": "Náhled",
         "publish": "Publikovat",
         "unpublish": "Zneveřejnit",
         "delete": "Smazat"
@@ -660,6 +663,7 @@
       },
       "actions": {
         "edit": "Upravit",
+        "preview": "Náhled",
         "publish": "Publikovat",
         "unpublish": "Zneveřejnit",
         "sendNewsletter": "Poslat newsletter",

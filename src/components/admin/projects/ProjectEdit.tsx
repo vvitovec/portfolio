@@ -190,6 +190,9 @@ export default function ProjectEdit({ id }: ProjectEditProps) {
               </Button>
             )}
             <Button asChild variant="outline" size="sm">
+              <Link href={`/projects/${data.slug}`}>{t("actions.preview")}</Link>
+            </Button>
+            <Button asChild variant="outline" size="sm">
               <Link href={`/admin/story/project/${data.slug}`}>Story PNG</Link>
             </Button>
             <AlertDialog>

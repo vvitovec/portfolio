@@ -119,6 +119,7 @@
     "imageCredit": "Image source",
     "morePosts": "More posts",
     "talkCta": "Talk to me",
+    "adminPreview": "Admin preview: this draft is visible only to signed-in admins.",
     "articleNavigation": {
       "label": "Article navigation",
       "previous": "Previous article",
@@ -168,6 +169,7 @@
     "subtitle": "Selected case studies are being added.",
     "view": "View project",
     "coverAlt": "Cover image for {title}",
+    "adminPreview": "Admin preview: this draft case study is visible only to signed-in admins.",
     "caseStudyTitle": "Case study",
     "caseStudySummary": "Structured overview of the challenge, solution, and results.",
     "caseStudyEmpty": "Case study isn't filled in yet.",
@@ -470,6 +472,7 @@
       },
       "actions": {
         "edit": "Edit",
+        "preview": "Preview",
         "publish": "Publish",
         "unpublish": "Unpublish",
         "delete": "Delete"
@@ -660,6 +663,7 @@
       },
       "actions": {
         "edit": "Edit",
+        "preview": "Preview",
         "publish": "Publish",
         "unpublish": "Unpublish",
         "sendNewsletter": "Send newsletter",

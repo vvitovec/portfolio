@@ -161,6 +161,9 @@ export default function BlogEdit({ id }: BlogEditProps) {
               </Button>
             )}
             <Button asChild variant="outline" size="sm">
+              <Link href={`/blog/${data.slug}`}>{t("actions.preview")}</Link>
+            </Button>
+            <Button asChild variant="outline" size="sm">
               <Link href={`/admin/story/blog/${data.slug}`}>Story PNG</Link>
             </Button>
             <AlertDialog>

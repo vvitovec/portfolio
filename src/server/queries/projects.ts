@@ -1,19 +1,20 @@
-import "server-only";
+import 'server-only';
 
-import { unstable_cache, unstable_noStore } from "next/cache";
+import { unstable_cache, unstable_noStore } from 'next/cache';
 
-import { type Locale, ProjectStatus } from "@/generated/prisma";
-import { normalizeHttpUrl, normalizeSafePublicImageUrl } from "@/lib/url-safety";
-import { db } from "@/server/db";
+import { type Locale, ProjectStatus } from '@/generated/prisma';
+import { normalizeHttpUrl, normalizeSafePublicImageUrl } from '@/lib/url-safety';
+import { db } from '@/server/db';
 import {
   isDatabaseUnavailableError,
   logPublicQueryFallback,
-} from "@/server/queries/public-query-error";
-import { CaseStudyBlocksSchema, type CaseStudyBlock } from "@/types/case-study";
+} from '@/server/queries/public-query-error';
+import { CaseStudyBlocksSchema, type CaseStudyBlock } from '@/types/case-study';
 
 export type ProjectView = {
   id: string;
   slug: string;
+  status: ProjectStatus;
   featured: boolean;
   year: number;
   coverImageUrl: string | null;
@@ -41,13 +42,10 @@ type ProjectTranslationView = {
   highlights?: string[];
 };
 
-const fallbackOrder: Locale[] = ["cs", "en"];
+const fallbackOrder: Locale[] = ['cs', 'en'];
 
-const resolveProjectYear = (
-  year: number | null,
-  publishedAt: Date | null,
-  createdAt: Date,
-) => year ?? publishedAt?.getFullYear() ?? createdAt.getFullYear();
+const resolveProjectYear = (year: number | null, publishedAt: Date | null, createdAt: Date) =>
+  year ?? publishedAt?.getFullYear() ?? createdAt.getFullYear();
 
 function getLocaleFallbacks(locale: Locale): Locale[] {
   return Array.from(new Set<Locale>([locale, ...fallbackOrder]));
@@ -70,6 +68,7 @@ function normalizeProject(
   project: {
     id: string;
     slug: string;
+    status: ProjectStatus;
     featured: boolean;
     year: number | null;
     coverImageUrl: string | null;
@@ -84,25 +83,22 @@ function normalizeProject(
   locales: Locale[],
 ): ProjectView {
   const translation = selectTranslation(project.translations, locales);
-  const caseStudyBlocksResult = CaseStudyBlocksSchema.safeParse(
-    translation?.caseStudyBlocks ?? [],
-  );
+  const caseStudyBlocksResult = CaseStudyBlocksSchema.safeParse(translation?.caseStudyBlocks ?? []);
 
   if (!caseStudyBlocksResult.success && translation) {
-    console.warn("Invalid caseStudyBlocks for project translation", {
+    console.warn('Invalid caseStudyBlocks for project translation', {
       projectId: project.id,
       slug: project.slug,
       locale: translation.locale,
     });
   }
 
-  const caseStudyBlocks = caseStudyBlocksResult.success
-    ? caseStudyBlocksResult.data
-    : [];
+  const caseStudyBlocks = caseStudyBlocksResult.success ? caseStudyBlocksResult.data : [];
 
   return {
     id: project.id,
     slug: project.slug,
+    status: project.status,
     featured: project.featured,
     year: resolveProjectYear(project.year, project.publishedAt, project.createdAt),
     coverImageUrl: normalizeSafePublicImageUrl(project.coverImageUrl),
@@ -125,23 +121,22 @@ function normalizeProject(
 
 const REVALIDATE_SECONDS = 300;
 
-const getPublishedProjectsFetcher = async (
-  locale: Locale,
-): Promise<ProjectView[]> => {
+const getPublishedProjectsFetcher = async (locale: Locale): Promise<ProjectView[]> => {
   const locales = getLocaleFallbacks(locale);
 
   try {
     const projects = await db.project.findMany({
       where: { status: ProjectStatus.PUBLISHED },
       orderBy: [
-        { featured: "desc" },
-        { year: "desc" },
-        { publishedAt: "desc" },
-        { createdAt: "desc" },
+        { featured: 'desc' },
+        { year: 'desc' },
+        { publishedAt: 'desc' },
+        { createdAt: 'desc' },
       ],
       select: {
         id: true,
         slug: true,
+        status: true,
         featured: true,
         year: true,
         coverImageUrl: true,
@@ -166,7 +161,7 @@ const getPublishedProjectsFetcher = async (
       throw error;
     }
 
-    logPublicQueryFallback("Failed to load published projects", error);
+    logPublicQueryFallback('Failed to load published projects', error);
     return [];
   }
 };
@@ -183,6 +178,7 @@ const getPublishedProjectBySlugFetcher = async (
       select: {
         id: true,
         slug: true,
+        status: true,
         featured: true,
         year: true,
         coverImageUrl: true,
@@ -223,20 +219,61 @@ const getPublishedProjectBySlugFetcher = async (
   }
 };
 
+const getProjectBySlugForAdminFetcher = async (
+  slug: string,
+  locale: Locale,
+): Promise<ProjectView | null> => {
+  unstable_noStore();
+  const locales = getLocaleFallbacks(locale);
+
+  const project = await db.project.findUnique({
+    where: { slug },
+    select: {
+      id: true,
+      slug: true,
+      status: true,
+      featured: true,
+      year: true,
+      coverImageUrl: true,
+      galleryImageUrls: true,
+      liveUrl: true,
+      repoUrl: true,
+      techStack: true,
+      createdAt: true,
+      publishedAt: true,
+      translations: {
+        where: { locale: { in: locales } },
+        select: {
+          locale: true,
+          title: true,
+          tagline: true,
+          descriptionShort: true,
+          descriptionLong: true,
+          caseStudyBlocks: true,
+          role: true,
+          highlights: true,
+        },
+      },
+    },
+  });
+
+  if (!project) {
+    return null;
+  }
+
+  return normalizeProject(project, locales);
+};
+
 export async function getPublishedProjects(locale: Locale): Promise<ProjectView[]> {
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === 'development') {
     unstable_noStore();
     return getPublishedProjectsFetcher(locale);
   }
 
-  const cached = unstable_cache(
-    getPublishedProjectsFetcher,
-    ["projects", locale],
-    {
-      revalidate: REVALIDATE_SECONDS,
-      tags: ["projects", `projects:${locale}`],
-    },
-  );
+  const cached = unstable_cache(getPublishedProjectsFetcher, ['projects', locale], {
+    revalidate: REVALIDATE_SECONDS,
+    tags: ['projects', `projects:${locale}`],
+  });
 
   return cached(locale);
 }
@@ -245,19 +282,22 @@ export async function getPublishedProjectBySlug(
   slug: string,
   locale: Locale,
 ): Promise<ProjectView | null> {
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === 'development') {
     unstable_noStore();
     return getPublishedProjectBySlugFetcher(slug, locale);
   }
 
-  const cached = unstable_cache(
-    getPublishedProjectBySlugFetcher,
-    ["project", slug, locale],
-    {
-      revalidate: REVALIDATE_SECONDS,
-      tags: ["projects", `project:${slug}`, `project:${slug}:${locale}`],
-    },
-  );
+  const cached = unstable_cache(getPublishedProjectBySlugFetcher, ['project', slug, locale], {
+    revalidate: REVALIDATE_SECONDS,
+    tags: ['projects', `project:${slug}`, `project:${slug}:${locale}`],
+  });
 
   return cached(slug, locale);
+}
+
+export async function getProjectBySlugForAdmin(
+  slug: string,
+  locale: Locale,
+): Promise<ProjectView | null> {
+  return getProjectBySlugForAdminFetcher(slug, locale);
 }
