@@ -42,6 +42,7 @@ For Vercel Blob, attach a Blob store to the Vercel project. Locally, pull Vercel
 pnpm dev       # start the local dev server
 pnpm lint      # run ESLint
 pnpm build     # create a production build
+pnpm verify    # run lint and build before shipping
 pnpm db:seed   # seed the database
 pnpm blog:publish      # publish a bilingual blog post from Markdown
 pnpm portfolio:publish # publish a portfolio case study from Markdown
@@ -64,8 +65,7 @@ Production runs on Vercel as the `portfolio` project and is aliased to [www.vvit
 Before shipping changes:
 
 ```bash
-pnpm lint
-pnpm build
+pnpm verify
 ```
 
 After deployment, verify `robots.txt`, `sitemap.xml`, page metadata, structured data, and Core Web Vitals for the public Czech and English pages.
