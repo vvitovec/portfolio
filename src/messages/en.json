@@ -344,6 +344,12 @@
   "admin": {
     "label": "Admin",
     "note": "Admin area will be added soon.",
+    "queryError": {
+      "title": "Admin data could not be loaded",
+      "description": "The server returned an error. Your content has not been deleted.",
+      "retry": "Try again",
+      "retrying": "Trying again..."
+    },
     "login": {
       "title": "Admin sign-in",
       "subtitle": "Use an approved GitHub account to continue.",

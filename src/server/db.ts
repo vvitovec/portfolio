@@ -1,7 +1,7 @@
-import "server-only";
+import 'server-only';
 
-import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "@/generated/prisma";
+import { PrismaPg } from '@prisma/adapter-pg';
+import { PrismaClient } from '@/generated/prisma';
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
@@ -10,46 +10,76 @@ const globalForPrisma = globalThis as unknown as {
 function createPrismaClient() {
   const databaseUrl = process.env.DATABASE_URL;
   const acceptSelfSigned = shouldAcceptSelfSignedCertificate();
+  const databaseCaCertificate = getDatabaseCaCertificate();
 
   if (!databaseUrl) {
     throw new Error(
-      "DATABASE_URL is not set. Provide a PostgreSQL connection string in the environment.",
+      'DATABASE_URL is not set. Provide a PostgreSQL connection string in the environment.',
     );
   }
 
   const adapter = new PrismaPg({
-    connectionString: normalizePostgresConnectionString(databaseUrl),
-    ...(acceptSelfSigned ? { ssl: { rejectUnauthorized: false } } : {}),
+    connectionString: normalizePostgresConnectionString(
+      databaseUrl,
+      Boolean(databaseCaCertificate),
+    ),
+    ...(databaseCaCertificate
+      ? {
+          ssl: {
+            ca: databaseCaCertificate,
+            rejectUnauthorized: true,
+          },
+        }
+      : acceptSelfSigned
+        ? { ssl: { rejectUnauthorized: false } }
+        : {}),
   });
 
   return new PrismaClient({
     adapter,
-    log:
-      process.env.NODE_ENV === "development" ? ["warn", "error"] : ["error"],
+    log: process.env.NODE_ENV === 'development' ? ['warn', 'error'] : ['error'],
   });
 }
 
-const INSECURE_SSL_MODES = new Set(["prefer", "require", "verify-ca"]);
+const INSECURE_SSL_MODES = new Set(['prefer', 'require', 'verify-ca']);
+
+function getDatabaseCaCertificate() {
+  const value = process.env.DATABASE_CA_CERT?.trim();
+  if (!value) {
+    return null;
+  }
+
+  return value.replace(/\\n/g, '\n');
+}
 
 function shouldAcceptSelfSignedCertificate() {
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.NODE_ENV === 'production') {
     return false;
   }
 
   return (
-    process.env.PRISMA_PG_ACCEPT_SELF_SIGNED === "true" ||
-    process.env.PG_SSL_REJECT_UNAUTHORIZED === "false"
+    process.env.PRISMA_PG_ACCEPT_SELF_SIGNED === 'true' ||
+    process.env.PG_SSL_REJECT_UNAUTHORIZED === 'false'
   );
 }
 
-function normalizePostgresConnectionString(databaseUrl: string) {
+function normalizePostgresConnectionString(databaseUrl: string, hasExplicitCa = false) {
   try {
     const parsed = new URL(databaseUrl);
-    const sslMode = parsed.searchParams.get("sslmode")?.toLowerCase();
-    const useLibpqCompat = parsed.searchParams.get("uselibpqcompat") === "true";
+    if (hasExplicitCa) {
+      parsed.searchParams.delete('sslmode');
+      parsed.searchParams.delete('sslrootcert');
+      parsed.searchParams.delete('sslcert');
+      parsed.searchParams.delete('sslkey');
+      parsed.searchParams.delete('uselibpqcompat');
+      return parsed.toString();
+    }
+
+    const sslMode = parsed.searchParams.get('sslmode')?.toLowerCase();
+    const useLibpqCompat = parsed.searchParams.get('uselibpqcompat') === 'true';
 
     if (sslMode && INSECURE_SSL_MODES.has(sslMode) && !useLibpqCompat) {
-      parsed.searchParams.set("sslmode", "verify-full");
+      parsed.searchParams.set('sslmode', 'verify-full');
     }
 
     return parsed.toString();
@@ -71,6 +101,6 @@ export const db = new Proxy({} as PrismaClient, {
     const client = getPrismaClient();
     const value = Reflect.get(client, prop, receiver);
 
-    return typeof value === "function" ? value.bind(client) : value;
+    return typeof value === 'function' ? value.bind(client) : value;
   },
 });

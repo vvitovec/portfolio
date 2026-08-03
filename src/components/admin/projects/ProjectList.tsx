@@ -30,6 +30,7 @@ import {
 import { Link } from '@/i18n/navigation';
 import { trpc } from '@/trpc/react';
 import type { AppRouter } from '@/server/trpc/routers/_app';
+import AdminQueryError from '@/components/admin/AdminQueryError';
 
 type ProjectsList = inferRouterOutputs<AppRouter>['admin']['projects']['list'];
 type ProjectItem = ProjectsList[number];
@@ -44,7 +45,7 @@ export default function ProjectList() {
   const utils = trpc.useUtils();
   const [search, setSearch] = useState('');
 
-  const { data, isLoading } = trpc.admin.projects.list.useQuery();
+  const { data, isLoading, isError, isFetching, refetch } = trpc.admin.projects.list.useQuery();
 
   const publishMutation = trpc.admin.projects.publish.useMutation({
     onSuccess: async () => {
@@ -108,6 +109,8 @@ export default function ProjectList() {
 
       {isLoading ? (
         <p className="text-muted-foreground text-sm">{t('loading')}</p>
+      ) : isError ? (
+        <AdminQueryError isRetrying={isFetching} onRetry={() => void refetch()} />
       ) : rows.length === 0 ? (
         <p className="text-muted-foreground text-sm">{t('empty')}</p>
       ) : (

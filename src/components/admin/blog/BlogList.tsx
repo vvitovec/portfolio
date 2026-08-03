@@ -29,6 +29,7 @@ import {
 } from '@/components/ui/table';
 import { Link } from '@/i18n/navigation';
 import type { AppRouter } from '@/server/trpc/routers/_app';
+import AdminQueryError from '@/components/admin/AdminQueryError';
 import { trpc } from '@/trpc/react';
 
 type BlogListOutput = inferRouterOutputs<AppRouter>['admin']['blog']['list'];
@@ -45,7 +46,7 @@ export default function BlogList() {
   const utils = trpc.useUtils();
   const [search, setSearch] = useState('');
 
-  const { data, isLoading } = trpc.admin.blog.list.useQuery();
+  const { data, isLoading, isError, isFetching, refetch } = trpc.admin.blog.list.useQuery();
 
   const publishMutation = trpc.admin.blog.publish.useMutation({
     onSuccess: async () => {
@@ -113,6 +114,8 @@ export default function BlogList() {
 
       {isLoading ? (
         <p className="text-muted-foreground text-sm">{t('loading')}</p>
+      ) : isError ? (
+        <AdminQueryError isRetrying={isFetching} onRetry={() => void refetch()} />
       ) : rows.length === 0 ? (
         <p className="text-muted-foreground text-sm">{t('empty')}</p>
       ) : (

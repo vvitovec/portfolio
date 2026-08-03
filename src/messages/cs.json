@@ -344,6 +344,12 @@
   "admin": {
     "label": "Administrace",
     "note": "Administrace bude doplněna.",
+    "queryError": {
+      "title": "Data administrace se nepodařilo načíst",
+      "description": "Server vrátil chybu. Váš obsah nebyl smazán.",
+      "retry": "Zkusit znovu",
+      "retrying": "Zkouším znovu..."
+    },
     "login": {
       "title": "Přihlášení do administrace",
       "subtitle": "Použijte GitHub účet s přístupem.",

@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { toast } from "sonner";
-import type { inferRouterOutputs } from "@trpc/server";
+import { useMemo, useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { toast } from 'sonner';
+import type { inferRouterOutputs } from '@trpc/server';
 
-import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Badge } from '@/components/ui/badge';
+import { Button, buttonVariants } from '@/components/ui/button';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,8 +17,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/alert-dialog';
+import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -26,44 +26,45 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Link } from "@/i18n/navigation";
-import { trpc } from "@/trpc/react";
-import type { AppRouter } from "@/server/trpc/routers/_app";
+} from '@/components/ui/table';
+import { Link } from '@/i18n/navigation';
+import { trpc } from '@/trpc/react';
+import type { AppRouter } from '@/server/trpc/routers/_app';
+import AdminQueryError from '@/components/admin/AdminQueryError';
 
-type WebsitesList = inferRouterOutputs<AppRouter>["admin"]["websites"]["list"];
+type WebsitesList = inferRouterOutputs<AppRouter>['admin']['websites']['list'];
 type WebsiteItem = WebsitesList[number];
 
 export default function WebsiteList() {
-  const t = useTranslations("admin.websites");
+  const t = useTranslations('admin.websites');
   const locale = useLocale();
   const utils = trpc.useUtils();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
 
-  const { data, isLoading } = trpc.admin.websites.list.useQuery();
+  const { data, isLoading, isError, isFetching, refetch } = trpc.admin.websites.list.useQuery();
 
   const publishMutation = trpc.admin.websites.publish.useMutation({
     onSuccess: async () => {
-      toast.success(t("toast.published"));
+      toast.success(t('toast.published'));
       await utils.admin.websites.list.invalidate();
     },
-    onError: () => toast.error(t("toast.error")),
+    onError: () => toast.error(t('toast.error')),
   });
 
   const unpublishMutation = trpc.admin.websites.unpublish.useMutation({
     onSuccess: async () => {
-      toast.success(t("toast.unpublished"));
+      toast.success(t('toast.unpublished'));
       await utils.admin.websites.list.invalidate();
     },
-    onError: () => toast.error(t("toast.error")),
+    onError: () => toast.error(t('toast.error')),
   });
 
   const deleteMutation = trpc.admin.websites.delete.useMutation({
     onSuccess: async () => {
-      toast.success(t("toast.deleted"));
+      toast.success(t('toast.deleted'));
       await utils.admin.websites.list.invalidate();
     },
-    onError: () => toast.error(t("toast.error")),
+    onError: () => toast.error(t('toast.error')),
   });
 
   const rows = useMemo(() => {
@@ -75,10 +76,7 @@ export default function WebsiteList() {
     }
 
     return data.filter((website) =>
-      [website.name, website.category, website.url]
-        .join(" ")
-        .toLowerCase()
-        .includes(query),
+      [website.name, website.category, website.url].join(' ').toLowerCase().includes(query),
     );
   }, [data, search]);
 
@@ -86,13 +84,11 @@ export default function WebsiteList() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl font-semibold text-foreground">
-            {t("title")}
-          </h1>
-          <p className="text-muted-foreground">{t("subtitle")}</p>
+          <h1 className="font-display text-foreground text-3xl font-semibold">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('subtitle')}</p>
         </div>
         <Link href="/admin/websites/new" className={buttonVariants()}>
-          {t("new")}
+          {t('new')}
         </Link>
       </div>
 
@@ -100,24 +96,26 @@ export default function WebsiteList() {
         <Input
           value={search}
           onChange={(event) => setSearch(event.target.value)}
-          placeholder={t("searchPlaceholder")}
+          placeholder={t('searchPlaceholder')}
         />
       </div>
 
       {isLoading ? (
-        <p className="text-sm text-muted-foreground">{t("loading")}</p>
+        <p className="text-muted-foreground text-sm">{t('loading')}</p>
+      ) : isError ? (
+        <AdminQueryError isRetrying={isFetching} onRetry={() => void refetch()} />
       ) : rows.length === 0 ? (
-        <p className="text-sm text-muted-foreground">{t("empty")}</p>
+        <p className="text-muted-foreground text-sm">{t('empty')}</p>
       ) : (
-        <div className="rounded-2xl border border-border bg-card/80">
+        <div className="border-border bg-card/80 rounded-2xl border">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t("columns.name")}</TableHead>
-                <TableHead>{t("columns.category")}</TableHead>
-                <TableHead>{t("columns.status")}</TableHead>
-                <TableHead>{t("columns.updatedAt")}</TableHead>
-                <TableHead className="text-right">{t("columns.actions")}</TableHead>
+                <TableHead>{t('columns.name')}</TableHead>
+                <TableHead>{t('columns.category')}</TableHead>
+                <TableHead>{t('columns.status')}</TableHead>
+                <TableHead>{t('columns.updatedAt')}</TableHead>
+                <TableHead className="text-right">{t('columns.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -162,24 +160,22 @@ function WebsiteRow({
   isUnpublishing: boolean;
 }) {
   const formattedDate = new Intl.DateTimeFormat(locale, {
-    dateStyle: "medium",
+    dateStyle: 'medium',
   }).format(new Date(website.updatedAt));
-  const isPublished = website.status === "PUBLISHED";
+  const isPublished = website.status === 'PUBLISHED';
 
   return (
     <TableRow>
       <TableCell>
         <div className="space-y-1">
-          <p className="font-medium text-foreground">{website.name}</p>
-          <p className="max-w-[28rem] truncate text-xs text-muted-foreground">
-            {website.url}
-          </p>
+          <p className="text-foreground font-medium">{website.name}</p>
+          <p className="text-muted-foreground max-w-[28rem] truncate text-xs">{website.url}</p>
         </div>
       </TableCell>
       <TableCell>{website.category}</TableCell>
       <TableCell>
-        <Badge variant={isPublished ? "success" : "warning"}>
-          {isPublished ? t("status.published") : t("status.draft")}
+        <Badge variant={isPublished ? 'success' : 'warning'}>
+          {isPublished ? t('status.published') : t('status.draft')}
         </Badge>
       </TableCell>
       <TableCell>{formattedDate}</TableCell>
@@ -187,41 +183,34 @@ function WebsiteRow({
         <div className="flex flex-wrap justify-end gap-2">
           <Link
             href={`/admin/websites/${website.id}`}
-            className={buttonVariants({ variant: "outline", size: "sm" })}
+            className={buttonVariants({ variant: 'outline', size: 'sm' })}
           >
-            {t("actions.edit")}
+            {t('actions.edit')}
           </Link>
           {isPublished ? (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onUnpublish}
-              disabled={isUnpublishing}
-            >
-              {t("actions.unpublish")}
+            <Button variant="outline" size="sm" onClick={onUnpublish} disabled={isUnpublishing}>
+              {t('actions.unpublish')}
             </Button>
           ) : (
             <Button variant="outline" size="sm" onClick={onPublish} disabled={isPublishing}>
-              {t("actions.publish")}
+              {t('actions.publish')}
             </Button>
           )}
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="ghost" size="sm">
-                {t("actions.delete")}
+                {t('actions.delete')}
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>{t("confirmDelete.title")}</AlertDialogTitle>
-                <AlertDialogDescription>
-                  {t("confirmDelete.description")}
-                </AlertDialogDescription>
+                <AlertDialogTitle>{t('confirmDelete.title')}</AlertDialogTitle>
+                <AlertDialogDescription>{t('confirmDelete.description')}</AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>{t("confirmDelete.cancel")}</AlertDialogCancel>
+                <AlertDialogCancel>{t('confirmDelete.cancel')}</AlertDialogCancel>
                 <AlertDialogAction onClick={onDelete}>
-                  {t("confirmDelete.confirm")}
+                  {t('confirmDelete.confirm')}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
